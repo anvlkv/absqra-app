@@ -1,0 +1,418 @@
+<template name="navMenuDashboard">
+	<nav>
+		<div class="nav-wrapper container">
+			<a href="#!" class="brand-logo">Survey lab</a>
+			<!-- activate side-bav in mobile view -->
+			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+
+			<ul class="right">
+				<li><a href="/dashboard" title="Surveys">Surveys</a></li>
+				<li>{{> atNavButton }}</li>
+			</ul>
+		</div>
+	</nav>
+</template>
+
+<template name="dashboard">
+	<div class="container">
+		{{>Template.dynamic template=dashboardView}}
+	</div>
+	<div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+		<button type="button" class="btn-floating btn-large red">
+			<i class="large material-icons">add</i>
+		</button>
+		<ul>
+			<li>
+				<button type="button" class="btn-floating red tooltipped new_survey" data-position="left" data-delay="50" data-tooltip="New survey">
+					<i class="material-icons">assignment</i>
+				</button>
+			</li>
+			<li>
+				<button type="button" class="btn-floating red tooltipped new_item" data-position="left" data-delay="50" data-tooltip="New item">
+					<i class="material-icons">label_outline</i>
+				</button>
+			</li>
+		</ul>
+	</div>
+</template>
+
+<template name="surveyList">
+	<div class="row">
+		{{#each survey in surveys}}
+		<div class="col s6 m6">
+			<div class="card">
+				<div class="card-content">
+					<span class="card-title">{{survey.title}}</span>
+					<p>{{survey.description}}</p>
+				</div>
+				<div class="card-action">
+					<a href="{{pathForSurveyView 'survey-editor' survey._id}}">Edit</a>
+					<a href="{{pathForSurveyView 'survey-results' survey._id}}">View results</a>
+				</div>
+			</div>
+		</div>
+		{{else}}
+		<div class="col s12 m6">
+			<div class="card-panel blue-grey darken-1">
+				<div class="card-content white-text">
+					<span class="card-title">No surveys yet</span>
+					<p>You don't have any surveys yet. Use <i class="material-icons">assignment</i> to create one</p>
+				</div>
+				<div class="card-action">
+					<a href="#" >Create a new survey</a>
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+</template>
+
+<template name="surveyEditor">
+	{{#if survey}}
+		<div class="row survey-editor">
+			{{#with survey}}
+			<div class="col s12">
+				<div class="card">
+					<div class="card-content">
+						<span class="card-title activator grey-text text-darken-4"><i class="material-icons right">more_vert</i></span>
+						<div class="row">
+							<div class="col s12">
+								{{#autoForm collection="Surveys" type='update' id="surveyForm" doc=this class="survey-editor-form"}}
+									<fieldset>
+										<legend><h3>{{stateName}} {{title}} survey</h3></legend>
+										{{> afQuickField name='title'}}
+										{{> afQuickField name='description'}}
+									</fieldset>
+								{{/autoForm}}
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<ul class="collection">
+								{{#each item in surveyItems}}
+									<li class="collection-item survey-item {{#unless item.activeEditor}}avatar{{/unless}} row">
+										{{#if item.activeEditor}}
+											{{>surveyItemEditor item}}
+										{{else}}
+											{{>surveyItemsListItem item}}
+										{{/if}}
+									</li>
+								{{/each}}
+								</ul>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col s12">
+								<button class="waves-effect waves-teal teal btn add_survey_item" data-survey-id={{_id}}>
+									<i class="material-icons right">label_outline</i>
+									Add item
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="card-action">
+						<button class="waves-effect waves-teal teal btn save_edits">
+							<i class="material-icons right">done</i>
+							Done
+						</button>
+						<button class="waves-effect waves-grey grey btn cancel_edits">
+							<i class="material-icons right">close</i>
+							Close
+						</button>
+					</div>
+					<div class="card-reveal">
+						<span class="card-title grey-text text-darken-4">{{stateName}} {{title}} survey details<i class="material-icons right">close</i></span>
+						<p class="flow-text">
+							<ul>
+								<li>Created at: {{momentFormat _createdAt 'DD MMM YYYY'}}</li>
+								<li>Owned by: {{userName _owner}}</li>
+								<li>Complete responds: show number here</li>
+								<li>Incomplete responds: show number here</li>
+							</ul>
+						</p>
+						<div class="card-action">
+							{{#quickRemoveButton collection="Surveys" _id=_id class="waves-effect waves-red red btn"}}Delete survey{{/quickRemoveButton}}
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{{/with}}
+		</div>
+	{{else}}
+		{{>loadingState}}
+	{{/if}}
+	
+</template>
+
+<template name="surveyItemOrder">
+	<form class="survey_item_order_form">
+		<div class="input-field"> 
+			<div class="form-group">
+				<i class="material-icons prefix">swap_vert</i>
+				<input type="number" class="form-control survey_item_order" data-item="{{item._id}}" value="{{item.order}}" min="0" max="{{maxCount}}">
+			</div>
+		</div>
+	</form>
+</template>
+
+<template name="surveyItemsListItem">
+	<a href="#!" class="survey-item-collapsed toggle_item_editor col s12 m10" data-editor-id={{_id}} id={{_id}}>
+		<i class="material-icons circle">{{icon}}</i>
+		<span class="title">{{item.name}}</span>
+		<p>{{item.task.type}}</p>
+		<!-- <a href="#!" class="secondary-content toggle_item_editor" data-editor-id={{_id}}><i class="material-icons">edit</i></a> -->
+	</a>
+	<div class="col s12 m2">
+		{{>surveyItemOrder item=this}}
+	</div>
+</template>
+
+<template name="surveyItemEditor">
+	<div class="col s12" id={{_id}}>
+		<ul class="tabs">
+			<li class="tab col s3"><a class="{{#if state 'new' 'select'}}active{{/if}} tab_selector" href="#select_existing_item_{{_id}}">Select</a></li>
+			<li class="tab col s3"><a class="{{#if state 'create'}}active{{/if}} tab_editor" href="#edit_an_item_{{_id}}">{{#if state 'new' 'select'}}Create{{else}}Edit{{/if}}</a></li>
+			<li class="col s2 m1">
+				<a title="Close" class="toggle_item_editor" data-editor-id={{_id}}><i class="material-icons">close</i></a>
+			</li>
+		</ul>
+	</div>
+	<div id="select_existing_item_{{_id}}" class="col s12">
+		<p>
+			<fieldset>
+				<legend><h5>Select an item</h5></legend>
+				<div class="row">
+					<div class="input-field col s12">
+						<select class="select_existing_item">
+							<!-- {{log this}} -->
+							<option value="" disabled {{selected}}>Choose from existing items</option>
+							{{#each itemOption in existingItems}}
+							<option value="{{itemOption._id}}" {{selected itemOption._id}}>{{itemOption.name}} ({{itemOption.task.type}})</option>
+							{{/each}}
+						</select>
+					</div>
+					<div class="input-field col s12">
+						<button type="button" class="waves-effect waves-teal btn clone_selected_item">Clone &amp; edit<i class="material-icons right">library_add</i></button>
+					</div>
+				</div>
+			</fieldset>
+		</p>
+	</div>
+	<div id="edit_an_item_{{_id}}" class="col s12">
+		{{>itemEditor this}}
+		<div class="row">
+			<div class="col s6">
+				<button class="waves-effect waves-teal teal btn save_item_edits">
+					<i class="material-icons right">done</i>
+					Done
+				</button>
+				<button class="waves-effect waves-grey grey btn cancel_item_edits">
+					<i class="material-icons right">close</i>
+					Close
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col s6">
+			{{>surveyItemOrder item=this}}
+		</div>
+	</div>
+</template>
+
+<template name="itemEditor">
+	{{#if item}}
+		{{#autoForm collection="Items" type='update' doc=item id=formId class="item_form item-editor-form"}}
+			<fieldset>
+				<legend><h5>{{state}} item</h5></legend>
+				{{> afQuickField name="name"}}
+				{{> afQuickField name="question"}}
+				{{> afQuickField name="instruction"}}
+				{{> afQuickField name="task.type"}}
+				{{> Template.dynamic template=taskTypeForm data=this}}
+			</fieldset>
+		{{/autoForm}}
+	{{else}}
+		{{>loadingState}}
+	{{/if}}
+</template>
+
+<template name="singleChoiceQuestionForm">
+	<h6>Item response options</h6>
+	<div class="row task-tip tip">
+		<div class="col s12">
+			<p>Chosing another item as a source might result in output of several options, depending on the filter preferences.&nbsp;<span class="tip-example">For example: Respondents could be asked to choose an <i>option</i> from <i>list</i> they have completed in previous item.</span></p>
+		</div>
+	</div>
+	{{>afArrayField template="itemOptions" name="task.options"}}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="multipleChoiceQuestionForm">
+	<h6>Item response options</h6>
+	<div class="row task-tip tip">
+		<div class="col s12">
+			<p>Chosing another item as a source might result in output of several options, depending on the filter preferences.&nbsp;<span class="tip-example">For example: Respondents could be asked to select their favorite <i>painters</i> from the list of <i>painters</i> they entered in previous item.</span></p>
+		</div>
+	</div>
+	{{>afArrayField template="itemOptions" name="task.options"}}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="openEndedQuestionForm">
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="numberInputTaskForm">
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="surveyTargetingItemForm">
+	<h6>Targeting sources</h6>
+	<div class="row task-tip">
+		<div class="col s12">
+			<p>Each targeting source generates unique link to this survey. Generated links available here or on this <a href="#" class="activator">survey details view</a>&nbsp;<span class="tip-example">For example: Different links could be used to target different <i>social networks.</i></span></p>
+		</div>
+	</div>
+	{{>afArrayField template="targetingSources" name="task.options"}}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="listingTaskForm">
+	<h6>List nodes options</h6>
+	<div class="row task-tip">
+		<div class="col s12">
+			<p>Each node is a nested list. Listing task without this nodes is a single list. Respondent would not be able to create another level of nodes in this list.&nbsp;<span class="tip-example">For example: Respondents could be asked to list <i>meals</i> and <i>ingredients</i> for each <i>meal</i> in next item.</span></p>
+		</div>
+	</div>
+	{{>afArrayField template="itemOptions" name="task.options"}}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="ratingTaskForm">
+	<h6>Rateable options</h6>
+	{{>afArrayField template="itemOptions" name="task.options" }}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="modifyStatementTaskForm">
+	<h6>Statement template</h6>
+	{{>afQuickField name="asset" type="text"}}
+	<h6>Modification options</h6>
+	{{>modificationOptions this}}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="agreeWithStatementTaskForm">
+	<h6>Statement</h6>
+	{{>afQuickField name="asset" type="text"}}
+	{{>itemRequirementsForm this}}
+</template>
+
+<template name="surveyConsentItemForm">
+	<h6>Additional text</h6>
+	{{>afQuickField name="asset" type="text"}}
+</template>
+
+<template name="itemRequirementsForm">
+	{{#if availableRequirements}}
+		<h6>Item requirements</h6>
+
+		{{#if availableRequirements.openEnded}}
+			{{>afQuickField name="task.requirements.openEnded" trueLabel=availableRequirements.openEnded.trueLabel falseLabel=availableRequirements.openEnded.falseLabel}}
+		{{/if}}
+
+		{{#if availableRequirements.limits}}
+			<div class="row">
+				<div class="input-field col s6">
+					{{>afFieldInput name="task.requirements.minCount" id=minCountInputId}}
+					<label for="{{minCountInputId}}">{{availableRequirements.limits.minLabel}}</label>
+				</div>
+				<div class="input-field col s6">
+					{{>afFieldInput name="task.requirements.maxCount" id=maxCountInputId}}
+					<label for="{{maxCountInputId}}">{{availableRequirements.limits.maxLabel}}</label>
+				</div>
+			</div>
+		{{/if}}
+	{{/if}}
+</template>
+
+<template name="modificationOptions">
+	
+</template>
+
+<template name="afArrayField_targetingSources">
+	{{#afEachArrayItem name=this.atts.name}}
+		<div class="row">
+			{{>targetingOptions this}}
+		</div>
+	{{/afEachArrayItem}}
+</template>
+
+<template name="afArrayField_itemOptions">
+	{{#afEachArrayItem name=this.atts.name}}
+		<div class="row">
+			{{>itemOption this}}
+		</div>
+	{{/afEachArrayItem}}
+</template>
+
+<template name="targetingOptions">
+	<div class="input-field col s12 m4">
+		{{>afFieldInput name=this.current.verbose type=optionSpecifier.type options=optionSpecifier.options id=verboseId}}
+		<label for="{{verboseId}}">Target name</label>
+	</div>
+	<div class="input-field col s12 m6">
+		<a href="{{targetLink}}" title="Copy link" class="copy_link quasi-field-wrapper">
+			<input id="{{valueId}}" disabled type="text" value="{{targetLink}}" placeholder="http://..." class="copy_value">
+			{{>afFieldInput name=this.current.value type="hidden"}}
+			<i class="material-icons quasi-field-icon">get_app</i>
+		</a>
+		<label class="active" for="{{valueId}}">Target link</label>
+	</div>
+	<div class="input-field col s12 m2">
+		<div class="row">
+			{{#unless onlyOption}}
+			<a class="waves-effect waves-red btn-flat autoform-remove-item col s6"><i class="large material-icons">delete</i></a>
+			{{/unless}}
+			{{#if afArrayFieldIsLastVisible}}
+			<a class="waves-effect waves-teal btn-flat autoform-add-item col s6" data-autoform-field="{{this.arrayFieldName}}"><i class="large material-icons">add</i></a>
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+<template name="itemOption">
+	<div class="input-field col s12 m4">
+		{{>afFieldInput name=this.current.sourceType id=sourceTypeId}}
+		<label for="{{sourceTypeId}}">{{afFieldLabelText name=this.current.sourceType}}</label>
+	</div>
+	<div class="input-field col s12 m6">
+		{{>afFieldInput name=this.current.value type=optionSpecifier.type options=optionSpecifier.options id=valueId}}
+		<label for="{{valueId}}">{{optionSpecifier.label}}</label>
+	</div>
+	<div class="input-field col s12 m2">
+		<div class="row">
+			{{#unless onlyOption}}
+			<a class="waves-effect waves-red btn-flat autoform-remove-item col s6"><i class="large material-icons">delete</i></a>
+			{{/unless}}
+			{{#if afArrayFieldIsLastVisible}}
+			<a class="waves-effect waves-teal btn-flat autoform-add-item col s6" data-autoform-field="{{this.arrayFieldName}}"><i class="large material-icons">add</i></a>
+			{{/if}}
+		</div>
+	</div>
+</template>
+
+
+<template name="footerDashboard">
+	<footer class="page-footer">
+		<div class="footer-copyright">
+			<div class="container">
+				© 2016 <a class="grey-text text-lighten-3" target="_blank" href="http://a.nvlkv.com">a.nvlkv</a>
+			</div>
+		</div>
+	</footer>
+</template>
+
+

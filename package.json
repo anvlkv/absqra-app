@@ -5,6 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "meteor-node-stubs": "~0.2.0"
+    "bcrypt": "^0.8.7",
+    "meteor-node-stubs": "~0.2.0",
+    "sortablejs": "git+ssh://git@github.com/RubaXa/Sortable.git"
   }
 }
