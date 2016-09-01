@@ -12,7 +12,7 @@ footerResponse
 		<main>
 			{{>Template.dynamic template=main}}
 		</main>
-		<footer class="page-footer">
+		<footer class="page-footer grey">
 			{{>Template.dynamic template=footer}}
 		</footer>
  	</div>
@@ -23,7 +23,7 @@ footerResponse
 
  <template name="navMenuResponse">
  	{{#with survey}}
- 	<nav>
+ 	<nav class="grey">
  		<div class="nav-wrapper container response-nav">
  			<ul class="left">
  				<li><span class="title">{{title}}</span></li>
@@ -33,7 +33,7 @@ footerResponse
  			</ul>
  		</div>
  	</nav>
- 	<div class="progress">
+ 	<div class="progress grey">
  		<div class="determinate" style="width: {{progress}}"></div>
  	</div>
  	{{/with}}
