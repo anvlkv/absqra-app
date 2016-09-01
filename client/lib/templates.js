@@ -1,10 +1,12 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 
-Template.onCreated(function(){
-	this.ready = new ReactiveVar(false);
-	// console.log(this);
-});
+// Template.onCreated(function(){
+// 	this.autorun(()=>{
+// 		this.ready = new ReactiveVar();
+// 		// console.log(this);
+// 	});
+// });
 
 Template.registerHelper('momentFormat',(date, format)=>{
 	return moment(date).format(format);

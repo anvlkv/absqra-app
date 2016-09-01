@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
+    "fingerprintjs2": "^1.4.1",
     "meteor-node-stubs": "~0.2.0",
     "sortablejs": "git+ssh://git@github.com/RubaXa/Sortable.git"
   }

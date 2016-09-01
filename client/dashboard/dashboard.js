@@ -1,4 +1,4 @@
-CC_SurveyItems = new Meteor.Collection('CC_SurveyItems');
+CC_SurveyItems = new Meteor.Collection('CC_SurveyItems', null);
 
 let activeToasts = new ReactiveDict();
 
@@ -30,9 +30,17 @@ Template.dashboard.events({
 	}
 });
 
+Template.surveyList.onCreated(function(){
+	this.ready = new ReactiveVar();
+	let sub = DashboardSubs.subscribe('SurveysList');
+	this.autorun(()=>{
+		this.ready.set(sub.ready());
+	});
+});
+
 Template.surveyList.helpers({
 	surveys() {
-		return Surveys.find({});
+		return Surveys.find({},{sort:{_createdAt:-1}});
 	},
 	newSurvey() {
 		return true;
@@ -42,38 +50,58 @@ Template.surveyList.helpers({
 	},
 });
 
+Template.surveyEditor.onDestroyed(function(){
+	CC_SurveyItems._collection.remove({});
+});
+
 Template.surveyEditor.onCreated(function() {
-	// this.itemsSortArr = new ReactiveArray();
-	// this.itemsIdsArr = new ReactiveArray();
+	this.ready = new ReactiveVar();
 	this.getCurrentSurvey = ()=>{
 		return Surveys.findOne(FlowRouter.getParam('survey'));
 	};
+
 	this.autorun(()=>{
-		//TODO: rewrite with publications, subscriptions and ready.get()
-		let survey = this.getCurrentSurvey();
-		CC_SurveyItems._collection.remove({});
+		if (FlowRouter.getParam('survey')) {
+			CC_SurveyItems._collection.remove({});
+		}
+	});
 
-		if (survey && survey.items) {
-			Items.find({_id:{$in:survey.items}}).forEach((item)=>{
-				surveyItem = {};
+	this.autorun(()=>{
+		let srv_content = DashboardSubs.subscribe('SurveyContent', FlowRouter.getParam('survey')),
+			available_items = DashboardSubs.subscribe('AvailableItems');
 
-				surveyItem.order = survey.items.indexOf(item._id);
+		this.ready.set(srv_content.ready() && available_items.ready());
+	});
 
-				if (item._origin === survey._id) {
-					surveyItem.state = 'create'
-				}else{
-					surveyItem.state = 'select'
-				};
+	this.autorun(()=>{
+		if (this.ready.get()) {
+			let survey = this.getCurrentSurvey();
 
-				surveyItem.iid = item._id;
-				surveyItem.surveyId = survey._id;
-				// console.log(item.task);
-				if (item.task) {
-					surveyItem.output = item.task.type;		
-				}
+			if (survey && survey.items) {
+				Items.find({_id:{$in:survey.items}}).forEach((item)=>{
+					surveyItem = {};
 
-				CC_SurveyItems._collection.insert(surveyItem);
-			});
+					surveyItem.order = survey.items.indexOf(item._id);
+
+					if (item._origin === survey._id) {
+						surveyItem.state = 'create'
+					}else{
+						surveyItem.state = 'select'
+					};
+
+					surveyItem.iid = item._id;
+					surveyItem.surveyId = survey._id;
+
+					if (item.task) {
+						surveyItem.output = item.task.type;		
+					}
+
+					CC_SurveyItems._collection.upsert({iid:surveyItem.iid, order:surveyItem.order}, surveyItem);
+				});
+				
+				// console.log(CC_SurveyItems.find().count());
+
+			}
 		}
 	})
 
@@ -109,7 +137,7 @@ Template.surveyEditor.helpers({
 	},
 	surveyItems(){
 		// console.log(Template.instance().itemsSortArr.list());
-		// console.log(CC_SurveyItems.find({}, {sort:{order:1}}));
+		// console.log(CC_SurveyItems.find({}, {sort:{order:1}}).count());
 		return CC_SurveyItems.find({}, {sort:{order:1}});
 	},
 	maxCount(){
@@ -202,15 +230,20 @@ Template.surveyItemsListItem.events({
 	}
 });
 
+Template.surveyItemEditor.onDestroyed(function(){
+	// console.trace(this);
+});
+
 Template.surveyItemEditor.onCreated(function(){
+
 	this.collapseSelf = ()=>{
 		CC_SurveyItems._collection.update(this.data._id, {$set:{activeEditor:false}});	
 	};
 	let collapseSelf = ()=>{
 		this.collapseSelf();
 	};
+
 	this.autorun(()=>{
-		// make sure this is ready
 		AutoForm.addHooks('survey_item_form_'+this.data._id,{
 			before:{
 				update(doc){
@@ -231,7 +264,6 @@ Template.surveyItemEditor.onCreated(function(){
 				collapseSelf();
 			},
 		});
-
 	})
 });
 
@@ -239,8 +271,6 @@ Template.surveyItemEditor.onRendered(function(){
 	this.autorun(()=>{
 		this.tabsEl =  this.$('ul.tabs').tabs();
 		this.$('select').material_select();
-
-		console.log(AutoForm.getFormState('survey_item_form_'+this.data._id));
 	});
 });
 
@@ -296,12 +326,13 @@ Template.surveyItemEditor.events({
 	'click .clone_selected_item'(e,t){
 		// console.log(this);
 		if (this.iid && this.state ==='select') {
+			// let output = Items.findOne(this.iid);
 			Meteor.call('clone_item', this.iid, this.surveyId, (error, result)=> {
+				// console.log(result);
 				if (!error) {
 					CC_SurveyItems._collection.update({_id:this._id}, {$set:{
 						state: 'new',
 						iid: result,
-						output: null,
 						activeEditor:true,
 					}},()=>{
 						t.tabsEl.tabs('select_tab', 'edit_an_item_'+this._id);
@@ -334,10 +365,20 @@ Template.surveyItemEditor.events({
 	}
 });
 
+Template.itemEditor.onCreated(function(){
+	this.ready = new ReactiveVar();
+	this.autorun(()=>{
+		let iid = CC_SurveyItems.findOne(this.data._id).iid;
+		if (iid) {
+			let sub = DashboardSubs.subscribe('SingleItem', iid);
+			this.ready.set(sub.ready());
+		} 
+	})
+})
+
 Template.itemEditor.helpers({
 	item(){
-		// console.log(this);
-		// console.log();
+		// console.log(this.iid);
 		let item = Items.findOne({_id:this.iid});
 		// console.log(item);
 		return item;
@@ -354,7 +395,7 @@ Template.itemOption.onRendered(function(){
 	this.autorun(()=>{
 		this.$('select').material_select();
 		Materialize.updateTextFields();
-	})
+	});
 });
 
 Template.itemOption.helpers({
@@ -362,7 +403,6 @@ Template.itemOption.helpers({
 		let sourceType = AutoForm.getFieldValue(this.current.sourceType);
 		let optionSpecifier = {};
 		if (sourceType === 'item-output') {
-			optionSpecifier.type = 'select';
 			optionSpecifier.options =[];
 			optionSpecifier.label = 'Choose an item';
 			CC_SurveyItems.find({output:{$exists:true}},{sort:{order:1}}).forEach(function (surveyItem, index) {
@@ -375,7 +415,6 @@ Template.itemOption.helpers({
 				}
 			});
 		} else {
-			optionSpecifier.type = 'text';
 			optionSpecifier.label = 'Specify an option'
 		}
 
@@ -392,7 +431,10 @@ Template.itemOption.helpers({
 		if (opts && opts.length <= 1) {
 			return true;
 		}
-	}
+	},
+	// typeIs(type){
+	// 	return AutoForm.getFieldValue(this.current.sourceType) === type;
+	// }
 });
 
 let inputRequirements = {
@@ -444,7 +486,7 @@ let inputRequirements = {
 	}
 }
 
-// ['surveyConsentItem', 'surveyTargetingItem','listingTask', 'singleChoiceQuestion', 'multipleChoiceQuestion', 'openEndedQuestion', 'numberInputTask', 'ratingTask', 'modifyStatementTask', 'agreeWithStatementTask']
+
 Template.itemRequirementsForm.helpers({
 	availableRequirements(){
 		return inputRequirements[this.output];
@@ -493,18 +535,18 @@ Template.targetingOptions.events({
 	'click .copy_link' (e,t) {
 		e.preventDefault();
 		e.stopPropagation();
-		console.log(this);
+		// console.log(this);
 		// document.execCommand('copy')
-		// Select the email link anchor text  
-		let targetLink = e.target;  
-		let range = document.createRange();  
-		range.selectNode(targetLink);  
-		window.getSelection().addRange(range);  
-
+		// Select the link text  
+		let targetLink = e.target;
+		// console.log(targetLink);
 		try {  
-		// Now that we've selected the anchor text, execute the copy command  
-		let successful = document.execCommand('copy');  
-		let msg = successful ? 'successful' : 'unsuccessful';  
+			let range = document.createRange();  
+			range.selectNode(targetLink);  
+			window.getSelection().addRange(range);
+			// Now that we've selected the anchor text, execute the copy command  
+			let successful = document.execCommand('copy');  
+			let msg = successful ? 'successful' : 'unsuccessful';  
 			// console.log('');
 			singleToast('Target link '+ AutoForm.getFieldValue(this.current.verbose) + ' copied');
 		} catch(err) {  

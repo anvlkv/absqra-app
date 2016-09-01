@@ -5,15 +5,24 @@
 // import main scss file
 @import "{poetic:materialize-scss}/sass/materialize.scss";
 
-
-legend{
-	h3,h5{
-		&::first-letter{
-			text-transform: capitalize;
-		}
+.main-layout-wrap {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	
+	main {
+		flex: 1 0 auto;
 	}
 
+	legend{
+		h3,h5{
+			&::first-letter{
+				text-transform: capitalize;
+			}
+		}
+	}
 }
+
 .sortable-handle{
 	cursor: move;
     cursor: -webkit-grabbing;
@@ -26,6 +35,7 @@ legend{
 		background-color: $card-bg-color;
 		right: 0;
 		top: 0;
+		pointer-events:none;
 	}
 }
 
@@ -37,3 +47,17 @@ legend{
 		padding-right: 5px;
 	}
 }
+
+.response-nav{
+	span.title{
+		padding: 0 15px;
+	}
+}
+
+
+
+// .response{
+// 	.step-actions{
+// 		position: fixed;
+// 	}
+// }

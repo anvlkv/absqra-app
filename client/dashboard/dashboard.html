@@ -1,7 +1,7 @@
 <template name="navMenuDashboard">
 	<nav>
 		<div class="nav-wrapper container">
-			<a href="#!" class="brand-logo">Survey lab</a>
+			<a href="#!" class="brand-logo">Survey flow</a>
 			<!-- activate side-bav in mobile view -->
 			<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
@@ -37,6 +37,7 @@
 </template>
 
 <template name="surveyList">
+{{#if readiness}}
 	<div class="row">
 		{{#each survey in surveys}}
 		<div class="col s6 m6">
@@ -65,6 +66,9 @@
 		</div>
 		{{/each}}
 	</div>
+{{else}}
+	{{>loadingState}}
+{{/if}}
 </template>
 
 <template name="surveyEditor">
@@ -169,60 +173,60 @@
 </template>
 
 <template name="surveyItemEditor">
-	<div class="col s12" id={{_id}}>
-		<ul class="tabs">
-			<li class="tab col s3"><a class="{{#if state 'new' 'select'}}active{{/if}} tab_selector" href="#select_existing_item_{{_id}}">Select</a></li>
-			<li class="tab col s3"><a class="{{#if state 'create'}}active{{/if}} tab_editor" href="#edit_an_item_{{_id}}">{{#if state 'new' 'select'}}Create{{else}}Edit{{/if}}</a></li>
-			<li class="col s2 m1">
-				<a title="Close" class="toggle_item_editor" data-editor-id={{_id}}><i class="material-icons">close</i></a>
-			</li>
-		</ul>
-	</div>
-	<div id="select_existing_item_{{_id}}" class="col s12">
-		<p>
-			<fieldset>
-				<legend><h5>Select an item</h5></legend>
-				<div class="row">
-					<div class="input-field col s12">
-						<select class="select_existing_item">
-							<!-- {{log this}} -->
-							<option value="" disabled {{selected}}>Choose from existing items</option>
-							{{#each itemOption in existingItems}}
-							<option value="{{itemOption._id}}" {{selected itemOption._id}}>{{itemOption.name}} ({{itemOption.task.type}})</option>
-							{{/each}}
-						</select>
-					</div>
-					<div class="input-field col s12">
-						<button type="button" class="waves-effect waves-teal btn clone_selected_item">Clone &amp; edit<i class="material-icons right">library_add</i></button>
-					</div>
+<div class="col s12" id={{_id}}>
+	<ul class="tabs">
+		<li class="tab col s3"><a class="{{#if state 'new' 'select'}}active{{/if}} tab_selector" href="#select_existing_item_{{_id}}">Select</a></li>
+		<li class="tab col s3"><a class="{{#if state 'create'}}active{{/if}} tab_editor" href="#edit_an_item_{{_id}}">{{#if state 'new' 'select'}}Create{{else}}Edit{{/if}}</a></li>
+		<li class="col s2 m1">
+			<a title="Close" class="toggle_item_editor" data-editor-id={{_id}}><i class="material-icons">close</i></a>
+		</li>
+	</ul>
+</div>
+<div id="select_existing_item_{{_id}}" class="col s12">
+	<p>
+		<fieldset>
+			<legend><h5>Select an item</h5></legend>
+			<div class="row">
+				<div class="input-field col s12">
+					<select class="select_existing_item">
+						<!-- {{log this}} -->
+						<option value="" disabled {{selected}}>Choose from existing items</option>
+						{{#each itemOption in existingItems}}
+						<option value="{{itemOption._id}}" {{selected itemOption._id}}>{{itemOption.name}} ({{itemOption.task.type}})</option>
+						{{/each}}
+					</select>
 				</div>
-			</fieldset>
-		</p>
-	</div>
-	<div id="edit_an_item_{{_id}}" class="col s12">
-		{{>itemEditor this}}
-		<div class="row">
-			<div class="col s6">
-				<button class="waves-effect waves-teal teal btn save_item_edits">
-					<i class="material-icons right">done</i>
-					Done
-				</button>
-				<button class="waves-effect waves-grey grey btn cancel_item_edits">
-					<i class="material-icons right">close</i>
-					Close
-				</button>
+				<div class="input-field col s12">
+					<button type="button" class="waves-effect waves-teal btn clone_selected_item">Clone &amp; edit<i class="material-icons right">library_add</i></button>
+				</div>
 			</div>
-		</div>
-	</div>
+		</fieldset>
+	</p>
+</div>
+<div id="edit_an_item_{{_id}}" class="col s12">
+	{{>itemEditor this}}
 	<div class="row">
 		<div class="col s6">
-			{{>surveyItemOrder item=this}}
+			<button class="waves-effect waves-teal teal btn save_item_edits">
+				<i class="material-icons right">done</i>
+				Done
+			</button>
+			<button class="waves-effect waves-grey grey btn cancel_item_edits">
+				<i class="material-icons right">close</i>
+				Close
+			</button>
 		</div>
 	</div>
+</div>
+<div class="row">
+	<div class="col s6">
+		{{>surveyItemOrder item=this}}
+	</div>
+</div>
 </template>
 
 <template name="itemEditor">
-	{{#if item}}
+	{{#if readiness}}
 		{{#autoForm collection="Items" type='update' doc=item id=formId class="item_form item-editor-form"}}
 			<fieldset>
 				<legend><h5>{{state}} item</h5></legend>
@@ -298,7 +302,7 @@
 
 <template name="modifyStatementTaskForm">
 	<h6>Statement template</h6>
-	{{>afQuickField name="asset" type="text"}}
+	{{>afQuickField name="asset"}}
 	<h6>Modification options</h6>
 	{{>modificationOptions this}}
 	{{>itemRequirementsForm this}}
@@ -306,7 +310,7 @@
 
 <template name="agreeWithStatementTaskForm">
 	<h6>Statement</h6>
-	{{>afQuickField name="asset" type="text"}}
+	{{>afQuickField name="asset"}}
 	{{>itemRequirementsForm this}}
 </template>
 
@@ -389,7 +393,12 @@
 		<label for="{{sourceTypeId}}">{{afFieldLabelText name=this.current.sourceType}}</label>
 	</div>
 	<div class="input-field col s12 m6">
-		{{>afFieldInput name=this.current.value type=optionSpecifier.type options=optionSpecifier.options id=valueId}}
+		{{#if afFieldValueIs name=this.current.sourceType value="item-output"}}
+			{{>afFieldInput template="materialize" name=this.current.value type='select' options=optionSpecifier.options id=valueId}}
+		{{else}}
+			{{>afFieldInput name=this.current.value type='text' id=valueId}}
+		{{/if}}
+		
 		<label for="{{valueId}}">{{optionSpecifier.label}}</label>
 	</div>
 	<div class="input-field col s12 m2">
@@ -406,13 +415,11 @@
 
 
 <template name="footerDashboard">
-	<footer class="page-footer">
-		<div class="footer-copyright">
-			<div class="container">
-				© 2016 <a class="grey-text text-lighten-3" target="_blank" href="http://a.nvlkv.com">a.nvlkv</a>
-			</div>
+	<div class="footer-copyright">
+		<div class="container">
+			© 2016 <a class="grey-text text-lighten-3" target="_blank" href="http://a.nvlkv.com">a.nvlkv</a>
 		</div>
-	</footer>
+	</div>
 </template>
 
 

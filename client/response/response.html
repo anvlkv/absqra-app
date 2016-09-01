@@ -1,0 +1,180 @@
+<!-- navMenuResponse
+response
+footerResponse
+ -->
+
+ <template name="responseLayout">
+ 	{{#if readiness}}
+	<div class="main-layout-wrap">
+		<header>
+			{{>Template.dynamic template=header}}
+		</header>
+		<main>
+			{{>Template.dynamic template=main}}
+		</main>
+		<footer class="page-footer">
+			{{>Template.dynamic template=footer}}
+		</footer>
+ 	</div>
+ 	{{else}}
+	 	{{>loadingState}}
+	{{/if}}
+ </template>
+
+ <template name="navMenuResponse">
+ 	{{#with survey}}
+ 	<nav>
+ 		<div class="nav-wrapper container response-nav">
+ 			<ul class="left">
+ 				<li><span class="title">{{title}}</span></li>
+ 			</ul>
+ 			<ul class="right">
+ 				<li><span class="title">Step:&nbsp;{{step}}/{{totalSteps}}</span></li>
+ 			</ul>
+ 		</div>
+ 	</nav>
+ 	<div class="progress">
+ 		<div class="determinate" style="width: {{progress}}"></div>
+ 	</div>
+ 	{{/with}}
+ </template>
+
+ <template name="response">
+ 	<div class="container response">
+ 		<div class="row">
+ 			<div class="col s12 center">
+ 				<h3>{{item.question}}</h3>
+ 				<p class="flow-text">
+ 					{{item.instruction}}
+ 				</p>
+ 				<hr>
+ 				{{>Template.dynamic template=item.taskTemplate data=item}}
+ 			</div>
+ 		</div>
+ 		<div class="row step-actions">
+ 			{{>Template.dynamic template=item.actionsTemplate}}
+ 		</div>
+ 	</div>
+ </template>
+
+ <template name="actionsYesNoNA">
+	<button type="button" class="col s4 m2 offset-m2 waves-effect waves-light btn-large">No</button>
+ 	<button type="button" class="col s4 m2 offset-m1 waves-effect waves-light btn-large btn-flat">Skip</button>
+ 	<button type="button" class="col s4 m2 offset-m1 waves-effect waves-light btn-large">Yes</button>
+ </template>
+
+ <template name="actionsYesNo">
+ 	<button type="button" class="col s6 m4 offset-m1 waves-effect waves-light btn-large">No</button>
+ 	<button type="button" class="col s6 m4 offset-m2 waves-effect waves-light btn-large">Yes</button>
+ </template>
+
+ <template name="actionsNext">
+ 	<button type="button" class="col s12 m5 offset-m7 waves-effect waves-light btn-large">Next<i class="material-icons right">keyboard_arrow_right</i></button>
+ </template>
+
+<template name="footerResponse">
+<div class="footer-copyright">
+	<div class="container">
+		<div class="row">
+			<div class="col s6 m6 l4">
+				This survey is build with <a class="grey-text text-lighten-3" target="_blank" href="/">Survey flow</a>
+			</div>
+			<div class="col s6 m3 l2">
+				<a class="grey-text text-lighten-3" target="_blank" href="#respondentPrivacy">Privacy policy</a>
+			</div>
+			<div class="col s12 m3 l2 right">
+				© 2016 <a class="grey-text text-lighten-3" target="_blank" href="http://a.nvlkv.com">a.nvlkv</a>
+			</div>
+		</div>
+	</div>
+</div>
+</template>
+
+<template name="surveyConsentItemResponseForm"> 
+	<p class="flow-text">
+		{{task.asset}}
+	</p>
+</template>
+
+<template name="listingTaskResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	listing task interface
+</template>
+
+<template name="singleChoiceQuestionResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	single choice
+</template>
+
+<template name="multipleChoiceQuestionResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	multiple choice
+</template>
+
+<template name="openEndedQuestionResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	open-ended text
+</template>
+
+<template name="numberInputTaskResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	number
+</template>
+
+<template name="ratingTaskResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	rating
+</template>
+
+<template name="modifyStatementTaskResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	modify statement
+</template>
+
+<template name="agreeWithStatementTaskResponseForm"> 
+<!-- 	<p class="flow-text">
+		{{task.asset}}
+	</p> -->
+	agree with statement
+</template>
+
+ <!-- Dropdown Structure 
+ <ul id="dropdown1" class="dropdown-content">
+ 	<li><a href="#!">one</a></li>
+ 	<li><a href="#!">two</a></li>
+ 	<li class="divider"></li>
+ 	<li><a href="#!">three</a></li>
+ </ul>
+ <nav>
+ 	<div class="nav-wrapper">
+ 		<a href="#!" class="brand-logo">Logo</a>
+
+ 		<a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+ 		<ul class="right hide-on-med-and-down">
+ 			<li><a href="sass.html">Sass</a></li>
+ 			<li><a href="components.html">Components</a></li>
+
+ 			<li><a class="dropdown-button" href="#!" data-activates="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
+ 		</ul>
+
+ 		<ul class="side-nav" id="mobile-demo">
+ 			<li><a href="sass.html">Sass</a></li>
+ 			<li><a href="components.html">Components</a></li>
+ 		</ul>
+ 	</div>
+ </nav>
+ -->
