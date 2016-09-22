@@ -302,7 +302,7 @@
 
 <template name="modifyStatementTaskForm">
 	<h6>Statement template</h6>
-	{{>afQuickField name="asset"}}
+	{{>afQuickField name="task.asset"}}
 	<h6>Modification options</h6>
 	{{>modificationOptions this}}
 	{{>itemRequirementsForm this}}
@@ -310,13 +310,13 @@
 
 <template name="agreeWithStatementTaskForm">
 	<h6>Statement</h6>
-	{{>afQuickField name="asset"}}
+	{{>afQuickField name="task.asset"}}
 	{{>itemRequirementsForm this}}
 </template>
 
 <template name="surveyConsentItemForm">
 	<h6>Additional text</h6>
-	{{>afQuickField name="asset" type="text"}}
+	{{>afQuickField name="task.asset" type="text"}}
 </template>
 
 <template name="itemRequirementsForm">

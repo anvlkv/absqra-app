@@ -1,18 +1,5 @@
 CC_SurveyItems = new Meteor.Collection('CC_SurveyItems', null);
 
-let activeToasts = new ReactiveDict();
-
-function singleToast (text, duration){
-	duration = duration ? duration : 4000;
-	if (!activeToasts.get(text)) {
-		activeToasts.set(text, true);
-		// console.log(typeof text );
-		Materialize.toast(text, duration, '',function(){
-			activeToasts.set(text, false);
-		});
-	}
-}
-
 Template.dashboard.onRendered(function(){
 	this.$('.tooltipped').tooltip();
 })
@@ -247,6 +234,7 @@ Template.surveyItemEditor.onCreated(function(){
 		AutoForm.addHooks('survey_item_form_'+this.data._id,{
 			before:{
 				update(doc){
+					console.log(doc);
 					if (doc['$set']['task.options']) {
 						let options = [];
 						for (var i = 0; i < doc['$set']['task.options'].length; i++) {
