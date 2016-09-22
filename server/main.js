@@ -16,4 +16,21 @@ Meteor.startup(() => {
 			}
 		}
 	}
+
+
+
+	// clean up respondents
+	Meteor.setInterval(function(){
+		let now = Date.now();
+		Respondents.find({$and:[{_lastSeen:{$lt: (now - 10*1000)}}, {_lastSeen:{$exists:true}}, {responses:{$exists: true}}]}).forEach(function (respondent) {
+			for (var i = 0; i < respondent.responses.length; i++) {
+				
+				Meteor.call('abandon_response', respondent.responses[i], function (error, result) {
+					if (!error) {
+						Respondents.update(respondent._id, {$unset:{_lastSeen:''}});
+					}
+				});
+			}
+		});;
+	});
 });

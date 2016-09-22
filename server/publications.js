@@ -44,8 +44,8 @@ Meteor.publish('SingleItem', function(itemId){
 });
 
 Meteor.publish('SurveyResponseForm', function(rsig){
-	// console.trace(rsig);s
 	let validSig = Meteor.call('validate_r_sig', rsig);
+	// console.trace(rsig, validSig);
 	if (validSig) {
 		const response = Responses.find(rsig.response);
 		const surveyId = response.fetch()[0].survey;
@@ -67,6 +67,6 @@ Meteor.publish('SurveyResponseForm', function(rsig){
 		return [response, survey, items];
 		// }
 	} else {
-		return false;
+		return null;
 	}
 });

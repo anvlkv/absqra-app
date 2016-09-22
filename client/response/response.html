@@ -6,6 +6,7 @@ footerResponse
  <template name="responseLayout">
  	{{#if readiness}}
 	<div class="main-layout-wrap">
+
 		<header>
 			{{>Template.dynamic template=header}}
 		</header>
@@ -15,10 +16,25 @@ footerResponse
 		<footer class="page-footer grey">
 			{{>Template.dynamic template=footer}}
 		</footer>
+		{{>responseModals}}
+
  	</div>
  	{{else}}
 	 	{{>loadingState}}
 	{{/if}}
+ </template>
+
+ <template name="responseModals">
+ 	<div id="sorryCanTProceed" class="modal">
+ 		<div class="modal-content">
+			<h4>Permission required</h4>
+			<p>Participation in this survey requires your permission.</p>
+			<p>Please read the consent text on this page and agree in order to participate.</p>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class=" modal-action modal-close waves-effect waves-green btn">Back to consent</a>
+		</div>
+ 	</div>
  </template>
 
  <template name="navMenuResponse">
@@ -34,12 +50,29 @@ footerResponse
  		</div>
  	</nav>
  	<div class="progress grey">
- 		<div class="determinate" style="width: {{progress}}"></div>
+ 		<div class="determinate yellow" style="width: {{progress}}"></div>
  	</div>
  	{{/with}}
  </template>
 
+ <template name="navMenuthankRespondent">
+ 	<nav class="grey">
+ 		<div class="nav-wrapper container response-nav">
+ 			<ul class="left">
+ 				<li><span class="title"></span></li>
+ 			</ul>
+ 			<ul class="right">
+ 				<li><span class="title"></span></li>
+ 			</ul>
+ 		</div>
+ 	</nav>
+ 	<div class="progress grey">
+ 		<div class="determinate yellow" style="width:100%"></div>
+ 	</div>
+ </template>
+
  <template name="response">
+ 	{{#if readiness}}
  	<div class="container response">
  		<div class="row">
  			<div class="col s12 center">
@@ -48,28 +81,41 @@ footerResponse
  					{{item.instruction}}
  				</p>
  				<hr>
- 				{{>Template.dynamic template=item.taskTemplate data=item}}
+ 				{{#if getItemSchema}}
+ 					{{#autoForm id=formId type="normal" schema=getItemSchema }}
+		 				{{>Template.dynamic template=item.taskTemplate data=item}}
+					{{/autoForm}}
+				{{else}}
+					{{>loadingState}}
+				{{/if}}
+
  			</div>
  		</div>
  		<div class="row step-actions">
- 			{{>Template.dynamic template=item.actionsTemplate}}
+ 			{{>Template.dynamic template=item.actionsTemplate data=item}}
  		</div>
  	</div>
+ 	{{else}}
+ 		{{>loadingState}}
+ 	{{/if}}
  </template>
 
- <template name="actionsYesNoNA">
-	<button type="button" class="col s4 m2 offset-m2 waves-effect waves-light btn-large">No</button>
- 	<button type="button" class="col s4 m2 offset-m1 waves-effect waves-light btn-large btn-flat">Skip</button>
- 	<button type="button" class="col s4 m2 offset-m1 waves-effect waves-light btn-large">Yes</button>
- </template>
+<!--  <template name="actionsYesNoNA">
+	<button type="button" class="col s4 m2 offset-m2 waves-effect waves-light btn-large item_disagree">No</button>
+ 	
+ 	<button type="button" class="col s4 m2 offset-m1 waves-effect waves-light btn-large item_agree">Yes</button>
+ </template> -->
 
  <template name="actionsYesNo">
- 	<button type="button" class="col s6 m4 offset-m1 waves-effect waves-light btn-large">No</button>
- 	<button type="button" class="col s6 m4 offset-m2 waves-effect waves-light btn-large">Yes</button>
+ 	<button type="button" data-item-id="{{_id}}" class="col s6 m4 offset-m1 waves-effect waves-light btn-large item_disagree {{#if undesiredNo task.type}}btn-flat{{/if}}">No</button>
+ 	{{#if task.requirements.openEnded}}
+ 	<button type="button" data-item-id="{{_id}}" class="col s4 m2 offset-m1 waves-effect waves-light btn-large btn-flat item_skip">Skip</button>
+ 	{{/if}}
+ 	<button type="button" data-item-id="{{_id}}" class="col s6 m4 offset-m2 waves-effect waves-light btn-large item_agree">Yes</button>
  </template>
 
  <template name="actionsNext">
- 	<button type="button" class="col s12 m5 offset-m7 waves-effect waves-light btn-large">Next<i class="material-icons right">keyboard_arrow_right</i></button>
+ 	<button type="button" data-item-id="{{_id}}" class="col s12 m5 offset-m7 waves-effect waves-light btn-large item_next">Next<i class="material-icons right">keyboard_arrow_right</i></button>
  </template>
 
 <template name="footerResponse">
@@ -79,9 +125,9 @@ footerResponse
 			<div class="col s6 m6 l4">
 				This survey is build with <a class="grey-text text-lighten-3" target="_blank" href="/">Survey flow</a>
 			</div>
-			<div class="col s6 m3 l2">
+<!-- 			<div class="col s6 m3 l2">
 				<a class="grey-text text-lighten-3" target="_blank" href="#respondentPrivacy">Privacy policy</a>
-			</div>
+			</div> -->
 			<div class="col s12 m3 l2 right">
 				© 2016 <a class="grey-text text-lighten-3" target="_blank" href="http://a.nvlkv.com">a.nvlkv</a>
 			</div>
@@ -97,59 +143,116 @@ footerResponse
 </template>
 
 <template name="listingTaskResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	listing task interface
+	<ul>
+		{{#if task.options}}
+			{{#each node in task.options}}
+				<li>
+					{{>listNode node=node item=this}}
+				</li>
+			{{/each}}
+		{{else}}
+			<li>
+				{{>afArrayField template='listEditor' name=fieldName}}
+			</li>
+		{{/if}}
+	</ul>
 </template>
 
+<!-- <template name="afObjectField_listObject">
+
+
+</template> -->
+
+<template name="listNode">
+	<!-- {{log 'here' node item this}} -->
+	<ul>
+		{{#if nodeTitle}}
+		<li>{{nodeTitle}}</li>
+		{{/if}}
+		{{#if nestedNodes item}}
+			{{#each snode in nestedNodes item}}
+				<li>
+					{{>listNode node=snode item=item}}
+				</li>
+			{{/each}}
+		{{else}}
+			<li>
+				{{>afArrayField template='listEditor' name=fieldName}}
+			</li>
+		{{/if}}
+	</ul>
+</template>
+
+<template name="afArrayField_listEditor">
+	<ul>
+		<!-- {{log this.atts.name}} -->
+		{{#afEachArrayItem name=this.atts.name}}
+			<li class="row">
+				{{>listEditorItem this}}
+			</li>
+		{{/afEachArrayItem}}
+	</ul>
+</template>
+
+<template name="listEditorItem">
+	<div class="col s10">
+		{{>afFormGroup name=this.name class="array-field-input"}}
+	</div>
+	{{#if afArrayFieldIsLastVisible}}
+		<a href="#!" title="add" class="btn-flat autoform-add-item secondary-content" data-autoform-field="{{this.arrayFieldName}}" data-autoform-minCount="{{this.minCount}}" data-autoform-maxCount="{{this.maxCount}}"><i class="material-icons">add</i></a>
+	{{/if}}
+</template>
+
+
+
 <template name="singleChoiceQuestionResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	single choice
+	{{>afFormGroup name=_id type="select-radio" options=choiceOptions}}
 </template>
 
 <template name="multipleChoiceQuestionResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	multiple choice
+	{{>afFormGroup label=false name=_id type="select-checkbox" options=choiceOptions}}
+</template>
+
+<template name="afCheckboxGroup_surveyFlow">
+  <div class="af-checkbox-group" {{dsk}}>
+    {{#each items}}
+    <p>
+      <input type="checkbox" value="{{value}}" {{itemAtts}} />
+      <label for="{{itemAtts.id}}">{{label}}</label>
+    </p>
+    {{/each}}
+  </div>
 </template>
 
 <template name="openEndedQuestionResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	open-ended text
+	{{>afFormGroup label=false name=_id type="textarea"}}
 </template>
 
 <template name="numberInputTaskResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	number
+	{{>afFormGroup label=false name=_id type="number"}}
 </template>
 
 <template name="ratingTaskResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	rating
+	<!-- {{log this}} -->
+	<ul class="collection">
+		{{#each option in choiceOptions}}
+		<li class="collection-item">
+			{{>afFormGroup label=option.label name=option.name options=ratingOptions type="select-radio-inline"}}
+		</li>
+		{{/each}}
+	</ul>
 </template>
 
+
+
 <template name="modifyStatementTaskResponseForm"> 
-<!-- 	<p class="flow-text">
-		{{task.asset}}
-	</p> -->
-	modify statement
+	
 </template>
 
 <template name="agreeWithStatementTaskResponseForm"> 
-<!-- 	<p class="flow-text">
+	<p class="flow-text">
 		{{task.asset}}
-	</p> -->
-	agree with statement
+	</p>
 </template>
 
  <!-- Dropdown Structure 
@@ -178,3 +281,16 @@ footerResponse
  	</div>
  </nav>
  -->
+<template name="thankRespondent">
+	<div class="container">
+		<div class="row">
+			<div class="col s12 m8 offset-m2">
+				<h1>Thank you!</h1>
+				<p class="flow-text">
+					You have completed this survey. Thank you for participation.
+					Your response can not be updated nor identified with you.
+				</p>
+			</div>
+		</div>
+	</div>
+</template>

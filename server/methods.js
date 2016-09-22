@@ -138,7 +138,7 @@ Meteor.methods({
 
 				case 'listingTask':
 					// console.log('listingTask', item.task.type);
-					schema.type = "Object";
+					schema.type = "Array";
 
 					nested_schema = {
 						type: "[String]",
@@ -156,7 +156,7 @@ Meteor.methods({
 
 				case 'ratingTask':
 					// console.log('ratingTask', item.task.type);
-					schema.type = "[Object]";
+					schema.type = "Array";
 
 					nested_schema ={
 						type: "Number"
@@ -218,31 +218,30 @@ Meteor.methods({
 			}
 		});
 	},
-	get_response_schema (surveyId){
+	get_response_schema (surveyId, itemId){
 		const survey = Surveys.findOne(surveyId);
 		if(survey) {
-			function evaluateTypes(obj) {
-				for (let i in obj) {
-					if (typeof obj[i] == "object" && obj[i] !== null) {
-						evaluateTypes(obj[i]);
-					} else {
-						if(i === 'type') {
-							try {
-								let val = eval(obj[i]);
-								obj[i] = val;
-							} catch (e) {
-								// console.log('here',e);
-								obj[i] = obj[i];
-							}
-						}
-					}
-				}
-			}
 
 			let schema = JSON.parse(decodeURIComponent(survey._schema));
-			evaluateTypes(schema);
+			
+			if (!itemId) {
+				evaluateTypes(schema);
+				return schema;
+			} else {
+				// console.log('all',schema);
+				// console.log('single', itemId ,schema[itemId])
+				// return schema[itemId];
+				let item_schema = {};
+				for (let key in schema) {
+					if (key.indexOf(itemId)>=0) {
+						item_schema[key]=schema[key];
+					}
+				}
 
-			return schema;
+
+
+				return item_schema;
+			}
 		}
 	},
 });
