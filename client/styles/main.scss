@@ -1,0 +1,63 @@
+// If you want to override materialize sass variables you can uncomment the following:
+// @import "{poetic:materialize-scss}/sass/components/_color.scss";
+// $primary-color: color("blue", "lighten-2");
+
+// import main scss file
+@import "{poetic:materialize-scss}/sass/materialize.scss";
+
+.main-layout-wrap {
+	display: flex;
+	min-height: 100vh;
+	flex-direction: column;
+	
+	main {
+		flex: 1 0 auto;
+	}
+
+	legend{
+		h3,h5{
+			&::first-letter{
+				text-transform: capitalize;
+			}
+		}
+	}
+}
+
+.sortable-handle{
+	cursor: move;
+    cursor: -webkit-grabbing;
+}
+
+.quasi-field-wrapper{
+	position: relative;
+	.quasi-field-icon{
+		position: absolute;
+		background-color: $card-bg-color;
+		right: 0;
+		top: 0;
+		pointer-events:none;
+	}
+}
+
+.task-tip{
+	margin-top: 20px;
+	.tip-example{
+		background-color: color("yellow","lighten-4");
+		border-left: 5px solid color("yellow","lighten-1");
+		padding-right: 5px;
+	}
+}
+
+.response-nav{
+	span.title{
+		padding: 0 15px;
+	}
+}
+
+
+
+// .response{
+// 	.step-actions{
+// 		position: fixed;
+// 	}
+// }

@@ -1,0 +1,16 @@
+{
+  "name": "survey-task-app-dev",
+  "private": true,
+  "scripts": {
+    "start": "meteor run"
+  },
+  "dependencies": {
+    "bcrypt": "^0.8.7",
+    "fingerprintjs2": "^1.4.1",
+    "meteor-node-stubs": "~0.2.0",
+    "sortablejs": "git+ssh://git@github.com/RubaXa/Sortable.git"
+  },
+  "devDependencies": {
+    "mup": "^1.0.3"
+  }
+}
