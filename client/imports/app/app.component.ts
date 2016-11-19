@@ -1,13 +1,13 @@
-import { Component } from "@angular/core";
-import template from "./app.component.html";
-import style from "./app.component.scss";
+import {Component} from '@angular/core';
+import template from './app.component.html';
+
+/**
+ * Created by a.nvlkv on 19/11/2016.
+ */
 
 @Component({
-  selector: "app",
-  template,
-  styles: [ style ]
+    selector: 'app',
+    template
 })
-export class AppComponent {
-  constructor() {
-  }
-}
+
+export class AppComponent{}
