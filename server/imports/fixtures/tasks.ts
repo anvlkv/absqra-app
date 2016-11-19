@@ -7,9 +7,27 @@ import {SingleTask} from '../../../both/models/single-task.model';
 export function loadTasks(){
     if (Tasks.find().cursor.count() === 0){
         const tasks: SingleTask[] =[
-            {primaryTask: 'swim'},
-            {primaryTask: 'now dance'},
-            {primaryTask: 'now live'}
+            {
+                primaryText: 'swim',
+                guidanceText: 'in water',
+                taskConfig: {
+                    type: 'text'
+                }
+            },
+            {
+                primaryText: 'dive',
+                guidanceText: 'in oil',
+                taskConfig: {
+                    type: 'text'
+                }
+            },
+            {
+                primaryText: 'breath',
+                guidanceText: 'in air',
+                taskConfig: {
+                    type: 'text'
+                }
+            },
         ];
 
         tasks.forEach((task)=>{

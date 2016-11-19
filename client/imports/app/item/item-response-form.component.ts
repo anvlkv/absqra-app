@@ -38,7 +38,6 @@ export class ItemResponseFormComponent implements OnInit, OnDestroy{
 
                 this.taskSub = MeteorObservable.subscribe('task', this.taskId).subscribe(()=>{
                     this.task = Tasks.findOne(this.taskId);
-
                 })
             });
     }
