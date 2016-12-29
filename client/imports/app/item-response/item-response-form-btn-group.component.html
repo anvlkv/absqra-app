@@ -1,0 +1,13 @@
+<div [formGroup]="formGroup">
+    <div class="btn-group" data-toggle="buttons" ngbRadioGroup [formControlName]="controlName">
+        <label class="btn btn-primary">
+            <input [name]="controlName" [id]="controlName + '_No'" value="No" type="radio" autocomplete="off">No
+        </label>
+        <label class="btn btn-secondary">
+            <input [name]="controlName" [id]="controlName + '_NA'" value="N/A" type="radio" autocomplete="off">N/A
+        </label>
+        <label  class="btn btn-primary">
+            <input [name]="controlName" [id]="controlName + '_Yes'" value="Yes" type="radio" autocomplete="off">Yes
+        </label>
+    </div>
+</div>

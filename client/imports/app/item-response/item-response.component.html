@@ -1,0 +1,67 @@
+
+<div class="row">
+    <div class="col-xs-12 col-sm-8 offset-sm-2" *ngIf="task">
+        <div [ngSwitch]="task.taskConfig.taskType">
+
+            <div *ngSwitchCase="'display'">
+                <h2>{{task.primaryText}}</h2>
+                <p>{{task.guidanceText}}</p>
+                <div [innerHTML]="task.display"></div>
+            </div>
+
+            <div *ngSwitchCase="'yes-no'">
+                <form [formGroup]="responseForm">
+                    <fieldset>
+                        <label for="responseInput">{{task.primaryText}}</label>
+                        <small id="responseHelp" class="form-text text-muted">{{task.guidanceText}}</small>
+
+                        <item-response-form-btn-group (submitCall)="submitResponse()" [formGroup]="responseForm" [controlName]="'responseInput'"></item-response-form-btn-group>
+
+                    </fieldset>
+                </form>
+            </div>
+
+            <div *ngSwitchDefault="">
+                <form [formGroup]="responseForm" (ngSubmit)="submitResponse()">
+                    <fieldset [ngSwitch]="task.taskConfig.taskType" class="form-group">
+
+                        <label for="responseInput">{{task.primaryText}}</label>
+                        <small id="responseHelp" class="form-text text-muted">{{task.guidanceText}}</small>
+
+                        <div *ngSwitchCase="'input'">
+                            <item-response-form-input [formGroup]="responseForm" [inputType]="task.taskConfig.inputType" [controlName]="'responseInput'" [inputId]="'responseInput'" [describedby]="'responseHelp'"></item-response-form-input>
+                        </div>
+
+                        <div *ngSwitchCase="'text'">
+                            <item-response-form-textarea [formGroup]="responseForm" [inputType]="task.taskConfig.inputType" [controlName]="'responseInput'" [inputId]="'responseInput'" [describedby]="'responseHelp'"></item-response-form-textarea>
+                        </div>
+
+                        <div *ngSwitchCase="'single-choice'">
+                            <item-response-form-radio [formGroup]="responseForm" [controlName]="'responseInput'" [choices]="choices" [describedby]="'responseHelp'"></item-response-form-radio>
+                        </div>
+
+                        <div *ngSwitchCase="'multiple-choice'">
+                            <item-response-form-checkbox [formGroup]="responseForm" [choices]="choices" [describedby]="'responseHelp'"></item-response-form-checkbox>
+                        </div>
+
+                        <div *ngSwitchCase="'listing'">
+                            <item-response-form-listing [formGroup]="responseForm" [choices]="choices" [describedby]="'responseHelp'"></item-response-form-listing>
+                        </div>
+
+                        <div *ngSwitchCase="'ordering'">
+                            <item-response-form-ordering [formGroup]="responseForm" [choices]="choices" [describedby]="'responseHelp'"></item-response-form-ordering>
+                        </div>
+
+
+                    </fieldset>
+
+                    <button type="reset" class="btn btn-secondary">Clear</button>
+                    <button type="submit" class="btn btn-primary">Save & Continue</button>
+                </form>
+
+            </div>
+
+        </div>
+        <!--/ngSwitch-->
+    </div>
+</div>

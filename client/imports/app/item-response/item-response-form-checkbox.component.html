@@ -1,0 +1,8 @@
+<div [formGroup]="formGroup">
+    <div *ngFor="let choice of choices" class="form-check">
+        <label class="form-check-label">
+            <input type="checkbox" class="form-check-input" [formControlName]="choice.name" [attr.aria-describedby]="describedby">
+            {{choice.label}}
+        </label>
+    </div>
+</div>

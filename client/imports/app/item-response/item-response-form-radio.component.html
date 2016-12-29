@@ -1,0 +1,9 @@
+<div [formGroup]="formGroup">
+    <!--<textarea class="form-control" [formControlName]="controlName" [id]="inputId" ></textarea>-->
+    <div *ngFor="let choice of choices" class="form-check">
+        <label class="form-check-label">
+            <input type="radio" class="form-check-input" [formControlName]="controlName" [attr.aria-describedby]="describedby" [value]="choice.name">
+            {{choice.label}}
+        </label>
+    </div>
+</div>

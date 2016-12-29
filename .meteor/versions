@@ -3,10 +3,11 @@ angular2-compilers@0.6.6
 autoupdate@1.3.12
 babel-compiler@6.13.0
 babel-runtime@1.0.1
-barbatus:css-compiler@0.3.5_1
-barbatus:scss-compiler@3.8.2
+barbatus:caching-compiler@1.1.9
+barbatus:css-compiler@0.3.6
+barbatus:scss-compiler@3.8.3
 barbatus:typescript@0.5.2
-barbatus:typescript-compiler@0.8.4
+barbatus:typescript-compiler@0.8.7
 barbatus:typescript-runtime@0.1.2
 base64@1.0.10
 binary-heap@1.0.10
@@ -24,8 +25,8 @@ ddp-common@1.2.8
 ddp-server@1.3.12
 deps@1.0.12
 diff-sequence@1.0.7
-dispatch:mocha-phantomjs@0.1.7
-dispatch:phantomjs-tests@0.0.5
+dispatch:mocha-phantomjs@0.1.9
+dispatch:phantomjs-tests@0.0.7
 ecmascript@0.6.1
 ecmascript-runtime@0.3.15
 ejson@1.0.13
