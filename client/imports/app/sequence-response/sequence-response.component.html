@@ -1,3 +1,7 @@
-<div>
- <item-response (onSuccessfulSubmission)="onSuccessfulSubmission($event)"></item-response>
-</div>
+<section *ngIf="task && responseForm">
+    <item-response (submitCall)="submitItemResponse($event)" [task]="task" [(responseForm)]="responseForm" class="row"></item-response>
+    <submit-control (submitCall)="submitItemResponse($event)" (resetCall)="resetResponseForm($event)"></submit-control>
+</section>
+
+
+<!-- http://localhost:3000/response/MhqZ26EnQE96TLWZs/qZZGA5yGMtK46gA4s -->

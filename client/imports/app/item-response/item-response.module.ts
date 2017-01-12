@@ -1,4 +1,4 @@
-import {NgModule} from "@angular/core";
+import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
 import {ITEM_DECLARATIONS} from "./";
 import {ItemResponseComponent} from  "./item-response.component"
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";

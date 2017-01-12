@@ -41,7 +41,7 @@ export class ItemResponseFormListingComponent extends ItemResponseFormInputCompo
         this.formGroup.addControl(item.controlName, this.formBuilder.control(item.value));
     }
 
-    addSiblingListItem(){
+    addSiblingListItem(e){
         let order = this.listItems.length + 1;
         let item:listItem = {
             order: order,
@@ -51,5 +51,7 @@ export class ItemResponseFormListingComponent extends ItemResponseFormInputCompo
 
         this.listItems.push(item);
         this.formGroup.addControl(item.controlName, this.formBuilder.control(item.value));
+
+        e.preventDefault();
     }
 }

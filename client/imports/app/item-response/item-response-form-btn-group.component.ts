@@ -8,7 +8,6 @@ import {Observable} from "rxjs";
 @Component({
     selector: 'item-response-form-btn-group',
     template,
-    outputs:['submitCall']
 })
 
 export class ItemResponseFormBtnGroupComponent extends ItemResponseFormInputComponent implements OnInit{
@@ -17,9 +16,9 @@ export class ItemResponseFormBtnGroupComponent extends ItemResponseFormInputComp
     //
     //     // console.log(this);
     // }
-    private submitCall: EventEmitter<void> = new EventEmitter<void>();
 
     ngOnInit(){
+        console.log(this);
         this.formGroup.valueChanges.subscribe((value) => {
             if (value.responseInput){
                 this.submitCall.emit()

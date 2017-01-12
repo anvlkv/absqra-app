@@ -1,9 +1,14 @@
 import {Route} from '@angular/router';
-import {SequenceResponseComponent} from "./sequence-response/sequence-response-component";
+import {SequenceResponseComponent} from "./sequence-response/sequence-response.component";
+import {SequenceEditorComponent} from "./sequence-editor/sequence-editor.component";
+import {AppComponent} from "./app.component";
 /**
  * Created by a.nvlkv on 19/11/2016.
  */
 
 export const routes: Route[]=[
-    {path:'response/:sequenceId/:taskId', component: SequenceResponseComponent}
+    {path:'', redirectTo: 'new/sequence', pathMatch: 'full'},
+    {path:'response/:sequenceId/:taskId', component: SequenceResponseComponent},
+    {path:'new/sequence', component: SequenceEditorComponent},
+    {path:'edit/:sequenceId/:taskId', component: SequenceEditorComponent}
 ];

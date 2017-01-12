@@ -4,3 +4,20 @@
 
 @import "./bootstrap-config";
 @import "../../node_modules/bootstrap/scss/bootstrap";
+@import "./fix_bootstrap";
+
+main{
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  min-height: 100vh;
+  display: flex;
+}
+
+sequence-response{
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-basis: 100%;
+  align-self: stretch;
+}
+

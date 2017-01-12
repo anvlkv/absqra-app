@@ -1,14 +1,7 @@
-import {Component, OnInit, OnDestroy, Output, EventEmitter, ApplicationRef} from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 import template from './item-response.component.html';
-import {ISingleTask} from '../../../../both/models/single-task.model';
-import {ActivatedRoute} from '@angular/router';
-import {Subscription} from 'rxjs';
-
-import 'rxjs/add/operator/map';
-import {Tasks} from '../../../../both/collections/tasks.collection';
-import {MeteorObservable} from "meteor-rxjs";
-import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
-import {ItemsResponses} from "../../../../both/collections/items-responses.collection";
+import {FormGroup} from "@angular/forms";
+import {ISingleChoice, ISingleTaskComposition} from "../../models/single-task-composition.model";
 /**
  * Created by a.nvlkv on 19/11/2016.
  */
@@ -18,90 +11,116 @@ import {ItemsResponses} from "../../../../both/collections/items-responses.colle
     template
 })
 
-export class ItemResponseComponent implements OnInit, OnDestroy{
-    taskId: string;
-    task: ISingleTask;
-    taskSub: Subscription;
-    paramsSub: Subscription;
-    responseForm: FormGroup;
-    choices: any[] = [];
+export class ItemResponseComponent {
+    @Input() task: ISingleTaskComposition;
+    // taskSub: Subscription;
+    // paramsSub: Subscription;
+    @Input() responseForm: FormGroup;
+    // choices: any[];
+    // zone: NgZone;
+    // @Input() taskId: string;
+    @Output() submitCall: EventEmitter<null> = new EventEmitter<null>();
+    @Output() resetCall: EventEmitter<null> = new EventEmitter<null>();
+    // submitResponse(): void{
+    //     this.submitCall.emit();
+    // }
 
-    @Output() onSuccessfulSubmission = new EventEmitter<[string, string]>();
-
-    constructor(
-        private route: ActivatedRoute,
-        private formBuilder: FormBuilder,
-        private appRef: ApplicationRef,
-    ){}
-
-    ngOnInit(){
-        this.paramsSub = this.route.params
-            .map(params => params['taskId'])
-            .subscribe(taskId => {
-                this.taskId = taskId;
-
-                if (this.taskSub){
-                    this.taskSub.unsubscribe();
-                }
-
-                this.taskSub = MeteorObservable.subscribe('task', this.taskId).subscribe(()=>{
-                    this.task = Tasks.findOne(this.taskId);
+    // private formGroupItems: any;
 
 
-                    let formGroupItems: any = {
-                        responseInput: ['', Validators.required]
-                    };
 
-
-                    if (this.task.assets){
-                        this.task.assets.forEach((asset, index)=>{
-                            if (asset.assetType === 'text'){
-                                let choiceName = 'responseChoice_'+index;
-                                this.choices.push({
-                                    label: asset.text,
-                                    value: index,
-                                    name: choiceName
-                                });
-
-
-                                switch (this.task.taskConfig.taskType){
-                                    case 'single-choice':
-                                        break;
-                                    default:
-                                        formGroupItems[choiceName] = [choiceName]
-                                }
-                            }
-                        })
-                    }
-
-                    this.responseForm = this.formBuilder.group(formGroupItems);
-
-                    this.appRef.tick();
-
-                });
-            });
-    }
-
-    submitResponse(): void{
-        if(this.responseForm.valid){
-
-            let response = ItemsResponses.insert({
-                item_id:this.taskId,
-                value: this.responseForm.value,
-                meta: false,
-            });
-
-            response.subscribe((response_id)=>{
-                this.onSuccessfulSubmission.emit([this.taskId, response_id]);
-            });
-
-        }
-    }
-
-    ngOnDestroy(){
-        this.paramsSub.unsubscribe();
-        this.taskSub.unsubscribe();
-    }
+    // constructor(
+    //     private route: ActivatedRoute,
+    //     private formBuilder: FormBuilder,
+    //     private changeDetectorRef: ChangeDetectorRef
+    // ){
+    //     this.zone = new NgZone({enableLongStackTrace: false});
+    // }
+    //
+    // ngOnInit(): void{
+    //     if (!this.taskId){
+    //         this.paramsSub = this.route.params
+    //             .map(params => params['taskId'])
+    //             .subscribe(taskId => {
+    //                 this.zone.run(()=>{
+    //                     this.setTask(taskId);
+    //                 })
+    //             });
+    //     }
+    // }
+    //
+    // ngOnChanges(changes: {[propKey: string]: SimpleChange}){
+    //     if (changes['taskId']){
+    //         this.zone.run(()=>{
+    //             this.setTask(changes['taskId'].currentValue);
+    //         })
+    //     }
+    // }
+    //
+    // // http://localhost:3000/response/MhqZ26EnQE96TLWZs/qZZGA5yGMtK46gA4s
+    //
+    // setTask(taskId:string): void{
+    //     this.taskId = taskId;
+    //
+    //     if (this.taskSub){
+    //         this.taskSub.unsubscribe();
+    //     }
+    //
+    //     this.taskSub = MeteorObservable.subscribe('task', this.taskId).subscribe(()=>{
+    //         this.loadTask();
+    //         this.changeDetectorRef.markForCheck();
+    //     });
+    // }
+    //
+    // loadTask(): void{
+    //     this.task = Tasks.findOne(this.taskId);
+    //     this.choices = [];
+    //
+    //     if (this.task.assets){
+    //         this.loadTaskAssets();
+    //     }
+    //     this.buildForm();
+    // }
+    //
+    // buildForm():void{
+    //     this.formGroupItems = {};
+    //
+    //     switch (this.task.taskConfig.taskType){
+    //         case 'multiple-choice':
+    //             this.choices.forEach((choice)=>{
+    //                 this.formGroupItems[choice.name] = ['']
+    //             });
+    //             break;
+    //         default:
+    //             this.formGroupItems = {
+    //                 responseInput: ['', Validators.required]
+    //             };
+    //             break;
+    //     }
+    //
+    //     this.responseForm = this.formBuilder.group(this.formGroupItems);
+    // }
+    //
+    // loadTaskAssets(): void{
+    //     this.task.assets.forEach((asset, index)=>{
+    //         if (asset.assetType === 'text'){
+    //             let choiceName = 'responseChoice_'+index;
+    //             this.choices.push({
+    //                 label: asset.text,
+    //                 value: index,
+    //                 name: choiceName,
+    //                 checked: false
+    //             });
+    //         }
+    //     })
+    // }
+    //
+    //
+    //
+    // ngOnDestroy(): void{
+    //     this.paramsSub.unsubscribe();
+    //     this.taskSub.unsubscribe();
+    // }
 }
 
 

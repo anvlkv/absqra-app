@@ -1,10 +1,10 @@
 <div [formGroup]="formGroup" class="container">
     <div class="form-group row" *ngFor="let listItem of listItems">
-        <button (click)="addSiblingListItem()"  class="form-control form-control-xs col-xs-3 col-sm-2 col-md-1 btn btn-outline-secondary">
+        <button (click)="addSiblingListItem($event)"  class="form-control form-control-xs col-xs-3 col-sm-2 col-md-1 btn btn-outline-secondary">
             add
         </button>
         <div class="col-xs-9 col-sm-10 col-md-11">
-            <item-response-form-input class="form-control-xs" [controlName]="listItem.controlName" [inputType]="'text'" [describedby]="describedby" [formGroup]="formGroup" [inputId]="listItem.inputId"></item-response-form-input>
+            <item-response-form-input class="form-control-xs" [controlName]="listItem.controlName" [inputType]="'text'" [describedby]="describedby" [formGroup]="formGroup" [inputId]="listItem.controlName"></item-response-form-input>
         </div>
     </div>
 </div>

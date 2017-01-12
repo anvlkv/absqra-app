@@ -2,11 +2,12 @@ import {NgModule} from "@angular/core";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {BrowserModule} from "@angular/platform-browser";
-import {SequenceResponseComponent} from "./sequence-response.component";
+import {SequenceEditorComponent} from "./sequence-editor.component";
 import {RouterModule} from "@angular/router";
-import {ITEM_DECLARATIONS} from "../item-response";
-import {SubmitControlComponent} from "../partials/submit-control/submit-control.component";
+
+// import {SubmitControlComponent} from "./submit-control/submit-control.component";
 import {ReactiveFormsModule} from "@angular/forms";
+// import {ITEM_DECLARATIONS} from "../item-response";
 
 /**
  * Created by a.nvlkv on 01/12/2016.
@@ -20,13 +21,13 @@ import {ReactiveFormsModule} from "@angular/forms";
         ReactiveFormsModule
     ],
     declarations:[
-        SequenceResponseComponent,
-        ...ITEM_DECLARATIONS,
-        SubmitControlComponent
+        SequenceEditorComponent,
+        // ...ITEM_DECLARATIONS,
+        // SubmitControlComponent
     ],
     bootstrap:[
-        SequenceResponseComponent
+        SequenceEditorComponent
     ]
 })
 
-export class SequenceResponseModule{}
+export class SequenceEditorModule{}
