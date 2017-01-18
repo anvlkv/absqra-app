@@ -1,0 +1,8 @@
+<div [ngSwitch]="editState">
+    <div *ngSwitchCase="false">
+        <ng-content select="[viewer]"></ng-content>
+    </div>
+    <div *ngSwitchCase="true">
+        <ng-content select="[editor]"></ng-content>
+    </div>
+</div>

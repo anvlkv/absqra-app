@@ -1,16 +1,12 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from "@angular/core";
-import {ITEM_DECLARATIONS} from "./";
-import {ItemResponseComponent} from  "./item-response.component"
+import {ItemEditorComponent} from "./item-editor.component";
+import {DndModule} from "ng2-dnd";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {ReactiveFormsModule, FormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
-import {DndModule} from "ng2-dnd";
-
+import {NgModule} from "@angular/core";
 /**
- * Created by a.nvlkv on 29/11/2016.
+ * Created by a.nvlkv on 15/01/2017.
  */
-
-
 @NgModule({
     imports:[
         BrowserModule,
@@ -20,14 +16,14 @@ import {DndModule} from "ng2-dnd";
         DndModule
     ],
     declarations:[
-        ...ITEM_DECLARATIONS
+        ItemEditorComponent
     ],
     bootstrap:[
-        ItemResponseComponent
+        ItemEditorComponent
     ],
     exports:[
-        ...ITEM_DECLARATIONS
+        ItemEditorComponent
     ]
 })
 
-export class ItemResponseModule{}
+export class ItemEditorModule{}

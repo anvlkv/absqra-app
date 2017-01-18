@@ -4,10 +4,10 @@ import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import {BrowserModule} from "@angular/platform-browser";
 import {SequenceEditorComponent} from "./sequence-editor.component";
 import {RouterModule} from "@angular/router";
-
-// import {SubmitControlComponent} from "./submit-control/submit-control.component";
 import {ReactiveFormsModule} from "@angular/forms";
-// import {ITEM_DECLARATIONS} from "../item-response";
+import {ItemEditorModule} from "../item-editor/item-editor.module";
+import {PARTIALS_DECLARATIONS} from "../partials";
+import {InplaceEditSwitchComponent} from "../partials/inplace-edit-switch/inplace-edit-switch.component";
 
 /**
  * Created by a.nvlkv on 01/12/2016.
@@ -18,12 +18,13 @@ import {ReactiveFormsModule} from "@angular/forms";
         BrowserModule,
         NgbModule,
         RouterModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        ItemEditorModule,
+
     ],
     declarations:[
         SequenceEditorComponent,
-        // ...ITEM_DECLARATIONS,
-        // SubmitControlComponent
+        InplaceEditSwitchComponent
     ],
     bootstrap:[
         SequenceEditorComponent

@@ -1,6 +1,6 @@
-<section *ngIf="task && responseForm">
-    <item-response (submitCall)="submitItemResponse($event)" [task]="task" [(responseForm)]="responseForm" class="row"></item-response>
-    <submit-control (submitCall)="submitItemResponse($event)" (resetCall)="resetResponseForm($event)"></submit-control>
+<section *ngIf="item && responseForm" class="col-12 col-sm-8 offset-sm-2">
+    <item-response (submitCall)="submitItemResponse($event)" [item]="item" [(responseForm)]="responseForm"></item-response>
+    <submit-control *ngIf="showFormControls" (submitCall)="submitItemResponse($event)" (resetCall)="resetResponseForm($event)"></submit-control>
 </section>
 
 

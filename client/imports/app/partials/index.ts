@@ -1,5 +1,5 @@
-import {HeaderOutletComponent} from "./header.component";
-import {FooterOutletComponent} from "./footer.component";
+import {HeaderOutletComponent} from "./header/header.component";
+import {FooterOutletComponent} from "./footer/footer.component";
 /**
  * Created by a.nvlkv on 04/12/2016.
  */

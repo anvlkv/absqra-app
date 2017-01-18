@@ -8,7 +8,7 @@ import {AppComponent} from "./app.component";
 
 export const routes: Route[]=[
     {path:'', redirectTo: 'new/sequence', pathMatch: 'full'},
-    {path:'response/:sequenceId/:taskId', component: SequenceResponseComponent},
+    {path:'response/:sequenceId/:itemId', component: SequenceResponseComponent},
     {path:'new/sequence', component: SequenceEditorComponent},
-    {path:'edit/:sequenceId/:taskId', component: SequenceEditorComponent}
+    {path:'edit/:sequenceId', component: SequenceEditorComponent}
 ];

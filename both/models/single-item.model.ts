@@ -3,8 +3,8 @@ import {IMongoDocument} from "./mongo-document.model";
  * Created by a.nvlkv on 20/11/2016.
  */
 
-export interface ITaskConfig {
-    taskType: string,
+export interface IItemConfig {
+    itemType?: string,
     inputType?: string,
     maxChar?: number,
     minChar?: number,
@@ -17,21 +17,23 @@ export interface ITaskConfig {
     allowNewGroups?: boolean
 }
 
-export interface ITaskOption {
+export interface IItemOption {
     label?: string,
     value?: number
 }
 
-export interface ITaskAsset {
-    assetType: string,
+export interface IItemAsset {
+    assetType?: string,
     text?: string
 }
 
-export interface ISingleTask extends IMongoDocument{
-    primaryText: string,
-    guidanceText: string,
-    taskConfig: ITaskConfig,
-    options?: ITaskOption[],
-    assets?: ITaskAsset[],
-    display?: string
+export interface ISingleItem extends IMongoDocument{
+    primaryText?: string,
+    guidanceText?: string,
+    itemConfig?: IItemConfig,
+    options?: IItemOption[],
+    assets?: IItemAsset[],
+    display?: string,
+    name?: string,
+    description?: string
 }

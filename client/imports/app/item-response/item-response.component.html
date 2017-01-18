@@ -1,17 +1,17 @@
-<div class="col-xs-12 col-sm-8 offset-sm-2" *ngIf="task">
-    <div [ngSwitch]="task.taskConfig.taskType">
+<div class="row" *ngIf="item">
+    <div class="col-12" [ngSwitch]="item.itemConfig.itemType">
 
         <div *ngSwitchCase="'display'">
-            <h2>{{task.primaryText}}</h2>
-            <p>{{task.guidanceText}}</p>
-            <div [innerHTML]="task.display"></div>
+            <h2>{{item.primaryText}}</h2>
+            <p>{{item.guidanceText}}</p>
+            <div [innerHTML]="item.display"></div>
         </div>
 
         <div *ngSwitchCase="'yes-no'">
             <form [formGroup]="responseForm">
                 <fieldset >
-                    <label for="responseInput">{{task.primaryText}}</label>
-                    <small id="responseHelp" class="form-text text-muted">{{task.guidanceText}}</small>
+                    <label for="responseInput">{{item.primaryText}}</label>
+                    <small id="responseHelp" class="form-text text-muted">{{item.guidanceText}}</small>
 
                     <item-response-form-btn-group class="submission-control" (submitCall)="submitCall.emit($event)" (resetCall)="resetCall.emit($event)" [formGroup]="responseForm" [controlName]="'responseInput'"></item-response-form-btn-group>
 
@@ -21,33 +21,33 @@
 
         <div *ngSwitchDefault="">
             <form [formGroup]="responseForm" (ngSubmit)="submitCall.emit($event)">
-                <fieldset [ngSwitch]="task.taskConfig.taskType" class="form-group">
+                <fieldset [ngSwitch]="item.itemConfig.itemType" class="form-group">
 
-                    <label for="responseInput">{{task.primaryText}}</label>
-                    <small id="responseHelp" class="form-text text-muted">{{task.guidanceText}}</small>
+                    <label for="responseInput">{{item.primaryText}}</label>
+                    <small id="responseHelp" class="form-text text-muted">{{item.guidanceText}}</small>
 
                     <div *ngSwitchCase="'input'">
-                        <item-response-form-input [formGroup]="responseForm" [inputType]="task.taskConfig.inputType" [controlName]="'responseInput'" [inputId]="'responseInput'" [describedby]="'responseHelp'"></item-response-form-input>
+                        <item-response-form-input [formGroup]="responseForm" [inputType]="item.itemConfig.inputType" [controlName]="'responseInput'" [inputId]="'responseInput'" [describedby]="'responseHelp'"></item-response-form-input>
                     </div>
 
                     <div *ngSwitchCase="'text'">
-                        <item-response-form-textarea [formGroup]="responseForm" [inputType]="task.taskConfig.inputType" [controlName]="'responseInput'" [inputId]="'responseInput'" [describedby]="'responseHelp'"></item-response-form-textarea>
+                        <item-response-form-textarea [formGroup]="responseForm" [inputType]="item.itemConfig.inputType" [controlName]="'responseInput'" [inputId]="'responseInput'" [describedby]="'responseHelp'"></item-response-form-textarea>
                     </div>
 
                     <div *ngSwitchCase="'single-choice'">
-                        <item-response-form-radio [formGroup]="responseForm" [controlName]="'responseInput'" [choices]="task.choices" [describedby]="'responseHelp'"></item-response-form-radio>
+                        <item-response-form-radio [formGroup]="responseForm" [controlName]="'responseInput'" [choices]="item.choices" [describedby]="'responseHelp'"></item-response-form-radio>
                     </div>
 
                     <div *ngSwitchCase="'multiple-choice'">
-                        <item-response-form-checkbox [formGroup]="responseForm" [choices]="task.choices" [describedby]="'responseHelp'"></item-response-form-checkbox>
+                        <item-response-form-checkbox [formGroup]="responseForm" [choices]="item.choices" [describedby]="'responseHelp'"></item-response-form-checkbox>
                     </div>
 
                     <div *ngSwitchCase="'listing'">
-                        <item-response-form-listing [formGroup]="responseForm" [choices]="task.choices" [describedby]="'responseHelp'"></item-response-form-listing>
+                        <item-response-form-listing [formGroup]="responseForm" [choices]="item.choices" [describedby]="'responseHelp'"></item-response-form-listing>
                     </div>
 
                     <div *ngSwitchCase="'ordering'">
-                        <item-response-form-ordering [formGroup]="responseForm" [choices]="task.choices" [describedby]="'responseHelp'"></item-response-form-ordering>
+                        <item-response-form-ordering [formGroup]="responseForm" [choices]="item.choices" [describedby]="'responseHelp'"></item-response-form-ordering>
                     </div>
 
 

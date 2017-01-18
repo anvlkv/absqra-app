@@ -1,93 +1,103 @@
-import {Tasks} from '../../../both/collections/tasks.collection';
-import {ISingleTask} from '../../../both/models/single-task.model';
+import {Items} from '../../../both/collections/items.collection';
+import {ISingleItem} from '../../../both/models/single-item.model';
 /**
  * Created by a.nvlkv on 19/11/2016.
  */
 
 export function loadTasks(){
-    if (Tasks.find().cursor.count() === 0){
-        const tasks: ISingleTask[] =[
+    if (Items.find().cursor.count() === 0){
+        const tasks: ISingleItem[] =[
             {
+                name:'item 1',
                 primaryText: 'Do you agree?',
                 guidanceText: 'Use yes or no button to answer',
-                taskConfig: {
-                    taskType: 'yes-no'
+                itemConfig: {
+                    itemType: 'yes-no'
                 }
             },
             {
+                name:'item 2',
                 primaryText: 'What is your name?',
                 guidanceText: 'Type your response in input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'text',
                     maxChar: 64,
                     minChar: 2
                 }
             },
             {
+                name:'item 3',
                 primaryText: 'How old are you?',
                 guidanceText: 'Type your response in input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'number',
                     maxVal: 180,
                     minVal: 1
                 }
             },
             {
+                name:'item 4',
                 primaryText: 'What is your favorite color?',
                 guidanceText: 'Choose color using an input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'color',
                 }
             },
             {
+                name:'item 5',
                 primaryText: 'What is your date of birth?',
                 guidanceText: 'Choose date using an input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'date'
                 }
             },
             {
+                name:'item 6',
                 primaryText: 'What time is it?',
                 guidanceText: 'Enter current time using an input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'time'
                 }
             },
             {
+                name:'item 7',
                 primaryText: 'What is your favorite search engine?',
                 guidanceText: 'Enter a url using an input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'url'
                 }
             },
             {
+                name:'item 8',
                 primaryText: 'What is your email?',
                 guidanceText: 'Enter email using an input',
-                taskConfig: {
-                    taskType: 'input',
+                itemConfig: {
+                    itemType: 'input',
                     inputType: 'email'
                 }
             },
             {
+                name:'item 9',
                 primaryText: 'What was your reason to answer this survey?',
                 guidanceText: 'Enter a short reflection using an input',
-                taskConfig: {
-                    taskType: 'text',
+                itemConfig: {
+                    itemType: 'text',
                     maxChar: 120,
                     minChar: 20,
                 }
             },
             {
+                name:'item 10',
                 primaryText: 'Which item would you choose?',
                 guidanceText: 'Select an item from list bellow',
-                taskConfig: {
-                    taskType: 'single-choice',
+                itemConfig: {
+                    itemType: 'single-choice',
                     allowOther: true,
                     allowUndefined: true,
                 },
@@ -107,10 +117,11 @@ export function loadTasks(){
                 ]
             },
             {
+                name:'item 11',
                 primaryText: 'Which items would you choose?',
                 guidanceText: 'Select a number of items from list bellow',
-                taskConfig: {
-                    taskType: 'multiple-choice',
+                itemConfig: {
+                    itemType: 'multiple-choice',
                     allowOther: true,
                     maxCount: 4,
                     minCount: 2
@@ -143,27 +154,30 @@ export function loadTasks(){
                 ]
             },
             {
+                name:'item 12',
                 primaryText: 'This is a display item',
                 guidanceText: 'Please have a look at this item',
-                taskConfig: {
-                    taskType: 'display',
+                itemConfig: {
+                    itemType: 'display',
                 },
                 display: '<h3>This is h3 heading, yup?</h3>'
             },
             {
+                name:'item 13',
                 primaryText: 'Please list some items',
                 guidanceText: 'Enter items using a list input. Press enter to add a new item',
-                taskConfig: {
-                    taskType: 'listing',
+                itemConfig: {
+                    itemType: 'listing',
                     maxCount: 16,
                     minCount: 2
                 },
             },
             {
+                name:'item 14',
                 primaryText: 'Please list some items in each list',
                 guidanceText: 'Enter items using a list input. Press enter to add a new item',
-                taskConfig: {
-                    taskType: 'listing',
+                itemConfig: {
+                    itemType: 'listing',
                     maxCount: 16,
                     minCount: 2
                 },
@@ -180,19 +194,21 @@ export function loadTasks(){
                 ],
             },
             {
+                name:'item 15',
                 primaryText: 'Please order items',
                 guidanceText: 'Drag and drop to reorder',
-                taskConfig: {
-                    taskType: 'ordering',
+                itemConfig: {
+                    itemType: 'ordering',
                     maxCount: 16,
                     minCount: 2
                 },
             },
             {
+                name:'item 16',
                 primaryText: 'Please rate items',
                 guidanceText: 'Rate items using a rating input',
-                taskConfig: {
-                    taskType: 'rating',
+                itemConfig: {
+                    itemType: 'rating',
                     allowUndefined: true
                 },
                 options:[
@@ -225,10 +241,11 @@ export function loadTasks(){
                 ]
             },
             {
+                name:'item 17',
                 primaryText: 'Please group items',
                 guidanceText: 'Drag and drop items on existing groups. Drag and drop items on empty space to crate new group',
-                taskConfig: {
-                    taskType: 'grouping',
+                itemConfig: {
+                    itemType: 'grouping',
                     allowNewGroups: true
                 },
                 options:[
@@ -273,7 +290,7 @@ export function loadTasks(){
         ];
 
         tasks.forEach((task)=>{
-            Tasks.insert(task);
+            Items.insert(task);
         })
     }
 }

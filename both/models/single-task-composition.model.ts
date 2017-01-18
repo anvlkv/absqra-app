@@ -1,4 +1,4 @@
-import {ISingleTask} from "../../../both/models/single-task.model";
+import {ISingleItem} from "./single-item.model";
 /**
  * Created by a.nvlkv on 11/01/2017.
  */
@@ -10,7 +10,7 @@ export interface ISingleChoice{
     checked: boolean
 }
 
-export interface ISingleTaskComposition extends ISingleTask{
+export interface ISingleItemComposition extends ISingleItem{
     choices?: ISingleChoice[]
 }
 

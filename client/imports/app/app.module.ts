@@ -9,7 +9,6 @@ import {SequenceResponseModule} from "./sequence-response/sequence-response.modu
 import {PARTIALS_DECLARATIONS} from "./partials";
 import {DndModule} from "ng2-dnd";
 import {SequenceEditorModule} from "./sequence-editor/sequence-editor.module";
-import {SequenceEditorComponent} from "./sequence-editor/sequence-editor.component";
 
 /**
  * Created by a.nvlkv on 19/11/2016.
@@ -34,15 +33,13 @@ import {SequenceEditorComponent} from "./sequence-editor/sequence-editor.compone
         ...PARTIALS_DECLARATIONS
     ],
     bootstrap:[
-        AppComponent
+        AppComponent,
     ],
     exports:[
         RouterModule,
         DndModule,
-        NgbModule
+        NgbModule,
     ]
 })
 
 export class AppModule{}
-
-console.log(routes);
