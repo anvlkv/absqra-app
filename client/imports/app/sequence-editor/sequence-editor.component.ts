@@ -24,62 +24,78 @@ import {ISingleItem} from "../../../../both/models/single-item.model";
 export class SequenceEditorComponent implements OnInit, OnDestroy{
     paramsSub: Subscription;
     sequenceSub: Subscription;
+    itemsSub: Subscription;
     sequenceId: string;
     sequence: ISequence;
     items: Observable<ISingleItem[]>;
     sequenceDescriptorFormGroup: FormGroup;
     zone: NgZone;
     sequenceEditorIsActive: boolean;
-
+    activeItemEditor: string;
+    sequenceItemsSub: Subscription;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private formBuilder: FormBuilder,
     ){
-        this.zone = new NgZone({enableLongStackTrace: false});
+        this.zone = new NgZone({enableLongStackTrace: true});
     }
 
     ngOnInit(){
 
-        this.paramsSub = this.route.params
-            .subscribe(params => {
-                this.sequenceId = params['sequenceId'];
-                // this.itemId = params['itemId'];
+        this.paramsSub = this.route.params.subscribe(params => {
+            this.sequenceId = params['sequenceId'];
 
-                if (this.sequenceSub) {
-                    this.sequenceSub.unsubscribe();
+            if (this.sequenceSub) {
+                this.sequenceSub.unsubscribe();
+                if(this.itemsSub){
+                    this.itemsSub.unsubscribe();
                 }
+            }
 
-
+            if(this.sequenceId){
                 this.sequenceSub = MeteorObservable.subscribe('author-per-sequence-subscription', this.sequenceId).subscribe(()=>{
                     this.zone.run(()=>{
                         this.sequence = Sequences.findOne();
                         if (this.sequence){
                             this.sequenceEditorIsActive = false;
-
-                            this.items = Items.find().zone();
-
-                            console.log(Items.find().cursor.count())
-
-                        }else{
-                            this.sequenceEditorIsActive = true;
-                            this.sequence = {name:'', description:'', itemsSequence:['']};
+                            this.sequenceDescriptorFormGroup = this.formBuilder.group({
+                                sequenceName: [this.sequence.name, Validators.required],
+                                sequenceDescription: [this.sequence.description]
+                            });
                         }
-                        this.sequenceDescriptorFormGroup = this.formBuilder.group({
-                            sequenceName: [this.sequence.name, Validators.required],
-                            sequenceDescription: [this.sequence.description]
-                        })
+
+                        this.sequenceItemsSub = Sequences.find(this.sequenceId).subscribe((seq:ISequence)=>{
+                            if(seq[0].itemsSequence){
+                                this.itemsSub = MeteorObservable.subscribe('author-sequence-items-subscription', seq[0].itemsSequence).subscribe(()=>{
+                                    this.items = Items.find().zone();
+                                })
+                            }
+                        });
                     });
                 });
 
-            });
+            }else{
+                this.sequenceEditorIsActive = true;
+                this.sequence = {name:'', description:''};
+                this.sequenceDescriptorFormGroup = this.formBuilder.group({
+                    sequenceName: [this.sequence.name, Validators.required],
+                    sequenceDescription: [this.sequence.description]
+                });
+            }
 
+        });
     }
 
     ngOnDestroy(){
         this.paramsSub.unsubscribe();
-        this.sequenceSub.unsubscribe();
+        if(this.sequenceSub)
+            this.sequenceSub.unsubscribe();
+        if(this.itemsSub)
+            this.itemsSub.unsubscribe();
+        if(this.sequenceItemsSub)
+            this.sequenceItemsSub.unsubscribe();
     }
 
     saveSequenceDescriptor(form: FormGroup){
@@ -90,24 +106,22 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
                     description:form.value.sequenceDescription
                 }})
 
+
             sequenceSaveResult.subscribe((result:any)=>{
                 this.zone.run(()=>{
                     if (result.insertedId){
-                        this.sequenceId = result.insertedId;
-                        this.router.navigate(['edit', this.sequenceId]);
+                        this.sequenceEditorIsActive = false;
+                        this.router.navigate(['edit', result.insertedId]);
                     }
-
-                    this.sequenceEditorIsActive = false;
                 })
             })
         }
     }
 
     createNewItem(){
-        MeteorObservable.call('newItemInSequence', this.sequenceId).subscribe(()=>{
-            console.log('new item added');
+        MeteorObservable.call('newItemInSequence', this.sequenceId).subscribe((resp: string)=>{
+            this.activeItemEditor = resp;
         }, (error)=>{
-            console.log('new item not added:');
             console.log(error);
         });
     }

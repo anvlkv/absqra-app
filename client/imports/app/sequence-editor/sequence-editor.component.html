@@ -2,7 +2,7 @@
     <div class="col-12 col-sm-4 col-md-3 sidebar">
         <h3>Items:</h3>
         <nav class="nav flex-column">
-            <a class="nav-link active" *ngFor="let item of items | async" href="#item_{{item._id}}">{{item.name}}</a>
+            <a class="nav-link active" *ngFor="let item of items | async" href="#item_{{item}}">{{item.name}}</a>
             <a class="nav-link btn btn-outline-primary" (click)="createNewItem()">+ Add an item</a>
         </nav>
     </div>
@@ -16,7 +16,7 @@
                 <h1 class="display-3">{{sequence.name}}</h1>
                 <p class="lead">{{sequence.description}}</p>
             </div>
-            <div editor>
+            <div editor *ngIf="sequenceDescriptorFormGroup">
                 <form [formGroup]="sequenceDescriptorFormGroup" (ngSubmit)="saveSequenceDescriptor(sequenceDescriptorFormGroup)">
                     <fieldset class="form-group">
                         <label for="sequenceName">Sequence name:</label>
@@ -34,9 +34,17 @@
             </div>
         </inplace-edit-switch>
         <!--item form-->
-        <div class="card-deck" dnd-sortable-container>
+        <div class="col-12" dnd-sortable-container>
 
-            <item-editor dnd-sortable></item-editor>
+            <inplace-edit-switch class="card" *ngFor="let item of items | async" dnd-sortable [editState]="activeItemEditor === item._id">
+                <div viewer class="card-block">
+                    <h3>{{item.name}}</h3>
+                    <p>{{item.description}}</p>
+                </div>
+                <div editor class="card-block">
+                    <item-editor></item-editor>
+                </div>
+            </inplace-edit-switch >
         </div>
         <!--</div>-->
     </div>

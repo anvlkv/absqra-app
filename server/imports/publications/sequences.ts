@@ -4,6 +4,10 @@ import {Items} from "../../../both/collections/items.collection";
 import {SequencesResponses} from "../../../both/collections/sequences-responses.collection";
 import {check} from "meteor/check";
 import {ISequence} from "../../../both/models/single-sequence.model";
+import {ObservableCursor} from "meteor-rxjs";
+import {ISingleItem} from "../../../both/models/single-item.model";
+import {sequence} from "@angular/core";
+
 
 /**
  * Created by a.nvlkv on 27/12/2016.
@@ -25,20 +29,19 @@ Meteor.publish('respondent-per-sequence-subscription', (sequenceId: string)=>{
 });
 
 Meteor.publish('author-per-sequence-subscription', (sequenceId: string)=>{
-    const pubs = [];
     if(sequenceId){
         check(sequenceId, String);
 
-        let seq = Sequences.find(sequenceId);
-        seq.forEach((s: ISequence)=>{
-            let itms = Items.find({_id:{$in:s.itemsSequence}});
-            pubs.concat(itms);
-            console.log(itms.cursor.count())
-        })
-        pubs.push(seq);
-        console.log(seq.cursor.count())
-
+        return Sequences.find(sequenceId);
     }
-    return pubs;
+});
 
-})
+Meteor.publish('author-sequence-items-subscription', (itemsIds: string[])=>{
+    if(itemsIds){
+        for(let str in itemsIds){
+            check(str, String);
+        }
+
+        return Items.find({_id:{$in:itemsIds}});
+    }
+});

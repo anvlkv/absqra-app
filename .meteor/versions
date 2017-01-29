@@ -12,7 +12,7 @@ barbatus:typescript-compiler@0.8.7
 barbatus:typescript-runtime@0.1.2
 base64@1.0.10
 binary-heap@1.0.10
-blaze@2.2.0
+blaze@2.2.1
 blaze-tools@1.0.10
 boilerplate-generator@1.0.11
 caching-compiler@1.1.9
@@ -71,12 +71,12 @@ minimongo@1.0.19
 mobile-experience@1.0.4
 mobile-status-bar@1.0.13
 modules@0.7.7
-modules-runtime@0.7.7
+modules-runtime@0.7.8
 mongo@1.1.14
 mongo-id@1.0.6
 msavin:jetsetter@2.0.0
 msavin:mongol@2.0.1
-npm-mongo@2.2.11_2
+npm-mongo@2.2.16_1
 observe-sequence@1.0.14
 ordered-dict@1.0.9
 practicalmeteor:chai@2.1.0_1

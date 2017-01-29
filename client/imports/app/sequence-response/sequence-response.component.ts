@@ -41,7 +41,7 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
         private router: Router,
         private formBuilder: FormBuilder,
     ){
-        this.zone = new NgZone({enableLongStackTrace: false});
+        this.zone = new NgZone({enableLongStackTrace: true});
     }
 
     ngOnInit(){
