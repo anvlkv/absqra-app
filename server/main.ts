@@ -1,4 +1,3 @@
-import { Meteor } from 'meteor/meteor';
 import './imports/publications/items';
 import './imports/publications/sequences';
 import '../both/methods/sequence.methods';
@@ -11,4 +10,4 @@ import {loadSequence} from "./imports/fixtures/sequence";
 Meteor.startup(()=>{
     loadTasks();
     loadSequence();
-})
+});

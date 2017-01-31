@@ -2,8 +2,9 @@
     <div class="col-12 col-sm-4 col-md-3 sidebar">
         <h3>Items:</h3>
         <nav class="nav flex-column">
-            <a class="nav-link active" *ngFor="let item of items | async" href="#item_{{item}}">{{item.name}}</a>
+            <a class="nav-link active" *ngFor="let itemId of sequence?.itemsSequence" href="#item_{{itemId}}">{{ getItem(itemId)?.name }}</a>
             <a class="nav-link btn btn-outline-primary" (click)="createNewItem()">+ Add an item</a>
+
         </nav>
     </div>
     <div class="col-12 col-sm-8 col-md-9">
@@ -21,12 +22,12 @@
                     <fieldset class="form-group">
                         <label for="sequenceName">Sequence name:</label>
                         <small class="form-text text-muted">This name is visible to respondents</small>
-                        <input class="form-control" type="text" formControlName="sequenceName" placeholder="Give your sequence a descriptive title" [(ngModel)]="sequence.name">
+                        <input class="form-control" type="text" formControlName="sequenceName" id="sequenceName" placeholder="Give your sequence a descriptive title" [(ngModel)]="sequence.name">
                     </fieldset>
                     <fieldset class="form-group">
-                        <label for="sequenceName">Description:</label>
+                        <label for="sequenceDescription">Description:</label>
                         <small class="form-text text-muted">This text is <span class="caps">not</span> visible to respondents</small>
-                        <textarea class="form-control" type="text" formControlName="sequenceDescription" placeholder="Note here all the general information" [(ngModel)]="sequence.description"></textarea>
+                        <textarea class="form-control" type="text" formControlName="sequenceDescription" id="sequenceDescription" placeholder="Note here all the general information" [(ngModel)]="sequence.description"></textarea>
                     </fieldset>
                     <button type="reset" (click)="sequenceEditorIsActive = false" class="btn btn-outline-secondary">Cancel editing</button>
                     <button type="submit" class="btn btn-primary">Done</button>
@@ -36,13 +37,13 @@
         <!--item form-->
         <div class="col-12" dnd-sortable-container>
 
-            <inplace-edit-switch class="card" *ngFor="let item of items | async" dnd-sortable [editState]="activeItemEditor === item._id">
+            <inplace-edit-switch class="card" *ngFor="let itemId of sequence?.itemsSequence" dnd-sortable [editState]="activeItemEditor === itemId">
                 <div viewer class="card-block">
-                    <h3>{{item.name}}</h3>
-                    <p>{{item.description}}</p>
+                    <h3>{{ getItem(itemId)?.name }}</h3>
+                    <p>{{ getItem(itemId)?.description }}</p>
                 </div>
                 <div editor class="card-block">
-                    <item-editor></item-editor>
+                    <item-editor [itemId]="itemId"></item-editor>
                 </div>
             </inplace-edit-switch >
         </div>

@@ -1,4 +1,3 @@
-import {check} from "meteor/check";
 import {Items} from "../collections/items.collection";
 import {Sequences} from "../collections/sequences.collection";
 

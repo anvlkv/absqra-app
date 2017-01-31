@@ -1,11 +1,6 @@
-import {Meteor} from  "meteor/meteor"
 import {Sequences} from "../../../both/collections/sequences.collection";
 import {Items} from "../../../both/collections/items.collection";
 import {SequencesResponses} from "../../../both/collections/sequences-responses.collection";
-import {check} from "meteor/check";
-import {ISequence} from "../../../both/models/single-sequence.model";
-import {ObservableCursor} from "meteor-rxjs";
-import {ISingleItem} from "../../../both/models/single-item.model";
 import {sequence} from "@angular/core";
 
 
@@ -36,12 +31,3 @@ Meteor.publish('author-per-sequence-subscription', (sequenceId: string)=>{
     }
 });
 
-Meteor.publish('author-sequence-items-subscription', (itemsIds: string[])=>{
-    if(itemsIds){
-        for(let str in itemsIds){
-            check(str, String);
-        }
-
-        return Items.find({_id:{$in:itemsIds}});
-    }
-});

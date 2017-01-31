@@ -1,15 +1,12 @@
-import {Component, OnInit, OnDestroy, ChangeDetectorRef, NgZone} from "@angular/core";
+import {Component, OnInit, OnDestroy, NgZone} from "@angular/core";
 import template from "./sequence-editor.component.html";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MeteorObservable} from "meteor-rxjs";
 import {Sequences} from "../../../../both/collections/sequences.collection";
 import {ISequence} from "../../../../both/models/single-sequence.model";
 import {Subscription, Observable} from 'rxjs';
-import {SequencesResponses} from "../../../../both/collections/sequences-responses.collection";
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
-import {ItemsResponses} from "../../../../both/collections/items-responses.collection";
 import {Items} from "../../../../both/collections/items.collection";
-import {ISingleItemComposition, ISingleChoice} from "../../../../both/models/single-task-composition.model";
 import {ISingleItem} from "../../../../both/models/single-item.model";
 
 /**
@@ -22,17 +19,21 @@ import {ISingleItem} from "../../../../both/models/single-item.model";
 })
 
 export class SequenceEditorComponent implements OnInit, OnDestroy{
-    paramsSub: Subscription;
-    sequenceSub: Subscription;
-    itemsSub: Subscription;
-    sequenceId: string;
-    sequence: ISequence;
-    items: Observable<ISingleItem[]>;
-    sequenceDescriptorFormGroup: FormGroup;
-    zone: NgZone;
-    sequenceEditorIsActive: boolean;
-    activeItemEditor: string;
-    sequenceItemsSub: Subscription;
+    private paramsSub: Subscription;
+    private sequenceSub: Subscription;
+    private itemsSub: Subscription;
+    private sequenceId: string;
+    private sequence: ISequence;
+    private items: Observable<ISingleItem[]>;
+    private sequenceDescriptorFormGroup: FormGroup;
+    private zone: NgZone;
+    private sequenceEditorIsActive: boolean;
+    private activeItemEditor: string;
+    private sequenceItemsSub: Subscription;
+
+    private getItem(itemId){
+        return Items.findOne(itemId);
+    }
 
     constructor(
         private route: ActivatedRoute,
@@ -41,6 +42,8 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
     ){
         this.zone = new NgZone({enableLongStackTrace: true});
     }
+
+
 
     ngOnInit(){
 
@@ -104,17 +107,17 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
                 $set: {
                     name:form.value.sequenceName,
                     description:form.value.sequenceDescription
-                }})
+                }});
 
 
             sequenceSaveResult.subscribe((result:any)=>{
                 this.zone.run(()=>{
                     if (result.insertedId){
-                        this.sequenceEditorIsActive = false;
                         this.router.navigate(['edit', result.insertedId]);
                     }
+                    this.sequenceEditorIsActive = false;
                 })
-            })
+            });
         }
     }
 
@@ -125,4 +128,5 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
             console.log(error);
         });
     }
+
 }
