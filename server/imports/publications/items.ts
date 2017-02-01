@@ -9,7 +9,7 @@ Meteor.publish('item', (itemId: string)=> Items.find(itemId));
 Meteor.publish('author-sequence-items-subscription', (itemsIds: string[])=>{
     if(itemsIds){
         for(let str in itemsIds){
-            check(str, String);
+            check(itemsIds[str], String);
         }
 
         return Items.find({_id:{$in:itemsIds}}, {fields:{name:1, description: 1}});

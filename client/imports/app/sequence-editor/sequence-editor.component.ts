@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, NgZone} from "@angular/core";
+import {Component, OnInit, OnDestroy, NgZone, ChangeDetectorRef, Pipe, PipeTransform} from "@angular/core";
 import template from "./sequence-editor.component.html";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MeteorObservable} from "meteor-rxjs";
@@ -8,6 +8,7 @@ import {Subscription, Observable} from 'rxjs';
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {Items} from "../../../../both/collections/items.collection";
 import {ISingleItem} from "../../../../both/models/single-item.model";
+
 
 /**
  * Created by a.nvlkv on 01/12/2016.
@@ -31,19 +32,20 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
     private activeItemEditor: string;
     private sequenceItemsSub: Subscription;
 
-    private getItem(itemId){
-        return Items.findOne(itemId);
-    }
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private formBuilder: FormBuilder,
+        private _ch: ChangeDetectorRef
     ){
         this.zone = new NgZone({enableLongStackTrace: true});
     }
 
 
+    getItem(itemId){
+        return Items.findOne(itemId);
+    }
 
     ngOnInit(){
 
@@ -72,7 +74,8 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
                         this.sequenceItemsSub = Sequences.find(this.sequenceId).subscribe((seq:ISequence)=>{
                             if(seq[0].itemsSequence){
                                 this.itemsSub = MeteorObservable.subscribe('author-sequence-items-subscription', seq[0].itemsSequence).subscribe(()=>{
-                                    this.items = Items.find().zone();
+                                    this.items = Items.find({_id:{$in:seq[0].itemsSequence}}).zone();
+
                                 })
                             }
                         });
@@ -123,10 +126,29 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
 
     createNewItem(){
         MeteorObservable.call('newItemInSequence', this.sequenceId).subscribe((resp: string)=>{
-            this.activeItemEditor = resp;
+            this.zone.run(()=>{
+                this.activeItemEditor = resp;
+            })
         }, (error)=>{
             console.log(error);
         });
     }
+}
 
+@Pipe({
+    name: 'itemsSort',
+    pure: false
+})
+export class ItemSortPipe implements PipeTransform{
+
+    transform(items: ISingleItem[], sequence: string[]):ISingleItem[]{
+        let sortable: ISingleItem[];
+        if(items && sequence) {
+            sortable = items.slice();
+            sortable.sort((itm1, itm2) => {
+                return sequence.indexOf(itm2._id) - sequence.indexOf(itm1._id);
+            });
+        }
+        return sortable;
+    }
 }

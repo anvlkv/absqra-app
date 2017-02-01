@@ -2,7 +2,7 @@ import {NgModule} from "@angular/core";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 import {BrowserModule} from "@angular/platform-browser";
-import {SequenceEditorComponent} from "./sequence-editor.component";
+import {SequenceEditorComponent, ItemSortPipe} from "./sequence-editor.component";
 import {RouterModule} from "@angular/router";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ItemEditorModule} from "../item-editor/item-editor.module";
@@ -24,7 +24,8 @@ import {InplaceEditSwitchComponent} from "../partials/inplace-edit-switch/inplac
     ],
     declarations:[
         SequenceEditorComponent,
-        InplaceEditSwitchComponent
+        InplaceEditSwitchComponent,
+        ItemSortPipe
     ],
     bootstrap:[
         SequenceEditorComponent

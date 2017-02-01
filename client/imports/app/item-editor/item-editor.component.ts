@@ -1,5 +1,5 @@
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {Input, Component, OnInit, NgZone} from "@angular/core";
+import {Input, Component, OnInit, NgZone, Output, EventEmitter} from "@angular/core";
 import template from "./item-editor.component.html";
 import {MeteorObservable} from "meteor-rxjs";
 import {Subscription} from "rxjs";
@@ -19,6 +19,53 @@ export class ItemEditorComponent implements OnInit{
     private item: ISingleItem;
     private zone: NgZone;
     private itemBaseFormGroup: FormGroup;
+    private itemTypeOptions: {value: string; verbose: string}[];
+    @Output() onItemSaved: EventEmitter<string> = new EventEmitter<string>();
+
+    constructor(
+        private formBuilder: FormBuilder,
+    ){
+        this.zone = new NgZone({enableLongStackTrace: true});
+
+        this.itemTypeOptions=[
+            {
+                value:'yes-no',
+                verbose:'Yes/No'
+            },
+            {
+                value:'input',
+                verbose:'Single field'
+            },
+            {
+                value:'text',
+                verbose:'Text'
+            },
+            {
+                value:'single-choice',
+                verbose:'Single choice'
+            },
+            {
+                value:'multiple-choice',
+                verbose:'Multiple choice'
+            },
+            {
+                value:'display',
+                verbose:'Display'
+            },
+            {
+                value:'listing',
+                verbose:'List input'
+            },
+            {
+                value:'ordering',
+                verbose:'Drag-sorting'
+            },
+            {
+                value:'grouping',
+                verbose:'Grouping'
+            },
+        ]
+    }
 
     ngOnInit(){
         this.itemSub = MeteorObservable.subscribe('author-per-item-subscription', this.itemId).subscribe(()=>{
@@ -32,12 +79,17 @@ export class ItemEditorComponent implements OnInit{
                     })
                 });
             })
-        })
+        });
     }
 
-    constructor(
-        private formBuilder: FormBuilder,
-    ){
-        this.zone = new NgZone({enableLongStackTrace: true});
+    saveItemDescriptor(e){
+        e.preventDefault();
+        if(this.itemBaseFormGroup.valid){
+            Items.update(this.itemId, this.itemBaseFormGroup.value).subscribe((resp)=>{
+                if(resp)
+                    this.onItemSaved.emit(this.itemId);
+            })
+        }
     }
+
 }
