@@ -2,13 +2,10 @@
     <div class="col-12 col-sm-4 col-md-3 sidebar">
         <h3>Items:</h3>
         <nav class="nav flex-column">
-            <a class="nav-link active" *ngFor="let item of (items | async | itemsSort:sequence?.itemsSequence)" href="#item_{{item._id}}">{{ item.name }}</a>
+            <a class="nav-link active" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async))" href="#item_{{item?._id}}">{{ item?.name }}</a>
             <a class="nav-link btn btn-outline-primary" (click)="createNewItem()">+ Add an item</a>
 
         </nav>
-        <div *ngFor="let s of sequence?.itemsSequence">
-            {{s}}
-        </div>
     </div>
     <div class="col-12 col-sm-8 col-md-9">
         <inplace-edit-switch *ngIf="sequence" [editState]="sequenceEditorIsActive">
@@ -36,16 +33,25 @@
         <!--item form-->
         <div class="col-12" dnd-sortable-container>
 
-            <inplace-edit-switch class="card" *ngFor="let item of (items | async | itemsSort:sequence?.itemsSequence)" dnd-sortable [editState]="activeItemEditor === item._id">
+            <inplace-edit-switch class="card" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async))" dnd-sortable [editState]="activeItemEditor === item?._id">
                 <div viewer class="card-block">
-                    {{item._id}}
-                    <h3>{{ item.name }}</h3>
-                    <p>{{ item.description }}</p>
+                    <h3>{{ item?.name }}</h3>
+                    <p>{{ item?.description }}</p>
                 </div>
                 <div editor class="card-block">
-                    <item-editor (onItemSaved)="finishItemEditing($event)" [itemId]="item._id"></item-editor>
+                    <item-editor (onItemSaved)="finishItemEditing($event)" *ngIf="item?._id" [itemId]="item?._id"></item-editor>
                 </div>
             </inplace-edit-switch >
         </div>
     </div>
 </div>
+
+<!--<section *ngIf="item && responseForm">-->
+    <!--<item-response (submitCall)="submitItemResponse($event)" [item]="item" [(responseForm)]="responseForm" class="row"></item-response>-->
+    <!--<submit-control (submitCall)="submitItemResponse($event)" (resetCall)="resetResponseForm($event)"></submit-control>-->
+<!--</section>-->
+
+
+
+
+<!-- http://localhost:3000/response/MhqZ26EnQE96TLWZs/qZZGA5yGMtK46gA4s -->

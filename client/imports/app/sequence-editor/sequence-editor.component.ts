@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, NgZone, ChangeDetectorRef, Pipe, PipeTransform} from "@angular/core";
+import {Component, OnInit, OnDestroy, NgZone, Pipe, PipeTransform} from "@angular/core";
 import template from "./sequence-editor.component.html";
 import {ActivatedRoute, Router} from "@angular/router";
 import {MeteorObservable} from "meteor-rxjs";
@@ -8,7 +8,6 @@ import {Subscription, Observable} from 'rxjs';
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {Items} from "../../../../both/collections/items.collection";
 import {ISingleItem} from "../../../../both/models/single-item.model";
-import {forEach} from "@angular/router/src/utils/collection";
 
 
 /**
@@ -38,14 +37,8 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
         private route: ActivatedRoute,
         private router: Router,
         private formBuilder: FormBuilder,
-        private _ch: ChangeDetectorRef
     ){
         this.zone = new NgZone({enableLongStackTrace: true});
-    }
-
-
-    getItem(itemId){
-        return Items.findOne(itemId);
     }
 
     ngOnInit(){
@@ -72,15 +65,16 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
                             });
                         }
 
-                        this.sequenceItemsSub = Sequences.find(this.sequenceId, {fields: {itemsSequence:1}}).subscribe((seq:ISequence)=>{
-                            this.zone.run(()=>{
-                                if(seq[0].itemsSequence){
-                                    this.itemsSub = MeteorObservable.subscribe('author-sequence-items-subscription', seq[0].itemsSequence).subscribe(()=>{
-                                        this.items = Items.find({_id:{$in:seq[0].itemsSequence}}).zone();
+                        this.sequenceItemsSub = Sequences.find(this.sequenceId).subscribe((seq:ISequence)=>{
+                            if(seq[0].itemsSequence && seq[0].itemsSequence.every((item)=>!!item)){
+                                this.sequence = seq[0];
+                                if(this.itemsSub)
+                                    this.itemsSub.unsubscribe();
+                                this.itemsSub = MeteorObservable.subscribe('author-sequence-items-subscription', seq[0].itemsSequence).subscribe(()=>{
+                                    this.items = Items.find({_id:{$in:seq[0].itemsSequence}}).zone();
 
-                                    })
-                                }
-                            });
+                                })
+                            }
                         });
                     });
                 });
@@ -137,49 +131,28 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
         });
     }
 
-    finishItemEditing(id){
-        if(this.activeItemEditor === id)
-            this.activeItemEditor = '';
+    finishItemEditing(itemId){
+        this.zone.run(()=>{
+            if(this.activeItemEditor === itemId){
+                this.activeItemEditor = null;
+            }
+        })
+
     }
 }
 
 @Pipe({
     name: 'itemsSort',
+    pure: false
 })
 export class ItemSortPipe implements PipeTransform{
-
-    transform(items: ISingleItem[], sequence: string[]):ISingleItem[]{
-        let sortable: ISingleItem[];
-        if(items && sequence) {
-            sortable = items.slice();
-
-            // items.forEach((itm, i)=>{
-            //     let index = sequence.indexOf(itm._id);
-            //
-            // })
-            sortable.sort((itm1, itm2) => {
-                // console.log(sequence.indexOf(itm1._id), sequence.indexOf(itm2._id));
-                return sequence.indexOf(itm1._id) - sequence.indexOf(itm2._id)
-            });
-            // sortable.forEach((itm)=>{
-            //     console.log(itm._id, itm.name);
-            // });
+    transform(sequence: string[], items: ISingleItem[]):ISingleItem[]{
+        let sortable:ISingleItem[]=[];
+        if(sequence && items){
+            sequence.forEach((itemId)=>{
+                sortable.push(items.find((item)=>item._id===itemId));
+            })
         }
-
         return sortable;
     }
-}
-
-function recursivelySortArray (items:ISingleItem[], sequence:string[], sortable?:ISingleItem[]):ISingleItem[]{
-    sortable = sortable ? sortable : [];
-    items.forEach((itm, i)=>{
-        let index = sequence.indexOf(itm._id);
-        if(sortable.length >= index){
-            sortable.splice(index, 0 , itm);
-        }else{
-            items.push(items.splice(i, 1));
-            sortable = recursivelySortArray(items, sequence, sortable);
-        }
-    })
-    return sortable;
 }

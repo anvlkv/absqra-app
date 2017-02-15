@@ -1,5 +1,8 @@
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
-import {Input, Component, OnInit, NgZone, Output, EventEmitter} from "@angular/core";
+import {
+    Input, Component, OnInit, NgZone, Output, EventEmitter, AfterViewInit, ViewChildren,
+    ChangeDetectorRef
+} from "@angular/core";
 import template from "./item-editor.component.html";
 import {MeteorObservable} from "meteor-rxjs";
 import {Subscription} from "rxjs";
@@ -13,7 +16,7 @@ import {ISingleItem} from "../../../../both/models/single-item.model";
     template
 })
 
-export class ItemEditorComponent implements OnInit{
+export class ItemEditorComponent implements OnInit, AfterViewInit{
     @Input() itemId: string;
     private itemSub: Subscription;
     private item: ISingleItem;
@@ -24,6 +27,7 @@ export class ItemEditorComponent implements OnInit{
 
     constructor(
         private formBuilder: FormBuilder,
+        private _ch: ChangeDetectorRef
     ){
         this.zone = new NgZone({enableLongStackTrace: true});
 
@@ -82,14 +86,17 @@ export class ItemEditorComponent implements OnInit{
         });
     }
 
+    ngAfterViewInit(){
+
+    }
+
     saveItemDescriptor(e){
+        e.preventDefault();
         if(this.itemBaseFormGroup.valid){
             Items.update(this.itemId, this.itemBaseFormGroup.value).subscribe((resp)=>{
-                this.zone.run(()=>{
-                    if(resp)
-                        this.onItemSaved.emit(this.itemId);
-                })
-            });
+                if(resp)
+                    this.onItemSaved.emit(this.itemId);
+            })
         }
     }
 
