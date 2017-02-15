@@ -6,6 +6,9 @@
             <a class="nav-link btn btn-outline-primary" (click)="createNewItem()">+ Add an item</a>
 
         </nav>
+        <div *ngFor="let s of sequence?.itemsSequence">
+            {{s}}
+        </div>
     </div>
     <div class="col-12 col-sm-8 col-md-9">
         <inplace-edit-switch *ngIf="sequence" [editState]="sequenceEditorIsActive">
@@ -35,23 +38,14 @@
 
             <inplace-edit-switch class="card" *ngFor="let item of (items | async | itemsSort:sequence?.itemsSequence)" dnd-sortable [editState]="activeItemEditor === item._id">
                 <div viewer class="card-block">
+                    {{item._id}}
                     <h3>{{ item.name }}</h3>
                     <p>{{ item.description }}</p>
                 </div>
                 <div editor class="card-block">
-                    <item-editor [itemId]="item._id"></item-editor>
+                    <item-editor (onItemSaved)="finishItemEditing($event)" [itemId]="item._id"></item-editor>
                 </div>
             </inplace-edit-switch >
         </div>
     </div>
 </div>
-
-<!--<section *ngIf="item && responseForm">-->
-    <!--<item-response (submitCall)="submitItemResponse($event)" [item]="item" [(responseForm)]="responseForm" class="row"></item-response>-->
-    <!--<submit-control (submitCall)="submitItemResponse($event)" (resetCall)="resetResponseForm($event)"></submit-control>-->
-<!--</section>-->
-
-
-
-
-<!-- http://localhost:3000/response/MhqZ26EnQE96TLWZs/qZZGA5yGMtK46gA4s -->

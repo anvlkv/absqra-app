@@ -83,12 +83,13 @@ export class ItemEditorComponent implements OnInit{
     }
 
     saveItemDescriptor(e){
-        e.preventDefault();
         if(this.itemBaseFormGroup.valid){
             Items.update(this.itemId, this.itemBaseFormGroup.value).subscribe((resp)=>{
-                if(resp)
-                    this.onItemSaved.emit(this.itemId);
-            })
+                this.zone.run(()=>{
+                    if(resp)
+                        this.onItemSaved.emit(this.itemId);
+                })
+            });
         }
     }
 
