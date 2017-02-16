@@ -131,13 +131,8 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
         });
     }
 
-    finishItemEditing(itemId){
-        this.zone.run(()=>{
-            if(this.activeItemEditor === itemId){
-                this.activeItemEditor = null;
-            }
-        })
-
+    updateSequence(e){
+        Sequences.update(this.sequenceId, {$set:{itemsSequence:this.sequence.itemsSequence}});
     }
 }
 

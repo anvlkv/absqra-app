@@ -23,7 +23,7 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
     private zone: NgZone;
     private itemBaseFormGroup: FormGroup;
     private itemTypeOptions: {value: string; verbose: string}[];
-    @Output() onItemSaved: EventEmitter<string> = new EventEmitter<string>();
+    private itemEditorIsActive: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -82,6 +82,9 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
                         itemType: [this.item.itemConfig ? this.item.itemConfig.itemType : '', Validators.required]
                     })
                 });
+                if(!this.item.name){
+                    this.itemEditorIsActive = true;
+                }
             })
         });
     }
@@ -91,11 +94,12 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
     }
 
     saveItemDescriptor(e){
-        e.preventDefault();
         if(this.itemBaseFormGroup.valid){
             Items.update(this.itemId, this.itemBaseFormGroup.value).subscribe((resp)=>{
-                if(resp)
-                    this.onItemSaved.emit(this.itemId);
+                if(resp){
+                    this.itemEditorIsActive = false;
+                }
+
             })
         }
     }

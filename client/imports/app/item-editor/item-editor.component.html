@@ -1,27 +1,33 @@
-<div *ngIf="itemBaseFormGroup">
-    <form [formGroup]="itemBaseFormGroup" (ngSubmit)="saveItemDescriptor($event)">
-        <fieldset class="form-group">
-            <label for="name">Name:</label>
-            <small class="form-text text-muted"></small>
-            <input class="form-control" type="text" formControlName="name" id="name">
-        </fieldset>
-        <fieldset class="form-group">
-            <label for="description">Description:</label>
-            <small class="form-text text-muted"></small>
-            <textarea class="form-control" type="text" formControlName="description" id="description"></textarea>
-        </fieldset>
-        <fieldset class="form-group" formGroupName="itemConfig">
-            <label for="itemType">Type:</label>
-            <small class="form-text text-muted"></small>
-            <!--<select class="form-control" type="text" name="itemType" id="itemType"></select>-->
-            <div id="itemType" class="form-control btn-group-sm btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
-                <label *ngFor="let opt of itemTypeOptions" class="btn btn-sm btn-primary">
-                    <input formControlName="itemType" value="{{opt.value}}" type="radio" autocomplete="off">{{opt.verbose}}
-                </label>
-            </div>
-        </fieldset>
-        <button type="reset" class="btn btn-outline-secondary">Cancel editing</button>
-        <button type="submit" class="btn btn-primary">Done</button>
-    </form>
-</div>
+<inplace-edit-switch *ngIf="item" [editState]="itemEditorIsActive">
+    <div viewer>
+        <h3>{{ item?.name }}</h3>
+        <p>{{ item?.description }}</p>
+    </div>
 
+    <div editor *ngIf="itemBaseFormGroup">
+        <form [formGroup]="itemBaseFormGroup" (ngSubmit)="saveItemDescriptor($event)">
+            <fieldset class="form-group">
+                <label for="name">Name:</label>
+                <small class="form-text text-muted"></small>
+                <input class="form-control" type="text" formControlName="name" id="name">
+            </fieldset>
+            <fieldset class="form-group">
+                <label for="description">Description:</label>
+                <small class="form-text text-muted"></small>
+                <textarea class="form-control" type="text" formControlName="description" id="description"></textarea>
+            </fieldset>
+            <fieldset class="form-group" formGroupName="itemConfig">
+                <label for="itemType">Type:</label>
+                <small class="form-text text-muted"></small>
+                <!--<select class="form-control" type="text" name="itemType" id="itemType"></select>-->
+                <div id="itemType" class="form-control btn-group-sm btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
+                    <label *ngFor="let opt of itemTypeOptions" class="btn btn-sm btn-primary">
+                        <input formControlName="itemType" value="{{opt.value}}" type="radio" autocomplete="off">{{opt.verbose}}
+                    </label>
+                </div>
+            </fieldset>
+            <button type="reset" class="btn btn-outline-secondary">Cancel editing</button>
+            <button type="submit" class="btn btn-primary">Done</button>
+        </form>
+    </div>
+</inplace-edit-switch>

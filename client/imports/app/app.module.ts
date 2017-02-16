@@ -1,14 +1,16 @@
-import {NgModule, CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppComponent} from './app.component';
 import {RouterModule} from '@angular/router';
 import {routes} from './app.routes';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
-import {SequenceResponseModule} from "./sequence-response/sequence-response.module";
-import {PARTIALS_DECLARATIONS} from "./partials";
 import {DndModule} from "ng2-dnd";
-import {SequenceEditorModule} from "./sequence-editor/sequence-editor.module";
+import {PARTIALS_DECLARATIONS} from "./partials";
+import {SequenceResponseComponent} from "./sequence-response/sequence-response.component";
+import {SequenceEditorComponent, ItemSortPipe} from "./sequence-editor/sequence-editor.component";
+import {ItemEditorComponent} from "./item-editor/item-editor.component";
+import {ItemResponseModule} from "./item-response/item-response.module";
 
 /**
  * Created by a.nvlkv on 19/11/2016.
@@ -25,12 +27,15 @@ import {SequenceEditorModule} from "./sequence-editor/sequence-editor.module";
         NgbModule.forRoot(),
         DndModule.forRoot(),
         //my modules
-        SequenceResponseModule,
-        SequenceEditorModule
+        ItemResponseModule
     ],
     declarations:[
         AppComponent,
-        ...PARTIALS_DECLARATIONS
+        ...PARTIALS_DECLARATIONS,
+        SequenceResponseComponent,
+        SequenceEditorComponent,
+        ItemSortPipe,
+        ItemEditorComponent
     ],
     bootstrap:[
         AppComponent,
@@ -38,7 +43,7 @@ import {SequenceEditorModule} from "./sequence-editor/sequence-editor.module";
     exports:[
         RouterModule,
         DndModule,
-        NgbModule,
+        NgbModule
     ]
 })
 
