@@ -11,6 +11,7 @@ import {SequenceResponseComponent} from "./sequence-response/sequence-response.c
 import {SequenceEditorComponent, ItemSortPipe} from "./sequence-editor/sequence-editor.component";
 import {ItemEditorComponent} from "./item-editor/item-editor.component";
 import {ItemResponseModule} from "./item-response/item-response.module";
+import {CustomFormsModule} from "ng2-validation";
 
 /**
  * Created by a.nvlkv on 19/11/2016.
@@ -26,6 +27,7 @@ import {ItemResponseModule} from "./item-response/item-response.module";
         ReactiveFormsModule,
         NgbModule.forRoot(),
         DndModule.forRoot(),
+        CustomFormsModule,
         //my modules
         ItemResponseModule
     ],

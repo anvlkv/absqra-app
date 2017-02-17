@@ -22,7 +22,7 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
     private item: ISingleItem;
     private zone: NgZone;
     private itemBaseFormGroup: FormGroup;
-    private itemTypeOptions: {value: string; verbose: string}[];
+    private itemTypeOptions: any[];
     private itemEditorIsActive: boolean = false;
 
     constructor(
@@ -34,11 +34,39 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
         this.itemTypeOptions=[
             {
                 value:'yes-no',
-                verbose:'Yes/No'
+                verbose:'Yes/No',
+                fields:[
+                    {
+                        name:'allowUndefined',
+                        verbose:'Allow N/A (no answer)',
+                        type:'checkbox'
+                    }
+                ]
             },
             {
                 value:'input',
-                verbose:'Single field'
+                verbose:'Single field',
+                fields:[
+                    {
+                        name:'inputType',
+                        verbose:'Field type',
+                        type:'select',
+                        options:[
+                            {
+                                value:'text',
+                                verbose: 'Text',
+                                fields:[
+                                    {
+                                        name:'maxChar',
+                                        verbose:'Maximum characters',
+                                        type:'number',
+                                        validators:''
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
             },
             {
                 value:'text',
