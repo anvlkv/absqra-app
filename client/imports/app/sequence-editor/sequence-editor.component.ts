@@ -16,21 +16,21 @@ import {ISingleItem} from "../../../../both/models/single-item.model";
 
 @Component({
     selector: 'sequence-editor',
-    template
+    templateUrl: "./sequence-editor.component.html",
 })
 
 export class SequenceEditorComponent implements OnInit, OnDestroy{
-    private paramsSub: Subscription;
-    private sequenceSub: Subscription;
-    private itemsSub: Subscription;
-    private sequenceId: string;
-    private sequence: ISequence;
-    private items: Observable<ISingleItem[]>;
-    private sequenceDescriptorFormGroup: FormGroup;
-    private zone: NgZone;
-    private sequenceEditorIsActive: boolean;
-    private activeItemEditor: string;
-    private sequenceItemsSub: Subscription;
+    paramsSub: Subscription;
+    sequenceSub: Subscription;
+    itemsSub: Subscription;
+    sequenceId: string;
+    sequence: ISequence;
+    items: Observable<ISingleItem[]>;
+    sequenceDescriptorFormGroup: FormGroup;
+    zone: NgZone;
+    sequenceEditorIsActive: boolean;
+    activeItemEditor: string;
+    sequenceItemsSub: Subscription;
 
 
     constructor(

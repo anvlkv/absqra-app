@@ -8,7 +8,7 @@ import {ItemResponseFormInputComponent} from "./item-response-form-input.compone
 
 @Component({
     selector: 'item-response-form-checkbox',
-    template,
+    templateUrl:'./item-response-form-checkbox.component.html',
     inputs:['choices']
 })
 

@@ -1,7 +1,6 @@
 import {FormGroup, FormBuilder, Validators} from "@angular/forms";
 import {
-    Input, Component, OnInit, NgZone, Output, EventEmitter, AfterViewInit, ViewChildren,
-    ChangeDetectorRef
+    Input, Component, OnInit, NgZone, OnChanges, SimpleChanges
 } from "@angular/core";
 import template from "./item-editor.component.html";
 import {MeteorObservable} from "meteor-rxjs";
@@ -13,36 +12,68 @@ import { CustomValidators } from 'ng2-validation';
  * Created by a.nvlkv on 15/01/2017.
  */
 
-export interface IFormConfig{
+export interface IItemFormConfig{
     name?: string;
     value?: string;
     verbose?: string;
     tip?: string;
     type?: string;
     validators?: Validators[];
-    fields?: IFormConfig[];
-    options?: IFormConfig[];
+    fields?: IItemFormConfig[];
+    options?: IItemFormConfig[];
 }
 
 @Component({
     selector: 'item-editor',
-    template
+    templateUrl: "./item-editor.component.html"
 })
 
-export class ItemEditorComponent implements OnInit, AfterViewInit{
+export class ItemEditorComponent implements OnInit, OnChanges{
     @Input() itemId: string;
-    private itemSub: Subscription;
-    private item: ISingleItem;
-    private zone: NgZone;
-    private itemBaseFormGroup: FormGroup;
-    private itemDetailsFormGroup: FormGroup;
-    private itemTypeOptions: IFormConfig[];
-    private itemEditorIsActive: boolean = false;
+    itemSub: Subscription;
+    item: ISingleItem;
+    zone: NgZone;
+    itemBaseFormGroup: FormGroup;
+    itemDetailsFormGroup: FormGroup;
+    itemTypeOptions: IItemFormConfig[];
+    itemEditorIsActive: boolean = false;
 
     constructor(
         private formBuilder: FormBuilder,
     ){
         this.zone = new NgZone({enableLongStackTrace: true});
+
+        let sourceTypeConfig = {
+            name: 'sourceType',
+            verbose: 'Source type',
+            type: 'select',
+            options:[
+                {
+                    value: 'static',
+                    verbose: 'Static value',
+                    fields:[
+                        {
+                            name: 'value',
+                            verbose: 'Value',
+                            type: 'text',
+                            validators: [Validators.required]
+                        }
+                    ]
+                },
+                {
+                    value: 'dynamic',
+                    verbose: 'Dynamic value',
+                    fields:[
+                        {
+                            name:'valueSource',
+                            verbose:'Value source',
+                            type: 'select',
+                            optionsRetriver: this.getSourceOptions
+                        }
+                    ]
+                }
+            ]
+        }
 
         let optionConfigurators = {
             allowUndefined:{
@@ -115,42 +146,18 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
                 name: 'options',
                 verbose: 'Response options',
                 tip: 'e.g. how respondent can react on given stimuli',
-                type: 'listing'
+                type: 'listing',
+                fields:[
+                    sourceTypeConfig
+                ]
             },
             assets:{
                 name: 'assets',
                 verbose: 'Item assets',
                 tip: 'stimuli provided to respondent',
-                type: 'listing'
-            },
-            sourceType:{
-                name: 'sourceType',
-                verbose: 'Source type',
-                type: 'select',
-                options:[
-                    {
-                        value: 'static',
-                        verbose: 'Static value',
-                        fields:[
-                            {
-                                name: 'value',
-                                verbose: 'Value',
-                                type: 'text',
-                                validators: [Validators.required]
-                            }
-                        ]
-                    },
-                    {
-                        value: 'dynamic',
-                        verbose: 'Dynamic value',
-                        fields:[
-                            {
-                                name:'valueSource',
-                                verbose:'Value source',
-                                type: 'select',
-                            }
-                        ]
-                    },
+                type: 'listing',
+                fields:[
+                    sourceTypeConfig
                 ]
             }
         }
@@ -318,8 +325,14 @@ export class ItemEditorComponent implements OnInit, AfterViewInit{
         });
     }
 
-    ngAfterViewInit(){
+    ngOnChanges(changes: SimpleChanges){
+        console.log(changes);
+    }
 
+
+
+    getSourceOptions(){
+        return null;
     }
 
     saveItemDescriptor(e){

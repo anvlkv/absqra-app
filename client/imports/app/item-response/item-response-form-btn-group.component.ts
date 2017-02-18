@@ -7,7 +7,7 @@ import {Observable} from "rxjs";
  */
 @Component({
     selector: 'item-response-form-btn-group',
-    template,
+    templateUrl: "./item-response-form-btn-group.component.html",
 })
 
 export class ItemResponseFormBtnGroupComponent extends ItemResponseFormInputComponent implements OnInit{

@@ -16,7 +16,7 @@ import template from "./submit-control.component.html";
 
 @Component({
     selector: 'submit-control',
-    template
+    templateUrl: "./submit-control.component.html"
 })
 
 export class SubmitControlComponent {
