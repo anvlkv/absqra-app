@@ -17,7 +17,7 @@ export interface listItem {
 
 @Component({
     selector: 'item-response-form-listing',
-    template,
+    templateUrl: "./item-response-form-listing.component.html",
     inputs:['choices']
 })
 

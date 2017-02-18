@@ -8,7 +8,7 @@ import {ItemResponseFormInputComponent} from "./item-response-form-input.compone
 
 @Component({
     selector: 'item-response-form-ordering',
-    template,
+    templateUrl: "./item-response-form-ordering.component.html",
     inputs:['choices']
 })
 

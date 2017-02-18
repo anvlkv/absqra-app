@@ -8,7 +8,7 @@ import template from "./footer.component.html";
 
 @Component({
     selector: 'footer-outlet',
-    template
+    templateUrl: "./footer.component.html"
 })
 
 export class FooterOutletComponent {

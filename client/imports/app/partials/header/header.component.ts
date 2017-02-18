@@ -8,7 +8,7 @@ import template from "./header.component.html";
 
 @Component({
     selector: 'header-outlet',
-    template
+    templateUrl: "./header.component.html"
 })
 
 export class HeaderOutletComponent{}
