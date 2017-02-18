@@ -8,7 +8,7 @@ import {ItemResponseFormInputComponent} from "./item-response-form-input.compone
 
 @Component({
     selector: 'item-response-form-radio',
-    templateUrl: './item-response-form-radio.component.html',
+    template,
     inputs:['choices']
 })
 

@@ -17,7 +17,7 @@ import {ISingleItemComposition, ISingleChoice} from "../../../../both/models/sin
 
 @Component({
     selector: 'sequence-response',
-    templateUrl: "./sequence-response.component.html"
+    template
 })
 
 export class SequenceResponseComponent implements OnInit, OnDestroy{
@@ -29,7 +29,7 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
     itemId: string;
     itemSub: Subscription;
     item: ISingleItemComposition;
-    formGroupItems: any;
+    private formGroupItems: any;
     choices: ISingleChoice[];
     responseForm: FormGroup;
     zone: NgZone;

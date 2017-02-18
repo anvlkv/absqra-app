@@ -8,7 +8,7 @@ import {ISingleChoice, ISingleItemComposition} from "../../../../both/models/sin
 
 @Component({
     selector: 'item-response',
-    templateUrl: './item-response.component.html'
+    template
 })
 
 export class ItemResponseComponent {

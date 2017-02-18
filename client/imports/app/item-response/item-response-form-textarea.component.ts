@@ -8,7 +8,7 @@ import {ItemResponseFormInputComponent} from "./item-response-form-input.compone
 
 @Component({
     selector: 'item-response-form-textarea',
-    templateUrl: './item-response-form-textarea.component.html',
+    template,
 })
 
 export class ItemResponseFormTextareaComponent extends ItemResponseFormInputComponent{}

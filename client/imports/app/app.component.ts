@@ -7,7 +7,7 @@ import template from './app.component.html';
 
 @Component({
     selector: 'app',
-    templateUrl: './app.component.html'
+    template
 })
 
 export class AppComponent{}

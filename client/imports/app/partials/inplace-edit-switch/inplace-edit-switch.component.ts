@@ -7,7 +7,7 @@ import template from './inplace-edit-switch.component.html'
 
 @Component({
     selector: 'inplace-edit-switch',
-    templateUrl: './inplace-edit-switch.component.html',
+    template
 })
 export class InplaceEditSwitchComponent implements OnChanges{
     @Input() editState: boolean;
