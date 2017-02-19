@@ -8,7 +8,7 @@ import {FormGroup, FormControlName} from "@angular/forms";
 
 @Component({
     selector: 'item-response-form-input',
-    template
+    template,
 })
 
 export class ItemResponseFormInputComponent {

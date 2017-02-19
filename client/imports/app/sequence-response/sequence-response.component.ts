@@ -29,7 +29,7 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
     itemId: string;
     itemSub: Subscription;
     item: ISingleItemComposition;
-    private formGroupItems: any;
+    formGroupItems: any;
     choices: ISingleChoice[];
     responseForm: FormGroup;
     zone: NgZone;

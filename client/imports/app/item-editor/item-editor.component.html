@@ -20,11 +20,15 @@
                 <label for="itemType">Type:</label>
                 <small class="form-text text-muted"></small>
                 <!--<select class="form-control" type="text" name="itemType" id="itemType"></select>-->
-                <div id="itemType" class="form-control btn-group-sm btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
+                <div id="itemType" class="form-control flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
                     <label *ngFor="let opt of itemTypeOptions" class="btn btn-sm btn-primary">
                         <input formControlName="itemType" value="{{opt.value}}" type="radio" autocomplete="off">{{opt.verbose}}
                     </label>
                 </div>
+            </fieldset>
+            <fieldset [formGroup]="itemDetailsFormGroup" >
+                <!--[ngSwitch]="item.itemConfig?.itemType"-->
+
             </fieldset>
             <button type="reset" class="btn btn-outline-secondary">Cancel editing</button>
             <button type="submit" class="btn btn-primary">Done</button>
