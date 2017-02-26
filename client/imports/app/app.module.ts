@@ -9,7 +9,7 @@ import {DndModule} from "ng2-dnd";
 import {PARTIALS_DECLARATIONS} from "./partials";
 import {SequenceResponseComponent} from "./sequence-response/sequence-response.component";
 import {SequenceEditorComponent, ItemSortPipe} from "./sequence-editor/sequence-editor.component";
-import {ItemEditorComponent} from "./item-editor/item-editor.component";
+import {ItemEditorComponent, FieldNameFindPipe} from "./item-editor/item-editor.component";
 import {ItemResponseModule} from "./item-response/item-response.module";
 import {CustomFormsModule} from "ng2-validation";
 
@@ -37,7 +37,8 @@ import {CustomFormsModule} from "ng2-validation";
         SequenceResponseComponent,
         SequenceEditorComponent,
         ItemSortPipe,
-        ItemEditorComponent
+        ItemEditorComponent,
+        FieldNameFindPipe
     ],
     bootstrap:[
         AppComponent,

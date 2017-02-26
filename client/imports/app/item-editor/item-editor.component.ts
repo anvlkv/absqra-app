@@ -1,6 +1,6 @@
 import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
 import {
-    Input, Component, OnInit, NgZone, OnChanges, SimpleChanges
+    Input, Component, OnInit, NgZone, OnChanges, SimpleChanges, PipeTransform, Pipe
 } from "@angular/core";
 import template from "./item-editor.component.html";
 import {MeteorObservable} from "meteor-rxjs";
@@ -40,6 +40,7 @@ export class ItemEditorComponent implements OnInit{
     itemDetailsFormContent: any;
     itemTypeOptions: IItemFormConfig[];
     itemEditorIsActive: boolean = false;
+    currentItemType: IItemFormConfig;
 
     constructor(
         private formBuilder: FormBuilder,
@@ -190,7 +191,8 @@ export class ItemEditorComponent implements OnInit{
                 verbose:'Single field',
                 fields:[
                     {
-                        name:'itemConfig.inputType',
+                        name:'inputType',
+                        group: 'itemConfig',
                         verbose:'Field type',
                         type:'select',
                         options:[
@@ -346,15 +348,16 @@ export class ItemEditorComponent implements OnInit{
                             this.zone.run(()=> {
                                 let formGroup = this.getItemDetailsFormControls(currentOption.fields);
                                 this.itemDetailsFormGroup = this.formBuilder.group(formGroup);
-
-                                console.log(this.itemDetailsFormGroup.value);
+                                this.currentItemType = currentOption;
+                                // console.log(this.itemDetailsFormGroup.value);
                             });
                         }
                     }
                 })
-
             })
         });
+
+
     }
 
     getSourceOptions(){
@@ -403,5 +406,16 @@ export class ItemEditorComponent implements OnInit{
             })
         }
     }
+}
 
+@Pipe({
+    name: 'fieldNameFind',
+})
+export class FieldNameFindPipe implements PipeTransform{
+    transform(fields: IItemFormConfig[], name: string):IItemFormConfig{
+        if(fields){
+            let found = fields.find((fld)=>fld.name===name);
+            return found;
+        }
+    }
 }

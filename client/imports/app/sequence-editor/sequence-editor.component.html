@@ -31,10 +31,10 @@
             </div>
         </inplace-edit-switch>
 
-        <div class="col-12" dnd-sortable-container [sortableData]="sequence?.itemsSequence">
-            <div class="card" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async)); let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="updateSequence($event)">
+        <ul class="col-12" dnd-sortable-container [sortableData]="sequence?.itemsSequence">
+            <li class="card" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async)); let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="updateSequence($event)">
                 <item-editor class="card-block" *ngIf="item?._id" [itemId]="item?._id"></item-editor>
-            </div>
-        </div>
+            </li>
+        </ul>
     </div>
 </div>

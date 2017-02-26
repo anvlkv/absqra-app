@@ -1,0 +1,4 @@
+<ul [ngClass]="{'card-deck sortable-container':sortableData}" class="card-deck" dnd-sortable-container [sortableData]="sortableData" >
+    <li [ngClass]="{'card sortable-item':sortableData}" *ngFor="let inputGroup of inputsList" [ngForTemplate]="template" [dragEnabled]="!!sortableData" dnd-sortable (onDropSuccess)="orderChanged($event)">
+    </li>
+</ul>
