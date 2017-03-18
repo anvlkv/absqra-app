@@ -37,7 +37,7 @@ export class ItemEditorComponent implements OnInit{
     zone: NgZone;
     itemBaseFormGroup: FormGroup;
     itemDetailsFormGroup: FormGroup;
-    itemDetailsFormContent: any;
+    itemDetailsFormContent: any={};
     itemTypeOptions: IItemFormConfig[];
     itemEditorIsActive: boolean = false;
     currentItemType: IItemFormConfig;
@@ -346,10 +346,14 @@ export class ItemEditorComponent implements OnInit{
                         let currentOption = this.itemTypeOptions.find((opt)=>opt.value===value.itemConfig.itemType);
                         if(currentOption.fields){
                             this.zone.run(()=> {
+                                this.itemDetailsFormContent={};
+
                                 let formGroup = this.getItemDetailsFormControls(currentOption.fields);
+
                                 this.itemDetailsFormGroup = this.formBuilder.group(formGroup);
                                 this.currentItemType = currentOption;
-                                // console.log(this.itemDetailsFormGroup.value);
+
+                                console.log(this.itemDetailsFormContent);
                             });
                         }
                     }
@@ -369,11 +373,13 @@ export class ItemEditorComponent implements OnInit{
         fields.forEach((field)=>{
 
             if(!field.group || field.group === parentGroupName){
-
+                let control = this.formBuilder.control(parentGroupName ? this.item[parentGroupName][field.name] : this.item[field.name]);
                 formGroup.addControl(
                     field.name,
-                    this.formBuilder.control(parentGroupName ? this.item[parentGroupName][field.name] : this.item[field.name])
+                    control
                 );
+
+                this.itemDetailsFormContent[field.name] = control;
 
             }else if(!formGroup.contains(field.group)){
 
@@ -406,6 +412,10 @@ export class ItemEditorComponent implements OnInit{
             })
         }
     }
+
+    removeCallback(item){
+        console.log(item);
+    }
 }
 
 @Pipe({
@@ -414,8 +424,7 @@ export class ItemEditorComponent implements OnInit{
 export class FieldNameFindPipe implements PipeTransform{
     transform(fields: IItemFormConfig[], name: string):IItemFormConfig{
         if(fields){
-            let found = fields.find((fld)=>fld.name===name);
-            return found;
+            return fields.find((fld)=>fld.name===name);
         }
     }
 }

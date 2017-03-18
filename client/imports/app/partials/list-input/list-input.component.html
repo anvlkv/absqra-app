@@ -1,4 +1,17 @@
-<ul [ngClass]="{'card-deck sortable-container':sortableData}" class="card-deck" dnd-sortable-container [sortableData]="sortableData" >
-    <li [ngClass]="{'card sortable-item':sortableData}" *ngFor="let inputGroup of inputsList" [ngForTemplate]="template" [dragEnabled]="!!sortableData" dnd-sortable (onDropSuccess)="orderChanged($event)">
+<ul class="list-unstyled" [ngClass]="{'sortable-container':sortableData.length > 0}" dnd-sortable-container [sortableData]="sortableData" >
+    <li [ngClass]="{'card sortable-item':sortableData.length > 0}" *ngFor="let inputGroup of inputsList; let i = index" [dragEnabled]="sortableData.length > 0" dnd-sortable (onDropSuccess)="orderChanged($event)">
+        <div class="row" [ngClass]="{'card-block':sortableData.length > 0}">
+            <div class="col-9 col-sm-10 col-lg-11">
+                <template [ngTemplateOutlet]="template" [ngOutletContext]="{inputGroup:inputGroup}"></template>
+            </div>
+            <div class="col-3 col-sm-2 col-lg-1">
+                <button class="btn btn-block btn-outline-secondary" (click)="removeInputGroup(i)" ><i class="fa fa-trash" aria-hidden="true"></i></button>
+            </div>
+        </div>
+    </li>
+    <li class="row">
+        <div class="col-12">
+            <button class="btn btn-block btn-lg btn-outline-primary" (click)="onAddItemClick.emit()"><i class="fa fa-plus-square-o" aria-hidden="true"></i>&nbsp;Add</button>
+        </div>
     </li>
 </ul>
