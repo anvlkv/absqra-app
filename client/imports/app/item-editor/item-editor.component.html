@@ -27,28 +27,28 @@
                 </div>
             </fieldset>
             <div [formGroup]="itemDetailsFormGroup" >
-                <div class="form-group">
+                <div *ngIf="itemDetailsFormContent.inputType" class="form-group">
                     <label for="inputType">Field type</label>
-                    <select class="form-control" id="inputType">
+                    <select class="form-control" [formControl]="itemDetailsFormContent.inputType" id="inputType">
                         <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'inputType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>
                     </select>
                 </div>
 
-                <div class="form-group mb-2 row">
-                    <div class="form-check col-12 col-sm-6">
+                <div *ngIf="itemDetailsFormContent.allowUndefined || itemDetailsFormContent.allowOther" class="form-group mb-2 row">
+                    <div *ngIf="itemDetailsFormContent.allowUndefined" class="form-check col-12 col-sm-6">
                         <label class="form-check-label flex-wrap">
                             <div class="fb-100">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" [formControl]="itemDetailsFormContent.allowUndefined">
                                 <span class="form-text">Allow N/A</span>
                             </div>
                             <small class="form-text text-muted fb-100">no answer</small>
                         </label>
                     </div>
 
-                    <div class="form-check col-12 col-sm-6">
+                    <div *ngIf="itemDetailsFormContent.allowOther" class="form-check col-12 col-sm-6">
                         <label class="form-check-label flex-wrap">
                             <div class="fb-100">
-                                <input class="form-check-input" type="checkbox">
+                                <input class="form-check-input" type="checkbox" [formControl]="itemDetailsFormContent.allowOther">
                                 <span class="form-text">Allow other option...</span>
                             </div>
                             <small class="form-text text-muted fb-100">adds input for custom option</small>
@@ -57,64 +57,104 @@
                 </div>
 
 
-                <div class="form-inline mb-2 row">
+                <div *ngIf="itemDetailsFormContent.maxChar || itemDetailsFormContent.minChar" class="form-inline mb-2 row">
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Min characters</div>
-                        <input type="number" class="form-control" placeholder="N">
+                        <input type="number" class="form-control" placeholder="N" [formControl]="itemDetailsFormContent.minChar">
                     </div>
 
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Max characters</div>
-                        <input type="number" class="form-control" placeholder="NNN">
+                        <input type="number" class="form-control" placeholder="NNN" [formControl]="itemDetailsFormContent.maxChar">
                     </div>
                 </div>
 
-                <div class="form-inline mb-2 row">
+                <div *ngIf="itemDetailsFormContent.maxCount || itemDetailsFormContent.minCount" class="form-inline mb-2 row">
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Min count</div>
-                        <input type="number" class="form-control" placeholder="N">
+                        <input type="number" class="form-control" placeholder="N" [formControl]="itemDetailsFormContent.minCount">
                     </div>
 
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Max count</div>
-                        <input type="number" class="form-control" placeholder="NNN">
+                        <input type="number" class="form-control" placeholder="NNN" [formControl]="itemDetailsFormContent.maxCount">
                     </div>
                 </div>
 
-                <div class="form-inline mb-2 row">
+                <div *ngIf="itemDetailsFormContent.maxValue || itemDetailsFormContent.minValue" class="form-inline mb-2 row">
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Min value</div>
-                        <input type="number" class="form-control" placeholder="N">
+                        <input type="number" class="form-control" placeholder="N" [formControl]="itemDetailsFormContent.minValue">
                     </div>
 
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Max value</div>
-                        <input type="number" class="form-control" placeholder="NNN">
+                        <input type="number" class="form-control" placeholder="NNN" [formControl]="itemDetailsFormContent.maxValue">
                     </div>
                 </div>
 
-                <div class="form-inline mb-2 row">
+                <div *ngIf="itemDetailsFormContent.maxDate || itemDetailsFormContent.minDate" class="form-inline mb-2 row">
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Earliest date</div>
-                        <input class="form-control ngb-datepicker" ngb-datepicker placeholder="fix datepicker">
+                        <input class="form-control ngb-datepicker" ngb-datepicker placeholder="fix datepicker" [formControl]="itemDetailsFormContent.minDate">
                     </div>
 
                     <div class="input-group col-12 col-sm-6">
                         <div class="input-group-addon" role="label">Latest date</div>
-                        <input class="form-control ngb-datepicker" ngb-datepicker placeholder="fix datepicker">
+                        <input class="form-control ngb-datepicker" ngb-datepicker placeholder="fix datepicker" [formControl]="itemDetailsFormContent.maxDate">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div *ngIf="itemDetailsFormContent.display" class="form-group">
                     <label for="description">Display content:</label>
                     <small class="form-text text-muted">display formatted text with links and images</small>
-                    <textarea class="form-control" type="text" id="display"></textarea>
+                    <textarea class="form-control" type="text" id="display" [formControl]="itemDetailsFormContent.display"></textarea>
+                </div>
+
+                <div *ngIf="itemDetailsFormContent.options" class="form-group">
+                    <h6>Item options</h6>
+                    <list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">
+                        <template let-inputGroup="inputGroup">
+                            <div class="form-inline mb-2 row">
+                                <div class="input-group col-12 col-sm-6">
+                                    <div class="input-group-addon" role="label">Source type</div>
+                                    <select class="form-control" >
+                                        <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group col-12 col-sm-6">
+                                    <div class="input-group-addon" role="label">Option text:</div>
+                                    <input class="form-control" placeholder="Option text">
+                                </div>
+                            </div>
+                        </template>
+                    </list-input>
+                </div>
+
+                <div *ngIf="itemDetailsFormContent.assets" class="form-group">
+                    <h6>Item assets</h6>
+                    <list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">
+                        <template let-inputGroup="inputGroup">
+                            <div class="form-inline mb-2 row">
+                                <div class="input-group col-12 col-sm-6">
+                                    <div class="input-group-addon" role="label">Source type</div>
+                                    <select class="form-control">
+                                        <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group col-12 col-sm-6">
+                                    <div class="input-group-addon" role="label">Option text:</div>
+                                    <input class="form-control" placeholder="Option text">
+                                </div>
+                            </div>
+                        </template>
+                    </list-input>
                 </div>
 
 
 
-                options.list
-                assets.list
             </div>
             <button type="reset" class="btn btn-outline-secondary">Cancel editing</button>
             <button type="submit" class="btn btn-primary">Done</button>
