@@ -112,7 +112,34 @@
                 </div>
 
 
+                <div *ngIf="itemDetailsFormContent.options" class="form-group">
+                    <h6>Item options</h6>
+                    <ul class="list-unstyled">
+                        <li *ngFor="let option of itemDetailsFormContent.options.controls; let i = index;">
+                            <div class="form-inline mb-2 row">
+                                <div class="input-group col-12 col-sm-6">
+                                    <div class="input-group-addon" role="label">Source type</div>
+                                    <select class="custom-select" [formControl]="option.controls.sourceType">
+                                        <option *ngFor="let opt of sourceTypeConfig.options" value="{{opt.value}}">{{opt.verbose}}</option>
+                                    </select>
+                                </div>
 
+                                <div class="input-group col-12 col-sm-6" *ngIf="option.controls.value">
+                                    <div class="input-group-addon" role="label">Option text:</div>
+                                    <input class="form-control" placeholder="Option text" [formControl]="option.controls.value">
+                                </div>
+
+                                <div class="input-group col-12 col-sm-6" *ngIf="option.controls.valueSource">
+                                    <div class="input-group-addon" role="label">Option source:</div>
+                                    <select class="custom-select" [formControl]="option.controls.valueSource">
+                                        <option *ngFor="let opt of valueSourceOptions" value="{{opt.value}}">{{opt.verbose}}</option>
+                                    </select>
+                                    <!--<input class="form-control" placeholder="Option text" [formControl]="option.controls.value">-->
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
                 <!--<div *ngIf="itemDetailsFormContent.options" class="form-group">-->
                     <!--<h6>Item options</h6>-->
                     <!--<list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">-->

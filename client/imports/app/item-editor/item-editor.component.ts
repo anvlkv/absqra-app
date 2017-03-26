@@ -23,6 +23,7 @@ export interface IItemFormConfig{
     validators?: Validators[];
     fields?: IItemFormConfig[];
     options?: IItemFormConfig[];
+    optionsRetriever?():void;
 }
 
 @Component({
@@ -41,6 +42,8 @@ export class ItemEditorComponent implements OnInit{
     itemTypeOptions: IItemFormConfig[];
     itemEditorIsActive: boolean = false;
     currentItemType: IItemFormConfig;
+    sourceTypeConfig: IItemFormConfig;
+    valueSourceOptions: any[]
 
     constructor(
         private formBuilder: FormBuilder,
@@ -49,7 +52,7 @@ export class ItemEditorComponent implements OnInit{
         this.itemDetailsFormGroup = this.formBuilder.group({});
         this.itemBaseFormGroup = this.formBuilder.group({});
 
-        let sourceTypeConfig = {
+        this.sourceTypeConfig = {
             name: 'sourceType',
             verbose: 'Source type',
             type: 'select',
@@ -111,14 +114,14 @@ export class ItemEditorComponent implements OnInit{
                 // validators: [CustomValidators.min(0), CustomValidators.lt(this.itemDetailsFormGroup.value.maxChar || 0)]
             },
             maxCount:{
-                name:'maxChar',
+                name:'maxCount',
                 group:'itemConfig',
                 verbose:'Maximum items count',
                 type:'number',
                 // validators: [CustomValidators.min(0), CustomValidators.gt(this.itemDetailsFormGroup.value.minCount || 0)]
             },
             minCount:{
-                name:'minChar',
+                name:'minCount',
                 group:'itemConfig',
                 verbose:'Minimum items count',
                 type:'number',
@@ -164,7 +167,7 @@ export class ItemEditorComponent implements OnInit{
                 tip: 'e.g. how respondent can react on given stimuli',
                 type: 'listing',
                 fields:[
-                    sourceTypeConfig
+                    this.sourceTypeConfig
                 ]
             },
             assets:{
@@ -173,7 +176,7 @@ export class ItemEditorComponent implements OnInit{
                 tip: 'stimuli provided to respondent',
                 type: 'listing',
                 fields:[
-                    sourceTypeConfig
+                    this.sourceTypeConfig
                 ]
             }
         };
@@ -406,8 +409,15 @@ export class ItemEditorComponent implements OnInit{
             if(field.options){
                 formGroup.valueChanges.subscribe((value)=>{
                     let currentOption = field.options.find((opt)=>opt.value===value[field.name]);
-                    if(currentOption.fields){
-                        console.log(fields);
+                    if(currentOption && currentOption.fields){
+                        // console.log(fields);
+                        currentOption.fields.forEach((fld)=>{
+                            if(!formGroup.contains(fld.name)){
+                                formGroup.addControl(fld.name, this.formBuilder.control(''));
+                            }
+                        })
+
+                        console.log(formGroup);
                     }
                 })
             }

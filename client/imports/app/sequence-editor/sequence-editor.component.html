@@ -40,6 +40,9 @@
             <li class="card" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async)); let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="updateSequence($event)">
                 <item-editor class="card-block" *ngIf="item?._id" [itemId]="item?._id"></item-editor>
             </li>
+            <li class="card">
+                <button class="btn btn-block btn-outline-primary" (click)="createNewItem()">+ Add an item</button>
+            </li>
         </ul>
     </div>
 </div>
