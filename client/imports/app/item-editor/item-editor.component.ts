@@ -373,7 +373,18 @@ export class ItemEditorComponent implements OnInit{
         fields.forEach((field)=>{
 
             if(!field.group || field.group === parentGroupName){
-                let control = this.formBuilder.control(parentGroupName ? this.item[parentGroupName][field.name] : this.item[field.name]);
+                let control;
+                let name=parentGroupName ? this.item[parentGroupName][field.name] : this.item[field.name];
+                switch (field.type){
+                    case 'listing':
+                        control = this.formBuilder.array([
+                            this.getItemDetailsFormControls(field.fields)
+                        ]);
+                        break;
+                    default:
+                        control = this.formBuilder.control(name);
+                        break;
+                }
                 formGroup.addControl(
                     field.name,
                     control
@@ -398,12 +409,13 @@ export class ItemEditorComponent implements OnInit{
                     }
                 })
             }
+
         })
 
         return formGroup;
     }
 
-    saveItemDescriptor(e){
+    saveItem(e){
         if(this.itemBaseFormGroup.valid){
             Items.update(this.itemId, this.itemBaseFormGroup.value).subscribe((resp)=>{
                 if(resp){
@@ -413,9 +425,6 @@ export class ItemEditorComponent implements OnInit{
         }
     }
 
-    removeCallback(item){
-        console.log(item);
-    }
 }
 
 @Pipe({
