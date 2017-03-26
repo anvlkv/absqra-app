@@ -266,7 +266,8 @@ export class ItemEditorComponent implements OnInit{
                 verbose:'Single choice',
                 fields:[
                     itemConfigurationOptions.allowOther,
-                    itemConfigurationOptions.allowUndefined
+                    itemConfigurationOptions.allowUndefined,
+                    itemConfigurationOptions.assets,
                 ]
             },
             {
@@ -276,7 +277,8 @@ export class ItemEditorComponent implements OnInit{
                     itemConfigurationOptions.allowOther,
                     itemConfigurationOptions.allowUndefined,
                     itemConfigurationOptions.minCount,
-                    itemConfigurationOptions.maxCount
+                    itemConfigurationOptions.maxCount,
+                    itemConfigurationOptions.assets,
                 ]
             },
             {

@@ -111,47 +111,47 @@
                     <textarea class="form-control" type="text" id="display" [formControl]="itemDetailsFormContent.display"></textarea>
                 </div>
 
-                <div *ngIf="itemDetailsFormContent.options" class="form-group">
-                    <h6>Item options</h6>
-                    <list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">
-                        <template let-inputGroup="inputGroup">
-                            <div class="form-inline mb-2 row">
-                                <div class="input-group col-12 col-sm-6">
-                                    <div class="input-group-addon" role="label">Source type</div>
-                                    <select class="form-control" >
-                                        <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>
-                                    </select>
-                                </div>
+                <!--<div *ngIf="itemDetailsFormContent.options" class="form-group">-->
+                    <!--<h6>Item options</h6>-->
+                    <!--<list-input [formArray]="itemDetailsFormContent.options" [inputsList]="itemDetailsFormContent.options.value" (onItemRemoved)="removeCallback($event)" >-->
+                        <!--<template let-inputGroup="inputGroup">-->
+                            <!--<div class="form-inline mb-2 row">-->
+                                <!--<div class="input-group col-12 col-sm-6">-->
+                                    <!--<div class="input-group-addon" role="label">Source type</div>-->
+                                    <!--<select class="form-control" >-->
+                                        <!--<option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
 
-                                <div class="input-group col-12 col-sm-6">
-                                    <div class="input-group-addon" role="label">Option text:</div>
-                                    <input class="form-control" placeholder="Option text">
-                                </div>
-                            </div>
-                        </template>
-                    </list-input>
-                </div>
+                                <!--<div class="input-group col-12 col-sm-6">-->
+                                    <!--<div class="input-group-addon" role="label">Option text:</div>-->
+                                    <!--<input class="form-control" placeholder="Option text">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</template>-->
+                    <!--</list-input>-->
+                <!--</div>-->
 
-                <div *ngIf="itemDetailsFormContent.assets" class="form-group">
-                    <h6>Item assets</h6>
-                    <list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">
-                        <template let-inputGroup="inputGroup">
-                            <div class="form-inline mb-2 row">
-                                <div class="input-group col-12 col-sm-6">
-                                    <div class="input-group-addon" role="label">Source type</div>
-                                    <select class="form-control">
-                                        <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>
-                                    </select>
-                                </div>
+                <!--<div *ngIf="itemDetailsFormContent.assets" class="form-group">-->
+                    <!--<h6>Item assets</h6>-->
+                    <!--<list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">-->
+                        <!--<template let-inputGroup="inputGroup">-->
+                            <!--<div class="form-inline mb-2 row">-->
+                                <!--<div class="input-group col-12 col-sm-6">-->
+                                    <!--<div class="input-group-addon" role="label">Source type</div>-->
+                                    <!--<select class="form-control">-->
+                                        <!--<option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
 
-                                <div class="input-group col-12 col-sm-6">
-                                    <div class="input-group-addon" role="label">Option text:</div>
-                                    <input class="form-control" placeholder="Option text">
-                                </div>
-                            </div>
-                        </template>
-                    </list-input>
-                </div>
+                                <!--<div class="input-group col-12 col-sm-6">-->
+                                    <!--<div class="input-group-addon" role="label">Option text:</div>-->
+                                    <!--<input class="form-control" placeholder="Option text">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</template>-->
+                    <!--</list-input>-->
+                <!--</div>-->
 
 
 
