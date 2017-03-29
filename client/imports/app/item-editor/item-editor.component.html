@@ -20,7 +20,7 @@
                 <label for="itemType">Type:</label>
                 <small class="form-text text-muted"></small>
                 <!--<select class="form-control" type="text" name="itemType" id="itemType"></select>-->
-                <div id="itemType" class="form-control flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
+                <div id="itemType" class="form-control flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl formGroupName="itemConfig">
                     <label *ngFor="let opt of itemTypeOptions" class="btn btn-sm btn-primary">
                         <input formControlName="itemType" value="{{opt.value}}" type="radio" autocomplete="off">{{opt.verbose}}
                     </label>
@@ -111,13 +111,13 @@
                     <textarea class="form-control" type="text" id="display" [formControl]="itemDetailsFormContent.display"></textarea>
                 </div>
 
-
-                <div *ngIf="itemDetailsFormContent.options" class="form-group">
-                    <h6>Item options</h6>
+                <div *ngIf="itemDetailsFormContent.assets" class="form-group">
+                    <h6>Item assets</h6>
+                    <small class="form-text text-muted">stimuli provided to respondent</small>
                     <ul class="list-unstyled">
-                        <li *ngFor="let option of itemDetailsFormContent.options.controls; let i = index;">
+                        <li *ngFor="let option of itemDetailsFormContent.assets.controls; let i = index;">
                             <div class="form-inline mb-2 row">
-                                <div class="input-group col-12 col-sm-6">
+                                <div class="input-group col-12 col-sm-4">
                                     <div class="input-group-addon" role="label">Source type</div>
                                     <select class="custom-select" [formControl]="option.controls.sourceType">
                                         <option *ngFor="let opt of sourceTypeConfig.options" value="{{opt.value}}">{{opt.verbose}}</option>
@@ -134,57 +134,58 @@
                                     <select class="custom-select" [formControl]="option.controls.valueSource">
                                         <option *ngFor="let opt of valueSourceOptions" value="{{opt.value}}">{{opt.verbose}}</option>
                                     </select>
-                                    <!--<input class="form-control" placeholder="Option text" [formControl]="option.controls.value">-->
+                                </div>
+                                <div class="input-group col-sm-2">
+                                    <a role="button" class="btn btn-outline-secondary" (click)="itemDetailsFormContent.removeAt_assets(i)">Remove</a>
+
                                 </div>
                             </div>
                         </li>
+                        <li>
+                            <a role="button" class="btn btn-block btn-outline-primary" (click)="itemDetailsFormContent.addTo_assets()">+ Add asset</a>
+                        </li>
                     </ul>
                 </div>
-                <!--<div *ngIf="itemDetailsFormContent.options" class="form-group">-->
-                    <!--<h6>Item options</h6>-->
-                    <!--<list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">-->
-                        <!--<template let-inputGroup="inputGroup">-->
-                            <!--<div class="form-inline mb-2 row">-->
-                                <!--<div class="input-group col-12 col-sm-6">-->
-                                    <!--<div class="input-group-addon" role="label">Source type</div>-->
-                                    <!--<select class="form-control" >-->
-                                        <!--<option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>-->
-                                    <!--</select>-->
-                                <!--</div>-->
-
-                                <!--<div class="input-group col-12 col-sm-6">-->
-                                    <!--<div class="input-group-addon" role="label">Option text:</div>-->
-                                    <!--<input class="form-control" placeholder="Option text">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</template>-->
-                    <!--</list-input>-->
-                <!--</div>-->
-
-                <!--<div *ngIf="itemDetailsFormContent.assets" class="form-group">-->
-                    <!--<h6>Item assets</h6>-->
-                    <!--<list-input [inputsList]="['a', 'b', 'c']" (onItemRemoved)="removeCallback($event)">-->
-                        <!--<template let-inputGroup="inputGroup">-->
-                            <!--<div class="form-inline mb-2 row">-->
-                                <!--<div class="input-group col-12 col-sm-6">-->
-                                    <!--<div class="input-group-addon" role="label">Source type</div>-->
-                                    <!--<select class="form-control">-->
-                                        <!--<option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'sourceType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>-->
-                                    <!--</select>-->
-                                <!--</div>-->
-
-                                <!--<div class="input-group col-12 col-sm-6">-->
-                                    <!--<div class="input-group-addon" role="label">Option text:</div>-->
-                                    <!--<input class="form-control" placeholder="Option text">-->
-                                <!--</div>-->
-                            <!--</div>-->
-                        <!--</template>-->
-                    <!--</list-input>-->
-                <!--</div>-->
 
 
+                <div *ngIf="itemDetailsFormContent.options" class="form-group">
+                    <h6>Response options</h6>
+                    <small class="form-text text-muted">e.g. how respondent can react on given stimuli</small>
+                    <ul class="list-unstyled">
+                        <li *ngFor="let option of itemDetailsFormContent.options.controls; let i = index;">
+                            <div class="form-inline mb-2 row">
+                                <div class="input-group col-12 col-sm-4">
+                                    <div class="input-group-addon" role="label">Source type</div>
+                                    <select class="custom-select" [formControl]="option.controls.sourceType">
+                                        <option *ngFor="let opt of sourceTypeConfig.options" value="{{opt.value}}">{{opt.verbose}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="input-group col-12 col-sm-6" *ngIf="option.controls.value">
+                                    <div class="input-group-addon" role="label">Option text:</div>
+                                    <input class="form-control" placeholder="Option text" [formControl]="option.controls.value">
+                                </div>
+
+                                <div class="input-group col-12 col-sm-6" *ngIf="option.controls.valueSource">
+                                    <div class="input-group-addon" role="label">Option source:</div>
+                                    <select class="custom-select" [formControl]="option.controls.valueSource">
+                                        <option *ngFor="let opt of valueSourceOptions" value="{{opt.value}}">{{opt.verbose}}</option>
+                                    </select>
+                                </div>
+                                <div class="input-group col-sm-2">
+                                    <a role="button" class="btn btn-outline-secondary" (click)="itemDetailsFormContent.removeAt_options(i)">Remove</a>
+
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <a role="button" class="btn btn-block btn-outline-primary" (click)="itemDetailsFormContent.addTo_options()">+ Add option</a>
+                        </li>
+                    </ul>
+                </div>
 
             </div>
+
             <button type="reset" class="btn btn-outline-secondary">Cancel editing</button>
             <button type="submit" class="btn btn-primary">Done</button>
         </form>

@@ -131,6 +131,10 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
         });
     }
 
+    editItem(itemId){
+        this.activeItemEditor=itemId;
+    }
+
     updateSequence(e){
         Sequences.update(this.sequenceId, {$set:{itemsSequence:this.sequence.itemsSequence}});
     }

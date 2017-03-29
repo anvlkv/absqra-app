@@ -1,4 +1,4 @@
-import {FormGroup, FormBuilder, Validators, FormControl} from "@angular/forms";
+import {FormGroup, FormBuilder, Validators, FormControl, FormArray} from "@angular/forms";
 import {
     Input, Component, OnInit, NgZone, OnChanges, SimpleChanges, PipeTransform, Pipe
 } from "@angular/core";
@@ -33,6 +33,8 @@ export interface IItemFormConfig{
 
 export class ItemEditorComponent implements OnInit{
     @Input() itemId: string;
+    @Input() itemEditorIsActive: boolean = false;
+
     itemSub: Subscription;
     item: ISingleItem;
     zone: NgZone;
@@ -40,7 +42,6 @@ export class ItemEditorComponent implements OnInit{
     itemDetailsFormGroup: FormGroup;
     itemDetailsFormContent: any={};
     itemTypeOptions: IItemFormConfig[];
-    itemEditorIsActive: boolean = false;
     currentItemType: IItemFormConfig;
     sourceTypeConfig: IItemFormConfig;
     valueSourceOptions: any[]
@@ -352,13 +353,12 @@ export class ItemEditorComponent implements OnInit{
                         if(currentOption.fields){
                             this.zone.run(()=> {
                                 this.itemDetailsFormContent={};
-
-                                let formGroup = this.getItemDetailsFormControls(currentOption.fields);
-
-                                this.itemDetailsFormGroup = this.formBuilder.group(formGroup);
+                                
+                                this.itemDetailsFormGroup = this.getItemDetailsFormControls(currentOption.fields);
                                 this.currentItemType = currentOption;
 
-                                console.log(this.itemDetailsFormContent);
+                                // console.log(this.itemDetailsFormContent);
+
                             });
                         }
                     }
@@ -380,16 +380,25 @@ export class ItemEditorComponent implements OnInit{
             if(!field.group || field.group === parentGroupName){
                 let control;
                 let name=parentGroupName ? this.item[parentGroupName][field.name] : this.item[field.name];
+
                 switch (field.type){
                     case 'listing':
                         control = this.formBuilder.array([
                             this.getItemDetailsFormControls(field.fields)
                         ]);
+                        this.itemDetailsFormContent['addTo_'+field.name]=()=>{
+                            control.push(this.getItemDetailsFormControls(field.fields))
+                        }
+                        this.itemDetailsFormContent['removeAt_'+field.name]=(i)=>{
+                            control.removeAt(i);
+                        }
                         break;
                     default:
                         control = this.formBuilder.control(name);
                         break;
                 }
+
+
                 formGroup.addControl(
                     field.name,
                     control
@@ -410,16 +419,25 @@ export class ItemEditorComponent implements OnInit{
                 formGroup.valueChanges.subscribe((value)=>{
                     let currentOption = field.options.find((opt)=>opt.value===value[field.name]);
                     if(currentOption && currentOption.fields){
-                        // console.log(fields);
                         currentOption.fields.forEach((fld)=>{
                             if(!formGroup.contains(fld.name)){
                                 formGroup.addControl(fld.name, this.formBuilder.control(''));
                             }
                         })
 
-                        console.log(formGroup);
+                        for (let controlName in formGroup.controls){
+                            if(
+                                !currentOption.fields.find(opt=>opt.name===controlName)
+                                && controlName !== field.name
+                                && formGroup.contains(controlName)
+                            ){
+                                formGroup.removeControl(controlName);
+                            }
+                        }
                     }
                 })
+
+                formGroup.get(field.name).setValue(field.options[0].value);
             }
 
         })
@@ -429,12 +447,22 @@ export class ItemEditorComponent implements OnInit{
 
     saveItem(e){
         if(this.itemBaseFormGroup.valid){
-            Items.update(this.itemId, this.itemBaseFormGroup.value).subscribe((resp)=>{
+            let itemConfig = this.itemBaseFormGroup.value;
+
+            if(this.itemDetailsFormGroup.valid){
+                itemConfig = {
+                    ...itemConfig,
+                    ...this.itemDetailsFormGroup.value
+                }
+            }
+
+            Items.update(this.itemId, itemConfig).subscribe((resp)=>{
                 if(resp){
                     this.itemEditorIsActive = false;
                 }
             })
         }
+
     }
 
 }
