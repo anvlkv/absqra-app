@@ -158,7 +158,7 @@ export function loadTasks(){
                 primaryText: 'This is a display item',
                 guidanceText: 'Please have a look at this item',
                 itemConfig: {
-                    itemType: 'display',
+                    itemType: 'primaryText',
                 },
                 display: '<h3>This is h3 heading, yup?</h3>'
             },

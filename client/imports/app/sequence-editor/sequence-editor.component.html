@@ -3,7 +3,12 @@
         <div *ngIf="sequence?._id">
             <h3>Items:</h3>
             <nav class="nav flex-column">
-                <a class="nav-link active" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async))" href="javascript:;" (click)="editItem(item._id)">{{ item?.name }}</a>
+                <a class="nav-link active" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async))" href="javascript:;" (click)="editItem(item._id)">
+                    <span *ngIf="activeItemEditor[item?._id]">
+                        <i class="fa fa-grav" aria-hidden="true"></i>
+                    </span>
+                    {{ item?.name }}
+                </a>
                 <a href="javascript:;" class="nav-link btn btn-outline-primary" (click)="createNewItem()">+ Add an item</a>
 
             </nav>
@@ -13,7 +18,7 @@
         </div>
     </div>
     <div class="col-12 col-sm-8 col-md-9">
-        <inplace-edit-switch *ngIf="sequence" [editState]="sequenceEditorIsActive" class="row mb-5">
+        <inplace-edit-switch *ngIf="sequence" [editState]="sequenceEditorIsActive" [class]="'row mb-5'">
             <div viewer (click)="sequenceEditorIsActive = true" class="col-12">
                 <h1 class="display-3">{{sequence.name}}</h1>
                 <p class="lead">{{sequence.description}}</p>
@@ -39,7 +44,7 @@
         <div class="row" *ngIf="sequence?._id">
             <ul class="col-12" dnd-sortable-container [sortableData]="sequence?.itemsSequence">
                 <li class="card" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async)); let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="updateSequence($event)">
-                    <item-editor class="card-block" *ngIf="item?._id" [itemId]="item?._id" [(itemEditorIsActive)]="item._id===activeItemEditor"></item-editor>
+                    <item-editor class="card-block" *ngIf="item?._id" [itemId]="item?._id" [(itemEditorIsActive)]="activeItemEditor[item?._id]"></item-editor>
                 </li>
                 <li class="card">
                     <button class="btn btn-block btn-outline-primary" (click)="createNewItem()">+ Add an item</button>

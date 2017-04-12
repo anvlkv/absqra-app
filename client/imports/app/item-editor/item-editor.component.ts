@@ -44,7 +44,7 @@ export class ItemEditorComponent implements OnInit{
     itemTypeOptions: IItemFormConfig[];
     currentItemType: IItemFormConfig;
     sourceTypeConfig: IItemFormConfig;
-    valueSourceOptions: any[]
+    valueSourceOptions: any[];
 
     constructor(
         private formBuilder: FormBuilder,
@@ -155,6 +155,18 @@ export class ItemEditorComponent implements OnInit{
                 verbose:'Latest date',
                 type:'date',
                 // validators: [CustomValidators.minDate(this.itemDetailsFormGroup.value.minDate)]
+            },
+            primaryText:{
+                name: 'primaryText',
+                verbose:'Primary text',
+                type: 'richText',
+                tip: 'main item task or question'
+            },
+            guidanceText:{
+                name: 'guidanceText',
+                verbose:'Guidance text',
+                type: 'richText',
+                tip: 'how to complete this item'
             },
             display:{
                 name: 'display',
@@ -271,7 +283,7 @@ export class ItemEditorComponent implements OnInit{
                 fields:[
                     itemConfigurationOptions.allowOther,
                     itemConfigurationOptions.allowUndefined,
-                    itemConfigurationOptions.assets,
+                    itemConfigurationOptions.assets
                 ]
             },
             {
@@ -282,13 +294,16 @@ export class ItemEditorComponent implements OnInit{
                     itemConfigurationOptions.allowUndefined,
                     itemConfigurationOptions.minCount,
                     itemConfigurationOptions.maxCount,
-                    itemConfigurationOptions.assets,
+                    itemConfigurationOptions.assets
+
                 ]
             },
             {
-                value:'display',
+                value:'primaryText',
                 verbose:'Display',
                 fields:[
+                    itemConfigurationOptions.primaryText,
+                    itemConfigurationOptions.guidanceText,
                     itemConfigurationOptions.display
                 ]
             },
@@ -298,6 +313,8 @@ export class ItemEditorComponent implements OnInit{
                 fields:[
                     itemConfigurationOptions.minCount,
                     itemConfigurationOptions.maxCount
+
+
                 ]
             },
             {
@@ -306,7 +323,7 @@ export class ItemEditorComponent implements OnInit{
                 fields:[
                     itemConfigurationOptions.allowUndefined,
                     itemConfigurationOptions.options,
-                    itemConfigurationOptions.assets,
+                    itemConfigurationOptions.assets
                 ]
             },
             {
@@ -316,6 +333,7 @@ export class ItemEditorComponent implements OnInit{
                     itemConfigurationOptions.assets,
                     itemConfigurationOptions.minCount,
                     itemConfigurationOptions.maxChar
+
                 ]
             },
             {
@@ -325,6 +343,7 @@ export class ItemEditorComponent implements OnInit{
                     itemConfigurationOptions.allowOther,
                     itemConfigurationOptions.options,
                     itemConfigurationOptions.assets
+
                 ]
             }
         ];
@@ -341,10 +360,14 @@ export class ItemEditorComponent implements OnInit{
 
                 this.itemBaseFormGroup.addControl('name',this.formBuilder.control(this.item.name, Validators.required));
                 this.itemBaseFormGroup.addControl('description',this.formBuilder.control(this.item.description));
+                this.itemBaseFormGroup.addControl('primaryText',this.formBuilder.control(this.item.primaryText));
+                this.itemBaseFormGroup.addControl('guidanceText',this.formBuilder.control(this.item.guidanceText));
                 this.itemBaseFormGroup.addControl('itemConfig',this.formBuilder.group({itemType: [this.item.itemConfig.itemType, Validators.required]}));
 
                 if(!this.item.name){
                     this.itemEditorIsActive = true;
+                }else {
+                    this.itemEditorIsActive = false;
                 }
 
                 this.itemBaseFormGroup.valueChanges.subscribe((value)=>{
@@ -356,8 +379,6 @@ export class ItemEditorComponent implements OnInit{
                                 
                                 this.itemDetailsFormGroup = this.getItemDetailsFormControls(currentOption.fields);
                                 this.currentItemType = currentOption;
-
-                                // console.log(this.itemDetailsFormContent);
 
                             });
                         }
@@ -437,7 +458,11 @@ export class ItemEditorComponent implements OnInit{
                     }
                 })
 
-                formGroup.get(field.name).setValue(field.options[0].value);
+                try{
+                    formGroup.controls[field.name].setValue(field.options[0].value);
+                }catch (e){
+                    console.log(e);
+                }
             }
 
         })
@@ -447,20 +472,28 @@ export class ItemEditorComponent implements OnInit{
 
     saveItem(e){
         if(this.itemBaseFormGroup.valid){
-            let itemConfig = this.itemBaseFormGroup.value;
+            let item = this.itemBaseFormGroup.value;
 
             if(this.itemDetailsFormGroup.valid){
-                itemConfig = {
-                    ...itemConfig,
-                    ...this.itemDetailsFormGroup.value
+                let config={
+                        ...item.itemConfig,
+                        ...this.itemDetailsFormGroup.value.itemConfig
+                    }
+
+                item = {
+                    ...item,
+                    ...this.itemDetailsFormGroup.value,
+                    itemConfig: config
                 }
             }
 
-            Items.update(this.itemId, itemConfig).subscribe((resp)=>{
-                if(resp){
-                    this.itemEditorIsActive = false;
-                }
-            })
+            Items.update(this.itemId, item).subscribe((resp)=>{
+                this.zone.run(()=>{
+                    if(resp){
+                        this.itemEditorIsActive = false;
+                    }
+                })
+            });
         }
 
     }

@@ -29,7 +29,7 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
     sequenceDescriptorFormGroup: FormGroup;
     zone: NgZone;
     sequenceEditorIsActive: boolean;
-    activeItemEditor: string;
+    activeItemEditor: {[name: string]:boolean}={};
     sequenceItemsSub: Subscription;
 
 
@@ -124,7 +124,7 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
     createNewItem(){
         MeteorObservable.call('newItemInSequence', this.sequenceId).subscribe((resp: string)=>{
             this.zone.run(()=>{
-                this.activeItemEditor = resp;
+                this.activeItemEditor[resp] = true;
             })
         }, (error)=>{
             console.log(error);
@@ -132,7 +132,7 @@ export class SequenceEditorComponent implements OnInit, OnDestroy{
     }
 
     editItem(itemId){
-        this.activeItemEditor=itemId;
+        this.activeItemEditor[itemId]=true;
     }
 
     updateSequence(e){

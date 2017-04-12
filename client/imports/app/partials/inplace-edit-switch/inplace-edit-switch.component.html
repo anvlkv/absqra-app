@@ -1,8 +1,8 @@
-<div [ngSwitch]="editState">
-    <div *ngSwitchCase="false">
+<div [ngSwitch]="editState" [class]="class">
+    <div *ngSwitchCase="false" class="w-100">
         <ng-content select="[viewer]"></ng-content>
     </div>
-    <div *ngSwitchCase="true">
+    <div *ngSwitchCase="true" class="w-100">
         <ng-content select="[editor]"></ng-content>
     </div>
 </div>

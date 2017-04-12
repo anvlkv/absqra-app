@@ -11,6 +11,7 @@ import template from './inplace-edit-switch.component.html'
 })
 export class InplaceEditSwitchComponent implements OnChanges{
     @Input() editState: boolean;
+    @Input() class: string;
     @Output() editStateChanged = new EventEmitter<boolean>();
 
     ngOnChanges(changes: SimpleChanges){

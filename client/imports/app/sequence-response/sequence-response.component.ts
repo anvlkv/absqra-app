@@ -50,25 +50,42 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
             .subscribe(params => {
 
                 this.sequenceId = params['sequenceId'];
-                this.itemId = params['itemId'];
-
                 if (this.sequenceSub) {
                     this.sequenceSub.unsubscribe();
                 }
 
                 this.sequenceSub = MeteorObservable.subscribe('sequence', this.sequenceId).subscribe(()=>{
                     this.sequence = Sequences.findOne(this.sequenceId);
+                    if(!params['itemId']){
+                        this.router.navigate(['response', this.sequenceId, this.sequence.itemsSequence[0]]).then(()=>{
+                            this.itemId = this.sequence.itemsSequence[0];
+                            this.itemSub = MeteorObservable.subscribe('item', this.itemId).subscribe(()=>{
+                                this.zone.run(()=>{
+                                    this.loadTask();
+                                })
+                            });
+                        });
+                    }
+
                 });
+
+
 
                 if (this.itemSub){
                     this.itemSub.unsubscribe();
                 }
 
-                this.itemSub = MeteorObservable.subscribe('item', this.itemId).subscribe(()=>{
-                    this.zone.run(()=>{
-                        this.loadTask();
-                    })
-                });
+                if(params['itemId']){
+                    this.itemId = params['itemId'];
+                    this.itemSub = MeteorObservable.subscribe('item', this.itemId).subscribe(()=>{
+                        this.zone.run(()=>{
+                            this.loadTask();
+                        })
+                    });
+                }
+
+
+
 
             });
 
@@ -100,7 +117,7 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
                 });
                 break;
             case 'listing':
-            case 'display':
+            case 'primaryText':
                 break;
             case 'yes-no':
                 this.showFormControls = false;
