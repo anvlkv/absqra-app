@@ -31,9 +31,9 @@
                 <label for="itemType">Type:</label>
                 <small class="form-text text-muted"></small>
                 <!--<select class="form-control" type="text" name="itemType" id="itemType"></select>-->
-                <div id="itemType" class="form-control flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
+                <div id="itemType" class="form-control flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl formControlName="itemType">
                     <label *ngFor="let opt of itemTypeOptions" class="btn btn-sm btn-primary">
-                        <input formControlName="itemType" value="{{opt.value}}" [checked]="opt.value===itemBaseFormGroup?.controls('itemConfig.itemType')" type="radio" autocomplete="off">{{opt.verbose}}
+                        <input [value]="opt.value" type="radio" autocomplete="off">{{opt.verbose}}
                     </label>
                 </div>
             </fieldset>
