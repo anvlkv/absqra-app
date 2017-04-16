@@ -33,7 +33,7 @@
                 <!--<select class="form-control" type="text" name="itemType" id="itemType"></select>-->
                 <div id="itemType" class="form-control flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl>
                     <label *ngFor="let opt of itemTypeOptions" class="btn btn-sm btn-primary">
-                        <input formControlName="itemType" value="{{opt.value}}" type="radio" autocomplete="off">{{opt.verbose}}
+                        <input formControlName="itemType" value="{{opt.value}}" [checked]="opt.value===itemBaseFormGroup?.controls('itemConfig.itemType')" type="radio" autocomplete="off">{{opt.verbose}}
                     </label>
                 </div>
             </fieldset>

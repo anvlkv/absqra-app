@@ -415,7 +415,7 @@ export class ItemEditorComponent implements OnInit{
                         }
                         break;
                     default:
-                        control = this.formBuilder.control(name);
+                        control = this.formBuilder.control(field.group ? this.item[field.group][field.name] : this.item[field.name]);
                         break;
                 }
 
