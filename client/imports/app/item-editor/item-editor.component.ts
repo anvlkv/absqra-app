@@ -1,6 +1,6 @@
 import {FormGroup, FormBuilder, Validators, FormControl, FormArray} from "@angular/forms";
 import {
-    Input, Component, OnInit, NgZone, OnChanges, SimpleChanges, PipeTransform, Pipe
+    Input, Component, OnInit, NgZone, OnChanges, SimpleChanges, PipeTransform, Pipe, Output, EventEmitter
 } from "@angular/core";
 import template from "./item-editor.component.html";
 import {MeteorObservable} from "meteor-rxjs";
@@ -34,6 +34,7 @@ export interface IItemFormConfig{
 export class ItemEditorComponent implements OnInit{
     @Input() itemId: string;
     @Input() itemEditorIsActive: boolean = false;
+    @Output() onStateChange = new EventEmitter<boolean>();
 
     itemSub: Subscription;
     item: ISingleItem;
@@ -371,6 +372,8 @@ export class ItemEditorComponent implements OnInit{
                 }else {
                     this.itemEditorIsActive = false;
                 }
+                this.onStateChange.emit(this.itemEditorIsActive);
+
 
                 this.updateItemConfig(this.itemBaseFormGroup.value);
 
@@ -380,7 +383,18 @@ export class ItemEditorComponent implements OnInit{
                 })
             })
         });
+    }
 
+    initForm(){
+
+    }
+
+    dropChanges(e){
+        this.itemBaseFormGroup.patchValue(this.item);
+        this.itemEditorIsActive = false;
+        this.onStateChange.emit(this.itemEditorIsActive);
+
+        e.preventDefault();
     }
 
     updateItemConfig(value){
@@ -412,11 +426,12 @@ export class ItemEditorComponent implements OnInit{
                 let itemValue = field.group ? this.item[field.group][field.name] : this.item[field.name];
                 switch (field.type){
                     case 'listing':
-                        // console.log(itemValue);
-                        if (itemValue){
-                            control = this.formBuilder.array([
-                                // ...itemValue
-                            ]);
+                        if (itemValue && itemValue.length > 0){
+                            control = this.formBuilder.array([]);
+                            itemValue.forEach((val)=>{
+                                let itemGroup = this.formBuilder.group(val)
+                                control.push(itemGroup);
+                            })
                         }else{
                             control = this.formBuilder.array([
                                 this.getItemDetailsFormControls(field.fields)
@@ -506,6 +521,7 @@ export class ItemEditorComponent implements OnInit{
                 this.zone.run(()=>{
                     if(resp){
                         this.itemEditorIsActive = false;
+                        this.onStateChange.emit(this.itemEditorIsActive);
                     }
                 })
             });

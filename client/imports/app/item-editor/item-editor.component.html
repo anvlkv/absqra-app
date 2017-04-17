@@ -5,7 +5,7 @@
     </div>
 
     <div editor *ngIf="itemBaseFormGroup">
-        <form [formGroup]="itemBaseFormGroup" (ngSubmit)="saveItem($event)">
+        <form [formGroup]="itemBaseFormGroup" (ngSubmit)="saveItem($event)" (reset)="dropChanges($event)">
             <fieldset class="form-group">
                 <label for="name">Name:</label>
                 <small class="form-text text-muted"></small>
