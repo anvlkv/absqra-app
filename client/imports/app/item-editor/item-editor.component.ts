@@ -26,6 +26,7 @@ export interface IItemFormConfig{
     optionsRetriever?():void;
 }
 
+
 @Component({
     selector: 'item-editor',
     template
@@ -332,9 +333,7 @@ export class ItemEditorComponent implements OnInit{
                 verbose:'Drag-sorting',
                 fields:[
                     itemConfigurationOptions.assets,
-                    itemConfigurationOptions.minCount,
-                    itemConfigurationOptions.maxChar
-
+                    itemConfigurationOptions.allowUndefined
                 ]
             },
             {
@@ -397,24 +396,31 @@ export class ItemEditorComponent implements OnInit{
         e.preventDefault();
     }
 
+    openEditor(){
+        this.itemEditorIsActive = true;
+        this.onStateChange.emit(this.itemEditorIsActive);
+    }
+
     updateItemConfig(value){
-        if(value.itemConfig.itemType){
-            let currentOption = this.itemTypeOptions.find((opt)=>opt.value===value.itemConfig.itemType);
-            if(currentOption.fields){
-                this.zone.run(()=> {
-                    this.itemDetailsFormContent={};
+        let currentOption = this.itemTypeOptions.find((opt)=>opt.value===value.itemConfig.itemType);
 
-                    this.itemDetailsFormGroup = this.getItemDetailsFormControls(currentOption.fields);
-                    this.currentItemType = currentOption;
+        if(currentOption.fields && this.currentItemType !== currentOption){
+            this.zone.run(()=> {
+                this.itemDetailsFormContent={};
 
-                });
-            }
+                this.itemDetailsFormGroup = this.getItemDetailsFormControls(currentOption.fields);
+                this.currentItemType = currentOption;
+
+            });
         }
+
     }
 
     getSourceOptions(){
         return null;
     }
+
+    // http://localhost:3000/response/EeCo6ExxzXyAb7oGT/3QXBLT9ZJ6vA3JcSg
 
     getItemDetailsFormControls(fields: IItemFormConfig[], formGroup?: FormGroup, parentGroupName?:string):FormGroup{
         formGroup = formGroup || this.formBuilder.group({});
@@ -488,10 +494,9 @@ export class ItemEditorComponent implements OnInit{
                     }
                 })
 
-                try{
+                //хз, может быть иногда сломано.
+                if(formGroup.controls[field.name]){
                     formGroup.controls[field.name].setValue(field.options[0].value);
-                }catch (e){
-                    console.log(e);
                 }
             }
 

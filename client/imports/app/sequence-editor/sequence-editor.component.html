@@ -1,8 +1,8 @@
 <div class="row">
-    <div class="col-12 col-sm-4 col-md-3 sidebar">
+    <div class="col-12 col-md-3 sidebar">
         <div *ngIf="sequence?._id">
             <h3>Items:</h3>
-            <nav class="nav flex-column">
+            <nav class="nav flex-row flex-wrap flex-md-column flex-md-nowrap">
                 <a class="nav-link active" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async))" href="javascript:;" (click)="editItem(item._id)">
                     <span *ngIf="activeItemEditor[item?._id]">
                         <i class="fa fa-grav" aria-hidden="true"></i>
@@ -16,8 +16,9 @@
         <div *ngIf="!sequence?._id">
             <h3>New sequence <i class="fa fa-long-arrow-right" aria-hidden="true"></i></h3>
         </div>
+        <hr>
     </div>
-    <div class="col-12 col-sm-8 col-md-9">
+    <div class="col-12 col-md-9">
         <inplace-edit-switch *ngIf="sequence" [editState]="sequenceEditorIsActive" [class]="'row mb-5'">
             <div viewer (click)="sequenceEditorIsActive = true" class="col-12">
                 <h1 class="display-3">{{sequence.name}}</h1>

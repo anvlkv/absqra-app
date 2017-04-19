@@ -2,6 +2,7 @@
     <div viewer>
         <h3>{{ item?.name }}</h3>
         <p>{{ item?.description }}</p>
+        <button (click)="openEditor()" class="btn btn-outline-secondary">Edit item</button>
     </div>
 
     <div editor *ngIf="itemBaseFormGroup">
