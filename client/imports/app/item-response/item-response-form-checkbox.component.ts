@@ -9,7 +9,7 @@ import {ItemResponseFormInputComponent} from "./item-response-form-input.compone
 @Component({
     selector: 'item-response-form-checkbox',
     template,
-    inputs:['choices']
+    inputs:['assets']
 })
 
 export class ItemResponseFormCheckboxComponent extends ItemResponseFormInputComponent {}

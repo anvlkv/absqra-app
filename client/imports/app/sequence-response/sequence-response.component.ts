@@ -9,7 +9,7 @@ import {SequencesResponses} from "../../../../both/collections/sequences-respons
 import {FormGroup, Validators, FormBuilder} from "@angular/forms";
 import {ItemsResponses} from "../../../../both/collections/items-responses.collection";
 import {Items} from "../../../../both/collections/items.collection";
-import {ISingleItemComposition, ISingleChoice} from "../../../../both/models/single-task-composition.model";
+import {ISingleItemComposition, ISingleSource} from "../../../../both/models/single-task-composition.model";
 
 /**
  * Created by a.nvlkv on 01/12/2016.
@@ -30,7 +30,8 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
     itemSub: Subscription;
     item: ISingleItemComposition;
     formGroupItems: any;
-    choices: ISingleChoice[];
+    assets: ISingleSource[];
+    options: ISingleSource[];
     responseForm: FormGroup;
     zone: NgZone;
     showFormControls: boolean;
@@ -98,10 +99,15 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
 
     loadTask(): void{
         this.item = Items.findOne(this.itemId);
-        this.choices = [];
+        this.assets = [];
+        this.options = [];
 
-        if (this.item.assets){
+        if (this.item.assetsSources){
             this.loadTaskAssets();
+        }
+
+        if (this.item.optionsSources){
+            this.loadTaskOptions();
         }
         this.buildForm();
     }
@@ -111,21 +117,56 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
         this.showFormControls = true;
 
         switch (this.item.itemConfig.itemType){
-            case 'multiple-choice':
-                this.choices.forEach((choice)=>{
-                    this.formGroupItems[choice.name] = ['']
-                });
+            case 'display':
+                this.showFormControls = false;
                 break;
+            case 'single-choice':
+            case 'multiple-choice':
+            case 'rating':{
+                this.assets.forEach((asset)=>{
+                    this.formGroupItems[asset.name] = ['']
+                });
+            }
             case 'listing':
             case 'primaryText':
                 break;
-            case 'yes-no':
+            case 'yes-no':{
                 this.showFormControls = false;
-            default:
+
+                if(!this.item.itemConfig.allowUndefined){
+                    this.item.options=[
+                        {
+                            value: false,
+                            label: 'No'
+                        },
+                        {
+                            value: true,
+                            label: 'Yes'
+                        },
+                    ];
+                }else{
+                    this.item.options=[
+                        {
+                            value: false,
+                            label: 'No'
+                        },
+                        {
+                            value: undefined,
+                            label: 'N/A'
+                        },
+                        {
+                            value: true,
+                            label: 'Yes'
+                        },
+                    ];
+                }
+            }
+            default:{
                 this.formGroupItems = {
-                    responseInput: ['', Validators.required]
+                    responseInput: ['', this.item.itemConfig.allowUndefined ? null : Validators.required]
                 };
                 break;
+            }
         }
 
         this.responseForm = this.formBuilder.group(this.formGroupItems);
@@ -133,11 +174,27 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
     }
 
     loadTaskAssets(): void{
-        this.item.assets.forEach((asset, index)=>{
-            if (asset.assetType === 'text'){
-                let choiceName = 'responseChoice_'+index;
-                this.choices.push({
-                    label: asset.text,
+        this.item.assetsSources.forEach((asset, index)=>{
+            if (asset.sourceType === 'static'){
+                let assetName = 'asset_'+index;
+                this.assets.push({
+                    label: asset.value,
+                    value: index,
+                    name: assetName,
+                    checked: false
+                });
+            }
+        });
+
+        this.item.assets=this.assets;
+    }
+
+    loadTaskOptions(): void{
+        this.item.optionsSources.forEach((option, index)=>{
+            if (option.sourceType === 'static'){
+                let choiceName = 'responseOption_'+index;
+                this.options.push({
+                    label: option.value,
                     value: index,
                     name: choiceName,
                     checked: false
@@ -145,8 +202,7 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
             }
         });
 
-        this.item.choices=this.choices;
-
+        this.item.options=this.options;
     }
 
     submitItemResponse(e?){
@@ -160,6 +216,7 @@ export class SequenceResponseComponent implements OnInit, OnDestroy{
                 item_id:this.itemId,
                 value: this.responseForm.value,
                 meta: false,
+                item: this.item
             });
 
             response.subscribe((response_id)=>{

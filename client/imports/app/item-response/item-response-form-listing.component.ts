@@ -18,7 +18,7 @@ export interface listItem {
 @Component({
     selector: 'item-response-form-listing',
     template,
-    inputs:['choices']
+    inputs:['assets']
 })
 
 export class ItemResponseFormListingComponent extends ItemResponseFormInputComponent implements OnInit{

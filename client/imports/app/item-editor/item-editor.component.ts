@@ -9,6 +9,7 @@ import {Items} from "../../../../both/collections/items.collection";
 import {ISingleItem} from "../../../../both/models/single-item.model";
 import { CustomValidators } from 'ng2-validation';
 import * as _ from 'underscore'
+import {ISequence} from "../../../../both/models/single-sequence.model";
 /**
  * Created by a.nvlkv on 15/01/2017.
  */
@@ -35,6 +36,7 @@ export interface IItemFormConfig{
 export class ItemEditorComponent implements OnInit{
     @Input() itemId: string;
     @Input() itemEditorIsActive: boolean = false;
+    @Input() parentSequence: ISequence;
     @Output() onStateChange = new EventEmitter<boolean>();
 
     itemSub: Subscription;
@@ -80,7 +82,7 @@ export class ItemEditorComponent implements OnInit{
                             name:'valueSource',
                             verbose:'Value source',
                             type: 'select',
-                            optionsRetriever: this.getSourceOptions
+                            options:[],
                         }
                     ]
                 }
@@ -177,8 +179,8 @@ export class ItemEditorComponent implements OnInit{
                 tip: 'display formatted text with links and images'
             },
             options:{
-                name: 'options',
-                verbose: 'Response options',
+                name: 'optionsSources',
+                verbose: 'Response optionsSources',
                 tip: 'e.g. how respondent can react on given stimuli',
                 type: 'listing',
                 fields:[
@@ -186,8 +188,8 @@ export class ItemEditorComponent implements OnInit{
                 ]
             },
             assets:{
-                name: 'assets',
-                verbose: 'Item assets',
+                name: 'assetsSources',
+                verbose: 'Item assetsSources',
                 tip: 'stimuli provided to respondent',
                 type: 'listing',
                 fields:[
@@ -301,7 +303,7 @@ export class ItemEditorComponent implements OnInit{
                 ]
             },
             {
-                value:'primaryText',
+                value:'display',
                 verbose:'Display',
                 fields:[
                     itemConfigurationOptions.primaryText,
@@ -350,6 +352,10 @@ export class ItemEditorComponent implements OnInit{
     }
 
     ngOnInit(){
+        // this.sequenceSub = MeteorObservable.subscribe('author-per-sequence-subscription', this.parentSequenceId).subscribe(()=>{
+        //     this.zone
+        // })
+
         this.itemSub = MeteorObservable.subscribe('author-per-item-subscription', this.itemId).subscribe(()=>{
             this.zone.run(()=>{
                 this.item = Items.findOne(this.itemId);
@@ -416,8 +422,21 @@ export class ItemEditorComponent implements OnInit{
 
     }
 
-    getSourceOptions(){
-        return null;
+    //GasYr8hu3k5BwLdwY
+
+    getSourceOptions(thing){
+        console.log(this.parentSequence.itemsSequence);
+        let options: IItemFormConfig[] = [];
+        this.parentSequence.itemsSequence.forEach((siblingItem)=>{
+            console.log(siblingItem, thing);
+            options.push({
+                name: siblingItem,
+                verbose: siblingItem,
+                value: siblingItem
+            })
+        })
+
+        return options;
     }
 
     // http://localhost:3000/response/EeCo6ExxzXyAb7oGT/3QXBLT9ZJ6vA3JcSg
@@ -425,7 +444,6 @@ export class ItemEditorComponent implements OnInit{
     getItemDetailsFormControls(fields: IItemFormConfig[], formGroup?: FormGroup, parentGroupName?:string):FormGroup{
         formGroup = formGroup || this.formBuilder.group({});
         fields.forEach((field)=>{
-
             if(!field.group || field.group === parentGroupName){
                 let control;
                 let name=parentGroupName ? this.item[parentGroupName][field.name] : this.item[field.name];
@@ -434,11 +452,19 @@ export class ItemEditorComponent implements OnInit{
                     case 'listing':
                         if (itemValue && itemValue.length > 0){
                             control = this.formBuilder.array([]);
+                            // let itemGroup = this.formBuilder.group();
                             itemValue.forEach((val)=>{
-                                let itemGroup = this.formBuilder.group(val)
-                                control.push(itemGroup);
+                                if (field.fields){
+                                    // console.log(itemGroup);
+                                    // console.log(this.getItemDetailsFormControls(field.fields));
+                                    let itemGroup = this.formBuilder.group(this.getItemDetailsFormControls(field.fields));
+                                    control.push(itemGroup);
+                                    // itemGroup.addControl();
+                                    // this.getSourceOptions(val);
+                                }
                             })
                         }else{
+
                             control = this.formBuilder.array([
                                 this.getItemDetailsFormControls(field.fields)
                             ]);
@@ -451,10 +477,27 @@ export class ItemEditorComponent implements OnInit{
                         }
                         break;
                     default:
+
                         control = this.formBuilder.control(itemValue);
                         break;
                 }
 
+                if(field.name=='sourceType'){
+                    // this.getItemDetailsFormControls(field.options);
+                    let dynamicSource = field.options.find((opt)=>opt.value==='dynamic');
+
+                    // console.log(control, formGroup);
+                    // this.getItemDetailsFormControls(dynamicSource.fields, control);
+
+                    let groupToNest = this.getItemDetailsFormControls(dynamicSource.fields);
+                    // control.addControl(field.group, groupToNest);
+                    console.log(groupToNest);
+                }
+                //
+                if(field.name=='valueSource'){
+                    // console.log(this.getSourceOptions(field), field, control);
+                    field.options.concat(this.getSourceOptions(field));
+                }
 
                 formGroup.addControl(
                     field.name,
@@ -475,12 +518,16 @@ export class ItemEditorComponent implements OnInit{
             if(field.options){
                 formGroup.valueChanges.subscribe((value)=>{
                     let currentOption = field.options.find((opt)=>opt.value===value[field.name]);
+
                     if(currentOption && currentOption.fields){
-                        currentOption.fields.forEach((fld)=>{
-                            if(!formGroup.contains(fld.name)){
-                                formGroup.addControl(fld.name, this.formBuilder.control(''));
-                            }
-                        })
+                        // currentOption.fields.forEach((fld)=>{
+                        //     if(!formGroup.contains(fld.name)){
+                        //
+                        //     }
+                        // })
+
+                        formGroup.addControl(currentOption.name ,this.getItemDetailsFormControls(currentOption.fields));
+
 
                         for (let controlName in formGroup.controls){
                             if(

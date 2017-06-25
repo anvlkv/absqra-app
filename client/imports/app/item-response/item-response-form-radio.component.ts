@@ -9,7 +9,7 @@ import {ItemResponseFormInputComponent} from "./item-response-form-input.compone
 @Component({
     selector: 'item-response-form-radio',
     template,
-    inputs:['choices']
+    inputs:['assets']
 })
 
 export class ItemResponseFormRadioComponent extends ItemResponseFormInputComponent{}

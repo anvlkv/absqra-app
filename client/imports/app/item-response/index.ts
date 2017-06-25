@@ -6,6 +6,7 @@ import {ItemResponseFormCheckboxComponent} from "./item-response-form-checkbox.c
 import {ItemResponseFormListingComponent} from "./item-response-form-listing.component";
 import {ItemResponseFormOrderingComponent} from "./item-response-form-ordering.component";
 import {ItemResponseFormBtnGroupComponent} from "./item-response-form-btn-group.component";
+import {ItemResponseFormRatingComponent} from "./item-response-form-rating.component";
 /**
  * Created by a.nvlkv on 19/11/2016.
  */
@@ -18,5 +19,6 @@ export const ITEM_DECLARATIONS = [
     ItemResponseFormCheckboxComponent,
     ItemResponseFormListingComponent,
     ItemResponseFormOrderingComponent,
-    ItemResponseFormBtnGroupComponent
+    ItemResponseFormBtnGroupComponent,
+    ItemResponseFormRatingComponent
 ]

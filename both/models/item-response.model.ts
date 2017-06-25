@@ -1,4 +1,5 @@
 import {IMongoDocument} from "./mongo-document.model";
+import {ISingleItemComposition} from "./single-task-composition.model";
 /**
  * Created by a.nvlkv on 20/11/2016.
  */
@@ -7,5 +8,6 @@ import {IMongoDocument} from "./mongo-document.model";
 export interface IItemResponse extends IMongoDocument{
     item_id:  string,
     value: any,
-    meta?: any
+    meta?: any,
+    item: ISingleItemComposition
 }

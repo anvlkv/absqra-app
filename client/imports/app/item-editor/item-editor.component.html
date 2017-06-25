@@ -42,7 +42,7 @@
                 <div *ngIf="itemDetailsFormContent.inputType" class="form-group">
                     <label for="inputType">Field type</label>
                     <select class="form-control" [formControl]="itemDetailsFormContent.inputType" id="inputType">
-                        <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'inputType')?.options" value="{{opt.value}}">{{opt.verbose}}</option>
+                        <option *ngFor="let opt of (currentItemType?.fields | fieldNameFind:'inputType')?.optionsSources" value="{{opt.value}}">{{opt.verbose}}</option>
                     </select>
                 </div>
 
@@ -123,11 +123,11 @@
                     <textarea class="form-control" type="text" id="display" [formControl]="itemDetailsFormContent.display"></textarea>
                 </div>
 
-                <div *ngIf="itemDetailsFormContent.assets" class="form-group">
+                <div *ngIf="itemDetailsFormContent.assetsSources" class="form-group">
                     <h6>Item assets</h6>
                     <small class="form-text text-muted">stimuli provided to respondent</small>
                     <ul class="list-unstyled">
-                        <li *ngFor="let option of itemDetailsFormContent.assets.controls; let i = index;">
+                        <li *ngFor="let option of itemDetailsFormContent.assetsSources.controls; let i = index;">
                             <div class="form-inline mb-2 row">
                                 <div class="input-group col-12 col-sm-4">
                                     <div class="input-group-addon" role="label">Source type</div>
@@ -148,23 +148,23 @@
                                     </select>
                                 </div>
                                 <div class="input-group col-sm-2">
-                                    <a role="button" class="btn btn-outline-secondary" (click)="itemDetailsFormContent.removeAt_assets(i)">Remove</a>
+                                    <a role="button" class="btn btn-outline-secondary" (click)="itemDetailsFormContent.removeAt_assetsSources(i)">Remove</a>
 
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <a role="button" class="btn btn-block btn-outline-primary" (click)="itemDetailsFormContent.addTo_assets()">+ Add asset</a>
+                            <a role="button" class="btn btn-block btn-outline-primary" (click)="itemDetailsFormContent.addTo_assetsSources()">+ Add asset</a>
                         </li>
                     </ul>
                 </div>
 
 
-                <div *ngIf="itemDetailsFormContent.options" class="form-group">
+                <div *ngIf="itemDetailsFormContent.optionsSources" class="form-group">
                     <h6>Response options</h6>
                     <small class="form-text text-muted">e.g. how respondent can react on given stimuli</small>
                     <ul class="list-unstyled">
-                        <li *ngFor="let option of itemDetailsFormContent.options.controls; let i = index;">
+                        <li *ngFor="let option of itemDetailsFormContent.optionsSources.controls; let i = index;">
                             <div class="form-inline mb-2 row">
                                 <div class="input-group col-12 col-sm-4">
                                     <div class="input-group-addon" role="label">Source type</div>
@@ -185,13 +185,13 @@
                                     </select>
                                 </div>
                                 <div class="input-group col-sm-2">
-                                    <a role="button" class="btn btn-outline-secondary" (click)="itemDetailsFormContent.removeAt_options(i)">Remove</a>
+                                    <a role="button" class="btn btn-outline-secondary" (click)="itemDetailsFormContent.removeAt_optionsSources(i)">Remove</a>
 
                                 </div>
                             </div>
                         </li>
                         <li>
-                            <a role="button" class="btn btn-block btn-outline-primary" (click)="itemDetailsFormContent.addTo_options()">+ Add option</a>
+                            <a role="button" class="btn btn-block btn-outline-primary" (click)="itemDetailsFormContent.addTo_optionsSources()">+ Add option</a>
                         </li>
                     </ul>
                 </div>

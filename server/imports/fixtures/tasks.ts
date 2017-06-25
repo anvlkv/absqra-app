@@ -101,18 +101,18 @@ export function loadTasks(){
                     allowOther: true,
                     allowUndefined: true,
                 },
-                assets:[
+                assetsSources:[
                     {
-                        assetType: 'text',
-                        text: 'Terrible option',
+                        sourceType: 'static',
+                        value: 'Terrible option',
                     },
                     {
-                        assetType: 'text',
-                        text: 'So-so option',
+                        sourceType: 'static',
+                        value: 'So-so option',
                     },
                     {
-                        assetType: 'text',
-                        text: 'Nice one',
+                        sourceType: 'static',
+                        value: 'Nice one',
                     },
                 ]
             },
@@ -126,30 +126,30 @@ export function loadTasks(){
                     maxCount: 4,
                     minCount: 2
                 },
-                assets:[
+                assetsSources:[
                     {
-                        assetType: 'text',
-                        text: 'Terrible option',
+                        sourceType: 'static',
+                        value: 'Terrible option',
                     },
                     {
-                        assetType: 'text',
-                        text: 'So-so option',
+                        sourceType: 'static',
+                        value: 'So-so option',
                     },
                     {
-                        assetType: 'text',
-                        text: 'Nice one',
+                        sourceType: 'static',
+                        value: 'Nice one',
                     },
                     {
-                        assetType: 'text',
-                        text: 'Very nice option',
+                        sourceType: 'static',
+                        value: 'Very nice option',
                     },
                     {
-                        assetType: 'text',
-                        text: 'Unearthly good',
+                        sourceType: 'static',
+                        value: 'Unearthly good',
                     },
                     {
-                        assetType: 'text',
-                        text: 'So good that almost terrible',
+                        sourceType: 'static',
+                        value: 'So good that almost terrible',
                     },
                 ]
             },
@@ -181,15 +181,18 @@ export function loadTasks(){
                     maxCount: 16,
                     minCount: 2
                 },
-                options:[
+                optionsSources:[
                     {
-                        label: 'First group',
+                        sourceType: 'static',
+                        value: 'First group',
                     },
                     {
-                        label: 'Another group',
+                        sourceType: 'static',
+                        value: 'Another group',
                     },
                     {
-                        label: 'Yet another group',
+                        sourceType: 'static',
+                        value: 'Yet another group',
                     },
                 ],
             },
@@ -211,32 +214,32 @@ export function loadTasks(){
                     itemType: 'rating',
                     allowUndefined: true
                 },
-                options:[
+                optionsSources:[
                     {
-                        label: 'Terrible option',
-                        value: 1,
+                        sourceType: 'static',
+                        value: 'Terrible option',
                     },
                     {
-                        label: 'So-so option',
-                        value: 2,
+                        sourceType: 'static',
+                        value: 'So-so option',
                     },
                     {
-                        label: 'Nice one',
-                        value: 3
+                        sourceType: 'static',
+                        value: 'Nice one',
                     },
                 ],
-                assets:[
+                assetsSources:[
                     {
-                        assetType: 'text',
-                        text: 'Rateable item'
+                        sourceType: 'static',
+                        value: 'Rateable item'
                     },
                     {
-                        assetType: 'text',
-                        text: 'Another rateable item'
+                        sourceType: 'static',
+                        value: 'Another rateable item'
                     },
                     {
-                        assetType: 'text',
-                        text: 'One more rateable item'
+                        sourceType: 'static',
+                        value: 'One more rateable item'
                     },
                 ]
             },
@@ -248,41 +251,44 @@ export function loadTasks(){
                     itemType: 'grouping',
                     allowNewGroups: true
                 },
-                options:[
+                optionsSources:[
                     {
-                        label: 'First group',
+                        sourceType: 'static',
+                        value: 'First group',
                     },
                     {
-                        label: 'Another group',
+                        sourceType: 'static',
+                        value: 'Another group',
                     },
                     {
-                        label: 'Yet another group',
+                        sourceType: 'static',
+                        value: 'Yet another group',
                     },
                 ],
-                assets:[
+                assetsSources:[
                     {
-                        assetType: 'text',
-                        text: 'Sortable item'
+                        sourceType: 'static',
+                        value: 'Sortable item'
                     },
                     {
-                        assetType: 'text',
-                        text: 'Another sortable item'
+                        sourceType: 'static',
+                        value: 'Another sortable item'
                     },
                     {
-                        assetType: 'text',
-                        text: 'One more sortable item'
+                        sourceType: 'static',
+                        value: 'One more sortable item'
                     },
                     {
-                        assetType: 'text',
-                        text: 'Sortable item 4'
+                        sourceType: 'static',
+                        value: 'Sortable item 4'
                     },
                     {
-                        assetType: 'text',
-                        text: 'Another sortable item 5'
+                        sourceType: 'static',
+                        value: 'Another sortable item 5'
                     },
                     {
-                        assetType: 'text',
-                        text: 'One more sortable item 6'
+                        sourceType: 'static',
+                        value: 'One more sortable item 6'
                     },
                 ]
             },

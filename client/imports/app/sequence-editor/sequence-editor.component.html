@@ -10,7 +10,7 @@
                     {{ item?.name }}
                 </a>
                 <a href="javascript:;" class="nav-link btn btn-outline-primary" (click)="createNewItem()">+ Add an item</a>
-
+                <a  class="nav-link btn btn-primary mt-2" [routerLink]="['/response/', sequence._id]">Try!</a>
             </nav>
         </div>
         <div *ngIf="!sequence?._id">
@@ -45,7 +45,7 @@
         <div class="row" *ngIf="sequence?._id">
             <ul class="col-12" dnd-sortable-container [sortableData]="sequence?.itemsSequence">
                 <li class="card" *ngFor="let item of (sequence?.itemsSequence | itemsSort:(items | async)); let i = index" dnd-sortable [sortableIndex]="i" (onDropSuccess)="updateSequence($event)">
-                    <item-editor class="card-block" *ngIf="item?._id" [itemId]="item?._id" [itemEditorIsActive]="activeItemEditor[item?._id]" (onStateChange)="activeItemEditor[item?._id]=$event"></item-editor>
+                    <item-editor class="card-block" *ngIf="item?._id" [itemId]="item?._id" [itemEditorIsActive]="activeItemEditor[item?._id]" (onStateChange)="activeItemEditor[item?._id]=$event" [parentSequence]="sequence"></item-editor>
                 </li>
                 <li class="card">
                     <button class="btn btn-block btn-outline-primary" (click)="createNewItem()">+ Add an item</button>
