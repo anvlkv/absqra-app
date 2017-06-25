@@ -1,0 +1,16 @@
+<div [formGroup]="formGroup">
+    <!--<div *ngFor="let asset of assets" class="form-check">-->
+        <!--<label class="form-check-label">-->
+            <!--<input type="checkbox" class="form-check-input" [formControlName]="asset.name" [attr.aria-describedby]="describedby">-->
+            <!--{{asset.label}}-->
+        <!--</label>-->
+    <!--</div>-->
+    <div *ngFor="let asset of assets" class="mt-3 form-control">
+        <p class="h6">{{asset.value}}</p>
+        <div class="flex-sm-wrap btn-group-justified" data-toggle="buttons" ngbRadioGroup ngDefaultControl  (change)="submitCall.emit($event)" [formControlName]="asset.name" [attr.aria-describedby]="describedby">
+            <label *ngFor="let opt of options" class="btn btn-lg btn-primary">
+                <input [value]="opt.name" type="radio" autocomplete="off">{{opt.label}}
+            </label>
+        </div>
+    </div>
+</div>
