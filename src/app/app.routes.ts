@@ -5,6 +5,6 @@ import {LandingPageComponent} from './landing-page/landing-page.component';
  */
 export const appRoutes: Routes = [
   {path: '', component: LandingPageComponent},
-  {path: 'ask', loadChildren: 'app/interviewer#InterviewerModule' },
-  {path: 'answer', loadChildren: 'app/respondent#RespondentModule' }
+  {path: 'ask', loadChildren: './interviewer#InterviewerModule' },
+  {path: 'answer', loadChildren: './respondent#RespondentModule' }
 ];
