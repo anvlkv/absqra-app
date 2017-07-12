@@ -1,8 +1,0 @@
-<div [formGroup]="formGroup">
-    <div *ngFor="let asset of assets" class="form-check">
-        <label class="form-check-label">
-            <input type="checkbox" class="form-check-input" [formControlName]="asset.name" [attr.aria-describedby]="describedby">
-            {{asset.label}}
-        </label>
-    </div>
-</div>

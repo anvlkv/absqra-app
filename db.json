@@ -1,0 +1,62 @@
+{
+  "sequences": [
+    {
+      "id": "id1",
+      "name": "fix sequence",
+      "description": "fix description",
+      "itemsIds": [
+        "id1",
+        "id2"
+      ]
+    },
+    {
+      "name": "123",
+      "id": "ryJaEg4B-"
+    }
+  ],
+  "items": [
+    {
+      "id": "id1",
+      "name": "fix item",
+      "question": "fix question",
+      "type": "list"
+    },
+    {
+      "id": "id2",
+      "name": "fix another item",
+      "question": "fix another question",
+      "type": "select-multiple",
+      "assets": [
+        {
+          "type": "static",
+          "contentType": "text",
+          "content": "fix static"
+        },
+        {
+          "type": "dynamic",
+          "contentType": "text",
+          "source": "id1"
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "id": "id1",
+      "sequenceId": "id1",
+      "items": [
+        {
+          "itemId": "id1",
+          "response": [
+            "list 1",
+            "list 2"
+          ]
+        },
+        {
+          "itemId": "id2",
+          "response": "list 2"
+        }
+      ]
+    }
+  ]
+}

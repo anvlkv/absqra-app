@@ -1,5 +1,0 @@
-@for $basis from 0 through 100{
-  .fb-#{$basis}{
-    flex-basis: $basis*1%;
-  }
-}

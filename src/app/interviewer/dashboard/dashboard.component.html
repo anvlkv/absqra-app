@@ -1,0 +1,8 @@
+<nav>
+  <a *ngFor="let seq of sequences" [routerLink]="[seq.id]">{{seq.name}}</a>
+</nav>
+<hr/>
+<div>
+  <input [(ngModel)]="newSequenceName"/>
+  <button (click)="addSequence(newSequenceName)" >Add sequence</button>
+</div>
