@@ -1,3 +1,15 @@
 <p>
   sequence-editor works!
 </p>
+
+<div *ngIf="sequence">
+  <h1>{{sequence.name}}</h1>
+  <p>{{sequence.description}}</p>
+  <ul>
+    <li *ngFor="let itemId of sequence.itemsIds">
+      <app-item-thumbnail [itemId]="itemId" *ngIf="activeItemEditor != itemId"></app-item-thumbnail>
+      <app-item-editor [itemId]="itemId" (itemSaved)="doneEditing($event)" *ngIf="activeItemEditor == itemId"></app-item-editor>
+    </li>
+  </ul>
+  <button (click)="addItem()">+ New item</button>
+</div>

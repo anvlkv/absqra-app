@@ -14,7 +14,7 @@ import {MockDataService} from './mock-data.service';
 @NgModule({
   declarations: [
     AppComponent,
-    LandingPageComponent
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,

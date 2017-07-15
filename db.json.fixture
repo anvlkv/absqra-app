@@ -13,22 +13,22 @@
         "id":"id1",
         "name":"fix item",
         "question":"fix question",
-        "type":"list"
+        "type":2
       },
       {
         "id":"id2",
         "name":"fix another item",
         "question":"fix another question",
-        "type":"select-multiple",
+        "type":0,
         "assets":[
           {
-            "type":"static",
-            "contentType":"text",
+            "type":0,
+            "contentType":0,
             "content":"fix static"
           },
           {
-            "type":"dynamic",
-            "contentType":"text",
+            "type":1,
+            "contentType":0,
             "source":"id1"
           }
         ]

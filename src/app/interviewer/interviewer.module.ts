@@ -6,6 +6,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import {interviewerRoutes} from './interviewer.routes';
 import {FormsModule} from '@angular/forms';
 import {RouterModule} from '@angular/router';
+import {ItemThumbnailComponent} from "./item-thumbnail/item-thumbnail.component";
+import { AssetEditorComponent } from './asset-editor/asset-editor.component';
 
 @NgModule({
   imports: [
@@ -13,7 +15,13 @@ import {RouterModule} from '@angular/router';
     FormsModule,
     RouterModule.forChild(interviewerRoutes)
   ],
-  declarations: [SequenceEditorComponent, ItemEditorComponent, DashboardComponent]
+  declarations: [
+    SequenceEditorComponent,
+    ItemEditorComponent,
+    DashboardComponent,
+    ItemThumbnailComponent,
+    AssetEditorComponent
+  ]
 })
 export class InterviewerModule {
 }
