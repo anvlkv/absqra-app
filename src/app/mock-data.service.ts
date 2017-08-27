@@ -20,25 +20,7 @@ export class MockDataService {
   }
 
   postSequence(sequence) {
-    return this.http.post(this.sequencesUrl, sequence)
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  getSequence(id){
-    return this.http.get(this.nestUrl(this.sequencesUrl, id))
-      .map(this.extractData)
-      .catch(this.handleError);
-  }
-
-  private nestUrl(...parts){
-    let url = '';
-
-    parts.forEach(part => {
-      url += '/' + part;
-    });
-
-    return url;
+    return this.http.post(this.sequencesUrl, sequence);
   }
 
   private extractData(res: Response) {

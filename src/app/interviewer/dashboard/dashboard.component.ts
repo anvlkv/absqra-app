@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MockDataService} from '../../mock-data.service';
 import {Sequence} from '../../sequence';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,10 +12,7 @@ export class DashboardComponent implements OnInit {
   mode = 'Observable';
   newSequenceName: string = '';
 
-  constructor(
-    private dataService: MockDataService,
-    private router: Router
-  ) { }
+  constructor(private dataService: MockDataService) { }
 
   ngOnInit() {
     this.dataService.getSequences().subscribe(
@@ -26,9 +22,7 @@ export class DashboardComponent implements OnInit {
   }
 
   addSequence(name: string) {
-    this.dataService.postSequence({name}).subscribe((res: Sequence) => {
-      this.router.navigate(['ask', res.id]);
-    });
+    this.dataService.postSequence({name}).subscribe(res => console.log(res));
   }
 
 }

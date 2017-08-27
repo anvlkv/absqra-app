@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import {RespondentModule} from 'app/respondent/respondent.module';
-import {InterviewerModule} from 'app/interviewer/interviewer.module';
+import {RespondentModule} from './respondent/respondent.module';
+import {InterviewerModule} from './interviewer/interviewer.module';
 import {RouterModule} from '@angular/router';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import {appRoutes} from './app.routes';
 import {MockDataService} from './mock-data.service';
-import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LandingPageComponent,
-    LoadingComponent
+    LandingPageComponent
   ],
   imports: [
     BrowserModule,
