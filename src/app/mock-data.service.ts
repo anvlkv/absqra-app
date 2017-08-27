@@ -9,6 +9,8 @@ import { Subject } from 'rxjs/Subject';
 
 import { Item } from './item';
 import { Sequence } from './sequence';
+import { SequenceResponse } from 'app/response';
+import { ItemResponse } from './item-response';
 
 @Injectable()
 export class MockDataService {
@@ -97,13 +99,43 @@ export class MockDataService {
       .catch(this.handleError);
   }
 
-  postResponse(response, sequenceId): Observable<any> {
+  getResponse(id): Observable<SequenceResponse> {
+    return this.http.get(this.nestUrlParts(this.responsesUrl, id))
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  postItemResponse(itemResponse: ItemResponse, sequenceId: string, responseId?: string): Observable<SequenceResponse> {
+    const subjectSequenceResponse: Subject<SequenceResponse> = new Subject();
+
+    (responseId ? this.getResponse(responseId) : this.postResponse({})).subscribe(seqResponse => {
+      seqResponse.sequenceId = sequenceId;
+      seqResponse.items = seqResponse.items || [];
+      seqResponse.items.push(itemResponse);
+
+      this.updateResponse(seqResponse, seqResponse.id).subscribe(originalResponse => {
+        subjectSequenceResponse.next(originalResponse);
+      });
+    });
+
+    return subjectSequenceResponse;
+  }
+
+  postResponse(response): Observable<SequenceResponse> {
     return this.http.post(this.nestUrlParts(this.responsesUrl), response)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
+  updateResponse(response, responseId): Observable<SequenceResponse> {
+    return this.http.patch(this.nestUrlParts(this.responsesUrl, responseId), response)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   private nestUrlParts(...parts): string {
+    parts = parts.filter(p => !!p);
+
     return parts.join('/');
   }
 
