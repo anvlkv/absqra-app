@@ -4,14 +4,23 @@
       "id": "id1",
       "name": "fix sequence",
       "description": "fix description",
+      "mode": "singleResponse",
       "itemsIds": [
         "id1",
-        "id2"
+        "id2",
+        "B1UoD9DSb",
+        "r1N0dcvr-"
       ]
     },
     {
-      "name": "123",
-      "id": "ryJaEg4B-"
+      "name": "new trial",
+      "id": "ryF8ZWtBb",
+      "itemsIds": [
+        "r198WbYr-",
+        "S16vWZKHb",
+        "B14tWWKSb",
+        "Sksw7bYHW"
+      ]
     }
   ],
   "items": [
@@ -19,23 +28,93 @@
       "id": "id1",
       "name": "fix item",
       "question": "fix question",
-      "type": "list"
+      "type": 2
     },
     {
       "id": "id2",
       "name": "fix another item",
       "question": "fix another question",
-      "type": "select-multiple",
+      "type": 0,
       "assets": [
         {
-          "type": "static",
-          "contentType": "text",
+          "type": 0,
+          "contentType": 0,
           "content": "fix static"
         },
         {
-          "type": "dynamic",
-          "contentType": "text",
+          "type": 1,
+          "contentType": 0,
           "source": "id1"
+        }
+      ]
+    },
+    {
+      "id": "B1UoD9DSb",
+      "name": "my new item",
+      "question": "q??",
+      "type": "0",
+      "assets": [
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "id2"
+        }
+      ]
+    },
+    {
+      "id": "r1N0dcvr-",
+      "assets": [
+        {
+          "type": "0",
+          "contentType": 0
+        }
+      ]
+    },
+    {
+      "id": "r198WbYr-",
+      "name": "src1",
+      "question": "my question 1",
+      "type": "2"
+    },
+    {
+      "id": "S16vWZKHb",
+      "name": "src2",
+      "question": "my question 2",
+      "type": "2"
+    },
+    {
+      "id": "B14tWWKSb",
+      "name": "target",
+      "question": "target?",
+      "type": "0",
+      "assets": [
+        {
+          "type": 0,
+          "contentType": 0,
+          "content": "static asset"
+        },
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "r198WbYr-"
+        },
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "S16vWZKHb"
+        }
+      ]
+    },
+    {
+      "id": "Sksw7bYHW",
+      "name": "target 2",
+      "question": "qq?",
+      "type": "0",
+      "assets": [
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "S16vWZKHb"
         }
       ]
     }

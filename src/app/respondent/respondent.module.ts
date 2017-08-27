@@ -4,13 +4,15 @@ import { SequenceResponseComponent } from './sequence-response/sequence-response
 import { ItemResponseComponent } from './item-response/item-response.component';
 import {respondentRoutes} from './respondent.routes';
 import {RouterModule} from '@angular/router';
+import { ProgressComponent } from './progress/progress.component';
+import { StartSequenceComponent } from './start-sequence/start-sequence.component';
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(respondentRoutes)
   ],
-  declarations: [SequenceResponseComponent, ItemResponseComponent]
+  declarations: [SequenceResponseComponent, ItemResponseComponent, ProgressComponent, StartSequenceComponent]
 })
 export class RespondentModule {
 }

@@ -1,15 +1,21 @@
 import { Injectable } from '@angular/core';
 import {Sequence} from './sequence';
-import {Http, Response} from '@angular/http';
+import {Http, RequestOptions, Response, Headers} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
+import {Subject} from 'rxjs/Subject';
+
+
+import {Item} from "./item";
 
 @Injectable()
 export class MockDataService {
   private mockServer = 'http://localhost:3000';
   private sequencesUrl = this.mockServer + '/sequences';
+  private itemsUrl = this.mockServer + '/items';
+
 
   constructor(private http: Http) { }
 
@@ -19,8 +25,78 @@ export class MockDataService {
       .catch(this.handleError);
   }
 
-  postSequence(sequence) {
-    return this.http.post(this.sequencesUrl, sequence);
+  getSequence(id): Observable<Sequence> {
+    return this.http.get(this.nestUrlParts(this.sequencesUrl, id))
+      .map(this.extractData)
+      .catch(this.handleError)
+  }
+
+  getSequenceItems(id): Observable<Item[]> {
+    return this.http.get(this.nestUrlParts(this.sequencesUrl, id, 'items'))
+      .map(this.extractData)
+      .catch(this.handleError)
+  }
+
+  postSequence(sequence): Observable<Sequence> {
+    return this.http.post(this.sequencesUrl, sequence)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  postItem(item): Observable<Item> {
+    return this.http.post(this.itemsUrl, item)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  updateItem(item): Observable<Item> {
+    return this.http.patch(this.nestUrlParts(this.itemsUrl, item.id), item)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  updateSequence(sequenceId, patch): Observable<Sequence>{
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({headers});
+
+    return this.http.patch(this.nestUrlParts(this.sequencesUrl, sequenceId), patch, options)
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  addItemToSequence(item: Item | {}, sequenceId: string): Observable<{Sequence: Sequence, itemId:string}>{
+    const obsSequence: Subject<{Sequence: Sequence, itemId:string}> = new Subject();
+
+    this.getSequence(sequenceId).subscribe(originalSequence=>{
+      this.postItem(item)
+        .subscribe(newItem=>{
+          const itemsIds = originalSequence.itemsIds || [];
+
+          itemsIds.push(newItem.id);
+
+          this.updateSequence(sequenceId, {itemsIds}).subscribe(seq=>{
+            obsSequence.next({Sequence: seq, itemId: newItem.id});
+          })
+        })
+    });
+
+    return obsSequence;
+  }
+
+  deleteItem(id: string): Observable<Item>{
+    return this.http.delete(this.nestUrlParts(this.itemsUrl, id))
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
+  getItem(id) : Observable<Item>{
+    return this.http.get(this.nestUrlParts(this.itemsUrl, id))
+      .map(this.extractData)
+      .catch(this.handleError)
+  }
+
+  private nestUrlParts(...parts): string{
+    return parts.join('/');
   }
 
   private extractData(res: Response) {

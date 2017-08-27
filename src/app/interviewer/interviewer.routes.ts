@@ -8,5 +8,6 @@ import {SequenceEditorComponent} from './sequence-editor/sequence-editor.compone
 export const interviewerRoutes: Routes = [
   {path: 'ask', component: DashboardComponent, children: [
   ]},
-  {path: 'ask/:sequenceId', component: SequenceEditorComponent}
+  {path: 'ask/:sequenceId', component: SequenceEditorComponent},
+  {path: 'ask/:sequenceId/:itemId', component: SequenceEditorComponent},
 ];
