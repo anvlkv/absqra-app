@@ -1,3 +1,10 @@
-<p>
-  sequence-editor works!
-</p>
+
+<div *ngIf="sequence">
+  <h1>{{sequence.name}}</h1>
+  <p>{{sequence.description}}</p>
+  <ul>
+    <li *ngFor="let item of sequence.itemsIds">
+      <app-item-thumbnail [itemId]="item"></app-item-thumbnail>
+    </li>
+  </ul>
+</div>
