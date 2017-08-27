@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Sequence} from "../../sequence";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MockDataService} from "../../mock-data.service";
 
 @Component({
@@ -15,6 +15,7 @@ export class SequenceEditorComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dataService: MockDataService
   ) { }
 
@@ -23,7 +24,11 @@ export class SequenceEditorComponent implements OnInit {
       this.sequenceId = params.sequenceId;
       this.dataService.getSequence(this.sequenceId).subscribe((sequence)=>{
         this.sequence = sequence;
-      })
+      });
+
+      if(params.itemId){
+        this.activeItemEditor = params.itemId;
+      }
     })
   }
 
@@ -31,6 +36,7 @@ export class SequenceEditorComponent implements OnInit {
     this.dataService.addItemToSequence({}, this.sequenceId).subscribe(resp=>{
       this.sequence = resp.Sequence;
       this.activeItemEditor = resp.itemId;
+      this.router.navigate(['ask', this.sequence.id, this.activeItemEditor]);
     })
   }
 
@@ -38,7 +44,22 @@ export class SequenceEditorComponent implements OnInit {
     console.log(itemId);
     if(this.activeItemEditor == itemId){
       this.activeItemEditor = null;
+      this.router.navigate(['ask', this.sequence.id]);
     }
+  }
+
+  activateItemEditor(id){
+    // if(!this.activeItemEditor){
+      this.activeItemEditor = id;
+    this.router.navigate(['ask', this.sequence.id, this.activeItemEditor]);
+    // }
+    // else{
+    //
+    // }
+  }
+
+  deleteItem(id){
+    this.dataService.deleteItem(id).subscribe(r=>console.log(r));
   }
 
 }

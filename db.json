@@ -11,6 +11,16 @@
         "B1UoD9DSb",
         "r1N0dcvr-"
       ]
+    },
+    {
+      "name": "new trial",
+      "id": "ryF8ZWtBb",
+      "itemsIds": [
+        "r198WbYr-",
+        "S16vWZKHb",
+        "B14tWWKSb",
+        "Sksw7bYHW"
+      ]
     }
   ],
   "items": [
@@ -57,6 +67,54 @@
         {
           "type": "0",
           "contentType": 0
+        }
+      ]
+    },
+    {
+      "id": "r198WbYr-",
+      "name": "src1",
+      "question": "my question 1",
+      "type": "2"
+    },
+    {
+      "id": "S16vWZKHb",
+      "name": "src2",
+      "question": "my question 2",
+      "type": "2"
+    },
+    {
+      "id": "B14tWWKSb",
+      "name": "target",
+      "question": "target?",
+      "type": "0",
+      "assets": [
+        {
+          "type": 0,
+          "contentType": 0,
+          "content": "static asset"
+        },
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "r198WbYr-"
+        },
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "S16vWZKHb"
+        }
+      ]
+    },
+    {
+      "id": "Sksw7bYHW",
+      "name": "target 2",
+      "question": "qq?",
+      "type": "0",
+      "assets": [
+        {
+          "type": "1",
+          "contentType": 0,
+          "source": "S16vWZKHb"
         }
       ]
     }

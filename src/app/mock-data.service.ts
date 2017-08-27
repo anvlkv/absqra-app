@@ -83,6 +83,12 @@ export class MockDataService {
     return obsSequence;
   }
 
+  deleteItem(id: string): Observable<Item>{
+    return this.http.delete(this.nestUrlParts(this.itemsUrl, id))
+      .map(this.extractData)
+      .catch(this.handleError);
+  }
+
   getItem(id) : Observable<Item>{
     return this.http.get(this.nestUrlParts(this.itemsUrl, id))
       .map(this.extractData)
