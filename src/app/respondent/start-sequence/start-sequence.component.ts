@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from "@angular/router";
-import { SequenceService } from "../sequence.service";
-import { Sequence } from "../../sequence";
+import { ActivatedRoute, Router } from '@angular/router';
+import { Sequence } from '../../sequence';
+import { SequenceService } from '../sequence.service';
 
 @Component({
   selector: 'app-start-sequence',
@@ -11,19 +11,18 @@ import { Sequence } from "../../sequence";
 export class StartSequenceComponent implements OnInit {
   sequence: Sequence;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private sequenceService: SequenceService
-  ) { }
-
-  ngOnInit() {
-    this.sequenceService.sequence$.subscribe(s=>{
-      this.sequence = s;
-    })
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private sequenceService: SequenceService) {
   }
 
-  startSequence(){
+  ngOnInit() {
+    this.sequenceService.sequence$.subscribe(s => {
+      this.sequence = s;
+    });
+  }
+
+  startSequence() {
     this.router.navigate(['answer', this.sequence.id, this.sequence.itemsIds[0]]);
   }
 }

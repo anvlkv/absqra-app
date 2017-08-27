@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {MockDataService} from '../../mock-data.service';
-import {Sequence} from '../../sequence';
-import {Router} from "@angular/router";
+import { Router } from '@angular/router';
+import { MockDataService } from '../../mock-data.service';
+import { Sequence } from '../../sequence';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,10 +12,9 @@ export class DashboardComponent implements OnInit {
   sequences: Sequence[];
   newSequenceName: string = '';
 
-  constructor(
-    private dataService: MockDataService,
-    private router: Router
-  ) { }
+  constructor(private dataService: MockDataService,
+              private router: Router) {
+  }
 
   ngOnInit() {
     this.dataService.getSequences().subscribe(

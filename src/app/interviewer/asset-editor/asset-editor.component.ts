@@ -1,7 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Item, ItemAsset} from "../../item";
-import {MockDataService} from "../../mock-data.service";
-import {ActivatedRoute} from "@angular/router";
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Item } from '../../item';
+import { MockDataService } from '../../mock-data.service';
+import { ItemAsset } from '../../item-asset';
 
 @Component({
   selector: 'app-asset-editor',
@@ -16,10 +17,8 @@ export class AssetEditorComponent implements OnInit {
   private contentTypes: string[];
   private availableSources: Item[];
 
-  constructor(
-    private dataService: MockDataService,
-    private route: ActivatedRoute
-  ) {
+  constructor(private dataService: MockDataService,
+              private route: ActivatedRoute) {
     this.assetTypes = [
       'Static',
       'Dynamic'
@@ -27,20 +26,20 @@ export class AssetEditorComponent implements OnInit {
 
     this.contentTypes = [
       'text'
-    ]
+    ];
   }
 
   ngOnInit() {
-    this.route.params.subscribe(p=>{
-      this.dataService.getSequenceItems(p.sequenceId).subscribe(itms=>{
+    this.route.params.subscribe(p => {
+      this.dataService.getSequenceItems(p.sequenceId).subscribe(items => {
 
-        this.availableSources = itms.filter(itm => itm.id !== this.originItem.id);
+        this.availableSources = items.filter(itm => itm.id !== this.originItem.id);
 
-        console.log(itms, this.availableSources);
+        console.log(items, this.availableSources);
 
-      })
+      });
 
-    })
+    });
   }
 
 }

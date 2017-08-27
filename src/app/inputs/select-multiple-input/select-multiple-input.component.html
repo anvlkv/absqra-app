@@ -1,0 +1,10 @@
+<ul>
+  <li *ngFor="let asset of assets; let i=index">
+    <label [ngSwitch]="asset.contentType">
+      <input type="checkbox" (change)="setSelection($event.target.checked, i)" [checked]="isOptionSelected(i)">
+      <span *ngSwitchCase="assetTypes.textContent">
+        {{asset.content}}
+      </span>
+    </label>
+  </li>
+</ul>

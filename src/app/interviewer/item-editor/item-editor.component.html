@@ -17,7 +17,7 @@
   </fieldset>
   <fieldset>
     <h5>Add item assets</h5>
-    <app-asset-editor *ngFor="let asset of item.assets" [asset]="asset" [originItem]="item" ></app-asset-editor>
+    <app-asset-editor *ngFor="let asset of item.assets" [asset]="asset" [originItem]="item"></app-asset-editor>
     <button (click)="addItemAsset()">+ New asset</button>
   </fieldset>
   <button (click)="saveItem()">Save item</button>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {UserNotification} from "./user-notification";
+import { Subject } from 'rxjs/Subject';
+import { UserNotification } from './user-notification';
 
 @Injectable()
 export class NotificationService {
@@ -8,7 +8,7 @@ export class NotificationService {
 
   confirm$ = this.confirmSource.asObservable();
 
-  userConfirms(req){
+  userConfirms(req) {
     // this.confirmSource.next(req);
   }
 

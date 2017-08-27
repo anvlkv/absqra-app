@@ -8,9 +8,9 @@ describe('SequenceResponseComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SequenceResponseComponent ]
+      declarations: [SequenceResponseComponent]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

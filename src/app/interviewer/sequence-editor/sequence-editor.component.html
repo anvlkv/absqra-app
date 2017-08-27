@@ -7,7 +7,8 @@
         <button (click)="activateItemEditor(itemId)">Edit</button>
         <button (click)="deleteItem(itemId)">Delete</button>
       </app-item-thumbnail>
-      <app-item-editor [itemId]="itemId" (itemSaved)="doneEditing($event)" *ngIf="activeItemEditor == itemId"></app-item-editor>
+      <app-item-editor [itemId]="itemId" (itemSaved)="doneEditing($event)"
+                       *ngIf="activeItemEditor == itemId"></app-item-editor>
     </li>
   </ul>
   <button (click)="addItem()">+ New item</button>

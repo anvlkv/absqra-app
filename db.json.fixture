@@ -1,51 +1,57 @@
 {
-  "sequences":[
+  "sequences": [
     {
-      "id":"id1",
-      "name":"fix sequence",
-      "description":"fix description",
-      "mode":"singleResponse",
-      "itemsIds":["id1", "id2"]
+      "id": "id1",
+      "name": "fix sequence",
+      "description": "fix description",
+      "mode": "singleResponse",
+      "itemsIds": [
+        "id1",
+        "id2"
+      ]
     }
   ],
-  "items":[
-      {
-        "id":"id1",
-        "name":"fix item",
-        "question":"fix question",
-        "type":2
-      },
-      {
-        "id":"id2",
-        "name":"fix another item",
-        "question":"fix another question",
-        "type":0,
-        "assets":[
-          {
-            "type":0,
-            "contentType":0,
-            "content":"fix static"
-          },
-          {
-            "type":1,
-            "contentType":0,
-            "source":"id1"
-          }
-        ]
-      }
-  ],
-  "responses":[
+  "items": [
     {
-      "id":"id1",
-      "sequenceId":"id1",
-      "items":[
+      "id": "id1",
+      "name": "fix item",
+      "question": "fix question",
+      "type": 2
+    },
+    {
+      "id": "id2",
+      "name": "fix another item",
+      "question": "fix another question",
+      "type": 0,
+      "assets": [
         {
-          "itemId":"id1",
-          "response":["list 1", "list 2"]
+          "type": 0,
+          "contentType": 0,
+          "content": "fix static"
         },
         {
-          "itemId":"id2",
-          "response":"list 2"
+          "type": 1,
+          "contentType": 0,
+          "source": "id1"
+        }
+      ]
+    }
+  ],
+  "responses": [
+    {
+      "id": "id1",
+      "sequenceId": "id1",
+      "items": [
+        {
+          "itemId": "id1",
+          "response": [
+            "list 1",
+            "list 2"
+          ]
+        },
+        {
+          "itemId": "id2",
+          "response": "list 2"
         }
       ]
     }

@@ -1,22 +1,22 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { BrowserModule } from '@angular/platform-browser';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { RespondentModule } from './respondent/respondent.module';
-import { InterviewerModule } from './interviewer/interviewer.module';
-import { RouterModule } from '@angular/router';
-import { LandingPageComponent } from './landing-page/landing-page.component';
 import { appRoutes } from './app.routes';
-import { MockDataService } from './mock-data.service';
-import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
+import { InterviewerModule } from './interviewer/interviewer.module';
+import { LandingPageComponent } from 'app/landing-page/landing-page.component';
+import { MockDataService } from 'app/mock-data.service';
+import { NotificationOverlayComponent } from 'app/notification-overlay/notification-overlay.component';
+import { RespondentModule } from 'app/respondent/respondent.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     LandingPageComponent,
-    NotificationOverlayComponent,
+    NotificationOverlayComponent
   ],
   imports: [
     BrowserModule,
@@ -32,4 +32,5 @@ import { NotificationOverlayComponent } from './notification-overlay/notificatio
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

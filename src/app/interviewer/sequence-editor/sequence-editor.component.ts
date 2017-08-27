@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Sequence} from "../../sequence";
-import {ActivatedRoute, Router} from "@angular/router";
-import {MockDataService} from "../../mock-data.service";
+import { ActivatedRoute, Router } from '@angular/router';
+import { MockDataService } from '../../mock-data.service';
+import { Sequence } from '../../sequence';
 
 @Component({
   selector: 'app-sequence-editor',
@@ -13,44 +13,43 @@ export class SequenceEditorComponent implements OnInit {
   private sequenceId: string;
   private activeItemEditor: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private dataService: MockDataService
-  ) { }
+  constructor(private route: ActivatedRoute,
+              private router: Router,
+              private dataService: MockDataService) {
+  }
 
   ngOnInit() {
-    this.route.params.subscribe((params)=>{
+    this.route.params.subscribe((params) => {
       this.sequenceId = params.sequenceId;
-      this.dataService.getSequence(this.sequenceId).subscribe((sequence)=>{
+      this.dataService.getSequence(this.sequenceId).subscribe((sequence) => {
         this.sequence = sequence;
       });
 
-      if(params.itemId){
+      if (params.itemId) {
         this.activeItemEditor = params.itemId;
       }
-    })
+    });
   }
 
-  addItem(){
-    this.dataService.addItemToSequence({}, this.sequenceId).subscribe(resp=>{
+  addItem() {
+    this.dataService.addItemToSequence({}, this.sequenceId).subscribe(resp => {
       this.sequence = resp.Sequence;
       this.activeItemEditor = resp.itemId;
       this.router.navigate(['ask', this.sequence.id, this.activeItemEditor]);
-    })
+    });
   }
 
-  doneEditing(itemId){
+  doneEditing(itemId) {
     console.log(itemId);
-    if(this.activeItemEditor == itemId){
+    if (this.activeItemEditor === itemId) {
       this.activeItemEditor = null;
       this.router.navigate(['ask', this.sequence.id]);
     }
   }
 
-  activateItemEditor(id){
+  activateItemEditor(id) {
     // if(!this.activeItemEditor){
-      this.activeItemEditor = id;
+    this.activeItemEditor = id;
     this.router.navigate(['ask', this.sequence.id, this.activeItemEditor]);
     // }
     // else{
@@ -58,8 +57,8 @@ export class SequenceEditorComponent implements OnInit {
     // }
   }
 
-  deleteItem(id){
-    this.dataService.deleteItem(id).subscribe(r=>console.log(r));
+  deleteItem(id) {
+    this.dataService.deleteItem(id).subscribe(r => console.log(r));
   }
 
 }

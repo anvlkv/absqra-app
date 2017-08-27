@@ -1,6 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MockDataService} from "../../mock-data.service";
-import {Item} from "../../item";
+import { Component, Input, OnInit } from '@angular/core';
+import { Item } from '../../item';
+import { MockDataService } from '../../mock-data.service';
 
 @Component({
   selector: 'app-item-thumbnail',
@@ -10,14 +10,14 @@ import {Item} from "../../item";
 export class ItemThumbnailComponent implements OnInit {
   @Input() itemId: string;
   private item: Item;
-  constructor(
-    private dataService: MockDataService
-  ) { }
+
+  constructor(private dataService: MockDataService) {
+  }
 
   ngOnInit() {
-    this.dataService.getItem(this.itemId).subscribe(itm=>{
-      this.item=itm;
-    })
+    this.dataService.getItem(this.itemId).subscribe(itm => {
+      this.item = itm;
+    });
   }
 
 }

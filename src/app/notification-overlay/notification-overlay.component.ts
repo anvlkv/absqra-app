@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {NotificationService} from "./notification.service";
-import {UserNotification} from "./user-notification";
+import { NotificationService } from './notification.service';
+import { UserNotification } from './user-notification';
 
 @Component({
   selector: 'app-notification-overlay',
@@ -9,19 +9,18 @@ import {UserNotification} from "./user-notification";
   providers: [NotificationService]
 })
 export class NotificationOverlayComponent implements OnInit {
-  private activeNotification: UserNotification
+  private activeNotification: UserNotification;
 
-  constructor(
-    private ns: NotificationService
-  ) { }
+  constructor(private ns: NotificationService) {
+  }
 
   ngOnInit() {
     this.ns.confirm$.subscribe(req => {
       this.activeNotification = req;
-    })
+    });
   }
 
-  confirm(acceptance: boolean){
+  confirm(acceptance: boolean) {
     // this.ns.confirm$.
   }
 

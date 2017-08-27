@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ItemEditorComponent } from './item-editor.component';
+import { ListInputComponent } from './list-input.component';
 
-describe('ItemEditorComponent', () => {
-  let component: ItemEditorComponent;
-  let fixture: ComponentFixture<ItemEditorComponent>;
+describe('ListInputComponent', () => {
+  let component: ListInputComponent;
+  let fixture: ComponentFixture<ListInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ItemEditorComponent]
+      declarations: [ ListInputComponent ]
     })
-      .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ItemEditorComponent);
+    fixture = TestBed.createComponent(ListInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
