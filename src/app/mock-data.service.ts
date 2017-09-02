@@ -108,8 +108,7 @@ export class MockDataService {
   postItemResponse(itemResponse: ItemResponse, sequenceId: string, responseId?: string): Observable<SequenceResponse> {
     const subjectSequenceResponse: Subject<SequenceResponse> = new Subject();
 
-    (responseId ? this.getResponse(responseId) : this.postResponse({})).subscribe(seqResponse => {
-      seqResponse.sequenceId = sequenceId;
+    (responseId ? this.getResponse(responseId) : this.postResponse({sequenceId})).subscribe(seqResponse => {
       seqResponse.items = seqResponse.items || [];
       seqResponse.items.push(itemResponse);
 

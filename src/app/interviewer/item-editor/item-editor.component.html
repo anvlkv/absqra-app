@@ -11,7 +11,7 @@
     <label>
       Item type
       <select [(ngModel)]="item.type">
-        <option *ngFor="let type of itemTypes; index as i;" [value]="i">{{type}}</option>
+        <option *ngFor="let type of itemTypes; let i = index;" [value]="i">{{type}}</option>
       </select>
     </label>
   </fieldset>

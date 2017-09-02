@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
-import { InterviewerModule } from './interviewer/interviewer.module';
+import { InterviewerModule } from 'app/interviewer/interviewer.module';
 import { LandingPageComponent } from 'app/landing-page/landing-page.component';
 import { MockDataService } from 'app/mock-data.service';
 import { NotificationOverlayComponent } from 'app/notification-overlay/notification-overlay.component';
@@ -16,7 +16,7 @@ import { RespondentModule } from 'app/respondent/respondent.module';
   declarations: [
     AppComponent,
     LandingPageComponent,
-    NotificationOverlayComponent
+    NotificationOverlayComponent,
   ],
   imports: [
     BrowserModule,

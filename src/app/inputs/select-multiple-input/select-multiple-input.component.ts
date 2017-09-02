@@ -22,6 +22,7 @@ interface SelectableAsset extends ItemAsset {
 export class SelectMultipleInputComponent implements OnInit, ControlValueAccessor {
   @Input() assets: Array<ItemAsset>;
   @Input() _selectedOptions: Array<SelectableAsset> = [];
+  @Input() name: string;
 
   assetTypes = ItemAssetContentTypes;
 

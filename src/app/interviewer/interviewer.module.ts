@@ -21,7 +21,8 @@ import { SequenceEditorComponent } from './sequence-editor/sequence-editor.compo
     DashboardComponent,
     ItemThumbnailComponent,
     AssetEditorComponent
-  ]
+  ],
+
 })
 export class InterviewerModule {
 }

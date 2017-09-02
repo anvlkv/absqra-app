@@ -2,7 +2,7 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface ListItem {
-  value?: string;
+  content?: string;
 }
 
 @Component({
@@ -28,7 +28,7 @@ export class ListInputComponent implements OnInit, ControlValueAccessor {
 
   writeValue(val: ListItem[]) {
     if (!val || val.length === 0) {
-      val = [{value: null}];
+      val = [{content: null}];
     }
     this.listItems = val;
   }
@@ -45,7 +45,7 @@ export class ListInputComponent implements OnInit, ControlValueAccessor {
   addNewItem($event) {
     $event.preventDefault();
 
-    this.listItems.push({value: ''});
+    this.listItems.push({content: ''});
 
     this.propagateChange(this.listItems);
   }

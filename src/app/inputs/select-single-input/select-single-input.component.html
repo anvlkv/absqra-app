@@ -1,7 +1,7 @@
 <ul>
   <li *ngFor="let asset of assets; let i=index">
     <label [ngSwitch]="asset.contentType">
-      <input type="checkbox" [name]="name || 'checkbox_group'" (change)="setSelection($event.target.checked, i)" [checked]="isOptionSelected(i)">
+      <input type="radio" [name]="name || 'radio_group'" (change)="setSelection($event.target.checked, i)" [checked]="isOptionSelected(i)">
       <span *ngSwitchCase="assetTypes.textContent">
         {{asset.content}}
       </span>

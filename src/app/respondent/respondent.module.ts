@@ -8,6 +8,7 @@ import { SequenceResponseComponent } from './sequence-response/sequence-response
 import { StartSequenceComponent } from './start-sequence/start-sequence.component';
 import { FormsModule } from '@angular/forms';
 import { InputsModule } from '../inputs/inputs.module';
+import { ResponseService } from './response.service';
 
 @NgModule({
   imports: [
@@ -16,7 +17,15 @@ import { InputsModule } from '../inputs/inputs.module';
     RouterModule.forChild(respondentRoutes),
     InputsModule
   ],
-  declarations: [SequenceResponseComponent, ItemResponseComponent, ProgressComponent, StartSequenceComponent]
+  declarations: [
+    SequenceResponseComponent,
+    ItemResponseComponent,
+    ProgressComponent,
+    StartSequenceComponent
+  ],
+  providers: [
+    ResponseService
+  ]
 })
 export class RespondentModule {
 }
