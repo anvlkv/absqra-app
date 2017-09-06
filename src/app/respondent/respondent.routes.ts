@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ItemResponseComponent } from './item-response/item-response.component';
 import { SequenceResponseComponent } from './sequence-response/sequence-response.component';
 import { StartSequenceComponent } from './start-sequence/start-sequence.component';
+import { FinishSequenceComponent } from './finish-sequence/finish-sequence.component';
 /**
  * Created by a.nvlkv on 12/07/2017.
  */
@@ -12,6 +13,7 @@ export const respondentRoutes: Routes = [
   {
     path: 'answer/:sequenceId', component: SequenceResponseComponent, children: [
     {path: '', component: StartSequenceComponent},
+    {path: 'completed', component: FinishSequenceComponent},
     {path: ':itemId', component: ItemResponseComponent}
   ]
   }

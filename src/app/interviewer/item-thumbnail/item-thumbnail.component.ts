@@ -9,7 +9,7 @@ import { MockDataService } from '../../mock-data.service';
 })
 export class ItemThumbnailComponent implements OnInit {
   @Input() itemId: string;
-  private item: Item;
+  item: Item;
 
   constructor(private dataService: MockDataService) {
   }

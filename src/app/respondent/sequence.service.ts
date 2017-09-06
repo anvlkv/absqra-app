@@ -28,6 +28,9 @@ export class SequenceService {
     if (currentItemId >= 0 && this.activeSequence.itemsIds[currentItemId + 1])  {
       return this.router.navigate(['answer', this.activeSequence.id, this.activeSequence.itemsIds[currentItemId + 1]]);
     }
+    else {
+      return this.router.navigate(['answer', this.activeSequence.id, 'completed']);
+    }
   }
 
 }

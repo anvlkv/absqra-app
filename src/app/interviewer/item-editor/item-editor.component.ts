@@ -11,8 +11,8 @@ export class ItemEditorComponent implements OnInit {
   @Input() itemId: string;
   @Output() itemSaved: EventEmitter<string> = new EventEmitter();
 
-  private item: Item;
-  private itemTypes: string[];
+  item: Item;
+  itemTypes: string[];
 
   constructor(private dataService: MockDataService) {
     this.itemTypes = [

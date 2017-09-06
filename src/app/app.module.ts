@@ -7,9 +7,9 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { InterviewerModule } from 'app/interviewer/interviewer.module';
-import { LandingPageComponent } from 'app/landing-page/landing-page.component';
-import { MockDataService } from 'app/mock-data.service';
-import { NotificationOverlayComponent } from 'app/notification-overlay/notification-overlay.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { MockDataService } from './mock-data.service';
+import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 import { RespondentModule } from 'app/respondent/respondent.module';
 
 @NgModule({
@@ -24,8 +24,8 @@ import { RespondentModule } from 'app/respondent/respondent.module';
     HttpModule,
     RespondentModule,
     InterviewerModule,
-    RouterModule.forRoot(appRoutes),
-    FormsModule
+    FormsModule,
+    appRoutes
   ],
   providers: [
     MockDataService

@@ -9,6 +9,7 @@ import { StartSequenceComponent } from './start-sequence/start-sequence.componen
 import { FormsModule } from '@angular/forms';
 import { InputsModule } from '../inputs/inputs.module';
 import { ResponseService } from './response.service';
+import { FinishSequenceComponent } from './finish-sequence/finish-sequence.component';
 
 @NgModule({
   imports: [
@@ -21,7 +22,8 @@ import { ResponseService } from './response.service';
     SequenceResponseComponent,
     ItemResponseComponent,
     ProgressComponent,
-    StartSequenceComponent
+    StartSequenceComponent,
+    FinishSequenceComponent
   ],
   providers: [
     ResponseService

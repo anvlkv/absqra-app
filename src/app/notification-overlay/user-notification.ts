@@ -1,8 +1,8 @@
 export interface UserNotification {
   title: string;
   text: string;
-  //confirm
+  // confirm
   confirmed?: boolean;
-  //prompt
+  // prompt
   value?: string;
 }

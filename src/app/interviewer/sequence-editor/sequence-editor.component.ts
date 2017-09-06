@@ -9,9 +9,10 @@ import { Sequence } from '../../sequence';
   styleUrls: ['./sequence-editor.component.scss']
 })
 export class SequenceEditorComponent implements OnInit {
-  private sequence: Sequence;
   private sequenceId: string;
-  private activeItemEditor: string;
+
+  sequence: Sequence;
+  activeItemEditor: string;
 
   constructor(private route: ActivatedRoute,
               private router: Router,

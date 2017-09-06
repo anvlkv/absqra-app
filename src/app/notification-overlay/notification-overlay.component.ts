@@ -9,7 +9,7 @@ import { UserNotification } from './user-notification';
   providers: [NotificationService]
 })
 export class NotificationOverlayComponent implements OnInit {
-  private activeNotification: UserNotification;
+  activeNotification: UserNotification;
 
   constructor(private ns: NotificationService) {
   }
