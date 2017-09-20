@@ -12,6 +12,9 @@ import { Sequence } from './sequence';
 import { SequenceResponse } from 'app/response';
 import { ItemResponse } from './item-response';
 
+import { environment } from '../environments/environment';
+
+
 @Injectable()
 export class MockDataService {
   private mockServer = 'http://localhost:3000';
@@ -21,6 +24,10 @@ export class MockDataService {
 
 
   constructor(private http: Http) {
+    console.log(environment);
+    this.http.get(environment.apiEndpoint).subscribe(d => {
+      console.log(d);
+    })
   }
 
   getSequences(): Observable<Sequence[]> {
