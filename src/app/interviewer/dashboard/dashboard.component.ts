@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MockDataService } from '../../mock-data.service';
 import { Sequence } from '../../sequence';
+import { GeneralDataService } from '../../general-data.service';
+import { InterviewerDataService } from '../interviewer-data.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,11 +14,16 @@ export class DashboardComponent implements OnInit {
   sequences: Sequence[];
   newSequenceName: string = '';
 
-  constructor(private dataService: MockDataService,
-              private router: Router) {
+  constructor(
+    private router: Router,
+    private dataService: InterviewerDataService
+  ) {
+
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.dataService.apiReady();
+
     this.dataService.getSequences().subscribe(
       sequences => this.sequences = sequences,
       error => console.log(error)
@@ -24,8 +31,8 @@ export class DashboardComponent implements OnInit {
   }
 
   addSequence(name: string) {
-    this.dataService.postSequence({name}).subscribe(res => {
-      this.router.navigate(['ask', res.id]);
+    this.dataService.addSequence({name}).subscribe(res => {
+      this.router.navigate(['ask', res._id]);
     });
   }
 

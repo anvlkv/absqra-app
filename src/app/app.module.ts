@@ -11,6 +11,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { MockDataService } from './mock-data.service';
 import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 import { RespondentModule } from 'app/respondent/respondent.module';
+import { GeneralDataService } from './general-data.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RespondentModule } from 'app/respondent/respondent.module';
     appRoutes
   ],
   providers: [
-    MockDataService
+    MockDataService,
+    GeneralDataService
   ],
   bootstrap: [AppComponent]
 })

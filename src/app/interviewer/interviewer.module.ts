@@ -8,6 +8,7 @@ import { interviewerRoutes } from './interviewer.routes';
 import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { ItemThumbnailComponent } from './item-thumbnail/item-thumbnail.component';
 import { SequenceEditorComponent } from './sequence-editor/sequence-editor.component';
+import { InterviewerDataService } from './interviewer-data.service';
 
 @NgModule({
   imports: [
@@ -22,7 +23,9 @@ import { SequenceEditorComponent } from './sequence-editor/sequence-editor.compo
     ItemThumbnailComponent,
     AssetEditorComponent
   ],
-
+  providers:[
+    InterviewerDataService
+  ]
 })
 export class InterviewerModule {
 }

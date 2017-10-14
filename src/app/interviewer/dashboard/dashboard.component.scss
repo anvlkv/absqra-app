@@ -1,6 +1,7 @@
-nav {
+.sequence-list {
   display: flex;
-  a {
+  flex-direction: column;
+  .sequence-item {
     margin: .5em;
   }
 }
