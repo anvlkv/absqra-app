@@ -7,10 +7,10 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 
-import { Item } from './item';
-import { Sequence } from './sequence';
-import { SequenceResponse } from 'app/response';
-import { ItemResponse } from './item-response';
+import { Item } from '../models/item';
+import { Sequence } from '../models/sequence';
+import { SequenceResponse } from 'models/response';
+import { ItemResponse } from '../models/item-response';
 
 import { environment } from '../environments/environment';
 
@@ -83,10 +83,10 @@ export class MockDataService {
         .subscribe(newItem => {
           const itemsIds = originalSequence.itemsIds || [];
 
-          itemsIds.push(newItem.id);
+          itemsIds.push(newItem._id);
 
           this.updateSequence(sequenceId, {itemsIds}).subscribe(seq => {
-            obsSequence.next({Sequence: seq, itemId: newItem.id});
+            obsSequence.next({Sequence: seq, itemId: newItem._id});
           });
         });
     });

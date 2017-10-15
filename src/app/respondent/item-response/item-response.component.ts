@@ -1,15 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MockDataService } from '../../mock-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Item } from '../../item';
-import { ItemTypes } from '../../item-types';
+import { Item } from '../../../models/item';
+import { ItemTypes } from '../../../models/item-types';
 import { SequenceService } from '../sequence.service';
-import { SequenceResponse } from '../../response';
-import { ItemResponse } from '../../item-response';
-import { ItemAssetTypes } from '../../item-asset-types';
+import { SequenceResponse } from '../../../models/response';
+import { ItemResponse } from '../../../models/item-response';
+import { ItemAssetTypes } from '../../../models/item-asset-types';
 import { ResponseService } from '../response.service';
-import { ItemAsset } from '../../item-asset';
-import { ItemAssetContentTypes } from '../../item-asset-content-types';
+import { ItemAsset } from '../../../models/item-asset';
+import { ItemAssetContentTypes } from '../../../models/item-asset-content-types';
 import { Subscription } from 'rxjs/Subscription';
 
 @Component({
@@ -84,7 +84,7 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
     $event.preventDefault();
 
     const submission: ItemResponse = {
-      itemId: this.item.id,
+      itemId: this.item._id,
       response: resp
     };
 
@@ -96,7 +96,7 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
       this.responseService.setResponse(completeResponse);
     });
 
-    this.sequenceService.nextItem(this.item.id).then(() => {
+    this.sequenceService.nextItem(this.item._id).then(() => {
       this.response = null;
     });
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { SequenceResponse } from '../response';
-import { ItemResponse } from '../item-response';
+import { SequenceResponse } from '../../models/response';
+import { ItemResponse } from '../../models/item-response';
 import { MockDataService } from '../mock-data.service';
 import { SequenceService } from './sequence.service';
 
@@ -36,10 +36,10 @@ export class ResponseService {
   }
 
   nextItem(id: string) {
-    // const currentItemId = this.activeSequenceResponse.itemsIds.indexOf(id);
+    // const currentItemId = this.activeSequenceResponse.itemsIds.indexOf(_id);
     //
     // if (currentItemId >= 0 && this.activeSequenceResponse.itemsIds[currentItemId + 1])  {
-    //   return this.router.navigate(['answer', this.activeSequenceResponse.id, this.activeSequenceResponse.itemsIds[currentItemId + 1]]);
+    //   return this.router.navigate(['answer', this.activeSequenceResponse._id, this.activeSequenceResponse.itemsIds[currentItemId + 1]]);
     // }
   }
 

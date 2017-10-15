@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Sequence } from '../../sequence';
+import { Sequence } from '../../../models/sequence';
 import { SequenceService } from '../sequence.service';
 
 @Component({

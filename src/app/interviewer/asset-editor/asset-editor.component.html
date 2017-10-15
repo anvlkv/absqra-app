@@ -24,7 +24,7 @@
     <label>
       Content source
       <select [(ngModel)]="asset.source">
-        <option *ngFor="let src of availableSources" [value]="src.id">{{src.name}}</option>
+        <option *ngFor="let src of availableSources" [value]="src._id">{{src.name}}</option>
       </select>
     </label>
   </fieldset>

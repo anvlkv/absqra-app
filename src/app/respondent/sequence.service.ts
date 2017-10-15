@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Sequence } from '../sequence';
+import { Sequence } from '../../models/sequence';
 import { Router } from '@angular/router';
 
 @Injectable()

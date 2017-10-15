@@ -5,7 +5,7 @@
     <li *ngFor="let itemId of sequence.itemsIds">
       <app-item-thumbnail [itemId]="itemId" *ngIf="activeItemEditor != itemId">
         <button (click)="activateItemEditor(itemId)">Edit</button>
-        <button (click)="deleteItem(itemId)">Delete</button>
+        <button (click)="removeItem(itemId)">Delete</button>
       </app-item-thumbnail>
       <app-item-editor [itemId]="itemId" (itemSaved)="doneEditing($event)"
                        *ngIf="activeItemEditor == itemId"></app-item-editor>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MockDataService } from '../../mock-data.service';
-import { Sequence } from '../../sequence';
+import { Sequence } from '../../../models/sequence';
 import { GeneralDataService } from '../../general-data.service';
 import { InterviewerDataService } from '../interviewer-data.service';
 
@@ -27,23 +27,23 @@ export class SequenceEditorComponent implements OnInit {
     await this.dataService.apiReady();
     this.route.params.subscribe((params) => {
       this.sequenceId = params.sequenceId;
-      console.log(this.sequenceId);
-      // this.dataService.getSequence(this.sequenceId).subscribe((sequence) => {
-      //   this.sequence = sequence;
-      // });
-      //
-      // if (params.itemId) {
-      //   this.activeItemEditor = params.itemId;
-      // }
+      this.dataService.getSequence(this.sequenceId).subscribe((sequence) => {
+        this.sequence = sequence;
+      });
+
+      if (params.itemId) {
+        this.activeItemEditor = params.itemId;
+      }
     });
   }
 
   addItem() {
-    // this.dataService.addItemToSequence({}, this.sequenceId).subscribe(resp => {
-    //   this.sequence = resp.Sequence;
-    //   this.activeItemEditor = resp.itemId;
-    //   this.router.navigate(['ask', this.sequence.id, this.activeItemEditor]);
-    // });
+    this.dataService.addNewItemToSequence(this.sequenceId, {}).subscribe(result => {
+
+      this.sequence = result;
+      this.activeItemEditor = result.uses[result.uses.length - 1];
+      // this.router.navigate(['ask', this.sequence._id, this.activeItemEditor]);
+    });
   }
 
   doneEditing(itemId) {
@@ -64,8 +64,8 @@ export class SequenceEditorComponent implements OnInit {
     // }
   }
 
-  deleteItem(id) {
-    // this.dataService.deleteItem(id).subscribe(r => console.log(r));
+  removeItem(id) {
+    this.dataService.removeItem(this.sequenceId, id).subscribe(r => console.log(r));
   }
 
 }

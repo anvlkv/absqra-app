@@ -1,5 +1,5 @@
 import { Component, forwardRef } from '@angular/core';
-import { ItemAsset } from '../../item-asset';
+import { ItemAsset } from '../../../models/item-asset';
 import { SelectMultipleInputComponent } from '../select-multiple-input/select-multiple-input.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 

@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ItemAsset } from '../../item-asset';
-import { ItemAssetContentTypes } from '../../item-asset-content-types';
+import { ItemAsset } from '../../../models/item-asset';
+import { ItemAssetContentTypes } from '../../../models/item-asset-content-types';
 
 interface SelectableAsset extends ItemAsset {
   _originalIndex: number;

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Item } from '../../item';
-import { MockDataService } from '../../mock-data.service';
+import { Item } from '../../../models/item';
+import { InterviewerDataService } from '../interviewer-data.service';
 
 @Component({
   selector: 'app-item-editor',
@@ -14,7 +14,11 @@ export class ItemEditorComponent implements OnInit {
   item: Item;
   itemTypes: string[];
 
-  constructor(private dataService: MockDataService) {
+  private prestineItem: Item;
+
+  constructor(
+    private dataService: InterviewerDataService
+  ) {
     this.itemTypes = [
       'Select multiple',
       'Select single',
@@ -22,15 +26,18 @@ export class ItemEditorComponent implements OnInit {
     ];
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.dataService.apiReady();
+
     this.dataService.getItem(this.itemId).subscribe(item => {
       this.item = item;
+      this.prestineItem = JSON.parse(JSON.stringify(item));
     });
   }
 
   saveItem() {
-    this.dataService.updateItem(this.item).subscribe(itm => {
-      this.itemSaved.emit(itm.id);
+    this.dataService.updateItem(this.prestineItem, this.item).subscribe(itm => {
+      this.itemSaved.emit(itm._id);
     });
   }
 

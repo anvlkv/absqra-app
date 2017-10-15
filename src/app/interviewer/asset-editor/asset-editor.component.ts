@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Item } from '../../item';
+import { Item } from '../../../models/item';
 import { MockDataService } from '../../mock-data.service';
-import { ItemAsset } from '../../item-asset';
+import { ItemAsset } from '../../../models/item-asset';
 
 @Component({
   selector: 'app-asset-editor',
@@ -33,7 +33,7 @@ export class AssetEditorComponent implements OnInit {
     this.route.params.subscribe(p => {
       this.dataService.getSequenceItems(p.sequenceId).subscribe(items => {
 
-        this.availableSources = items.filter(itm => itm.id !== this.originItem.id);
+        this.availableSources = items.filter(itm => itm._id !== this.originItem._id);
 
         console.log(items, this.availableSources);
 
