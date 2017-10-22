@@ -41,8 +41,9 @@ export class SequenceEditorComponent implements OnInit {
     this.dataService.addNewItemToSequence(this.sequenceId, {}).subscribe(result => {
 
       this.sequence = result;
-      this.activeItemEditor = result.uses[result.uses.length - 1];
-      // this.router.navigate(['ask', this.sequence._id, this.activeItemEditor]);
+      this.activeItemEditor = result.uses[result.uses.length - 1].item._id;
+      // console.log(result);
+      this.router.navigate(['ask', this.sequence._id, this.activeItemEditor]);
     });
   }
 

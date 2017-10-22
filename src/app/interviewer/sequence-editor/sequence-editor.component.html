@@ -2,13 +2,13 @@
   <h1>{{sequence.name}}</h1>
   <p>{{sequence.description}}</p>
   <ul>
-    <li *ngFor="let itemId of sequence.itemsIds">
-      <app-item-thumbnail [itemId]="itemId" *ngIf="activeItemEditor != itemId">
-        <button (click)="activateItemEditor(itemId)">Edit</button>
-        <button (click)="removeItem(itemId)">Delete</button>
+    <li *ngFor="let use of sequence.uses">
+      <app-item-thumbnail [itemId]="use._id" *ngIf="activeItemEditor != use._id">
+        <button (click)="activateItemEditor(use._id)">Edit</button>
+        <button (click)="removeItem(use._id)">Delete</button>
       </app-item-thumbnail>
-      <app-item-editor [itemId]="itemId" (itemSaved)="doneEditing($event)"
-                       *ngIf="activeItemEditor == itemId"></app-item-editor>
+      <app-item-editor [itemId]="use._id" (itemSaved)="doneEditing($event)"
+                       *ngIf="activeItemEditor == use._id"></app-item-editor>
     </li>
   </ul>
   <button (click)="addItem()">+ New item</button>

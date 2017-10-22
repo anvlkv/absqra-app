@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { MockDataService } from '../../mock-data.service';
 import { Asset } from '../../models/asset';
 import { Item } from '../../models/item';
+import { InterviewerDataService } from '../interviewer-data.service';
 
 @Component({
   selector: 'app-asset-editor',
@@ -17,7 +17,7 @@ export class AssetEditorComponent implements OnInit {
   private contentTypes: string[];
   private availableSources: Item[];
 
-  constructor(private dataService: MockDataService,
+  constructor(private dataService: InterviewerDataService,
               private route: ActivatedRoute) {
     this.assetTypes = [
       'Static',
@@ -31,13 +31,14 @@ export class AssetEditorComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(p => {
-      this.dataService.getSequenceItems(p.sequenceId).subscribe(items => {
 
-        this.availableSources = items.filter(itm => itm._id !== this.originItem._id);
-
-        console.log(items, this.availableSources);
-
-      });
+      // this.dataService.getSequenceItems(p.sequenceId).subscribe(items => {
+      //
+      //   this.availableSources = items.filter(itm => itm._id !== this.originItem._id);
+      //
+      //   console.log(items, this.availableSources);
+      //
+      // });
 
     });
   }

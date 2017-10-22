@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MockDataService } from '../../mock-data.service';
 import { Item } from '../../models/item';
+import { InterviewerDataService } from '../interviewer-data.service';
 
 @Component({
   selector: 'app-item-thumbnail',
@@ -11,7 +11,7 @@ export class ItemThumbnailComponent implements OnInit {
   @Input() itemId: string;
   item: Item;
 
-  constructor(private dataService: MockDataService) {
+  constructor(private dataService: InterviewerDataService) {
   }
 
   ngOnInit() {

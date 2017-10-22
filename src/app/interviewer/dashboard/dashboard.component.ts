@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MockDataService } from '../../mock-data.service';
-
-import { GeneralDataService } from '../../general-data.service';
 import { InterviewerDataService } from '../interviewer-data.service';
 import { Sequence } from '../../models/sequence';
 
