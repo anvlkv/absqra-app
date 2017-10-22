@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Item } from '../../../models/item';
 import { MockDataService } from '../../mock-data.service';
+import { Item } from '../../models/item';
 
 @Component({
   selector: 'app-item-thumbnail',

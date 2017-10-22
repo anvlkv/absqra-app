@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Item } from '../../../models/item';
 import { MockDataService } from '../../mock-data.service';
-import { Sequence } from '../../../models/sequence';
 import { SequenceService } from '../sequence.service';
+import { Sequence } from '../../models/sequence';
+import { Item } from '../../models/item';
 
 @Component({
   selector: 'app-sequence-response',

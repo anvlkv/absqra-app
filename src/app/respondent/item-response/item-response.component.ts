@@ -1,16 +1,14 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MockDataService } from '../../mock-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Item } from '../../../models/item';
-import { ItemTypes } from '../../../models/item-types';
-import { SequenceService } from '../sequence.service';
-import { SequenceResponse } from '../../../models/response';
-import { ItemResponse } from '../../../models/item-response';
-import { ItemAssetTypes } from '../../../models/item-asset-types';
-import { ResponseService } from '../response.service';
-import { ItemAsset } from '../../../models/item-asset';
-import { ItemAssetContentTypes } from '../../../models/item-asset-content-types';
 import { Subscription } from 'rxjs/Subscription';
+import { Item } from '../../models/item';
+import { SequenceService } from '../sequence.service';
+import { ResponseService } from '../response.service';
+
+
+interface ItemAsset {
+}
 
 @Component({
   selector: 'app-item-response',
@@ -21,10 +19,12 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
   @Input() sequenceId: string;
 
   item: Item;
-  itemTypes = ItemTypes;
+  itemTypes;
   response: any = null;
-  seqResponse: SequenceResponse;
+  seqResponse: any;
   private subs: Subscription[] = [];
+  private ItemAssetTypes: any;
+  private ItemAssetContentTypes: any;
 
   constructor(
     private dataService: MockDataService,
@@ -42,7 +42,7 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
     });
 
     this.subs[1] = this.sequenceService.sequence$.subscribe((s) => {
-      this.sequenceId = s.id;
+      this.sequenceId = s._id;
     });
 
     this.subs[2] = this.responseService.sequenceResponse$.subscribe((r) => {
@@ -61,13 +61,13 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
   prepareAssets() {
 
     this.item.assets = this.item.assets.reduce( (output, asset) => {
-      if ( asset.type == ItemAssetTypes.dynamicAsset) {
+      if ( asset.type == this.ItemAssetTypes.dynamicAsset) {
           const source = this.seqResponse.items.find(itm => itm.itemId === asset.source);
           if (source) {
             output = output.concat(source.response.map(i => {
               return <ItemAsset> {
-                contentType: ItemAssetContentTypes.textContent,
-                type: ItemAssetTypes.staticAsset,
+                contentType: this.ItemAssetContentTypes.textContent,
+                type: this.ItemAssetTypes.staticAsset,
                 content: i.content
               };
             }));
@@ -83,7 +83,7 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
   submitResponse($event: Event, resp) {
     $event.preventDefault();
 
-    const submission: ItemResponse = {
+    const submission: any = {
       itemId: this.item._id,
       response: resp
     };

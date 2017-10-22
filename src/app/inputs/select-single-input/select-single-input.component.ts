@@ -1,9 +1,9 @@
 import { Component, forwardRef } from '@angular/core';
-import { ItemAsset } from '../../../models/item-asset';
 import { SelectMultipleInputComponent } from '../select-multiple-input/select-multiple-input.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Asset } from '../../models/asset';
 
-interface SelectableAsset extends ItemAsset {
+interface SelectableAsset extends Asset {
   _originalIndex: number;
 }
 

@@ -7,12 +7,10 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 
-import { Item } from '../models/item';
-import { Sequence } from '../models/sequence';
-import { SequenceResponse } from 'models/response';
-import { ItemResponse } from '../models/item-response';
 
 import { environment } from '../environments/environment';
+import { Sequence } from './models/sequence';
+import { Item } from './models/item';
 
 
 @Injectable()
@@ -27,7 +25,7 @@ export class MockDataService {
     console.log(environment);
     this.http.get(environment.apiEndpoint).subscribe(d => {
       console.log(d);
-    })
+    });
   }
 
   getSequences(): Observable<Sequence[]> {
@@ -81,7 +79,7 @@ export class MockDataService {
     this.getSequence(sequenceId).subscribe(originalSequence => {
       this.postItem(item)
         .subscribe(newItem => {
-          const itemsIds = originalSequence.itemsIds || [];
+          const itemsIds = originalSequence.uses || [];
 
           itemsIds.push(newItem._id);
 
@@ -106,14 +104,14 @@ export class MockDataService {
       .catch(this.handleError);
   }
 
-  getResponse(id): Observable<SequenceResponse> {
+  getResponse(id): Observable<any> {
     return this.http.get(this.nestUrlParts(this.responsesUrl, id))
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  postItemResponse(itemResponse: ItemResponse, sequenceId: string, responseId?: string): Observable<SequenceResponse> {
-    const subjectSequenceResponse: Subject<SequenceResponse> = new Subject();
+  postItemResponse(itemResponse: any, sequenceId: string, responseId?: string): Observable<any> {
+    const subjectSequenceResponse: Subject<any> = new Subject();
 
     (responseId ? this.getResponse(responseId) : this.postResponse({sequenceId})).subscribe(seqResponse => {
       seqResponse.items = seqResponse.items || [];
@@ -127,13 +125,13 @@ export class MockDataService {
     return subjectSequenceResponse;
   }
 
-  postResponse(response): Observable<SequenceResponse> {
+  postResponse(response): Observable<any> {
     return this.http.post(this.nestUrlParts(this.responsesUrl), response)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
-  updateResponse(response, responseId): Observable<SequenceResponse> {
+  updateResponse(response, responseId): Observable<any> {
     return this.http.patch(this.nestUrlParts(this.responsesUrl, responseId), response)
       .map(this.extractData)
       .catch(this.handleError);

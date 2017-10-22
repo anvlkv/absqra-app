@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { GeneralDataService } from '../general-data.service';
 import { Observable } from 'rxjs/Observable';
-import { Sequence } from '../../models/sequence';
-import { Item } from '../../models/item';
 import * as rfc6902 from 'rfc6902';
+import { Sequence } from '../models/sequence';
+import { Item } from '../models/item';
 
 @Injectable()
-export class InterviewerDataService{
+export class InterviewerDataService {
 
   constructor(
     private http: Http,
@@ -15,8 +15,8 @@ export class InterviewerDataService{
   ) {
   }
 
-  public apiReady(){
-    return this.generalData.ready
+  public apiReady() {
+    return this.generalData.ready;
   }
 
   addSequence(data: { name: string }) {
@@ -25,23 +25,23 @@ export class InterviewerDataService{
     .catch(this.generalData.handleError);
   }
 
-  getSequences(): Observable<Sequence[]>{
+  getSequences(): Observable<Sequence[]> {
     return this.http.get(this.generalData.apiRoutes['interviewerRoutes']['getSequences'].path)
     .map(this.generalData.extractData)
-    .catch(this.generalData.handleError)
+    .catch(this.generalData.handleError);
   }
 
-  getSequence(sequenceId):Observable<Sequence>{
+  getSequence(sequenceId): Observable<Sequence> {
     return this.http.get(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['getSequence'].path,
         {sequenceId})
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 
-  addNewItemToSequence(sequenceId, item): Observable<Sequence>{
+  addNewItemToSequence(sequenceId, item): Observable<Sequence> {
     return this.http.post(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['addNewItemToSequence'].path,
@@ -50,10 +50,10 @@ export class InterviewerDataService{
       item
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 
-  deleteItem(itemId): Observable<Item>{
+  deleteItem(itemId): Observable<Item> {
     return this.http.delete(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['deleteItem'].path,
@@ -61,10 +61,10 @@ export class InterviewerDataService{
       )
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 
-  removeItem(sequenceId, itemId): Observable<Sequence>{
+  removeItem(sequenceId, itemId): Observable<Sequence> {
     return this.http.delete(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['removeItem'].path,
@@ -72,10 +72,10 @@ export class InterviewerDataService{
       )
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 
-  getItem(itemId): Observable<Item>{
+  getItem(itemId): Observable<Item> {
     return this.http.get(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['getItem'].path,
@@ -83,10 +83,10 @@ export class InterviewerDataService{
       )
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 
-  updateItem(oldItem, newItem): Observable<Item>{
+  updateItem(oldItem, newItem): Observable<Item> {
     return this.http.patch(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['updateItem'].path,
@@ -95,10 +95,10 @@ export class InterviewerDataService{
       rfc6902.createPatch(oldItem, newItem)
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 
-  updateUse(sequenceId, useIndex, oldUse, newUse): Observable<Sequence>{
+  updateUse(sequenceId, useIndex, oldUse, newUse): Observable<Sequence> {
     return this.http.patch(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['updateUse'].path,
@@ -107,6 +107,6 @@ export class InterviewerDataService{
       rfc6902.createPatch(oldUse, newUse)
     )
       .map(this.generalData.extractData)
-      .catch(this.generalData.handleError)
+      .catch(this.generalData.handleError);
   }
 }

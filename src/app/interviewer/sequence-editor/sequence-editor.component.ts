@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MockDataService } from '../../mock-data.service';
-import { Sequence } from '../../../models/sequence';
 import { GeneralDataService } from '../../general-data.service';
 import { InterviewerDataService } from '../interviewer-data.service';
+import { Sequence } from '../../models/sequence';
 
 @Component({
   selector: 'app-sequence-editor',
@@ -50,14 +50,14 @@ export class SequenceEditorComponent implements OnInit {
     // console.log(itemId);
     if (this.activeItemEditor === itemId) {
       this.activeItemEditor = null;
-      this.router.navigate(['ask', this.sequence.id]);
+      this.router.navigate(['ask', this.sequence._id]);
     }
   }
 
   activateItemEditor(id) {
     // if(!this.activeItemEditor){
     this.activeItemEditor = id;
-    this.router.navigate(['ask', this.sequence.id, this.activeItemEditor]);
+    this.router.navigate(['ask', this.sequence._id, this.activeItemEditor]);
     // }
     // else{
     //

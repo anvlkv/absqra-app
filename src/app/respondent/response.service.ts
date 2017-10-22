@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { SequenceResponse } from '../../models/response';
-import { ItemResponse } from '../../models/item-response';
 import { MockDataService } from '../mock-data.service';
 import { SequenceService } from './sequence.service';
 
 @Injectable()
 export class ResponseService {
-  private subjectSequenceResponse = new Subject<SequenceResponse>();
-  private activeSequenceResponse: SequenceResponse;
+  private subjectSequenceResponse = new Subject<any>();
+  private activeSequenceResponse: any;
 
   sequenceResponse$ = this.subjectSequenceResponse.asObservable();
 
@@ -21,7 +19,7 @@ export class ResponseService {
     });
   }
 
-  addItemResponse(response: ItemResponse) {
+  addItemResponse(response: any) {
 
     const items = this.activeSequenceResponse.items.concat([response]);
 
@@ -31,7 +29,7 @@ export class ResponseService {
     });
   }
 
-  setResponse(r: SequenceResponse) {
+  setResponse(r: any) {
     this.subjectSequenceResponse.next(r);
   }
 

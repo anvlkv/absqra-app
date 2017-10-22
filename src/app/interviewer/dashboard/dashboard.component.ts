@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MockDataService } from '../../mock-data.service';
-import { Sequence } from '../../../models/sequence';
+
 import { GeneralDataService } from '../../general-data.service';
 import { InterviewerDataService } from '../interviewer-data.service';
+import { Sequence } from '../../models/sequence';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,7 +13,7 @@ import { InterviewerDataService } from '../interviewer-data.service';
 })
 export class DashboardComponent implements OnInit {
   sequences: Sequence[];
-  newSequenceName: string = '';
+  newSequenceName = '';
 
   constructor(
     private router: Router,

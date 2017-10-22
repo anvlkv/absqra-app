@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Item } from '../../../models/item';
 import { InterviewerDataService } from '../interviewer-data.service';
+import { Item } from '../../models/item';
 
 @Component({
   selector: 'app-item-editor',

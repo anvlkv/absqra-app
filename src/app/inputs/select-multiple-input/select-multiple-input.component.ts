@@ -1,9 +1,8 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { ItemAsset } from '../../../models/item-asset';
-import { ItemAssetContentTypes } from '../../../models/item-asset-content-types';
+import { Asset } from '../../models/asset';
 
-interface SelectableAsset extends ItemAsset {
+interface SelectableAsset extends Asset {
   _originalIndex: number;
 }
 
@@ -20,20 +19,20 @@ interface SelectableAsset extends ItemAsset {
   ]
 })
 export class SelectMultipleInputComponent implements OnInit, ControlValueAccessor {
-  @Input() assets: Array<ItemAsset>;
+  @Input() assets: Array<Asset>;
   @Input() _selectedOptions: Array<SelectableAsset> = [];
   @Input() name: string;
 
-  assetTypes = ItemAssetContentTypes;
+  // assetTypes = ItemAssetContentTypes;
 
-  get selectedOptions(): Array<ItemAsset> {
+  get selectedOptions(): Array<Asset> {
     return this._selectedOptions.map(o => {
       const { _originalIndex, ...asset} = o;
       return asset;
     });
   }
 
-  set selectedOptions(val: Array<ItemAsset>) {
+  set selectedOptions(val: Array<Asset>) {
     this._selectedOptions = val.map((a, i) => {
       return {
         ...a,

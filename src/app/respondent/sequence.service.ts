@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { Sequence } from '../../models/sequence';
 import { Router } from '@angular/router';
+import { Sequence } from '../models/sequence';
 
 @Injectable()
 export class SequenceService {
@@ -22,14 +22,14 @@ export class SequenceService {
     this.subjectSequence.next(s);
   }
 
-  nextItem(id: string) {
-    const currentItemId = this.activeSequence.itemsIds.indexOf(id);
+  nextItem(_id: string) {
+    const currentItemId = this.activeSequence.uses.indexOf(_id);
 
-    if (currentItemId >= 0 && this.activeSequence.itemsIds[currentItemId + 1])  {
-      return this.router.navigate(['answer', this.activeSequence.id, this.activeSequence.itemsIds[currentItemId + 1]]);
+    if (currentItemId >= 0 && this.activeSequence.uses[currentItemId + 1])  {
+      return this.router.navigate(['answer', this.activeSequence._id, this.activeSequence.uses[currentItemId + 1]]);
     }
     else {
-      return this.router.navigate(['answer', this.activeSequence.id, 'completed']);
+      return this.router.navigate(['answer', this.activeSequence._id, 'completed']);
     }
   }
 

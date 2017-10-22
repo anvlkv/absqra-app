@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Item } from '../../../models/item';
 import { MockDataService } from '../../mock-data.service';
-import { ItemAsset } from '../../../models/item-asset';
+import { Asset } from '../../models/asset';
+import { Item } from '../../models/item';
 
 @Component({
   selector: 'app-asset-editor',
@@ -10,7 +10,7 @@ import { ItemAsset } from '../../../models/item-asset';
   styleUrls: ['./asset-editor.component.scss']
 })
 export class AssetEditorComponent implements OnInit {
-  @Input() asset: ItemAsset;
+  @Input() asset: Asset;
   @Input() originItem: Item;
 
   private assetTypes: string[];

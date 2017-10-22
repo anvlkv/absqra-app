@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Sequence } from '../models/sequence';
+import { Sequence } from './models/sequence';
 import { environment } from '../environments/environment';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -11,14 +11,14 @@ import { Deferred, defer } from 'q';
 export class GeneralDataService {
   // private interviewerRoutes:= {};
 
-  public apiRoutes:{
-    [routeGroupName:string]:{
-      [routeName: string]:{
-        path:string;
+  public apiRoutes: {
+    [routeGroupName: string]: {
+      [routeName: string]: {
+        path: string;
         params: string;
       }
     }
-  }={};
+  } = {};
 
   public ready: Q.Promise<any>;
 
@@ -27,13 +27,13 @@ export class GeneralDataService {
   ) {
     const readyDef: Deferred<any> = defer();
 
-    this.http.get(environment.apiMeta + '/routes').subscribe(r=>{
+    this.http.get(environment.apiMeta + '/routes').subscribe(r => {
       const knownRoutes = r.json();
-      for (let routeGroupName in knownRoutes){
+      for (const routeGroupName in knownRoutes) {
         this.apiRoutes[routeGroupName] = {};
-        knownRoutes[routeGroupName].forEach(({name, path, params}:{[prop:string]:string}) =>{
-          if(!name){
-            return
+        knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
+          if (!name) {
+            return;
           }
 
           this.apiRoutes[routeGroupName][name] = {
@@ -41,7 +41,7 @@ export class GeneralDataService {
             params
           };
 
-        })
+        });
       }
 
       readyDef.resolve(true);
@@ -75,10 +75,10 @@ export class GeneralDataService {
     return parts.join('/');
   }
 
-  setUrlParams(path: string, params:{[param:string]:string}){
+  setUrlParams(path: string, params: {[param: string]: string}) {
     let resultingPath: string;
-    for (let param in params){
-      resultingPath = path.replace(`:${param}`, params[param])
+    for (const param in params) {
+      resultingPath = path.replace(`:${param}`, params[param]);
     }
     return resultingPath;
   }
