@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import { GeneralDataService } from '../general-data.service';
 import { Observable } from 'rxjs/Observable';
-import * as rfc6902 from 'rfc6902';
 import { Sequence } from '../models/sequence';
 import { Item } from '../models/item';
 
@@ -92,7 +91,7 @@ export class InterviewerDataService {
         this.generalData.apiRoutes['interviewerRoutes']['updateItem'].path,
         {itemId: oldItem._id}
       ),
-      rfc6902.createPatch(oldItem, newItem)
+      newItem
     )
       .map(this.generalData.extractData)
       .catch(this.generalData.handleError);
@@ -104,7 +103,7 @@ export class InterviewerDataService {
         this.generalData.apiRoutes['interviewerRoutes']['updateUse'].path,
         {sequenceId, useIndex}
       ),
-      rfc6902.createPatch(oldUse, newUse)
+      newUse
     )
       .map(this.generalData.extractData)
       .catch(this.generalData.handleError);
