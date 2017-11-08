@@ -1,0 +1,17 @@
+<fieldset>
+  <label>
+    Title:
+    <input type="text" [(ngModel)]="sequence.name"/>
+  </label>
+  <label>
+    Description:
+    <textarea [(ngModel)]="sequence.description"></textarea>
+  </label>
+  <label>
+    Mode:
+    <select [(ngModel)]="sequence.sequenceMode">
+      <option *ngFor="let mode of sequenceModes" [value]="mode">{{mode}}</option>
+    </select>
+  </label>
+  <button (click)="saveHeader()">Save sequence</button>
+</fieldset>
