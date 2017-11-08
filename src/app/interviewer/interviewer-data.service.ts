@@ -40,6 +40,17 @@ export class InterviewerDataService {
       .catch(this.generalData.handleError);
   }
 
+  updateSequenceHeader(sequence: Sequence): Observable<Sequence> {
+    return this.http.patch(
+      this.generalData.setUrlParams(
+        this.generalData.apiRoutes['interviewerRoutes']['updateSequenceHeader'].path,
+        {sequenceId: sequence.id}),
+      sequence
+    )
+    .map(this.generalData.extractData)
+    .catch(this.generalData.handleError);
+  }
+
   addNewItemToSequence(sequenceId, item): Observable<Sequence> {
     return this.http.post(
       this.generalData.setUrlParams(
@@ -89,7 +100,7 @@ export class InterviewerDataService {
     return this.http.patch(
       this.generalData.setUrlParams(
         this.generalData.apiRoutes['interviewerRoutes']['updateItem'].path,
-        {itemId: oldItem._id}
+        {itemId: oldItem.id}
       ),
       newItem
     )

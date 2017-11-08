@@ -1,4 +1,12 @@
+import { Asset } from './asset';
+
+
 export interface Item {
-  assets: any;
-  _id: any;
+  id: string;
+  name: string;
+  description: string;
+  question: Asset;
+  itemType: string;
+  itemMode: string;
+  assets: Asset[];
 }

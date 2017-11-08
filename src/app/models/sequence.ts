@@ -1,5 +1,10 @@
-export interface Sequence {
+import { ItemUse } from './item-use';
 
-  _id: any;
-  uses: any;
+
+export interface Sequence {
+  id: string;
+  name: string;
+  description: string;
+  sequenceMode: string;
+  uses: ItemUse[];
 }

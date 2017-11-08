@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MockDataService } from '../../mock-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { Item } from '../../models/item';
@@ -27,7 +26,7 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
   private ItemAssetContentTypes: any;
 
   constructor(
-    private dataService: MockDataService,
+    // private dataService: ,
     private route: ActivatedRoute,
     private sequenceService: SequenceService,
     private responseService: ResponseService
@@ -36,13 +35,13 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subs[0] = this.route.params.subscribe(params => {
-      this.dataService.getItem(params.itemId).subscribe(item => {
-        this.item = item;
-      });
+      // this.dataService.getItem(params.itemId).subscribe(item => {
+      //   this.item = item;
+      // });
     });
 
     this.subs[1] = this.sequenceService.sequence$.subscribe((s) => {
-      this.sequenceId = s._id;
+      this.sequenceId = s.id;
     });
 
     this.subs[2] = this.responseService.sequenceResponse$.subscribe((r) => {
@@ -61,8 +60,8 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
   prepareAssets() {
 
     this.item.assets = this.item.assets.reduce( (output, asset) => {
-      if ( asset.type == this.ItemAssetTypes.dynamicAsset) {
-          const source = this.seqResponse.items.find(itm => itm.itemId === asset.source);
+      if ( asset.assetType == this.ItemAssetTypes.dynamicAsset) {
+          const source = this.seqResponse.items.find(itm => itm.itemId === asset.content);
           if (source) {
             output = output.concat(source.response.map(i => {
               return <ItemAsset> {
@@ -84,21 +83,21 @@ export class ItemResponseComponent implements OnInit, OnDestroy {
     $event.preventDefault();
 
     const submission: any = {
-      itemId: this.item._id,
+      itemId: this.item.id,
       response: resp
     };
 
-    this.dataService.postItemResponse(
-      submission,
-      this.sequenceId,
-      this.seqResponse ? this.seqResponse.id : null
-    ).subscribe(completeResponse => {
-      this.responseService.setResponse(completeResponse);
-    });
+    // this.dataService.postItemResponse(
+    //   submission,
+    //   this.sequenceId,
+    //   this.seqResponse ? this.seqResponse.id : null
+    // ).subscribe(completeResponse => {
+    //   this.responseService.setResponse(completeResponse);
+    // });
 
-    this.sequenceService.nextItem(this.item._id).then(() => {
-      this.response = null;
-    });
+    // this.sequenceService.nextItem(this.item.id).then(() => {
+    //   this.response = null;
+    // });
   }
 
 }

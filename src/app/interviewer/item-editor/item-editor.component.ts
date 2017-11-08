@@ -37,18 +37,17 @@ export class ItemEditorComponent implements OnInit {
 
   saveItem() {
     this.dataService.updateItem(this.prestineItem, this.item).subscribe(itm => {
-      this.itemSaved.emit(itm._id);
+      this.itemSaved.emit(itm.id);
     });
   }
 
   addItemAsset() {
-    if (!this.item.assets) {
-      this.item.assets = [];
-    }
-    this.item.assets.push({
-      type: 0,
-      contentType: 0
-    });
+    // if (!this.item.assets) {
+    //   this.item.assets = [];
+    // }
+    // this.item.assets.push({
+    //    assetType:
+    // });
   }
 
 }

@@ -22,15 +22,15 @@ export class SequenceService {
     this.subjectSequence.next(s);
   }
 
-  nextItem(_id: string) {
-    const currentItemId = this.activeSequence.uses.indexOf(_id);
+  nextItem(id: string) {
+    // const currentItemId = this.activeSequence.uses.indexOf(id);
 
-    if (currentItemId >= 0 && this.activeSequence.uses[currentItemId + 1])  {
-      return this.router.navigate(['answer', this.activeSequence._id, this.activeSequence.uses[currentItemId + 1]]);
-    }
-    else {
-      return this.router.navigate(['answer', this.activeSequence._id, 'completed']);
-    }
+    // if (currentItemId >= 0 && this.activeSequence.uses[currentItemId + 1])  {
+    //   return this.router.navigate(['answer', this.activeSequence.id, this.activeSequence.uses[currentItemId + 1]]);
+    // }
+    // else {
+    //   return this.router.navigate(['answer', this.activeSequence.id, 'completed']);
+    // }
   }
 
 }

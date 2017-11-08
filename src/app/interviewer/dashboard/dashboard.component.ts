@@ -30,7 +30,7 @@ export class DashboardComponent implements OnInit {
 
   addSequence(name: string) {
     this.dataService.addSequence({name}).subscribe(res => {
-      this.router.navigate(['ask', res._id]);
+      this.router.navigate(['ask', res.id]);
     });
   }
 

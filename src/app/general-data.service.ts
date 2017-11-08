@@ -5,6 +5,8 @@ import { Sequence } from './models/sequence';
 import { environment } from '../environments/environment';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/forkJoin';
+
 import { Deferred, defer } from 'q';
 
 @Injectable()
@@ -20,6 +22,10 @@ export class GeneralDataService {
     }
   } = {};
 
+  public enumTypes: {
+    [enumName: string]: string[]
+  } = {};
+
   public ready: Q.Promise<any>;
 
   constructor (
@@ -27,8 +33,35 @@ export class GeneralDataService {
   ) {
     const readyDef: Deferred<any> = defer();
 
-    this.http.get(environment.apiMeta + '/routes').subscribe(r => {
-      const knownRoutes = r.json();
+    // .subscribe(r => {
+    //   const knownRoutes = r.json();
+    //   for (const routeGroupName in knownRoutes) {
+    //     this.apiRoutes[routeGroupName] = {};
+    //     knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
+    //       if (!name) {
+    //         return;
+    //       }
+    //
+    //       this.apiRoutes[routeGroupName][name] = {
+    //         path: environment.apiEndpoint + path,
+    //         params
+    //       };
+    //
+    //     });
+    //   }
+    //
+    //   readyDef.resolve(true);
+    //
+    // });
+    //
+    // .subscribe(r => {
+    //
+    // })
+    Observable.forkJoin([
+      this.http.get(environment.apiMeta + '/routes'),
+      this.http.get(environment.apiMeta + '/types')
+    ]).subscribe(([knownRoutes, apiTypes]) => {
+      knownRoutes = knownRoutes.json();
       for (const routeGroupName in knownRoutes) {
         this.apiRoutes[routeGroupName] = {};
         knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
@@ -44,9 +77,38 @@ export class GeneralDataService {
         });
       }
 
-      readyDef.resolve(true);
+      this.enumTypes = apiTypes.json();
 
+      readyDef.resolve();
     });
+
+    // Promise.all([
+    //
+    // ]).then(
+    //   // knownRoutes = r.json(knownRoutes);
+    //   .subscribe(knownRoutes => {
+    //
+    //   });
+    //
+    //   apiTypes.subscribe(types => {
+    //   });
+    //   // for (const routeGroupName in knownRoutes) {
+    //   //   this.apiRoutes[routeGroupName] = {};
+    //   //   knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
+    //   //     if (!name) {
+    //   //       return;
+    //   //     }
+    //   //
+    //   //     this.apiRoutes[routeGroupName][name] = {
+    //   //       path: environment.apiEndpoint + path,
+    //   //       params
+    //   //     };
+    //   //
+    //   //   });
+    //   // }
+    //   console.log(knownRoutes, apiTypes);
+    // });
+
     this.ready = readyDef.promise;
   }
 

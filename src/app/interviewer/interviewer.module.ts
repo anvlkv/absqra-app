@@ -9,6 +9,8 @@ import { ItemEditorComponent } from './item-editor/item-editor.component';
 import { ItemThumbnailComponent } from './item-thumbnail/item-thumbnail.component';
 import { SequenceEditorComponent } from './sequence-editor/sequence-editor.component';
 import { InterviewerDataService } from './interviewer-data.service';
+import { SequenceThumbnailComponent } from './sequence-thumbnail/sequence-thumbnail.component';
+import { SequenceHeaderEditorComponent } from './sequence-header-editor/sequence-header-editor.component';
 
 @NgModule({
   imports: [
@@ -21,9 +23,11 @@ import { InterviewerDataService } from './interviewer-data.service';
     ItemEditorComponent,
     DashboardComponent,
     ItemThumbnailComponent,
-    AssetEditorComponent
+    AssetEditorComponent,
+    SequenceThumbnailComponent,
+    SequenceHeaderEditorComponent
   ],
-  providers:[
+  providers: [
     InterviewerDataService
   ]
 })

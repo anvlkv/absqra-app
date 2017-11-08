@@ -1,32 +1,33 @@
-<fieldset *ngIf="asset">
+<fieldset *ngIf="dataReady">
   <label>
     Asset type
-    <select [(ngModel)]="asset.type" #assetType>
-      <option *ngFor="let type of assetTypes; index as i;" [value]="i">{{type}}</option>
+    <select [(ngModel)]="asset.assetType" #assetType>
+      <option *ngFor="let type of assetTypes" [value]="type">{{type}}</option>
     </select>
   </label>
 
-  <fieldset *ngIf="assetType.value === '0'">
-    <label>
-      Content type
-      <select [(ngModel)]="asset.contentType">
-        <option *ngFor="let type of contentTypes; index as i;" [value]="i">{{type}}</option>
-      </select>
-    </label>
+  <label>
+    Content type
+    <select [(ngModel)]="asset.contentType" #assetContentType>
+      <option *ngFor="let type of contentTypes" [value]="type">{{type}}</option>
+    </select>
+  </label>
 
-    <label>
-      Content
-      <input type="text" [(ngModel)]="asset.content">
+  <fieldset [ngSwitch]="assetContentType.value">
+    <label *ngSwitchCase="'text'">
+      Text
+      <textarea [(ngModel)]="asset.content"></textarea>
+    </label>
+    <label *ngSwitchCase="'file'">
+      File
+      <input type="file" [(ngModel)]="asset.content"/>
+    </label>
+    <label *ngSwitchCase="'file'">
+      Remote url
+      <input type="url" [(ngModel)]="asset.content"/>
+    </label>
+    <label *ngSwitchDefault>
+      Something to develop...
     </label>
   </fieldset>
-
-  <fieldset *ngIf="assetType.value === '1'">
-    <label>
-      Content source
-      <select [(ngModel)]="asset.source">
-        <option *ngFor="let src of availableSources" [value]="src._id">{{src.name}}</option>
-      </select>
-    </label>
-  </fieldset>
-
 </fieldset>

@@ -4,6 +4,9 @@ import { ListInputComponent } from './list-input/list-input.component';
 import { SelectMultipleInputComponent } from './select-multiple-input/select-multiple-input.component';
 import { FormsModule } from '@angular/forms';
 import { SelectSingleInputComponent } from './select-single-input/select-single-input.component';
+import { TextInputComponent } from './text-input/text-input.component';
+import { FileInputComponent } from './file-input/file-input.component';
+import { UrlInputComponent } from './url-input/url-input.component';
 
 @NgModule({
   imports: [
@@ -13,7 +16,10 @@ import { SelectSingleInputComponent } from './select-single-input/select-single-
   declarations: [
     ListInputComponent,
     SelectMultipleInputComponent,
-    SelectSingleInputComponent
+    SelectSingleInputComponent,
+    TextInputComponent,
+    FileInputComponent,
+    UrlInputComponent
   ],
   exports: [
     ListInputComponent,

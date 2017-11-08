@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MockDataService } from '../../mock-data.service';
 import { SequenceService } from '../sequence.service';
 import { Sequence } from '../../models/sequence';
 import { Item } from '../../models/item';
@@ -17,16 +16,16 @@ export class SequenceResponseComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private dataService: MockDataService,
+              // private dataService: MockDataService,
               private sequenceService: SequenceService) {
   }
 
   ngOnInit() {
     this.route.params.subscribe(p => {
-      this.dataService.getSequence(p.sequenceId).subscribe(sequence => {
-        this.sequence = sequence;
-        this.sequenceService.setSequence(sequence);
-      });
+      // this.dataService.getSequence(p.sequenceId).subscribe(sequence => {
+      //   this.sequence = sequence;
+      //   this.sequenceService.setSequence(sequence);
+      // });
     });
   }
 

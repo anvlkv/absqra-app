@@ -8,7 +8,6 @@ import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 import { InterviewerModule } from 'app/interviewer/interviewer.module';
 import { LandingPageComponent } from './landing-page/landing-page.component';
-import { MockDataService } from './mock-data.service';
 import { NotificationOverlayComponent } from './notification-overlay/notification-overlay.component';
 import { RespondentModule } from 'app/respondent/respondent.module';
 import { GeneralDataService } from './general-data.service';
@@ -29,7 +28,6 @@ import { GeneralDataService } from './general-data.service';
     appRoutes
   ],
   providers: [
-    MockDataService,
     GeneralDataService
   ],
   bootstrap: [AppComponent]

@@ -23,6 +23,6 @@ export class StartSequenceComponent implements OnInit {
   }
 
   startSequence() {
-    this.router.navigate(['answer', this.sequence._id, this.sequence.uses[0]]);
+    this.router.navigate(['answer', this.sequence.id, this.sequence.uses[0]]);
   }
 }
