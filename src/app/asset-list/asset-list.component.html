@@ -1,0 +1,11 @@
+<ul>
+  <li *ngFor="let asset of assets">
+    <app-asset-thumbnail *ngIf="!editing[asset.id]" [asset]="asset">
+      <button (click)="editing[asset.id]=true;">Edit</button>
+    </app-asset-thumbnail>
+    <app-asset-detail *ngIf="editing[asset.id]" [asset]="asset"></app-asset-detail>
+  </li>
+  <li>
+    <app-asset-detail (doneEditing)="onDoneEditing($event)"></app-asset-detail>
+  </li>
+</ul>

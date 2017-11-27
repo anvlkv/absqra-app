@@ -1,9 +1,0 @@
-<ul>
-  <li *ngFor="let item of listItems; let i=index">
-    <input [(ngModel)]="item.content" type="text" (change)="propagateChange(listItems)"/>
-    <button *ngIf="i > 0" (click)="removeItem($event, i)">Remove</button>
-  </li>
-  <li>
-    <button (click)="addNewItem($event)">Add</button>
-  </li>
-</ul>

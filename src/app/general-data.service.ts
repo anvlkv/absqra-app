@@ -1,62 +1,53 @@
 import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { Sequence } from './models/sequence';
 import { environment } from '../environments/environment';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/forkJoin';
 
 import { Deferred, defer } from 'q';
+import { Subject } from 'rxjs/Subject';
+
+export interface RoutingMetaData {
+  [routeGroupName: string]: {
+    [routeName: string]: {
+      path: string;
+      params: string;
+    }
+  };
+}
+
+export interface TypesMetaData {
+  [enumName: string]: string[];
+}
+
+export interface StoreSubject {
+  id: number;
+  $subject: Subject<any>;
+}
 
 @Injectable()
 export class GeneralDataService {
   // private interviewerRoutes:= {};
 
-  public apiRoutes: {
-    [routeGroupName: string]: {
-      [routeName: string]: {
-        path: string;
-        params: string;
-      }
-    }
-  } = {};
+  public apiRoutes: RoutingMetaData = {};
 
-  public enumTypes: {
-    [enumName: string]: string[]
-  } = {};
+  public apiTypes: TypesMetaData = {};
 
   public ready: Q.Promise<any>;
+
+  private store: {
+    [group: string]: {
+      [route: string]: Array<StoreSubject>;
+    };
+  } = {};
 
   constructor (
     private http: Http
   ) {
     const readyDef: Deferred<any> = defer();
 
-    // .subscribe(r => {
-    //   const knownRoutes = r.json();
-    //   for (const routeGroupName in knownRoutes) {
-    //     this.apiRoutes[routeGroupName] = {};
-    //     knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
-    //       if (!name) {
-    //         return;
-    //       }
-    //
-    //       this.apiRoutes[routeGroupName][name] = {
-    //         path: environment.apiEndpoint + path,
-    //         params
-    //       };
-    //
-    //     });
-    //   }
-    //
-    //   readyDef.resolve(true);
-    //
-    // });
-    //
-    // .subscribe(r => {
-    //
-    // })
     Observable.forkJoin([
       this.http.get(environment.apiMeta + '/routes'),
       this.http.get(environment.apiMeta + '/types')
@@ -64,6 +55,7 @@ export class GeneralDataService {
       knownRoutes = knownRoutes.json();
       for (const routeGroupName in knownRoutes) {
         this.apiRoutes[routeGroupName] = {};
+        this.store[routeGroupName] = {};
         knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
           if (!name) {
             return;
@@ -74,42 +66,63 @@ export class GeneralDataService {
             params
           };
 
+          this.store[routeGroupName][name] = [];
         });
       }
 
-      this.enumTypes = apiTypes.json();
+      this.apiTypes = apiTypes.json();
 
       readyDef.resolve();
     });
 
-    // Promise.all([
-    //
-    // ]).then(
-    //   // knownRoutes = r.json(knownRoutes);
-    //   .subscribe(knownRoutes => {
-    //
-    //   });
-    //
-    //   apiTypes.subscribe(types => {
-    //   });
-    //   // for (const routeGroupName in knownRoutes) {
-    //   //   this.apiRoutes[routeGroupName] = {};
-    //   //   knownRoutes[routeGroupName].forEach(({name, path, params}: {[prop: string]: string}) => {
-    //   //     if (!name) {
-    //   //       return;
-    //   //     }
-    //   //
-    //   //     this.apiRoutes[routeGroupName][name] = {
-    //   //       path: environment.apiEndpoint + path,
-    //   //       params
-    //   //     };
-    //   //
-    //   //   });
-    //   // }
-    //   console.log(knownRoutes, apiTypes);
-    // });
-
     this.ready = readyDef.promise;
+  }
+
+  getData(group, route, params): Observable<any> {
+    const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
+
+    const key = dataToHasId(params);
+    let storeSubject = this.store[group][route].find(subj => subj.id === key);
+
+    if (!storeSubject) {
+      storeSubject = {id: key, $subject: new Subject<any>()};
+      this.store[group][route].push(storeSubject);
+    }
+
+
+
+    this.http.get(path)
+      .map(this.extractData)
+      .catch(this.handleError)
+      .subscribe(data => {
+        storeSubject.$subject.next(data);
+      });
+
+    return storeSubject.$subject.asObservable();
+  }
+
+  postData(group, route, params, data): Observable<any> {
+    const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
+
+    return this.http.post(path, data)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  patchData(group, route, params, data): Observable<any> {
+    const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
+
+    return this.http.patch(path, data)
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  deleteData(group, route, params): Observable<any> {
+    const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
+
+    return this.http.delete(path)
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   extractData(res: Response) {
@@ -138,10 +151,19 @@ export class GeneralDataService {
   }
 
   setUrlParams(path: string, params: {[param: string]: string}) {
-    let resultingPath: string;
     for (const param in params) {
-      resultingPath = path.replace(`:${param}`, params[param]);
+      path = path.replace(`:${param}`, params[param]);
     }
-    return resultingPath;
+    return path;
   }
+}
+
+function dataToHasId(data: any) {
+  try {
+    data = JSON.stringify(data);
+  } catch (e) {
+    data = String(data);
+  }
+
+  return data.hashCode();
 }

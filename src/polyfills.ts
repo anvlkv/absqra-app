@@ -54,3 +54,19 @@ import 'zone.js/dist/zone'; // Included with Angular CLI.
  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
  */
 // import 'intl';  // Run `npm install --save intl`.
+
+
+
+
+String.prototype.hashCode = function() {
+  let hash = 0, i, chr;
+  if (this.length === 0) {
+    return hash;
+  }
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};

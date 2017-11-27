@@ -1,0 +1,10 @@
+<ul>
+  <li>
+    <app-sequence-form (doneEditing)="onDoneEditing($event)"></app-sequence-form>
+  </li>
+  <li *ngFor="let sequence of sequences | async">
+    <a [routerLink]="[sequence.id]">
+      <app-sequence-thumbnail [sequence]="sequence"></app-sequence-thumbnail>
+    </a>
+  </li>
+</ul>

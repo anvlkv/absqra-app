@@ -1,0 +1,14 @@
+<div *ngIf="step" [ngSwitch]="step.type">
+  <div *ngSwitchCase="'item_reference'">
+    <app-item-detail [item]="step.item" (doneEditing)="onDoneItemEditing(item)"></app-item-detail>
+  </div>
+  <div *ngSwitchCase="'logic'">
+    logic: {{step.logic}}
+  </div>
+  <div *ngSwitchDefault>
+    <button (click)="addItem()">new item</button>
+    <button disabled>existing item</button>
+    <button disabled>logical step</button>
+  </div>
+</div>
+<app-loading-state *ngIf="!step"></app-loading-state>

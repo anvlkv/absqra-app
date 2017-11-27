@@ -1,0 +1,14 @@
+<div *ngIf="formatConstraint" [ngSwitch]="formatConstraint.validationType">
+  <div *ngSwitchCase="'type'">
+    type
+  </div>
+  <div *ngSwitchCase="'value'">
+    value
+  </div>
+  <div *ngSwitchCase="'meta_value'">
+    meta_value
+  </div>
+</div>
+<div *ngIf="!formatConstraint">
+  <button (click)="addConstraint()">new constraint</button>
+</div>

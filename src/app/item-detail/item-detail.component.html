@@ -1,0 +1,57 @@
+<div>
+  <form #itemForm="ngForm" (ngSubmit)="onSubmit(itemForm)" novalidate>
+    <fieldset>
+      <label>
+        Name
+        <input type="text" [(ngModel)]="item.name" name="name">
+      </label>
+      <label>
+        Description
+        <textarea type="text" [(ngModel)]="item.description" name="description"></textarea>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <label>
+        Item offers
+        <select [(ngModel)]="item.offers" name="offers">
+          <option *ngFor="let opt of itemOffersOptions" value="{{opt}}">{{opt}}</option>
+        </select>
+      </label>
+      <label>
+        Item expects
+        <select [(ngModel)]="item.expects" name="expects">
+          <option *ngFor="let opt of itemExpectsOptions" value="{{opt}}">{{opt}}</option>
+        </select>
+      </label>
+      <label>
+        Item life cycle
+        <select [(ngModel)]="item.lifeCycle" name="lifeCycle">
+          <option *ngFor="let opt of itemLifeCycleOptions" value="{{opt}}">{{opt}}</option>
+        </select>
+      </label>
+    </fieldset>
+
+    <fieldset>
+      <h4>Question</h4>
+      <app-asset-thumbnail *ngIf="!editingQuestion && item.question" [asset]="item.question">
+        <button (click)="editingQuestion = true;">Edit</button>
+      </app-asset-thumbnail>
+      <app-asset-detail *ngIf="editingQuestion || !item.question" [asset]="item.question" ></app-asset-detail>
+    </fieldset>
+
+    <fieldset *ngIf="item.expects !== 'none'">
+      <h4>Format constraints</h4>
+      <app-format-constraint-list [formatConstraints]="item.formatConstraints"></app-format-constraint-list>
+    </fieldset>
+
+    <fieldset *ngIf="item.offers !== 'none'">
+      <h4>Assets</h4>
+      <app-asset-list [assets]="item.assets"></app-asset-list>
+    </fieldset>
+
+    <button type="submit">
+      Save
+    </button>
+  </form>
+</div>

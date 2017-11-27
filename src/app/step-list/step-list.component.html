@@ -1,0 +1,11 @@
+<ul>
+  <li *ngFor="let step of steps">
+    <app-step-thumbnail *ngIf="!editing[step.id]" [stepId]="step.id">
+      <button (click)="editing[step.id] = true;">edit</button>
+    </app-step-thumbnail>
+    <app-step-detail [stepId]="step.id" *ngIf="editing[step.id]" (doneEditing)="editing[step.id] = false;"></app-step-detail>
+  </li>
+  <li>
+    <app-step-detail (doneEditing)="stepAdded($event)"></app-step-detail>
+  </li>
+</ul>

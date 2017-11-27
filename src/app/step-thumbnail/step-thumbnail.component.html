@@ -1,0 +1,12 @@
+<div [ngSwitch]="step.type">
+  <div *ngSwitchCase="'item_reference'">
+    <app-item-thumbnail [item]="step.item">
+      <ng-content></ng-content>
+    </app-item-thumbnail>
+  </div>
+  <div *ngSwitchCase="'logic'">
+    logic: {{step.logic}}
+  </div>
+</div>
+<app-loading-state *ngIf="!step"></app-loading-state>
+
