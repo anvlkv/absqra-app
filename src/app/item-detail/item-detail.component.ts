@@ -5,6 +5,7 @@ import { GeneralDataService } from '../general-data.service';
 import { ActivatedRoute } from '@angular/router';
 import { Step } from '../../models/step';
 import { ItemDesignService } from '../item-design.service';
+import { Asset } from '../../models/asset';
 
 @Component({
   selector: 'app-item-detail',
@@ -18,7 +19,9 @@ export class ItemDetailComponent implements OnInit {
   @Input() item: Item = {};
   @Output() doneEditing: EventEmitter<Step | Item> = new EventEmitter();
 
-  @ViewChild('itemForm') public itemForm: NgForm;
+  @ViewChild('itemForm')
+  public itemForm: NgForm;
+
   itemOffersOptions: string[];
   itemExpectsOptions: string[];
   itemLifeCycleOptions: string[];
@@ -28,7 +31,7 @@ export class ItemDetailComponent implements OnInit {
   constructor(
     private api: GeneralDataService,
     private route: ActivatedRoute,
-    private itemDesigner: ItemDesignService
+    private itemDesigner: ItemDesignService,
   ) { }
 
   async ngOnInit() {
@@ -36,6 +39,8 @@ export class ItemDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       if (params['itemId'] || this.item.id) {
+
+
         this.itemDesigner.set$item(params['itemId'] || this.item.id).subscribe(item => {
           this.item = item;
         });
@@ -46,8 +51,8 @@ export class ItemDetailComponent implements OnInit {
     });
   }
 
-  onSubmit(f: NgForm) {
-    this.itemDesigner.updateItem({...f.value}).subscribe(item => {
+  onSubmit() {
+    this.itemDesigner.updateItem(this.item).subscribe(item => {
       this.doneEditing.emit(item);
     });
   }

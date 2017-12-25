@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormatConstraint } from '../../models/formatConstraint';
+import { ItemDesignService } from '../item-design.service';
+import { GeneralDataService } from '../general-data.service';
 
 @Component({
   selector: 'app-format-constraint-detail',
@@ -9,13 +11,24 @@ import { FormatConstraint } from '../../models/formatConstraint';
 export class FormatConstraintDetailComponent implements OnInit {
   @Input() formatConstraint: FormatConstraint;
   @Output() doneEditing: EventEmitter<FormatConstraint> = new EventEmitter();
+  validationTypes: string[];
 
-  constructor() { }
+  constructor(
+    private api: GeneralDataService,
+    private itemDesign: ItemDesignService
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.api.ready;
+    this.validationTypes = this.api.apiTypes['ValidationTypes'];
+    // this.contentTypes = this.api.apiTypes['AssetContentTypes'];
   }
 
-  addConstraint() {
+  addConstraint(e) {
+    e.preventDefault();
 
+    this.itemDesign.addConstraint().subscribe(c => {
+      this.doneEditing.emit(c);
+    });
   }
 }

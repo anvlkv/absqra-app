@@ -1,10 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormatConstraint } from '../../models/formatConstraint';
+import { ControlContainer, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-format-constraint-list',
   templateUrl: './format-constraint-list.component.html',
-  styleUrls: ['./format-constraint-list.component.scss']
+  styleUrls: ['./format-constraint-list.component.scss'],
+  viewProviders: [ { provide: ControlContainer, useExisting: NgForm } ]
 })
 export class FormatConstraintListComponent implements OnInit {
   @Input() formatConstraints: FormatConstraint[];
@@ -16,4 +18,7 @@ export class FormatConstraintListComponent implements OnInit {
 
   }
 
+  addedFormatConstraint(c: FormatConstraint) {
+    this.editing[c.id] = true;
+  }
 }

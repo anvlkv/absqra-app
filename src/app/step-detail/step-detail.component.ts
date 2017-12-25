@@ -39,7 +39,7 @@ export class StepDetailComponent implements OnInit {
 
   onDoneItemEditing(item: Item) {
     // this.step.item = item;
-    this.doneEditing.emit();
+    this.doneEditing.emit(item);
   }
 
   addItem() {

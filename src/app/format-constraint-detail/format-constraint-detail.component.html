@@ -1,14 +1,23 @@
-<div *ngIf="formatConstraint" [ngSwitch]="formatConstraint.validationType">
-  <div *ngSwitchCase="'type'">
-    type
+
+<div *ngIf="formatConstraint">
+  <div>
+    <label *ngFor="let type of validationTypes">
+      {{type}}
+      <input type="radio" name="validationType_{{formatConstraint.id}}" [(ngModel)]="formatConstraint.validationType" [value]="type">
+    </label>
   </div>
-  <div *ngSwitchCase="'value'">
-    value
-  </div>
-  <div *ngSwitchCase="'meta_value'">
-    meta_value
+  <div [ngSwitch]="formatConstraint.validationType">
+    <div *ngSwitchCase="'type'">
+      type
+    </div>
+    <div *ngSwitchCase="'value'">
+      value
+    </div>
+    <div *ngSwitchCase="'meta_value'">
+      meta_value
+    </div>
   </div>
 </div>
 <div *ngIf="!formatConstraint">
-  <button (click)="addConstraint()">new constraint</button>
+  <button (click)="addConstraint($event)">new constraint</button>
 </div>

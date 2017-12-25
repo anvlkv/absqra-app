@@ -2,7 +2,7 @@ import { Asset } from './asset';
 import { FormatConstraint } from './formatConstraint';
 
 
-export interface Item {
+export class Item {
   id?: number;
   name?: string;
   description?: string;
@@ -10,6 +10,6 @@ export interface Item {
   offers?: string;
   expects?: string;
   lifeCycle?: string;
-  formatConstraints?: FormatConstraint;
+  formatConstraints?: FormatConstraint[];
   assets?: Asset[];
 }

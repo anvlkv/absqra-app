@@ -1,11 +1,28 @@
-<div *ngIf="asset" [ngSwitch]="asset.assetType">
-  <div *ngSwitchCase="'static'">
-    static
+<div *ngIf="asset" [ngModelGroup]="groupName" #assetGroup="ngModelGroup">
+  <div>
+    <label *ngFor="let type of assetTypes">
+      {{type}}
+      <input type="radio" name="assetType_{{asset.id}}" [(ngModel)]="asset.assetType" [value]="type">
+    </label>
   </div>
-  <div *ngSwitchCase="'dynamic'">
-    dynamic
+  <div [ngSwitch]="asset.assetType">
+    <div *ngSwitchCase="'static'">
+      <label>
+        Content type:
+        <select name="contentType_{{asset.id}}" [(ngModel)]="asset.contentType">
+          <option *ngFor="let type of contentTypes" [value]="type">{{type}}</option>
+        </select>
+      </label>
+      <label>
+        Content:
+        <input name="content_{{asset.id}}" [type]="asset.contentType" [(ngModel)]="asset.content">
+      </label>
+    </div>
+    <div *ngSwitchCase="'dynamic'">
+      dynamic
+    </div>
   </div>
 </div>
 <div *ngIf="!asset">
-  <button (click)="addAsset()">new constraint</button>
+  <button (click)="addAsset($event)">new asset</button>
 </div>

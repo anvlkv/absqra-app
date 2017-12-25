@@ -3,6 +3,4 @@ export interface Asset {
   assetType?: string;
   contentType?: string;
   content?: string;
-  containedInAsset?: Asset;
-  subset?: Asset[];
 }

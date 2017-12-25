@@ -1,9 +1,9 @@
 <ul>
-  <li *ngFor="let fc of formatConstraints">
+  <li ngModelGroup="formatConstraints" *ngFor="let fc of formatConstraints">
     <app-format-constraint-thumbnail *ngIf="!editing[fc.id]" [formatConstraint]="fc">
       <button (click)="editing[fc.id]=true;">Edit</button>
     </app-format-constraint-thumbnail>
-    <app-format-constraint-detail *ngIf="!editing[fc.id]" [formatConstraint]="fc" (doneEditing)="editing[fc.id]=false;"></app-format-constraint-detail>
+    <app-format-constraint-detail *ngIf="editing[fc.id]" [formatConstraint]="fc" (doneEditing)="editing[fc.id]=false;"></app-format-constraint-detail>
   </li>
   <li>
     <app-format-constraint-detail (doneEditing)="addedFormatConstraint($event)"></app-format-constraint-detail>

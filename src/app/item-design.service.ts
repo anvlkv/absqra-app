@@ -3,6 +3,8 @@ import { GeneralDataService } from './general-data.service';
 import { Item } from '../models/item';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
+import { Asset } from '../models/asset';
+import { FormatConstraint } from '../models/formatConstraint';
 
 @Injectable()
 export class ItemDesignService {
@@ -32,12 +34,34 @@ export class ItemDesignService {
     return this.$item.asObservable();
   }
 
-  public addAsset() {
+  public addAsset(value?: Asset): Observable<Asset> {
+    const $assetSubj = new Subject();
 
+    this.api.postData('interviewerRoutes', 'addAssetToItem', {itemId: this.item.id}, value).subscribe(a => {
+      this.$item.next({
+        ...this.item,
+        assets: [...this.item.assets, a]
+      });
+
+      $assetSubj.next(a);
+    });
+
+    return $assetSubj.asObservable();
   }
 
-  public addConstraint() {
+  public addConstraint(value?: FormatConstraint): Observable<FormatConstraint> {
+    const $constraintSubj = new Subject();
 
+    this.api.postData('interviewerRoutes', 'addConstraintToItem', {itemId: this.item.id}, value).subscribe(c => {
+      this.$item.next({
+        ...this.item,
+        formatConstraints: [...this.item.formatConstraints, c]
+      });
+
+      $constraintSubj.next(c);
+    });
+
+    return $constraintSubj.asObservable();
   }
 
   // public addNewItem(): Observable<Step> {

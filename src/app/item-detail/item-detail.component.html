@@ -37,7 +37,7 @@
       <app-asset-thumbnail *ngIf="!editingQuestion && item.question" [asset]="item.question">
         <button (click)="editingQuestion = true;">Edit</button>
       </app-asset-thumbnail>
-      <app-asset-detail *ngIf="editingQuestion || !item.question" [asset]="item.question" ></app-asset-detail>
+      <app-asset-detail *ngIf="editingQuestion || !item.question" [asset]="item.question" [groupName]="'question'"></app-asset-detail>
     </fieldset>
 
     <fieldset *ngIf="item.expects !== 'none'">
