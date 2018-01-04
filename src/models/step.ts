@@ -9,4 +9,5 @@ export interface Step {
   isItemOrigin?: boolean;
   sequence?: Sequence;
   logic?: string;
+  order?: number;
 }

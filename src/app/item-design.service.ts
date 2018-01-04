@@ -5,13 +5,17 @@ import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import { Asset } from '../models/asset';
 import { FormatConstraint } from '../models/formatConstraint';
+import { SequenceDesignService } from './sequence-design.service';
+import { Sequence } from '../models/sequence';
 
 @Injectable()
 export class ItemDesignService {
   private $item: Subject<Item>;
   private item: Item;
+
   constructor(
-    private api: GeneralDataService
+    private api: GeneralDataService,
+    private sd: SequenceDesignService
   ) {
     this.$item = new Subject();
     this.getItem().subscribe(i => this.item = i);
@@ -37,6 +41,8 @@ export class ItemDesignService {
   public addAsset(value?: Asset): Observable<Asset> {
     const $assetSubj = new Subject();
 
+    value = value || {order: this.item.assets.length};
+
     this.api.postData('interviewerRoutes', 'addAssetToItem', {itemId: this.item.id}, value).subscribe(a => {
       this.$item.next({
         ...this.item,
@@ -47,6 +53,15 @@ export class ItemDesignService {
     });
 
     return $assetSubj.asObservable();
+  }
+
+  public updateItemAssetsOrder(assets: Asset[], assetsToUpdate: [Asset, Asset]): Observable<Item> {
+    this.api.patchData('interviewerRoutes', 'updateItemAssetsOrder', {itemId: this.item.id}, assetsToUpdate).subscribe(i => this.$item.next(i));
+    this.$item.next({
+      ...this.item,
+      assets
+    });
+    return this.$item.asObservable();
   }
 
   public addConstraint(value?: FormatConstraint): Observable<FormatConstraint> {
@@ -62,6 +77,18 @@ export class ItemDesignService {
     });
 
     return $constraintSubj.asObservable();
+  }
+
+  public getReferableItems(): Observable<Item[]> {
+    const $itemsSubj = new Subject();
+
+    this.sd.getSequence() .subscribe(sequence => {
+      this.api.getData('interviewerRoutes', 'referableItems', {sequenceId: sequence.id}).subscribe(items => $itemsSubj.next(items));
+    });
+
+
+
+    return $itemsSubj.asObservable();
   }
 
   // public addNewItem(): Observable<Step> {

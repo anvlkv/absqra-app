@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Step } from '../../models/step';
+import { SortableService } from '../sortable.service';
+import { SequenceDesignService } from '../sequence-design.service';
 
 @Component({
   selector: 'app-step-list',
@@ -10,12 +12,21 @@ export class StepListComponent implements OnInit {
   @Input() steps: Step[];
   editing: {[id: number]: boolean} = {};
 
-  constructor() { }
+  constructor(
+    private sort: SortableService,
+    private sequenceDesign: SequenceDesignService
+  ) { }
 
   ngOnInit() {
   }
 
   stepAdded(step: Step) {
     this.editing[step.id] = true;
+  }
+
+  onOrderChanged(step, [oldOrder, newOrder]) {
+    this.sequenceDesign.updateSequenceStepsOrder(this.sort.reorderSortables(this.steps, step, oldOrder, newOrder)).subscribe(s => {
+      console.log(s);
+    });
   }
 }

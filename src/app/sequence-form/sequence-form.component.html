@@ -1,6 +1,6 @@
 <form #sequenceForm="ngForm" (ngSubmit)="onSubmit(sequenceForm)" novalidate>
-  <input name="name" [(ngModel)]="sequence.name" required >
-  <textarea name="description" cols="30" rows="10" [(ngModel)]="sequence.description"></textarea>
+  <input name="name" [(ngModel)]="sequence.header.name" required >
+  <textarea name="description" cols="30" rows="10" [(ngModel)]="sequence.header.description"></textarea>
   <button type="submit">Save</button>
   <button type="button">Delete</button>
 </form>

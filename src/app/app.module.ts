@@ -22,6 +22,12 @@ import { FormatConstraintDetailComponent } from './format-constraint-detail/form
 import { AssetListComponent } from './asset-list/asset-list.component';
 import { FormatConstraintListComponent } from './format-constraint-list/format-constraint-list.component';
 import { StepListComponent } from './step-list/step-list.component';
+import { SortableListItemComponent } from './sortable-list-item/sortable-list-item.component';
+import { SequenceDesignService } from './sequence-design.service';
+import { SortByOrderPipe } from './sort-by-order.pipe';
+import { SortableService } from './sortable.service';
+import { SequenceAnswerComponent } from './sequence-answer/sequence-answer.component';
+import { ItemAnswerComponent } from './item-answer/item-answer.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +49,10 @@ import { StepListComponent } from './step-list/step-list.component';
     AssetListComponent,
     FormatConstraintListComponent,
     StepListComponent,
+    SortableListItemComponent,
+    SortByOrderPipe,
+    SequenceAnswerComponent,
+    ItemAnswerComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +63,9 @@ import { StepListComponent } from './step-list/step-list.component';
     ReactiveFormsModule
   ],
   providers: [
-    GeneralDataService
+    GeneralDataService,
+    SequenceDesignService,
+    SortableService
   ],
   bootstrap: [
     AppComponent

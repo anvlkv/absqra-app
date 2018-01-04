@@ -3,6 +3,7 @@ import { Asset } from '../../models/asset';
 import { GeneralDataService } from '../general-data.service';
 import { ItemDesignService } from '../item-design.service';
 import { ControlContainer, NgForm } from '@angular/forms';
+import { Item } from '../../models/item';
 
 @Component({
   selector: 'app-asset-detail',
@@ -16,6 +17,8 @@ export class AssetDetailComponent implements OnInit {
   @Output() doneEditing: EventEmitter<Asset> = new EventEmitter();
   assetTypes: string[];
   contentTypes: string[];
+  contentSources: Item[];
+  item: Item;
 
   constructor(
     private api: GeneralDataService,
@@ -26,6 +29,8 @@ export class AssetDetailComponent implements OnInit {
     await this.api.ready;
     this.assetTypes = this.api.apiTypes['AssetTypes'];
     this.contentTypes = this.api.apiTypes['AssetContentTypes'];
+    this.itemDesign.getReferableItems().subscribe(items => this.contentSources = items);
+    this.itemDesign.getItem().subscribe(item => this.item);
   }
 
   addAsset(e) {

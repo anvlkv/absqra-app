@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Step } from '../../models/step';
 import { GeneralDataService, TypesMetaData } from '../general-data.service';
 import { Observable } from 'rxjs/Observable';
+import { SequenceDesignService } from '../sequence-design.service';
 
 @Component({
   selector: 'app-step-thumbnail',
@@ -9,15 +10,15 @@ import { Observable } from 'rxjs/Observable';
   styleUrls: ['./step-thumbnail.component.scss']
 })
 export class StepThumbnailComponent implements OnInit {
-  Step: Observable<Step>;
-  step: Step = {};
+  step: Step;
   @Input() stepId: number;
 
   stepTypes: string[];
 
 
   constructor(
-    private api: GeneralDataService
+    private api: GeneralDataService,
+    private sequenceDesign: SequenceDesignService
   ) { }
 
   async ngOnInit() {
@@ -25,12 +26,10 @@ export class StepThumbnailComponent implements OnInit {
 
     this.stepTypes = this.api.apiTypes['StepTypes'];
 
-    if (!this.Step && this.stepId) {
-      this.Step = this.api.getData('interviewerRoutes', 'getStep', {stepId: this.stepId});
-    }
-
-    if (this.Step) {
-      this.Step.subscribe(s => this.step = s);
+    if (this.stepId) {
+      this.sequenceDesign.getStep(this.stepId).subscribe(step => {
+        this.step = step;
+      });
     }
   }
 

@@ -1,5 +1,4 @@
-
-<div *ngIf="formatConstraint">
+<fieldset *ngIf="formatConstraint">
   <div>
     <label *ngFor="let type of validationTypes">
       {{type}}
@@ -17,7 +16,7 @@
       meta_value
     </div>
   </div>
-</div>
+</fieldset>
 <div *ngIf="!formatConstraint">
   <button (click)="addConstraint($event)">new constraint</button>
 </div>

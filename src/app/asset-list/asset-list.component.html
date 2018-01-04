@@ -1,9 +1,11 @@
-<ul>
-  <li ngModelGroup="assets" *ngFor="let asset of assets">
-    <app-asset-thumbnail *ngIf="!editing[asset.id]" [asset]="asset">
-      <button (click)="editing[asset.id]=true;">Edit</button>
-    </app-asset-thumbnail>
-    <app-asset-detail *ngIf="editing[asset.id]" [asset]="asset" [groupName]="'asset'" (doneEditing)="editing[asset.id]=false;"></app-asset-detail>
+<ul ngModelGroup="assets">
+  <li *ngFor="let asset of assets | sortByOrder">
+    <app-sortable-list-item name="order_{{asset.id}}" [(ngModel)]="asset.order" (orderChanged)="onOrderChanged(asset, $event)" [maxOrder]="assets.length">
+      <app-asset-thumbnail *ngIf="!editing[asset.id]" [asset]="asset">
+        <button (click)="editing[asset.id]=true;">Edit</button>
+      </app-asset-thumbnail>
+      <app-asset-detail *ngIf="editing[asset.id]" [asset]="asset" [groupName]="'asset'" (doneEditing)="editing[asset.id]=false;"></app-asset-detail>
+    </app-sortable-list-item>
   </li>
   <li>
     <app-asset-detail (doneEditing)="addedAsset($event)"></app-asset-detail>

@@ -25,6 +25,10 @@ export class SequenceListComponent implements OnInit {
   }
 
   onDoneEditing(s: Sequence) {
+    if (!s) {
+      return;
+    }
+
     this.router.navigate(['ask', s.id]);
   }
 

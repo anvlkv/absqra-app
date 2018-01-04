@@ -1,6 +1,9 @@
-<div>
-  <h3>{{sequence.name}}</h3>
-  <p>{{sequence.description}}</p>
-  <p>Steps: {{sequence.steps.length}}</p>
+<div *ngIf="sequence.header">
+  <h3>{{sequence.header.name}}</h3>
+  <p>{{sequence.header.description}}</p>
+  <p *ngIf="sequence.steps && sequence.steps.length">Steps: {{sequence.steps.length}}</p>
+  <p *ngIf="!sequence.steps || !sequence.steps.length" class="empty-state">
+    This sequence doesn't contain any steps yet. Create new or add existing items.
+  </p>
   <ng-content></ng-content>
 </div>

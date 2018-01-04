@@ -3,4 +3,5 @@ export interface Asset {
   assetType?: string;
   contentType?: string;
   content?: string;
+  order?: number;
 }

@@ -9,9 +9,6 @@ import { Step } from '../../models/step';
   selector: 'app-sequence-detail',
   templateUrl: './sequence-detail.component.html',
   styleUrls: ['./sequence-detail.component.scss'],
-  providers: [
-    SequenceDesignService
-  ]
 })
 export class SequenceDetailComponent implements OnInit {
   @Input() sequence: Sequence;
@@ -29,5 +26,9 @@ export class SequenceDetailComponent implements OnInit {
       this.sd.set$sequence(params['sequenceId'] || this.sequence.id).subscribe(s => this.sequence = s);
     });
 
+  }
+
+  saveSteps(form) {
+    console.log(form);
   }
 }

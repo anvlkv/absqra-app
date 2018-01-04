@@ -1,4 +1,4 @@
-<div *ngIf="asset" [ngModelGroup]="groupName" #assetGroup="ngModelGroup">
+<fieldset *ngIf="asset" [ngModelGroup]="groupName" #assetGroup="ngModelGroup">
   <div>
     <label *ngFor="let type of assetTypes">
       {{type}}
@@ -19,10 +19,15 @@
       </label>
     </div>
     <div *ngSwitchCase="'dynamic'">
-      dynamic
+      <label>
+        Content source:
+        <select name="content_{{asset.id}}" [(ngModel)]="asset.content">
+          <option *ngFor="let src of contentSources" [value]="src.id">{{src.name}}</option>
+        </select>
+      </label>
     </div>
   </div>
-</div>
+</fieldset>
 <div *ngIf="!asset">
   <button (click)="addAsset($event)">new asset</button>
 </div>
