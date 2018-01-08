@@ -78,7 +78,7 @@ export class GeneralDataService {
     this.ready = readyDef.promise;
   }
 
-  getData(group, route, params): Observable<any> {
+  getData(group, route, params?): Observable<any> {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
     const key = dataToHasId(params);
@@ -91,9 +91,9 @@ export class GeneralDataService {
 
 
 
-    this.http.get(path)
+    this.http.get(path, {withCredentials: true})
       .map(this.extractData)
-      .catch(this.handleError)
+      .catch(this.handleError(`${group}.${route}`))
       .subscribe(data => {
         storeSubject.$subject.next(data);
       });
@@ -104,25 +104,25 @@ export class GeneralDataService {
   postData(group, route, params, data): Observable<any> {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
-    return this.http.post(path, data)
+    return this.http.post(path, data, {withCredentials: true})
     .map(this.extractData)
-    .catch(this.handleError);
+    .catch(this.handleError(`${group}.${route}`));
   }
 
   patchData(group, route, params, data): Observable<any> {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
-    return this.http.patch(path, data)
+    return this.http.patch(path, data, {withCredentials: true})
     .map(this.extractData)
-    .catch(this.handleError);
+    .catch(this.handleError(`${group}.${route}`));
   }
 
   deleteData(group, route, params): Observable<any> {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
-    return this.http.delete(path)
+    return this.http.delete(path, {withCredentials: true})
     .map(this.extractData)
-    .catch(this.handleError);
+    .catch(this.handleError(`${group}.${route}`));
   }
 
   extractData(res: Response) {
@@ -130,18 +130,21 @@ export class GeneralDataService {
     return body || {};
   }
 
-  handleError(error: Response | any) {
-    // In a real world app, you might use a remote logging infrastructure
-    let errMsg: string;
-    if (error instanceof Response) {
-      const body = error.json() || '';
-      const err = body.error || JSON.stringify(body);
-      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-    } else {
-      errMsg = error.message ? error.message : error.toString();
-    }
-    console.error(errMsg);
-    return Observable.throw(errMsg);
+  handleError(triggeredBy) {
+    return function (error: Response | any, ) {
+      // In a real world app, you might use a remote logging infrastructure
+      let errMsg: string;
+      try {
+        const body = error.json() || '';
+        const err = body.error || JSON.stringify(body);
+        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+      } catch (e) {
+        errMsg = error.message ? error.message : error.toString();
+      }
+      console.error(`API err at: ${triggeredBy}`);
+      console.error(errMsg);
+      return Observable.throw(errMsg);
+    };
   }
 
   nestUrlParts(...parts): string {
@@ -158,9 +161,9 @@ export class GeneralDataService {
   }
 }
 
-function dataToHasId(data: any) {
+function dataToHasId(data?: any) {
   try {
-    data = JSON.stringify(data);
+    data = JSON.stringify(data) || String(data);
   } catch (e) {
     data = String(data);
   }

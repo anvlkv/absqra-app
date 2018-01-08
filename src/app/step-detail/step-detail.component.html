@@ -1,6 +1,6 @@
 <div *ngIf="step" [ngSwitch]="step.type">
   <div *ngSwitchCase="'item_reference'">
-    <app-item-detail [item]="step.item" (doneEditing)="onDoneItemEditing($event)"></app-item-detail>
+    <app-item-detail [step]="step" (doneEditing)="onDoneItemEditing($event)"></app-item-detail>
   </div>
   <div *ngSwitchCase="'logic'">
     logic: {{step.logic}}

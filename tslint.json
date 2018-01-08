@@ -32,7 +32,7 @@
       "static-before-instance",
       "variables-before-functions"
     ],
-    "no-arg": true,
+    "no-arg": false,
     "no-bitwise": false,
     "no-console": [
       true,
@@ -55,7 +55,7 @@
     "no-shadowed-variable": true,
     "no-string-literal": false,
     "no-string-throw": true,
-    "no-switch-case-fall-through": true,
+    "no-switch-case-fall-through": false,
     "no-trailing-whitespace": false,
     "no-unused-expression": true,
     "no-use-before-declare": true,

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { GeneralDataService } from '../general-data.service';
+import { Sequence } from '../../models/sequence';
 
 @Component({
   selector: 'app-landing-page',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./landing-page.component.scss']
 })
 export class LandingPageComponent implements OnInit {
+  sequences: Sequence[];
 
-  constructor() { }
+  constructor(
+    private api: GeneralDataService
+  ) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    await this.api.ready;
+
+    this.api.getData('respondentRoutes', 'getSequencesThatCanBeAnswered').subscribe(sequences => this.sequences = sequences);
+
   }
 
 }

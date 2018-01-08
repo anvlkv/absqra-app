@@ -28,6 +28,8 @@ import { SortByOrderPipe } from './sort-by-order.pipe';
 import { SortableService } from './sortable.service';
 import { SequenceAnswerComponent } from './sequence-answer/sequence-answer.component';
 import { ItemAnswerComponent } from './item-answer/item-answer.component';
+import { ProgressComponent } from './progress/progress.component';
+import { ResponseService } from './response.service';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { ItemAnswerComponent } from './item-answer/item-answer.component';
     SortByOrderPipe,
     SequenceAnswerComponent,
     ItemAnswerComponent,
+    ProgressComponent,
   ],
   imports: [
     BrowserModule,
@@ -65,7 +68,8 @@ import { ItemAnswerComponent } from './item-answer/item-answer.component';
   providers: [
     GeneralDataService,
     SequenceDesignService,
-    SortableService
+    SortableService,
+    ResponseService
   ],
   bootstrap: [
     AppComponent

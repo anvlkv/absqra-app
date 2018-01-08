@@ -1,3 +1,9 @@
-<p>
-  sequence-answer works!
-</p>
+
+<div *ngIf="sequence">
+  <app-sequence-thumbnail [sequence]="sequence">
+    <app-progress [current]="currentStep?.order" [of]="sequence.steps.length"></app-progress>
+  </app-sequence-thumbnail>
+</div>
+
+<app-loading-state *ngIf="!sequence"></app-loading-state>
+

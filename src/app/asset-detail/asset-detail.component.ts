@@ -36,9 +36,20 @@ export class AssetDetailComponent implements OnInit {
   addAsset(e) {
     e.preventDefault();
     // console.log(e);
-    this.itemDesign.addAsset().subscribe(a => {
-      this.doneEditing.emit(a);
-    });
+    switch (this.groupName) {
+      case 'question': {
+        this.itemDesign.setItemQuestion().subscribe(a => {
+          this.doneEditing.emit(a);
+        });
+        break;
+      }
+      default: {
+        this.itemDesign.addAsset().subscribe(a => {
+          this.doneEditing.emit(a);
+        });
+      }
+    }
+
   }
 
 }

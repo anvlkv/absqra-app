@@ -6,11 +6,14 @@ import { Observable } from 'rxjs/Observable';
 import { Asset } from '../models/asset';
 import { FormatConstraint } from '../models/formatConstraint';
 import { SequenceDesignService } from './sequence-design.service';
-import { Sequence } from '../models/sequence';
+import { Step } from '../models/step';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
 export class ItemDesignService {
   private $item: Subject<Item>;
+  private $step: BehaviorSubject<Step>;
+  private step: Step;
   private item: Item;
 
   constructor(
@@ -18,17 +21,36 @@ export class ItemDesignService {
     private sd: SequenceDesignService
   ) {
     this.$item = new Subject();
+    this.$step = new BehaviorSubject(null);
     this.getItem().subscribe(i => this.item = i);
+    this.$step.asObservable().subscribe(s => {
+      if (s && s.item) {
+        this.$item.next(s.item);
+        this.step = s;
+      }
+    });
   }
 
   public getItem(): Observable<Item> {
     return this.$item.asObservable();
   }
 
+  public set$itemByStepId(stepId: number): Observable<Item> {
+    const observableItem = this.getItem();
+
+    this.api.getData('interviewerRoutes', 'getStep', {stepId: stepId}).subscribe( s => {
+      this.$step.next(s);
+    });
+
+    return observableItem;
+  };
+
   public set$item(itemId: number): Observable<Item> {
     const observableItem = this.getItem();
 
     this.api.getData('interviewerRoutes', 'getItem', {itemId: itemId}).subscribe(i => this.$item.next(i));
+
+
 
     return observableItem;
   }
@@ -82,8 +104,14 @@ export class ItemDesignService {
   public getReferableItems(): Observable<Item[]> {
     const $itemsSubj = new Subject();
 
-    this.sd.getSequence() .subscribe(sequence => {
-      this.api.getData('interviewerRoutes', 'referableItems', {sequenceId: sequence.id}).subscribe(items => $itemsSubj.next(items));
+    this.sd.getSequence().subscribe(sequence => {
+      this.$step.asObservable().subscribe(step => {
+        if (!step) {
+          return;
+        }
+
+        this.api.getData('interviewerRoutes', 'referableItems', {sequenceId: sequence.id, fromStepId: step.id}).subscribe(items => $itemsSubj.next(items));
+      });
     });
 
 
@@ -94,7 +122,7 @@ export class ItemDesignService {
   // public addNewItem(): Observable<Step> {
   //   const $stepSubj = new Subject();
   //
-  //   this.api.postData('interviewerRoutes', 'addNewItemToSequence', {sequenceId: this.item.id}, {}).subscribe(step => {
+  //   this.api.postData('interviewerRoutes', 'addNewItemToSequence', {sequenceId: }, {}).subscribe(step => {
   //     this.$item.next({
   //       ...this.item,
   //       steps: [
@@ -107,4 +135,18 @@ export class ItemDesignService {
   //
   //   return $stepSubj.asObservable();
   // }
+  setItemQuestion(value?: Asset) {
+    const $questionSubj = new Subject();
+
+    this.api.postData('interviewerRoutes', 'setItemQuestion', {itemId: this.item.id}, value).subscribe(question => {
+      this.$item.next({
+        ...this.item,
+        question
+      });
+
+      $questionSubj.next(question);
+    });
+
+    return $questionSubj.asObservable();
+  }
 }

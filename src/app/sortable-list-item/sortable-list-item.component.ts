@@ -18,7 +18,7 @@ export const SORTABLE_LIST_ITEM_CONTROL_VALUE_ACCESSOR: any = {
   styleUrls: ['./sortable-list-item.component.scss'],
   providers: [SORTABLE_LIST_ITEM_CONTROL_VALUE_ACCESSOR]
 })
-export class SortableListItemComponent implements ControlValueAccessor{
+export class SortableListItemComponent implements ControlValueAccessor {
   @Input() maxOrder: number;
   @Input() minOrder = 1;
 

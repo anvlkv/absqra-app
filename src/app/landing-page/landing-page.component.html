@@ -1,1 +1,9 @@
-<a [routerLink]="'ask'">Ask</a>
+<nav>
+  <a [routerLink]="'ask'">Ask</a>
+  <nav>
+    <a *ngFor="let sequence of sequences" [routerLink]="['answer', sequence.id]">
+      <h4>{{sequence?.header?.name}}</h4>
+      <p>{{sequence?.header?.description}}</p>
+    </a>
+  </nav>
+</nav>

@@ -17,7 +17,8 @@ import { Asset } from '../../models/asset';
 })
 export class ItemDetailComponent implements OnInit {
   @Input() item: Item = {};
-  @Output() doneEditing: EventEmitter<Step | Item> = new EventEmitter();
+  @Input() step: Step = {};
+  @Output() doneEditing: EventEmitter<Item> = new EventEmitter();
 
   @ViewChild('itemForm')
   public itemForm: NgForm;
@@ -38,13 +39,23 @@ export class ItemDetailComponent implements OnInit {
     await this.api.ready;
 
     this.route.params.subscribe(params => {
-      if (params['itemId'] || this.item.id) {
+      let itemObservable;
 
-
-        this.itemDesigner.set$item(params['itemId'] || this.item.id).subscribe(item => {
-          this.item = item;
-        });
+      if (params['itemId'] && this.item.id && this.step.id) {
+        throw Error(`Ambiguous item-detail component initialisation: params['itemId'] && this.item.id && this.step.id : ${params['itemId']} && ${this.item.id} && ${this.step.id}`);
       }
+
+      if (params['itemId'] || this.item.id) {
+        itemObservable = this.itemDesigner.set$item(params['itemId'] || this.item.id);
+      }
+      else if (this.step.id) {
+        itemObservable = this.itemDesigner.set$itemByStepId(this.step.id);
+      }
+
+      itemObservable.subscribe(item => {
+        this.item = item;
+      });
+
       this.itemExpectsOptions = this.api.apiTypes['QuantityOrder'];
       this.itemOffersOptions = this.api.apiTypes['QuantityOrder'];
       this.itemLifeCycleOptions = this.api.apiTypes['ItemLifeCycleTypes'];
