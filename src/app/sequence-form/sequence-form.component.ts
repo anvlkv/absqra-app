@@ -39,7 +39,7 @@ export class SequenceFormComponent implements OnInit {
       this.sequenceDesign.createNewSequence({ header: this.sequenceForm.value }).subscribe(s => {
             this.doneEditing.emit(s);
       });
-    //   this.api.postData('interviewerRoutes', 'addSequence', {}, {...this.sequenceForm.value}).subscribe(s => {
+    //   this.api.postData('interviewerRoutes', 'addSequence', {}, {...this.sequenceForm.stepResponse}).subscribe(s => {
     //   });
     }
   }

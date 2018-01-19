@@ -1,0 +1,9 @@
+<ol>
+  <li *ngFor="let item of listItems; let i = index;">
+    <ng-container *ngTemplateOutlet="itemInput;context:{$implicit:i}"></ng-container>
+    <ng-container *ngTemplateOutlet="itemControl;context:{$implicit:i}"></ng-container>
+  </li>
+  <li>
+    <ng-container *ngTemplateOutlet="edgeControl;"></ng-container>
+  </li>
+</ol>

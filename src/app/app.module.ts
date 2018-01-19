@@ -27,9 +27,12 @@ import { SequenceDesignService } from './sequence-design.service';
 import { SortByOrderPipe } from './sort-by-order.pipe';
 import { SortableService } from './sortable.service';
 import { SequenceAnswerComponent } from './sequence-answer/sequence-answer.component';
-import { ItemAnswerComponent } from './item-answer/item-answer.component';
+import { StepAnswerComponent } from './step-answer/step-answer.component';
 import { ProgressComponent } from './progress/progress.component';
 import { ResponseService } from './response.service';
+import { StepInputComponent } from './step-input/step-input.component';
+import { ListInputComponent } from './list-input/list-input.component';
+import { AutoFocusDirective } from './autofocus.directive';
 
 @NgModule({
   declarations: [
@@ -54,8 +57,11 @@ import { ResponseService } from './response.service';
     SortableListItemComponent,
     SortByOrderPipe,
     SequenceAnswerComponent,
-    ItemAnswerComponent,
+    StepAnswerComponent,
     ProgressComponent,
+    StepInputComponent,
+    ListInputComponent,
+    AutoFocusDirective,
   ],
   imports: [
     BrowserModule,
