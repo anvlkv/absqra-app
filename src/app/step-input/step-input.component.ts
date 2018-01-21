@@ -35,7 +35,11 @@ export class StepInputComponent implements ControlValueAccessor {
 
   @Input()
   get stepResponse(): any {
-    return JSON.parse(JSON.stringify(this.innerValue));
+    try {
+      return JSON.parse(JSON.stringify(this.innerValue));
+    } catch (e) {
+      return this.innerValue;
+    }
   };
 
 

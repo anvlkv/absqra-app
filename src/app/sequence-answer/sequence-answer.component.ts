@@ -34,6 +34,7 @@ export class SequenceAnswerComponent implements OnInit {
   }
 
   onAnswerSaved() {
+    delete this.currentStep;
     this.rs.nextStep().subscribe(step => {
       this.currentStep = step;
     });

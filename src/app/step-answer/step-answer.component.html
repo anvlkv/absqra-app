@@ -6,6 +6,7 @@
   <form name="step-response" [ngSwitch]="step.item?.offers" (submit)="saveResponse()">
     <fieldset *ngSwitchCase="'multiple'">
       <app-asset-thumbnail [asset]="step.item?.question"></app-asset-thumbnail>
+      <hr>
       <div *ngFor="let asset of step.item.assets; let i = index">
         <app-step-input [step]="step" [asset]="asset" [(stepResponse)]="response[i]"></app-step-input>
         <app-asset-thumbnail [asset]="asset"></app-asset-thumbnail>

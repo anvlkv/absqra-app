@@ -17,6 +17,7 @@ export class StepAnswerComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.response = [];
   }
 
   onResponse(e) {
