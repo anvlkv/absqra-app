@@ -1,5 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Step } from '../../models/step';
+import { ResponseService } from '../response.service';
 
 @Component({
   selector: 'app-step-answer',
@@ -8,10 +9,12 @@ import { Step } from '../../models/step';
 })
 export class StepAnswerComponent implements OnInit {
   @Input() step: Step;
-
+  @Output() answerSaved: EventEmitter<any> = new EventEmitter();
   response: any;
 
-  constructor() { }
+  constructor(
+    private rs: ResponseService
+  ) { }
 
   ngOnInit() {
   }
@@ -20,7 +23,11 @@ export class StepAnswerComponent implements OnInit {
     // console.log(e);
   }
 
-  saveResponse(){
-    console.log(this.response);
+  saveResponse() {
+    // console.log(this.response);
+    this.rs.saveStepResponse(this.response).subscribe(r => {
+      // console.log(r);
+      this.answerSaved.emit(r);
+    });
   }
 }

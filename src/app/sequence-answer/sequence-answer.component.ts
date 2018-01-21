@@ -33,9 +33,10 @@ export class SequenceAnswerComponent implements OnInit {
     });
   }
 
-  nextStep() {
-    const currentIndex = this.sequence.steps.findIndex(step => this.currentStep.id == step.id);
-    this.currentStep = this.sequence.steps
+  onAnswerSaved() {
+    this.rs.nextStep().subscribe(step => {
+      this.currentStep = step;
+    });
   }
 
 }

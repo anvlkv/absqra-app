@@ -19,7 +19,7 @@ export const SORTABLE_LIST_ITEM_CONTROL_VALUE_ACCESSOR: any = {
   providers: [SORTABLE_LIST_ITEM_CONTROL_VALUE_ACCESSOR]
 })
 export class SortableListItemComponent implements ControlValueAccessor {
-  @Input() maxOrder: number;
+  @Input() maxOrder = Infinity;
   @Input() minOrder = 1;
 
   @Output() orderChanged: EventEmitter<[number, number]> = new EventEmitter();
@@ -39,15 +39,20 @@ export class SortableListItemComponent implements ControlValueAccessor {
 
   // set accessor including call the onchange callback
   set value(v: any) {
-    if (v !== this.innerValue && v) {
+    if (v && v !== this.innerValue) {
       let oldVal, newVal;
       oldVal = this.innerValue;
       newVal = v;
       this.innerValue = v;
       this.onChangeCallback(v);
+
       this.orderChanged.emit([oldVal, newVal]);
     }
   }
+
+  // validateValue(v) {
+  //   return v && v > this.minOrder && v < this.maxOrder;
+  // }
 
   // Set touched on blur
   onBlur() {

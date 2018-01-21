@@ -49,4 +49,8 @@ export class ResponseService {
 
     return this.getStep();
   }
+
+  saveStepResponse(response) {
+    return this.api.postData('respondentRoutes', 'saveResponse', { sequenceId: this.sequence.id, stepId: this.step.id }, response);
+  }
 }

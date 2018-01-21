@@ -3,7 +3,7 @@
   <app-sequence-thumbnail [sequence]="sequence">
     <app-progress [current]="currentStep?.order" [of]="sequence.steps.length"></app-progress>
   </app-sequence-thumbnail>
-  <app-step-answer [step]="currentStep"></app-step-answer>
+  <app-step-answer [step]="currentStep" (answerSaved)="onAnswerSaved()"></app-step-answer>
 </div>
 
 <app-loading-state *ngIf="!sequence"></app-loading-state>
