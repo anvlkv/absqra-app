@@ -28,7 +28,7 @@ export class StepInputComponent implements ControlValueAccessor {
 
   private innerValue: any;
 
-  // Placeholders for the callbacks which are later providesd
+  // Placeholders for the callbacks which are later provided
   // by the Control Value Accessor
   private onTouchedCallback: () => void = noop;
   private onChangeCallback: (_: any) => void = noop;
