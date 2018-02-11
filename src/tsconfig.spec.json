@@ -8,13 +8,18 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths":{
+      "@models/*":["app/models/*"],
+      "typeorm":["../node_modules/typeorm/extra/typeorm-model-shim"]
+    }
   },
   "files": [
     "test.ts"
   ],
   "include": [
     "**/*.spec.ts",
-    "**/*.d.ts"
+    "**/*.d.ts",
+    "**/*.mock.ts"
   ]
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Item } from '../../../models/item';
+import { Item } from '../../../models/Item';
 import { GeneralDataService } from '../../api/general-data.service';
 import { ItemDesignService } from '../../api/item-design.service';
 

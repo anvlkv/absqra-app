@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { GeneralDataService } from '../../api/general-data.service';
-import { Sequence } from '../../../models/sequence';
+import { Sequence } from '../../../models/Sequence';
 import { SequenceDesignService } from '../../api/sequence-design.service';
 
 @Component({

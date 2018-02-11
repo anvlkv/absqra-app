@@ -9,6 +9,8 @@ import { Title } from '@angular/platform-browser';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  ready: boolean;
+
   constructor(
     private api: GeneralDataService,
     public ttl: Title
@@ -17,8 +19,8 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const ready = await this.api.ready;
-    console.log(ready);
+    this.ready = await this.api.ready;
+    // console.log(ready);
     this.ttl.setTitle('Intervey');
   }
 }

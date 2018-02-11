@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Item } from '../../../models/item';
+import { Item } from '../../../models/Item';
 import { NgForm } from '@angular/forms';
 import { GeneralDataService } from '../../api/general-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Step } from '../../../models/step';
+import { Step } from '../../../models/Step';
 import { ItemDesignService } from '../../api/item-design.service';
-import { Asset } from '../../../models/asset';
+import { Asset } from '../../../models/Asset';
 
 @Component({
   selector: 'app-item-detail',
@@ -16,8 +16,8 @@ import { Asset } from '../../../models/asset';
   ]
 })
 export class ItemDetailComponent implements OnInit {
-  @Input() item: Item = {};
-  @Input() step: Step = {};
+  @Input() item: Item = new Item();
+  @Input() step: Step = new Step();
   @Output() doneEditing: EventEmitter<Item> = new EventEmitter();
 
   @ViewChild('itemForm')

@@ -1,15 +1,15 @@
+///<reference path="../../node_modules/@angular/http/src/http_module.d.ts"/>
 import { async, TestBed, inject } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 // import { ApiModule } from './api/api.module';
 import { GeneralDataService } from './api/general-data.service';
 import { ComponentFixture } from '@angular/core/testing';
-import { XHRBackend, HttpModule } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { Title } from '@angular/platform-browser';
 import { Deferred, defer } from 'q';
 import { tick } from '@angular/core/testing';
 import { fakeAsync } from '@angular/core/testing';
+import { HttpClientModule, HttpBackend } from '@angular/common/http';
 
 
 let fixture: ComponentFixture<AppComponent>;
@@ -36,11 +36,11 @@ describe('AppComponent', () => {
       ],
       imports: [
         RouterTestingModule,
-        HttpModule,
+        HttpClientModule,
       ],
       providers: [
         Title,
-        { provide: XHRBackend, useClass: MockBackend },
+        HttpBackend,
         { provide: GeneralDataService, useClass: MockGeneralDataService},
       ],
     }).compileComponents();
@@ -53,8 +53,6 @@ describe('AppComponent', () => {
   }));
 
   it(`should have as title '...loading'`, async(() => {
-    // const fixture = TestBed.createComponent(AppComponent);
-    // const app = fixture.debugElement.componentInstance;
     const title = TestBed.get(Title);
     expect(title.getTitle()).toEqual('...loading');
   }));
@@ -62,23 +60,10 @@ describe('AppComponent', () => {
   it(`should set title 'Intervey' when api is ready`, fakeAsync(inject([GeneralDataService], async (api: GeneralDataService) => {
     const title = TestBed.get(Title);
     expect(title.getTitle()).toEqual('...loading');
-    // spyOn(api, 'initApi').and.returnValue(Promise.resolve(true));
     api.initApi();
-
     await app.ngOnInit();
-    // fixture.detectChanges();
-
-    // tick(500);
     fixture.detectChanges();
-
     expect(title.getTitle()).toEqual('Intervey');
-    // api.resolve(true);
-    //
-    // fixture.detectChanges();
-    // fixture.whenStable().then(() => {
-    //
-    // });
-
   })));
   //
   it('should render title in a h1 tag', async(() => {

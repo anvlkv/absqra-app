@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for src/app/api/item-design.service.ts</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">src/app/api</a> item-design.service.ts
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">35.06% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>27/77</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">25% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>2/8</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">17.39% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>4/23</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">40.32% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>25/62</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line low'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Injectable } from '@angular/core';
+import { GeneralDataService } from './general-data.service';
+import { Item } from '../../models/Item';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import { Asset } from '../../models/Asset';
+import { FormatConstraint } from '../../models/FormatConstraint';
+import { SequenceDesignService } from './sequence-design.service';
+import { Step } from '../../models/Step';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+&nbsp;
+@Injectable()
+export class ItemDesignService {
+  private $item: Subject&lt;Item&gt;;
+  private $step: BehaviorSubject&lt;Step&gt;;
+  private step: Step;
+  private item: Item;
+&nbsp;
+  constructor(
+    private api: GeneralDataService,
+    private sd: SequenceDesignService
+  ) {
+    this.$item = new Subject();
+    this.$step = new BehaviorSubject(null);
+    this.getItem().subscribe(<span class="fstat-no" title="function not covered" ></span>i =&gt; <span class="cstat-no" title="statement not covered" >this.item = i)</span>;
+    this.$step.asObservable().subscribe(s =&gt; {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (s &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >s.item)</span> {
+<span class="cstat-no" title="statement not covered" >        this.$item.next(s.item);</span>
+<span class="cstat-no" title="statement not covered" >        this.step = s;</span>
+      }
+    });
+  }
+&nbsp;
+  public getItem(): Observable&lt;Item&gt; {
+    return this.$item.asObservable();
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public set$itemByStepId(</span>stepId: number): Observable&lt;Item&gt; {</span>
+    const observableItem = <span class="cstat-no" title="statement not covered" >this.getItem();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.api.getData('interviewerRoutes', 'getStep', {stepId: stepId}).subscribe( <span class="fstat-no" title="function not covered" ></span>s =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$step.next(s);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return observableItem;</span>
+  };
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public set$item(</span>itemId: number): Observable&lt;Item&gt; {</span>
+    const observableItem = <span class="cstat-no" title="statement not covered" >this.getItem();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.api.getData('interviewerRoutes', 'getItem', {itemId: itemId}).subscribe(<span class="fstat-no" title="function not covered" ></span>i =&gt; <span class="cstat-no" title="statement not covered" >this.$item.next(i))</span>;</span>
+&nbsp;
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return observableItem;</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public updateItem(</span>value: Item): Observable&lt;Item&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    this.api.patchData('interviewerRoutes', 'updateItem', {itemId: this.item.id}, value).subscribe(<span class="fstat-no" title="function not covered" ></span>i =&gt; <span class="cstat-no" title="statement not covered" >this.$item.next(i))</span>;</span>
+<span class="cstat-no" title="statement not covered" >    return this.$item.asObservable();</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public addAsset(</span>value?: Asset): Observable&lt;Asset&gt; {</span>
+    const $assetSubj = <span class="cstat-no" title="statement not covered" >new Subject();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    value = value || {order: this.item.assets.length};</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.api.postData('interviewerRoutes', 'addAssetToItem', {itemId: this.item.id}, value).subscribe(<span class="fstat-no" title="function not covered" ></span>a =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$item.next({</span>
+        ...this.item,
+        assets: [...this.item.assets, a]
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      $assetSubj.next(a);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return $assetSubj.asObservable();</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public updateItemAssetsOrder(</span>assets: Asset[], assetsToUpdate: [Asset, Asset]): Observable&lt;Item&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    this.api.patchData('interviewerRoutes', 'updateItemAssetsOrder', {itemId: this.item.id}, assetsToUpdate).subscribe(<span class="fstat-no" title="function not covered" ></span>i =&gt; <span class="cstat-no" title="statement not covered" >this.$item.next(i))</span>;</span>
+<span class="cstat-no" title="statement not covered" >    this.$item.next({</span>
+      ...this.item,
+      assets
+    });
+<span class="cstat-no" title="statement not covered" >    return this.$item.asObservable();</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public addConstraint(</span>value?: FormatConstraint): Observable&lt;FormatConstraint&gt; {</span>
+    const $constraintSubj: Subject&lt;FormatConstraint&gt; = <span class="cstat-no" title="statement not covered" >new Subject();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.api.postData('interviewerRoutes', 'addConstraintToItem', {itemId: this.item.id}, value).subscribe(<span class="fstat-no" title="function not covered" ></span>c =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$item.next({</span>
+        ...this.item,
+        formatConstraints: [...this.item.formatConstraints, c]
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      $constraintSubj.next(c);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return $constraintSubj.asObservable();</span>
+  }
+&nbsp;
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  public getReferableItems(): Observable&lt;Item[]&gt; {</span></span>
+    const $itemsSubj: Subject&lt;Item[]&gt; = <span class="cstat-no" title="statement not covered" >new Subject();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.sd.getSequence().subscribe(<span class="fstat-no" title="function not covered" ></span>sequence =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$step.asObservable().subscribe(<span class="fstat-no" title="function not covered" ></span>step =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        if (!step) {</span>
+<span class="cstat-no" title="statement not covered" >          return;</span>
+        }
+&nbsp;
+<span class="cstat-no" title="statement not covered" >        this.api.getData('interviewerRoutes', 'referableItems', {sequenceId: sequence.id, fromStepId: step.id}).subscribe(<span class="fstat-no" title="function not covered" ></span>items =&gt; <span class="cstat-no" title="statement not covered" >$itemsSubj.next(items))</span>;</span>
+      });
+    });
+&nbsp;
+&nbsp;
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return $itemsSubj.asObservable();</span>
+  }
+&nbsp;
+  // public addNewItem(): Observable&lt;Step&gt; {
+  //   const $stepSubj = new Subject();
+  //
+  //   this.api.postData('interviewerRoutes', 'addNewItemToSequence', {sequenceId: }, {}).subscribe(step =&gt; {
+  //     this.$item.next({
+  //       ...this.item,
+  //       steps: [
+  //         ...this.item.steps,
+  //         step
+  //       ]
+  //     });
+  //     $stepSubj.next(step);
+  //   });
+  //
+  //   return $stepSubj.asObservable();
+  // }
+<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >  setItemQuestion(</span>value?: Asset) {</span>
+    const $questionSubj = <span class="cstat-no" title="statement not covered" >new Subject();</span>
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    this.api.postData('interviewerRoutes', 'setItemQuestion', {itemId: this.item.id}, value).subscribe(<span class="fstat-no" title="function not covered" ></span>question =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      this.$item.next({</span>
+        ...this.item,
+        question
+      });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >      $questionSubj.next(question);</span>
+    });
+&nbsp;
+<span class="cstat-no" title="statement not covered" >    return $questionSubj.asObservable();</span>
+  }
+}
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Feb 10 2018 22:39:03 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>

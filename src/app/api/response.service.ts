@@ -1,29 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Sequence } from '../../models/sequence';
+import { Sequence } from '../../models/Sequence';
 import { GeneralDataService } from './general-data.service';
-import { Subject } from 'rxjs/Subject';
-import { Item } from '../../models/item';
-import { Step } from '../../models/step';
+import { Step } from '../../models/Step';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Injectable()
 export class ResponseService {
-  private $currentStep: Subject<Step>;
-  private $currentSequence: Subject<Sequence>;
+  private $currentStep: ReplaySubject<Step>;
+  private $currentSequence: ReplaySubject<Sequence>;
   private sequence: Sequence;
   private step: Step;
 
   constructor(
     private api: GeneralDataService
   ) {
-    this.$currentStep = new Subject();
-    this.$currentSequence = new Subject();
+    this.$currentStep = new ReplaySubject(1);
+    this.$currentSequence = new ReplaySubject(1);
     this.getStep().subscribe(s => this.step = s);
     this.getSequence().subscribe(s => this.sequence = s);
   }
 
   getStep() {
-
-
     return this.$currentStep.asObservable();
   }
 

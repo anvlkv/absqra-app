@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Step } from '../../../models/step';
+import { Step } from '../../../models/Step';
 import { GeneralDataService, TypesMetaData } from '../../api/general-data.service';
 import { Observable } from 'rxjs/Observable';
 import { SequenceDesignService } from '../../api/sequence-design.service';

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, NgZone, OnInit, Output } from '@angular/core';
-import { Asset } from '../../../models/asset';
-import { Step } from '../../../models/step';
+import { Asset } from '../../../models/Asset';
+import { Step } from '../../../models/Step';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs/util/noop';
 import { ResponseBody } from 'models/response';

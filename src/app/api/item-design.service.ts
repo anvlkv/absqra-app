@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { GeneralDataService } from './general-data.service';
-import { Item } from '../../models/item';
+import { Item } from '../../models/Item';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { Asset } from '../../models/asset';
-import { FormatConstraint } from '../../models/formatConstraint';
+import { Asset } from '../../models/Asset';
+import { FormatConstraint } from '../../models/FormatConstraint';
 import { SequenceDesignService } from './sequence-design.service';
-import { Step } from '../../models/step';
+import { Step } from '../../models/Step';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()
@@ -87,7 +87,7 @@ export class ItemDesignService {
   }
 
   public addConstraint(value?: FormatConstraint): Observable<FormatConstraint> {
-    const $constraintSubj = new Subject();
+    const $constraintSubj: Subject<FormatConstraint> = new Subject();
 
     this.api.postData('interviewerRoutes', 'addConstraintToItem', {itemId: this.item.id}, value).subscribe(c => {
       this.$item.next({

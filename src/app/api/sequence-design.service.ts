@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { GeneralDataService } from './general-data.service';
-import { Header, Sequence } from '../../models/sequence';
+import { Sequence } from '../../models/Sequence';
+import { SequenceHeader } from '../../models/SequenceHeader';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Step } from '../../models/step';
+import { Step } from '../../models/Step';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 
@@ -65,7 +66,7 @@ export class SequenceDesignService {
     return $stepSubj.asObservable();
   }
 
-  public updateSequenceHeader(header: Header): Observable<Sequence> {
+  public updateSequenceHeader(header: SequenceHeader): Observable<Sequence> {
     this.api.patchData('interviewerRoutes', 'updateSequenceHeader', {sequenceId: this.sequence.id}, header).subscribe(seq => {
       this.$sequence.next(seq);
     });

@@ -1,3 +1,38 @@
-<p>
-  base-form works!
-</p>
+<div class="base-form-container" *ngIf="form" [formGroup]="form">
+  <ng-container *ngFor="let input of config.inputs" [ngSwitch]="input.type">
+
+    <ng-container *ngSwitchCase="'yes-no'">
+      <app-yes-no-input></app-yes-no-input>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'list-input'">
+      <app-list-input></app-list-input>
+    </ng-container>
+
+    <fieldset *ngSwitchCase="'select-single'">
+      <label *ngFor="let radio of input.value?.inputs">
+        {{radio.value}}
+        <input type="radio" [formControlName]="radio.name" [value]="radio.value"/>
+      </label>
+    </fieldset>
+
+    <fieldset *ngSwitchCase="'select-multiple'" [formGroupName]="input.name">
+      <label *ngFor="let checkbox of input.value.inputs">
+        {{checkbox.name}}
+        <input type="checkbox" [formControlName]="checkbox.name" [checked]="checkbox.value"/>
+      </label>
+    </fieldset>
+
+    <ng-container *ngSwitchDefault>
+      <label>
+        {{'something'}}
+        <input [type]="input.type" [formControlName]="input.name"/>
+      </label>
+    </ng-container>
+  </ng-container>
+  <!---->
+  <!--
+  <!--<app-portal-form></app-portal-form>-->
+  <!--<app-yes-no-input></app-yes-no-input>-->
+</div>
+<app-loading-state *ngIf="!form"></app-loading-state>

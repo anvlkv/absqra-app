@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Step } from '../../../models/step';
+import { Step } from '../../../models/Step';
 import { ResponseService } from '../../api/response.service';
 
 @Component({

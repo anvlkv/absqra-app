@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Step } from '../../../models/step';
+import { Step } from '../../../models/Step';
 import { GeneralDataService } from '../../api/general-data.service';
-import { Item } from '../../../models/item';
+import { Item } from '../../../models/Item';
 import { Observable } from 'rxjs/Observable';
 import { SequenceDesignService } from '../../api/sequence-design.service';
 

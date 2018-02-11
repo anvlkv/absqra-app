@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Step } from '../../../models/step';
+import { Step } from '../../../models/Step';
 import { SortableService } from '../sortable.service';
 import { SequenceDesignService } from '../../api/sequence-design.service';
 

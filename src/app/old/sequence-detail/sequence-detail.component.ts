@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { GeneralDataService } from '../../api/general-data.service';
-import { Sequence } from '../../../models/sequence';
+import { Sequence } from '../../../models/Sequence';
 import { ActivatedRoute } from '@angular/router';
 import { SequenceDesignService } from '../../api/sequence-design.service';
-import { Step } from '../../../models/step';
+import { Step } from '../../../models/Step';
 
 @Component({
   selector: 'app-sequence-detail',

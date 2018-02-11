@@ -1,0 +1,8 @@
+<ng-container *ngIf="step">
+  <form *ngIf="step.item">
+    <app-base-content-item [item]="step.item.question"></app-base-content-item>
+    <app-base-form></app-base-form>
+    <button type="submit">submit</button>
+    <button type="reset">clear</button>
+  </form>
+</ng-container>

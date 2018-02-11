@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { GeneralDataService } from '../../api/general-data.service';
 import { ResponseService } from '../../api/response.service';
 import { ActivatedRoute } from '@angular/router';
-import { Sequence } from 'models/sequence';
-import { Step } from '../../../models/step';
+import { Sequence } from 'models/Sequence';
+import { Step } from '../../../models/Step';
 
 
 @Component({

@@ -4,13 +4,16 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "paths":{
+      "@models/*":["app/models/*"],
+      "typeorm":["../node_modules/typeorm/extra/typeorm-model-shim"]
+    }
   },
   "exclude": [
     "test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "**/*.mock.ts",
+    "**/*.fixture.ts"
   ],
-  "paths":{
-    "@models/*":["app/models/*"]
-  }
+  "types":[]
 }

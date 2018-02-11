@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralDataService } from '../../api/general-data.service';
-import { Sequence } from '../../../models/sequence';
+import { Sequence } from '../../../models/Sequence';
 
 @Component({
   selector: 'app-landing-page',
