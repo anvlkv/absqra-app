@@ -7,6 +7,7 @@ import {
   META_VALUE_ValidationTypes, ValidationTypes,
   VALUE_ValidationTypes,
 } from '../../models/enums/formatConstraint.enums';
+import { ResponseBody } from '../../models/Response';
 
 export class InputConfig {
   type: string;
@@ -31,6 +32,8 @@ export class FormsSchemaService {
   private $formGroup: ReplaySubject<FormGroup> = new ReplaySubject(1);
   private $config: ReplaySubject<FormConfig> = new ReplaySubject(1);
   protected _questionnaire: Partial<Item>;
+  private config: FormConfig;
+  private fg: FormGroup;
 
   @Input()
   get questionnaire() {
@@ -48,7 +51,10 @@ export class FormsSchemaService {
 
   constructor(
     private fb: FormBuilder
-  ) { }
+  ) {
+    this.getConfig().subscribe(c => this.config = c);
+    this.getFg().subscribe(f => this.fg = f);
+  }
 
 
   rebuildConfig(): FormConfig {
@@ -57,8 +63,6 @@ export class FormsSchemaService {
 
   buildFormGroup(config: FormConfig): FormGroup  {
     const group = this.fb.group({});
-
-
 
     config.inputs.forEach(input => {
       let control;
@@ -112,16 +116,55 @@ export class FormsSchemaService {
   getConfig() {
     return this.$config.asObservable();
   }
+
+  getBody() {
+    const rawValue = this.fg.getRawValue();
+    return parseQuestionnaireResponse(rawValue, this.questionnaire);
+  }
+}
+
+function parseQuestionnaireResponse(response: {[i: string ]: any}, questionnaire: Partial<Item>): ResponseBody[] {
+  // config.inputs.map(input => {
+  //   if (input.name) {
+  //     return {response: response[input.name], source: input.name}
+  //   }
+  //   else if ((<FormConfig>input.value).inputs) {
+  //     parseQuestionnaireResponse
+  //   }
+  //   else {
+  //     throw Error('Cannot parse input with no name');
+  //   }
+  // });
+
+  if (response.hasOwnProperty(questionnaire.name) && isPrimitive(response[questionnaire.name])) {
+    return [{response: response[questionnaire.name], source: questionnaire.name}]
+  }
+  else if (response.hasOwnProperty(questionnaire.name)) {
+    return Object.keys(response[questionnaire.name]).map(k => parseQuestionnaireResponse(response[questionnaire.name], {name: k})).map(r => {
+      return {
+        source: `${questionnaire.name}:${r[0].source}`,
+        response: r[0].response
+      }
+    });
+  }
+  else {
+    console.log(response);
+  }
+}
+
+function isPrimitive(val) {
+  switch (typeof val) {
+    case 'symbol':
+    case 'function':
+    case 'object':
+      return false;
+    default:
+      return true;
+  }
 }
 
 function buildConfig(questionnaire: Partial<Item>): FormConfig {
   const config = new FormConfig();
-  // this._questionnaire.
-  // console.log(this.questionnaire);
-
-  // this.questionnaire.offers
-
-  // if (this.questionnaire.offers == QuantityOrder.NONE && )
 
   const typeConstraint = questionnaire.formatConstraints.find(constraint => constraint.validationType === ValidationTypes.TYPE);
 

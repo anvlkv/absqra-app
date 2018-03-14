@@ -20,24 +20,24 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">93.33% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>14/15</span>
+        <span class='fraction'>26/26</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">50% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>3/6</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
-        <span class="quiet">Branches</span>
-        <span class='fraction'>0/0</span>
-      </div>
-      <div class='fl pad1y space-right2'>
-        <span class="strong">80% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>4/5</span>
+        <span class='fraction'>8/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">90.91% </span>
+        <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>10/11</span>
+        <span class='fraction'>21/21</span>
       </div>
     </div>
   </div>
@@ -72,10 +72,36 @@
 27
 28
 29
-30</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54</td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -86,18 +112,40 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
@@ -105,6 +153,8 @@
 import { ActivatedRoute } from '@angular/router';
 import { ResponseService } from '../../../api/response.service';
 import { Step } from '../../../../models/Step';
+import { FormsSchemaService } from '../../../core-forms/forms-schema.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 &nbsp;
 @Component({
   selector: 'app-step-response',
@@ -113,21 +163,43 @@ import { Step } from '../../../../models/Step';
 })
 export class StepResponseComponent implements OnInit {
   step: Step;
+  response: FormGroup;
 &nbsp;
   constructor(
-    private response: ResponseService,
-    private route: ActivatedRoute
+    private rs: ResponseService,
+    private route: ActivatedRoute,
+    private fs: FormsSchemaService
   ) { }
 &nbsp;
   ngOnInit() {
     // this.route.params.subscribe(({stepId}) =&gt; {
     // });
-    this.response.getStep().subscribe(s =&gt; this.step = s);
+&nbsp;
+    this.rs.getStep().subscribe(s =&gt; {
+      this.step = s;
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (this.step.item) {
+        this.fs.questionnaire = this.step.item;
+      }
+    });
+&nbsp;
+    this.fs.getFg().subscribe((responseForm) =&gt; {
+      this.response = responseForm;
+    });
   }
 &nbsp;
-<span class="fstat-no" title="function not covered" >  nextStep() {</span>
-<span class="cstat-no" title="statement not covered" >    this.response.nextStep();</span>
+  onSubmit() {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (this.response.valid) {
+      this.rs.saveStepResponse(this.response.getRawValue()).subscribe((result) =&gt; {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (result) {
+          this.rs.nextStep().subscribe(s =&gt; this.step = s);
+        }
+      });
+    }
   }
+&nbsp;
+  // nextStep() {
+  //   this.response.nextStep();
+  // }
 &nbsp;
 }
 &nbsp;</pre></td></tr>
@@ -136,7 +208,7 @@ export class StepResponseComponent implements OnInit {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Sat Feb 10 2018 22:39:03 GMT+0100 (CET)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Thu Feb 15 2018 23:02:16 GMT+0100 (CET)
 </div>
 </div>
 <script src="../../../../../prettify.js"></script>

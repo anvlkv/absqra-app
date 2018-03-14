@@ -12,12 +12,12 @@ export class BaseFormComponent implements OnInit {
   form: FormGroup;
 
   constructor(
-    private fsc: FormsSchemaService
+    private fs: FormsSchemaService
   ) { }
 
   ngOnInit() {
-    this.fsc.getConfig().subscribe(config => {
-      this.fsc.getFg().subscribe(fg => {
+    this.fs.getConfig().subscribe(config => {
+      this.fs.getFg().subscribe(fg => {
         this.config = config;
         this.form = fg;
       });

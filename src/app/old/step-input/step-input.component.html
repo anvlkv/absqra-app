@@ -3,7 +3,7 @@
   <input type="radio" [value]="asset.content" *ngSwitchCase="step.item.expects === 'one' && step.item.offers === 'multiple'" [(ngModel)]="stepResponse" name="response">
   <input type="text" *ngSwitchCase="step.item.expects === 'one' && step.item.offers === 'none'" [(ngModel)]="stepResponse" name="response">
   <input type="checkbox" [value]="asset.content" *ngSwitchCase="step.item.expects === 'multiple' && step.item.offers === 'multiple'" [(ngModel)]="stepResponse" name="response">
-  <app-list-input *ngSwitchCase="step.item.expects === 'multiple' && ['one', 'none'].indexOf(step.item.offers) >= 0" [edgeControl]="edgeControl" [itemInput]="itemInput" [itemControl]="itemControl" [listItems]="innerValue">
+  <app-old-list-input *ngSwitchCase="step.item.expects === 'multiple' && ['one', 'none'].indexOf(step.item.offers) >= 0" [edgeControl]="edgeControl" [itemInput]="itemInput" [itemControl]="itemControl" [listItems]="innerValue">
     <ng-template #itemInput let-i>
       <!--<button>add item</button>-->
       <!--{{item | json}}-->
@@ -15,5 +15,5 @@
     <ng-template #edgeControl>
       <button (click)="addItem($event)">add item</button>
     </ng-template>
-  </app-list-input>
+  </app-old-list-input>
 </div>

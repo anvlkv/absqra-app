@@ -6,7 +6,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'list-input'">
-      <app-list-input></app-list-input>
+      <app-list-input [formGroup]="form" [formArrayName]="input.name" [itemConfig]="input.value.inputs[0]"></app-list-input>
     </ng-container>
 
     <fieldset *ngSwitchCase="'select-single'">
@@ -25,14 +25,9 @@
 
     <ng-container *ngSwitchDefault>
       <label>
-        {{'something'}}
         <input [type]="input.type" [formControlName]="input.name"/>
       </label>
     </ng-container>
   </ng-container>
-  <!---->
-  <!--
-  <!--<app-portal-form></app-portal-form>-->
-  <!--<app-yes-no-input></app-yes-no-input>-->
 </div>
 <app-loading-state *ngIf="!form"></app-loading-state>

@@ -307,13 +307,70 @@ describe('FormsSchemaService', () => {
       });
     }));
 
-    xit('should add portal-form in config and group', inject([FormsSchemaService], (service: FormsSchemaService) => {
-      expect(null).toBeTruthy();
-    }));
+    describe('body parser', () => {
+      it('should parse single input', async(inject([FormsSchemaService], (service) => {
+        service.questionnaire = {
+          expects: QuantityOrder.ONE,
+          offers: QuantityOrder.NONE,
+          name: 'item name'
+        };
+        service.getFg().subscribe(fg => {
+          fg.controls[service.questionnaire.name].setValue('what they typed');
+          expect(service.getBody()).toEqual([{ response: 'what they typed', source: 'item name' }]);
+        });
+      })));
 
-    xit('should provide formGroup and config for portal-form', inject([FormsSchemaService], (service: FormsSchemaService) => {
-      expect(null).toBeTruthy();
-    }));
+      it('should parse select single', async(inject([FormsSchemaService], (service) => {
+        service.questionnaire = {
+          expects: QuantityOrder.ONE,
+          offers: QuantityOrder.MULTIPLE,
+          name: 'item name',
+          assets: [
+            {
+              content: 'a1'
+            },
+            {
+              content: 'a2'
+            }
+          ]
+        };
+        service.getFg().subscribe(fg => {
+          fg.controls[service.questionnaire.name].setValue('a1');
+          expect(service.getBody()).toEqual([{ response: 'a1', source: 'item name' }]);
+        });
+      })));
+
+      it('should parse select multiple', async(inject([FormsSchemaService], (service) => {
+        service.questionnaire = {
+          expects: QuantityOrder.MULTIPLE,
+          offers: QuantityOrder.MULTIPLE,
+          name: 'item name',
+          assets: [
+            {
+              content: 'a1'
+            },
+            {
+              content: 'a2'
+            },
+            {
+              content: 'a3'
+            },
+            {
+              content: 'a4'
+            }
+          ]
+        };
+        service.getFg().subscribe(fg => {
+          fg.controls[service.questionnaire.name].setValue({'a1': true, 'a2': false, 'a3': false, 'a4': true});
+          expect(service.getBody()).toEqual([
+              { response: true, source: 'item name:a1'},
+              { response: false, source: 'item name:a2'},
+              { response: false, source: 'item name:a3'},
+              { response: true, source: 'item name:a4'},
+            ]);
+        });
+      })));
+    });
   });
 
 });

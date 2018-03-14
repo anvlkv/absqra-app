@@ -24,7 +24,7 @@ export function mockFormsSchemaService (): FormsSchemaService {
       'a2': fb.control(false)
     }
     )})));
-  when(mockService.getFg('list')).thenReturn(Observable.of(fb.group({/*'question': fb.array([])*/})));
+  when(mockService.getFg('list')).thenReturn(Observable.of(fb.group({'question': {'list': fb.array([])}})));
   when(mockService.getFg('y/n')).thenReturn(Observable.of(fb.group({/*'question': fb.control(false)*/})));
   when(mockService.getFg()).thenReturn(Observable.of(fb.group({'question': fb.control('')})));
 
@@ -76,7 +76,15 @@ export function mockFormsSchemaService (): FormsSchemaService {
   }));
   when(mockService.getConfig('list')).thenReturn(Observable.of(<FormConfig>{name: 'question', inputs: [
       {
-        type: 'list-input'
+        type: 'list-input',
+        name: 'list',
+        value: {
+          inputs: [
+            {
+              type: 'number'
+            }
+          ]
+        }
       }
     ]}));
   when(mockService.getConfig('y/n')).thenReturn(Observable.of(<FormConfig>{name: 'question', inputs: [
@@ -86,6 +94,8 @@ export function mockFormsSchemaService (): FormsSchemaService {
     ]}));
 
   when(mockService.getConfig()).thenReturn(Observable.of(<FormConfig>{inputs: [{type: 'text', name: 'question'}]}));
+
+  when(mockService.questionnaire);
 
   return mockService;
 }

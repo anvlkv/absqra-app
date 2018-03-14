@@ -1,3 +1,26 @@
-<p>
-  list-input works!
-</p>
+<fieldset *ngIf="formGroup" [ngSwitch]="orderedList" [formGroup]="formGroup">
+  <ng-container [formArrayName]="formArrayName">
+    <ol *ngSwitchCase="true">
+      <ng-container *ngTemplateOutlet="listContent"></ng-container>
+    </ol>
+    <ul *ngSwitchDefault>
+      <ng-container *ngTemplateOutlet="listContent"></ng-container>
+    </ul>
+
+    <ng-template #listContent>
+      <li *ngIf="validateItemCount(2)">
+        <button class="add" (click)="addItem(0, $event)">add item</button>
+      </li>
+      <li *ngFor="let control of formArray?.controls; let i = index">
+        <label>
+          <input [type]="itemConfig.type" formControlName="{{i}}"/>
+        </label>
+        <button *ngIf="validateItemCount(-1)" class="remove" (click)="removeItem(i, $event)">remove item</button>
+      </li>
+      <li *ngIf="validateItemCount(1)">
+        <button class="add" (click)="addItem(formArray.controls.length, $event)">add item</button>
+      </li>
+    </ng-template>
+  </ng-container>
+</fieldset>
+<app-loading-state *ngIf="!formGroup"></app-loading-state>

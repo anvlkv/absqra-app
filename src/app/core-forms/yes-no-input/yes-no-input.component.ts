@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { InputConfig } from '../forms-schema.service';
 
 @Component({
   selector: 'app-yes-no-input',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./yes-no-input.component.scss']
 })
 export class YesNoInputComponent implements OnInit {
+  @Input()
+  control: FormControl;
+
+  @Input()
+  config: InputConfig;
 
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }

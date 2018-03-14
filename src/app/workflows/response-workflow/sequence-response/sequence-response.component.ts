@@ -14,7 +14,6 @@ export class SequenceResponseComponent implements OnInit {
   constructor(
     private response: ResponseService,
     private route: ActivatedRoute,
-    private router: Router
   ) {
   }
 
@@ -28,9 +27,6 @@ export class SequenceResponseComponent implements OnInit {
     this.response.set$sequence(sequenceId).subscribe(s => {
       this.sequence = s;
       this.response.nextStep().subscribe(step => {
-        if (stepId != step.id) {
-          this.router.navigate(['./', step.id]);
-        }
       });
     });
   }

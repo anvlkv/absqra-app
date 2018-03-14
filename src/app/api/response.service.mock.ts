@@ -10,6 +10,7 @@ export function mockResponseService (): ResponseService {
   when(mockService.set$sequence(1)).thenReturn(Observable.of(sequence));
   when(mockService.nextStep()).thenReturn(Observable.of(step), Observable.of(sequence.steps[1]));
   when(mockService.getStep()).thenReturn(Observable.of(step));
+  when(mockService.saveStepResponse({question: ''})).thenReturn(Observable.of(sequence));
 
   return mockService;
 }

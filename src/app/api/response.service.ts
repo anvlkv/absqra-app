@@ -3,6 +3,7 @@ import { Sequence } from '../../models/Sequence';
 import { GeneralDataService } from './general-data.service';
 import { Step } from '../../models/Step';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { FormConfig } from '../core-forms/forms-schema.service';
 
 @Injectable()
 export class ResponseService {
@@ -47,7 +48,8 @@ export class ResponseService {
     return this.getStep();
   }
 
-  saveStepResponse(response) {
+  saveStepResponse(response, config: FormConfig) {
+    console.log(response, config);
     return this.api.postData('respondentRoutes', 'saveResponse', { sequenceId: this.sequence.id, stepId: this.step.id }, response);
   }
 }

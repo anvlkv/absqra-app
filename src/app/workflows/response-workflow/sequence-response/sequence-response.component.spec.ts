@@ -12,6 +12,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { ActivatedRoute, Router } from '@angular/router';
 import { mockResponseService } from '../../../api/response.service.mock';
+import { StepResponseComponent } from '../step-response/step-response.component';
 
 
 describe('SequenceResponseComponent', () => {
@@ -24,7 +25,8 @@ describe('SequenceResponseComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [
-        SequenceResponseComponent
+        SequenceResponseComponent,
+        StepResponseComponent
       ],
       imports: [
         RouterTestingModule.withRoutes([]),

@@ -26,9 +26,9 @@ export class StepAnswerComponent implements OnInit {
 
   saveResponse() {
     // console.log(this.response);
-    this.rs.saveStepResponse(this.response).subscribe(r => {
-      // console.log(r);
-      this.answerSaved.emit(r);
-    });
+    // this.rs.saveStepResponse(this.response, {in}).subscribe(r => {
+    //   // console.log(r);
+    //   this.answerSaved.emit(r);
+    // });
   }
 }

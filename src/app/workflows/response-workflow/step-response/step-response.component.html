@@ -1,5 +1,5 @@
 <ng-container *ngIf="step">
-  <form *ngIf="step.item">
+  <form *ngIf="step.item" (submit)="onSubmit($event)">
     <app-base-content-item [item]="step.item.question"></app-base-content-item>
     <app-base-form></app-base-form>
     <button type="submit">submit</button>

@@ -11,7 +11,7 @@
     ],
     "paths":{
       "@models/*":["app/models/*"],
-      "typeorm":["../node_modules/typeorm/extra/typeorm-model-shim"]
+      "typeorm":["../node_modules/typeorm/typeorm-model-shim"]
     }
   },
   "files": [

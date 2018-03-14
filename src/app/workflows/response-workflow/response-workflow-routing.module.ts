@@ -6,9 +6,7 @@ import { JustStepGuard } from './just-step.guard';
 import { SequenceResolver } from './sequence.resolver';
 
 const routes: Routes = [
-  {path: ':sequenceId', component: SequenceResponseComponent, children: [
-    {path: ':stepId', component: StepResponseComponent}
-  ]}
+  {path: ':sequenceId', component: SequenceResponseComponent}
 ];
 
 @NgModule({

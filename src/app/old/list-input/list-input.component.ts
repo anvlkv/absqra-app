@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 
 @Component({
-  selector: 'app-list-input',
+  selector: 'app-old-list-input',
   templateUrl: './list-input.component.html',
   styleUrls: ['./list-input.component.scss']
 })
