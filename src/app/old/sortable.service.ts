@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Sortable } from '../../models/sortable';
+import { OldSortable } from '../../models/sortable';
 
 @Injectable()
 export class SortableService {
 
-  reorderSortables(sortables: Sortable[], updatedItem: Sortable, oldOrder: number, newOrder: number, orderToIndexShift = 1) {
+  reorderSortables(sortables: OldSortable[], updatedItem: OldSortable, oldOrder: number, newOrder: number, orderToIndexShift = 1) {
     sortables = sortables.concat();
     updatedItem.order = newOrder;
     let diff = newOrder - oldOrder;

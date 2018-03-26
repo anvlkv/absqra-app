@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { GeneralDataService } from './general-data.service';
-import { Sequence } from '../../models/Sequence';
-import { SequenceHeader } from '../../models/SequenceHeader';
+import { Sequence } from '../../models/sequence';
+import { SequenceHeader } from '../../models/sequenceHeader';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
-import { Step } from '../../models/Step';
+import { Step } from '../../models/step';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 

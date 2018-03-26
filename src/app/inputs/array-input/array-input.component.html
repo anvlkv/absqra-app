@@ -1,0 +1,28 @@
+<ol>
+  <li *ngFor="let sortable of _innerValue; trackBy: trackByFn">
+    <label>
+      <input type="number"
+             min="1"
+             class="item-order"
+             [max]="_innerValue.length"
+             [ngModel]="sortable.order"
+             name="{{sortable.order}}_input_order"
+             tabindex="-1"
+             (change)="onOrderChanged($event.target.value, sortable.order)">
+      .
+    </label>
+    <app-default-input
+      [(ngModel)]="sortable.item"
+      [name]="sortable.order"
+      [type]="archetype?.type"
+      tabindex="0"
+      (keydown)="onKeyDown($event)"></app-default-input>
+    <button type="button"
+            tabindex="2"
+            class="remove-item"
+            (click)="removeItem(sortable.order, $event)">remove</button>
+  </li>
+  <li>
+    <button type="button" tabindex="0" (click)="addItem($event)" class="add-item">add</button>
+  </li>
+</ol>

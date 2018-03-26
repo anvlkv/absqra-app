@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { Item } from '../../../models/Item';
+import { Item } from '../../../models/item';
 import { NgForm } from '@angular/forms';
 import { GeneralDataService } from '../../api/general-data.service';
 import { ActivatedRoute } from '@angular/router';
-import { Step } from '../../../models/Step';
+import { Step } from '../../../models/step';
 import { ItemDesignService } from '../../api/item-design.service';
-import { Asset } from '../../../models/Asset';
+import { Asset } from '../../../models/asset';
 
 @Component({
   selector: 'app-item-detail',

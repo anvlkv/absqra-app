@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralDataService } from '../../api/general-data.service';
-import { Sequence } from '../../../models/Sequence';
+import { Sequence } from '../../../models/sequence';
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 

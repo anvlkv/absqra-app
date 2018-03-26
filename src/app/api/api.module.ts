@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GeneralDataService } from './general-data.service';
 import { FormatConstraintDesignService } from './format-constraint-design.service';
 import { ItemDesignService } from './item-design.service';
-import { ResponseService } from './response.service';
+// import { ResponseService } from './response.service';
 import { SequenceDesignService } from './sequence-design.service';
 import { AssetDesignService } from './asset-design.service';
 
@@ -17,7 +17,6 @@ import { AssetDesignService } from './asset-design.service';
     FormatConstraintDesignService,
     GeneralDataService,
     ItemDesignService,
-    ResponseService,
     SequenceDesignService,
     AssetDesignService
   ],

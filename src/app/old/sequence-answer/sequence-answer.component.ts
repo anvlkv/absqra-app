@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { GeneralDataService } from '../../api/general-data.service';
-import { ResponseService } from '../../api/response.service';
+// import { ResponseService } from '../../api/response.service';
 import { ActivatedRoute } from '@angular/router';
-import { Sequence } from 'models/Sequence';
-import { Step } from '../../../models/Step';
+import { Sequence } from 'models/sequence';
+import { Step } from '../../../models/step';
 
 
 @Component({
@@ -17,27 +17,27 @@ export class SequenceAnswerComponent implements OnInit {
 
   constructor(
     private api: GeneralDataService,
-    private rs: ResponseService,
+    // private rs: ResponseService,
     private route: ActivatedRoute,
   ) { }
 
   async ngOnInit() {
     await this.api.ready;
     this.route.params.subscribe(({sequenceId, itemId}) => {
-      this.rs.set$sequence(sequenceId).subscribe(s => {
-        this.sequence = s;
-        this.rs.nextStep().subscribe(step => {
-          this.currentStep = step;
-        });
-      });
+      // this.rs.set$sequence(sequenceId).subscribe(s => {
+      //   this.sequence = s;
+      //   this.rs.nextStep().subscribe(step => {
+      //     this.currentStep = step;
+      //   });
+      // });
     });
   }
 
   onAnswerSaved() {
     delete this.currentStep;
-    this.rs.nextStep().subscribe(step => {
-      this.currentStep = step;
-    });
+    // this.rs.nextStep().subscribe(step => {
+    //   this.currentStep = step;
+    // });
   }
 
 }

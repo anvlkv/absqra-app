@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Sequence } from '../../../models/Sequence';
+import { Sequence } from '../../../models/sequence';
 
 @Component({
   selector: 'app-sequence-thumbnail',

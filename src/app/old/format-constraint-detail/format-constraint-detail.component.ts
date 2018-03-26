@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormatConstraint } from '../../../models/FormatConstraint';
+import { FormatConstraint } from '../../../models/formatConstraint';
 import { ItemDesignService } from '../../api/item-design.service';
 import { GeneralDataService } from '../../api/general-data.service';
 

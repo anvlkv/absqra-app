@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { environment } from '../../environments/environment';
 import 'rxjs/add/operator/map';
@@ -8,6 +7,7 @@ import 'rxjs/add/observable/forkJoin';
 
 import { Deferred, defer } from 'q';
 import { Subject } from 'rxjs/Subject';
+import { HttpClient } from '@angular/common/http';
 
 export interface RoutingMetaData {
   [routeGroupName: string]: {
@@ -46,7 +46,7 @@ export class GeneralDataService {
   private readyDef: Deferred<any> = defer();
 
   constructor (
-    private http: Http
+    private http: HttpClient
   ) {
     this.ready = this.readyDef.promise;
     this.initApi();
@@ -58,7 +58,7 @@ export class GeneralDataService {
       this.http.get(environment.apiMeta + '/routes'),
       this.http.get(environment.apiMeta + '/types')
     ]).subscribe(([knownRoutes, apiTypes]) => {
-      knownRoutes = knownRoutes.json();
+      // knownRoutes = knownRoutes.json();
       for (const routeGroupName in knownRoutes) {
         this.apiRoutes[routeGroupName] = {};
         this.store[routeGroupName] = {};
@@ -76,7 +76,7 @@ export class GeneralDataService {
         });
       }
 
-      this.apiTypes = apiTypes.json();
+      this.apiTypes = <TypesMetaData>apiTypes;
 
       this.readyDef.resolve(true);
     });
@@ -98,7 +98,6 @@ export class GeneralDataService {
 
 
     this.http.get(path, {withCredentials: true})
-      .map(this.extractData)
       .catch(this.handleError(`${group}.${route}`))
       .subscribe(data => {
         storeSubject.$subject.next(data);
@@ -111,7 +110,6 @@ export class GeneralDataService {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
     return this.http.post(path, data, {withCredentials: true})
-    .map(this.extractData)
     .catch(this.handleError(`${group}.${route}`));
   }
 
@@ -119,7 +117,6 @@ export class GeneralDataService {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
     return this.http.patch(path, data, {withCredentials: true})
-    .map(this.extractData)
     .catch(this.handleError(`${group}.${route}`));
   }
 
@@ -127,14 +124,13 @@ export class GeneralDataService {
     const path = this.setUrlParams(this.apiRoutes[group][route].path, params);
 
     return this.http.delete(path, {withCredentials: true})
-    .map(this.extractData)
     .catch(this.handleError(`${group}.${route}`));
   }
 
-  extractData(res: Response) {
-    const body = res.json();
-    return body || {};
-  }
+  // extractData(res: Response) {
+  //   const body = res.json();
+  //   return body || {};
+  // }
 
   handleError(triggeredBy) {
     return function (error: Response | any, ) {

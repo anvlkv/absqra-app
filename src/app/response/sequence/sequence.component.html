@@ -1,0 +1,7 @@
+<header>
+  <h1>{{sequence?.header.name}}</h1>
+  <app-progress></app-progress>
+</header>
+<main>
+  <app-item [item]="sequence?.steps[currentStep].item"></app-item>
+</main>

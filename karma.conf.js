@@ -46,8 +46,16 @@ module.exports = function (config) {
       applyToId: 4
     },
     reporters: config.angularCli && config.angularCli.codeCoverage
-      ? ['progress', 'coverage-istanbul', 'hue']
-      : ['progress', 'kjhtml', 'hue'],
+      ? [
+        'progress',
+        'coverage-istanbul',
+        // 'hue'
+      ]
+      : [
+        'progress',
+        'kjhtml',
+        // 'hue'
+      ],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,

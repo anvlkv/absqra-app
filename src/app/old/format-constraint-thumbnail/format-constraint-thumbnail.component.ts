@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormatConstraint } from '../../../models/FormatConstraint';
+import { FormatConstraint } from '../../../models/formatConstraint';
 
 @Component({
   selector: 'app-format-constraint-thumbnail',

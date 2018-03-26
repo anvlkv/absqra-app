@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Sequence } from '../../models/Sequence';
+import { Sequence } from '../../models/sequence';
 import { GeneralDataService } from './general-data.service';
-import { Step } from '../../models/Step';
+import { Step } from '../../models/step';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
-import { FormConfig } from '../core-forms/forms-schema.service';
 
 @Injectable()
 export class ResponseService {
@@ -48,8 +47,8 @@ export class ResponseService {
     return this.getStep();
   }
 
-  saveStepResponse(response, config: FormConfig) {
-    console.log(response, config);
-    return this.api.postData('respondentRoutes', 'saveResponse', { sequenceId: this.sequence.id, stepId: this.step.id }, response);
+  saveStepResponse(response, config) {
+    // console.log(response, config);
+    // return this.api.postData('respondentRoutes', 'saveResponse', { sequenceId: this.sequence.id, stepId: this.step.id }, response);
   }
 }

@@ -27,12 +27,14 @@ export const sequence = {
       expects: QuantityOrder.ONE,
       assets: [
         {
+          id: 1,
           assetType: AssetTypes.STATIC,
           contentType: AssetContentTypes.TEXT,
           content: 'blah blah',
           order: 1,
         },
         {
+          id: 2,
           assetType: AssetTypes.STATIC,
           contentType: AssetContentTypes.TEXT,
           content: 'blah2 blah2',

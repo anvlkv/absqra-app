@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Asset } from '../../../models/Asset';
+import { Asset } from '../../../models/asset';
 import { ControlContainer, NgForm } from '@angular/forms';
 import { ItemDesignService } from '../../api/item-design.service';
 import { SortableService } from '../sortable.service';

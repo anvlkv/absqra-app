@@ -1,3 +1,5 @@
+// source https://stackoverflow.com/questions/41873893/angular2-autofocus-input-element
+
 import { AfterContentInit, Directive, ElementRef, Input, NgZone, OnInit } from '@angular/core';
 
 @Directive({

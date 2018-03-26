@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { GeneralDataService } from './general-data.service';
-import { Item } from '../../models/Item';
+import { Item } from '../../models/item';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
-import { Asset } from '../../models/Asset';
-import { FormatConstraint } from '../../models/FormatConstraint';
+import { Asset } from '../../models/asset';
+import { FormatConstraint } from '../../models/formatConstraint';
 import { SequenceDesignService } from './sequence-design.service';
-import { Step } from '../../models/Step';
+import { Step } from '../../models/step';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 @Injectable()

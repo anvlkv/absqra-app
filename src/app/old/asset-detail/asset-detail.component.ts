@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Asset } from '../../../models/Asset';
+import { Asset } from '../../../models/asset';
 import { GeneralDataService } from '../../api/general-data.service';
 import { ItemDesignService } from '../../api/item-design.service';
 import { ControlContainer, NgForm } from '@angular/forms';
-import { Item } from '../../../models/Item';
+import { Item } from '../../../models/item';
 
 @Component({
   selector: 'app-asset-detail',

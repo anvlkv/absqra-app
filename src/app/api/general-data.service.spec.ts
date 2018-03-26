@@ -1,24 +1,25 @@
 import { TestBed, inject } from '@angular/core/testing';
 
 import { GeneralDataService } from './general-data.service';
-import { XHRBackend, HttpModule } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 
 describe('GeneralDataService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule,
+        HttpClientModule,
+        HttpClientTestingModule,
       ],
       providers: [
-        { provide: XHRBackend, useClass: MockBackend },
-        GeneralDataService,
+        HttpClient,
+        GeneralDataService
       ],
     });
   });
 
-  it('should be created', inject([XHRBackend, GeneralDataService], (mockBackend, service: GeneralDataService) => {
+  it('should be created', inject([HttpClientTestingModule, GeneralDataService], (mockBackend, service: GeneralDataService) => {
     expect(service).toBeTruthy();
   }));
 });

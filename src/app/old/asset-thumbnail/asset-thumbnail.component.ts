@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Asset } from '../../../models/Asset';
+import { Asset } from '../../../models/asset';
 
 @Component({
   selector: 'app-asset-thumbnail',

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Step } from '../../../models/Step';
-import { ResponseService } from '../../api/response.service';
+import { Step } from '../../../models/step';
+// import { ResponseService } from '../../api/response.service';
 
 @Component({
   selector: 'app-step-answer',
@@ -13,7 +13,6 @@ export class StepAnswerComponent implements OnInit {
   response: any;
 
   constructor(
-    private rs: ResponseService
   ) { }
 
   ngOnInit() {

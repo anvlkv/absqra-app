@@ -1,0 +1,38 @@
+<label class="{{type}}-input-control" [ngSwitch]="type">
+  <span class="label-text">{{label}}</span>
+
+  <input appAutoFocus
+         *ngSwitchCase="InputTypes.checkbox"
+         [attr.name]="_innerValue.source"
+         type="checkbox"
+         [(ngModel)]="_innerValue.response"
+         (change)="onChange($event)"
+         (blur)="onBlur($event)"/>
+  <input appAutoFocus
+         *ngSwitchCase="InputTypes.radio"
+         [attr.name]="name"
+         [value]="_innerValue.source"
+         type="radio"
+         [(ngModel)]="_innerValue.response"
+         (change)="onChange($event)"
+         (blur)="onBlur($event)"/>
+  <textarea appAutoFocus
+            *ngSwitchCase="InputTypes.longText"
+            [attr.name]="_innerValue.source"
+            [(ngModel)]="_innerValue.response"
+            (change)="onChange($event)"
+            [attr.maxlength]="max"
+            [attr.minlength]="min"
+            (keydown)="onKeyDown($event)"
+            (blur)="onBlur($event)"></textarea>
+  <input appAutoFocus
+         *ngSwitchDefault
+         [attr.name]="_innerValue.source"
+         [type]="type"
+         [(ngModel)]="_innerValue.response"
+         (change)="onChange($event)"
+         [max]="max"
+         [min]="min"
+         (keydown)="onKeyDown($event)"
+         (blur)="onBlur($event)"/>
+</label>

@@ -4,15 +4,18 @@ import { SequenceDesignService } from './sequence-design.service';
 import { GeneralDataService } from './general-data.service';
 import { XHRBackend, HttpModule } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('SequenceDesignService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
-        HttpModule,
+        HttpClientModule,
+        HttpClientTestingModule
       ],
       providers: [
-        { provide: XHRBackend, useClass: MockBackend },
+        HttpClient,
         GeneralDataService,
         SequenceDesignService
       ]
