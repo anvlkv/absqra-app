@@ -1,10 +1,11 @@
 <form #itemForm="ngForm" (submit)="onSubmit($event, itemForm)">
   <h3>{{item?.question.content}}</h3>
-  <div [ngSwitch]="displayAs">
-    <ng-container *ngSwitchCase="appInputTypes.ArrayInputComponent">
-      <app-array-input [(ngModel)]="itemForm.body" [name]="'body'"></app-array-input>
-    </ng-container>
-  </div>
+  <!--<div [ngSwitch]="displayAs">-->
+    <!--<ng-container *ngSwitchCase="appInputTypes.ArrayInputComponent">-->
+    <!--</ng-container>-->
+  <!--</div>-->
+  <app-multiple-input [(ngModel)]="itemForm.body" [name]="'body'" [options]="responseOptions" [type]="'radio'"></app-multiple-input>
+
   <button type="submit">Submit</button>
   <button type="reset">Clear</button>
 </form>

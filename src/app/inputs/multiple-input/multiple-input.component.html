@@ -1,3 +1,14 @@
-<p>
-  multiple-input works!
-</p>
+<ng-container [ngSwitch]="type">
+  <label *ngSwitchCase="MultipleInputTypes.select" >
+    <select>
+      <option *ngFor="let opt of _options" [value]="opt.value">{{opt.value.response}}</option>
+    </select>
+  </label>
+  <ul *ngSwitchDefault>
+    <li *ngFor="let opt of _options;">
+      <app-default-input [type]="type" [label]="opt.value.response" [(ngModel)]="opt.selected" (change)="onSelectionChanged($event, opt)" [name]="name"></app-default-input>
+    </li>
+  </ul>
+</ng-container>
+
+
