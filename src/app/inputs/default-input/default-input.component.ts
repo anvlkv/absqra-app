@@ -5,6 +5,8 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs/util/noop';
 import { ResponseBody } from '../../../models/response';
+import { TYPE_ValidationTypes } from '../../../models/enums/formatConstraint.enums';
+import extend = require('lodash/fp/extend');
 
 export const DEFAULT_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,

@@ -29,7 +29,7 @@ export class SequenceListComponent implements OnInit {
       return;
     }
 
-    this.router.navigate(['ask', s.id]);
+    this.router.navigate(['old/ask', s.id]);
   }
 
 }

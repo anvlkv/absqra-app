@@ -57,10 +57,12 @@ describe('ItemComponent', () => {
   });
 
   describe('with item', () => {
-
-    it('should add controls', () => {
-      // expect(fixture.nativeElement.querySelector('form')).toBeTruthy();
-
+    beforeEach(() => {
+      component.item = sequence.steps[0].item;
+      fixture.detectChanges();
+    });
+    it('should display inputs', () => {
+      expect(fixture.nativeElement.querySelector('input')).toBeTruthy();
     });
 
     it('should submit item form with values', () => {
