@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   apiEndpoint: 'http://localhost:3000',
-  apiMeta: 'http://localhost:3042'
+  apiMeta: 'http://localhost:3042',
+  setRequestOrigin: 'http://localhost:8080'
 };

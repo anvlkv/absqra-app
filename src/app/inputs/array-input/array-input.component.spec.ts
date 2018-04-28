@@ -1,5 +1,4 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-
 import { ArrayInputComponent } from './array-input.component';
 import { FormsModule } from '@angular/forms';
 import { DefaultInputComponent, InputTypes } from '../default-input/default-input.component';
@@ -33,28 +32,30 @@ describe('ArrayInputComponent', () => {
     });
 
     it('should add items', fakeAsync(() => {
-      const addButton = fixture.nativeElement.querySelector('button.add-item');
+      const addButton = fixture.nativeElement.querySelector('button.add-question');
       addButton.click();
       addButton.click();
       fixture.detectChanges();
       tick();
       fixture.detectChanges();
-      expect(fixture.nativeElement.querySelectorAll('app-default-input').length).toEqual(3 /* one item initially added */);
+      expect(fixture.nativeElement.querySelectorAll('app-default-input').length).toEqual(3 /* one question initially added */);
     }));
 
     it('should remove items', () => {
       component.value = [
         {
-          response: 'a'
+          content: 'a',
+          isOriginal: true
         },
         {
-          response: 'b'
+          content: 'b',
+          isOriginal: true
         }
       ];
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('app-default-input').length).toEqual(2);
 
-      const removeButton = fixture.nativeElement.querySelector('button.remove-item');
+      const removeButton = fixture.nativeElement.querySelector('button.remove-question');
       removeButton.click();
       fixture.detectChanges();
 
@@ -68,14 +69,17 @@ describe('ArrayInputComponent', () => {
       component = fixture.componentInstance;
       component.archetype = {
         type: InputTypes.number,
-        response: 10,
-        source: 'source'
+        content: 10,
+        isOriginal: true,
+        origin: 'source'
       };
       fixture.detectChanges();
     });
 
-    it('should create first item', () => {
-      expect(component.value).toEqual([{response: 10, source: 'source'}]);
+    it('should create first question', () => {
+      expect(component.value).toEqual([
+        {content: 10, origin: 'source', isOriginal: false}
+      ]);
     });
   });
 
@@ -85,17 +89,20 @@ describe('ArrayInputComponent', () => {
       component = fixture.componentInstance;
       component.archetype = {
         type: InputTypes.text,
-        response: null
+        content: null,
+        isOriginal: true,
       };
 
       component.value = [
         {
-          response: 'a',
-          source: 'c'
+          content: 'a',
+          origin: 'c',
+          isOriginal: false
         },
         {
-          response: 'b',
-          source: 'd'
+          content: 'b',
+          origin: 'd',
+          isOriginal: false
         }
       ];
 
@@ -127,16 +134,19 @@ describe('ArrayInputComponent', () => {
 
       component.value = [
         {
-          response: 'new value',
-          source: 'new src 1'
+          content: 'new value',
+          origin: 'new src 1',
+          isOriginal: false
         },
         {
-          response: 'new value 2',
-          source: 'new src 2'
+          content: 'new value 2',
+          origin: 'new src 2',
+          isOriginal: false
         },
         {
-          response: 'new value 3',
-          source: 'new src 3'
+          content: 'new value 3',
+          origin: 'new src 3',
+          isOriginal: false
         }
       ];
 
@@ -160,20 +170,24 @@ describe('ArrayInputComponent', () => {
     it('should reorder items', fakeAsync(() => {
       component.value = [
         {
-          response: 'a',
-          source: 'e'
+          content: 'a',
+          origin: 'e',
+          isOriginal: false
         },
         {
-          response: 'b',
-          source: 'f'
+          content: 'b',
+          origin: 'f',
+          isOriginal: false
         },
         {
-          response: 'c',
-          source: 'j'
+          content: 'c',
+          origin: 'j',
+          isOriginal: false
         },
         {
-          response: 'd',
-          source: 'k'
+          content: 'd',
+          origin: 'k',
+          isOriginal: false
         }
       ];
       fixture.detectChanges();
@@ -183,7 +197,7 @@ describe('ArrayInputComponent', () => {
         fixture.detectChanges();
         await fixture.whenStable();
 
-        const orderInputs = fixture.nativeElement.querySelectorAll('.item-order');
+        const orderInputs = fixture.nativeElement.querySelectorAll('.question-order');
         orderInputs[0].value = 4;
         orderInputs[0].dispatchEvent(new Event('change'));
         fixture.detectChanges();
@@ -197,20 +211,24 @@ describe('ArrayInputComponent', () => {
 
         expect(component.value).toEqual([
           {
-            response: 'd',
-            source: 'k'
+            content: 'd',
+            origin: 'k',
+            isOriginal: false
           },
           {
-            response: 'b',
-            source: 'f'
+            content: 'b',
+            origin: 'f',
+            isOriginal: false
           },
           {
-            response: 'c',
-            source: 'j'
+            content: 'c',
+            origin: 'j',
+            isOriginal: false
           },
           {
-            response: 'a',
-            source: 'e'
+            content: 'a',
+            origin: 'e',
+            isOriginal: false
           },
         ]);
       })();
@@ -219,11 +237,11 @@ describe('ArrayInputComponent', () => {
   });
 
   describe('with constraints', () => {
-    xit('should constrain minimum item count', () => {
+    xit('should constrain minimum question count', () => {
       expect(null).toBeTruthy();
     });
 
-    xit('should constrain maximum item count', () => {
+    xit('should constrain maximum question count', () => {
       expect(null).toBeTruthy();
     });
   });

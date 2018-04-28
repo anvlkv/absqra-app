@@ -10,7 +10,6 @@
       "node"
     ],
     "paths":{
-      "@models/*":["app/models/*"],
       "typeorm":["../node_modules/typeorm/typeorm-model-shim"]
     }
   },
@@ -20,6 +19,7 @@
   "include": [
     "**/*.spec.ts",
     "**/*.d.ts",
-    "**/*.mock.ts"
+    "**/*.mock.ts",
+    "api-*/**/*.*"
   ]
 }

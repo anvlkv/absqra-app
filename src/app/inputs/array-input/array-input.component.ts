@@ -1,9 +1,9 @@
 import { Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { ResponseBody } from '../../../models/response';
 import { InputTypes } from '../default-input/default-input.component';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs/util/noop';
 import { Sortable } from '../../../models/sortable';
+import { ResponseBody } from '../../../api-models/responseBody';
 
 
 export interface ArrayInputItemArchetype extends ResponseBody {
@@ -23,7 +23,7 @@ export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   providers: [ARRAY_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class ArrayInputComponent implements OnInit, ControlValueAccessor {
-  @Input() archetype: ArrayInputItemArchetype = {response: null, source: null, type: InputTypes.text};
+  @Input() archetype: ArrayInputItemArchetype = {content: null, origin: null, type: InputTypes.text, isOriginal: true};
 
   // Placeholders for the callbacks which are later provided
   // by the Control Value Accessor
@@ -69,7 +69,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   // onChange(e) {
   //   this.value = {
   //     ...this.value,
-  //     response: this._innerValue.response
+  //     content: this._innerValue.content
   //   }
   // }
 
@@ -93,8 +93,9 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
 
     const currentVal = [...this.value];
     currentVal.push({
-      response: this.archetype.response,
-      source: this.archetype.source
+      content: this.archetype.content,
+      isOriginal: this.archetype.isOriginal,
+      origin: this.archetype.origin
     });
 
     this.writeValue(currentVal);

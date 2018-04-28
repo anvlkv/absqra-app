@@ -2,10 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DefaultInputComponent } from './default-input/default-input.component';
 import { ArrayInputComponent } from './array-input/array-input.component';
-import { ObjectInputComponent } from './object-input/object-input.component';
 import { MultipleInputComponent } from './multiple-input/multiple-input.component';
 import { FormsModule } from '@angular/forms';
-import { AutoFocusDirective } from '../old/autofocus.directive';
+import { AutoFocusDirective } from './autofocus.directive';
+
+const inputs = [
+  DefaultInputComponent,
+  ArrayInputComponent,
+  MultipleInputComponent
+];
 
 @NgModule({
   imports: [
@@ -13,17 +18,11 @@ import { AutoFocusDirective } from '../old/autofocus.directive';
     FormsModule
   ],
   declarations: [
-    DefaultInputComponent,
-    ArrayInputComponent,
-    ObjectInputComponent,
-    MultipleInputComponent,
+    ...inputs,
     AutoFocusDirective
   ],
   exports: [
-    DefaultInputComponent,
-    ArrayInputComponent,
-    ObjectInputComponent,
-    MultipleInputComponent
+    inputs
   ]
 })
 export class InputsModule { }

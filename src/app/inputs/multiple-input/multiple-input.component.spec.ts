@@ -35,26 +35,31 @@ describe('MultipleInputComponent', () => {
     beforeEach(() => {
       component.value = [
         {
-          response: 'a',
-          source: 'a'
+          content: 'a',
+          origin: 'a',
+          isOriginal: false
         },
         {
-          response: 'b',
-          source: 'a'
+          content: 'b',
+          origin: 'a',
+          isOriginal: false
         },
       ];
       component.options = [
         {
-          response: 'a',
-          source: 'a'
+          content: 'a',
+          origin: 'a',
+          isOriginal: false
         },
         {
-          response: 'b',
-          source: 'a'
+          content: 'b',
+          origin: 'a',
+          isOriginal: false
         },
         {
-          response: 'c',
-          source: 'a'
+          content: 'c',
+          origin: 'a',
+          isOriginal: false
         }
       ];
       fixture.detectChanges();
@@ -73,8 +78,9 @@ describe('MultipleInputComponent', () => {
       component.type = MultipleInputTypes.radio;
       component.value = [
         {
-          response: 'a',
-          source: 'a'
+          content: 'a',
+          origin: 'a',
+          isOriginal: false
         }
       ];
       fixture.detectChanges();

@@ -1,0 +1,13 @@
+<ul>
+  <li>
+    <input type="text" name="projectName" [(ngModel)]="newProject.name">
+    <button (click)="createNewProject()">new project</button>
+  </li>
+  <li *ngFor="let project of projects | async">
+    <a [routerLink]="[project.id]">{{project.name}}</a>
+  </li>
+  <!--<li>-->
+    <!--<input type="text" name="projectName" [(ngModel)]="newProject.name">-->
+    <!--<button (click)="createNewProject()">new project</button>-->
+  <!--</li>-->
+</ul>

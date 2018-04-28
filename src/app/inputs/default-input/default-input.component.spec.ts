@@ -3,7 +3,7 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { DefaultInputComponent, InputTypes } from './default-input.component';
 import { FormsModule } from '@angular/forms';
 import { ElementRef } from '@angular/core';
-import { AutoFocusDirective } from '../../old/autofocus.directive';
+import { AutoFocusDirective } from '../autofocus.directive';
 
 describe('DefaultInputComponent', () => {
   let component: DefaultInputComponent;
@@ -28,8 +28,9 @@ describe('DefaultInputComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     component.value = {
-      response: null,
-      source: '1'
+      content: null,
+      origin: '1',
+      isOriginal: false
     };
     input = fixture.nativeElement.querySelector('input, textarea');
   });
@@ -42,7 +43,11 @@ describe('DefaultInputComponent', () => {
     input.value = 'new value';
     input.dispatchEvent(new Event('input'));
     tick();
-    expect(component.value).toEqual({response: 'new value', source: '1'});
+    expect(component.value).toEqual({
+      content: 'new value',
+      origin: '1',
+      isOriginal: false
+    });
   }));
 
   it('should have correct type (email)', () => {
@@ -59,15 +64,16 @@ describe('DefaultInputComponent', () => {
     expect(fixture.nativeElement.querySelector('.textarea-input-control')).toBeTruthy();
   });
 
-  it('should have source', () => {
-    expect(component.value.source).toBeTruthy();
+  it('should have origin', () => {
+    expect(component.value.origin).toBeTruthy();
   });
 
   describe('with value', () => {
     it('should set value', fakeAsync(() => {
       component.value = {
-        response: 'blah',
-        source: '150'
+        content: 'blah',
+        origin: '150',
+        isOriginal: false
       };
       fixture.detectChanges();
       tick();
@@ -84,8 +90,9 @@ describe('DefaultInputComponent', () => {
       expect(input.checked).toBeFalsy();
 
       component.value = {
-        response: true,
-        source: '150'
+        content: true,
+        origin: '150',
+        isOriginal: false
       };
 
       fixture.detectChanges();
@@ -104,8 +111,9 @@ describe('DefaultInputComponent', () => {
       expect(input.checked).toBeFalsy();
 
       component.value = {
-        response: '150',
-        source: '150'
+        content: '150',
+        origin: '150',
+        isOriginal: false
       };
 
       fixture.detectChanges();
@@ -117,8 +125,9 @@ describe('DefaultInputComponent', () => {
 
     it('should update value', fakeAsync(() => {
       component.value = {
-        response: 'blah',
-        source: '150'
+        content: 'blah',
+        origin: '150',
+        isOriginal: false
       };
       fixture.detectChanges();
       tick();
@@ -128,8 +137,9 @@ describe('DefaultInputComponent', () => {
 
 
       component.value = {
-        response: 'blah-blah',
-        source: '160'
+        content: 'blah-blah',
+        origin: '160',
+        isOriginal: false
       };
       fixture.detectChanges();
       tick();
@@ -156,8 +166,9 @@ describe('DefaultInputComponent', () => {
     beforeEach(() => {
       component.type = InputTypes.checkbox;
       component.value = {
-        response: true,
-        source: '150'
+        content: true,
+        origin: '150',
+        isOriginal: false
       };
 
       fixture.detectChanges();
@@ -168,8 +179,9 @@ describe('DefaultInputComponent', () => {
       expect(input).toBeTruthy();
       component.type = InputTypes.tel;
       component.value = {
-        response: 132,
-        source: '150'
+        content: 132,
+        origin: '150',
+        isOriginal: false
       };
 
       fixture.detectChanges();
@@ -184,8 +196,9 @@ describe('DefaultInputComponent', () => {
     it('should change input type within default case', fakeAsync(() => {
       component.type = InputTypes.tel;
       component.value = {
-        response: 132,
-        source: '150'
+        content: 132,
+        origin: '150',
+        isOriginal: false
       };
 
       fixture.detectChanges();
@@ -194,8 +207,9 @@ describe('DefaultInputComponent', () => {
 
       component.type = InputTypes.email;
       component.value = {
-        response: 'email@domain.com',
-        source: '150'
+        content: 'email@domain.com',
+        origin: '150',
+        isOriginal: false
       };
 
       fixture.detectChanges();

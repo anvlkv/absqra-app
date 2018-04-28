@@ -3,23 +3,23 @@
 
   <input appAutoFocus
          *ngSwitchCase="InputTypes.checkbox"
-         [attr.name]="_innerValue.source"
+         [attr.name]="_innerValue.origin"
          type="checkbox"
-         [(ngModel)]="_innerValue.response"
+         [(ngModel)]="_innerValue.content"
          (change)="onChange($event)"
          (blur)="onBlur($event)"/>
   <input appAutoFocus
          *ngSwitchCase="InputTypes.radio"
          [attr.name]="name"
-         [value]="_innerValue.source"
+         [value]="_innerValue.origin"
          type="radio"
-         [(ngModel)]="_innerValue.response"
+         [(ngModel)]="_innerValue.content"
          (change)="onChange($event)"
          (blur)="onBlur($event)"/>
   <textarea appAutoFocus
             *ngSwitchCase="InputTypes.longText"
-            [attr.name]="_innerValue.source"
-            [(ngModel)]="_innerValue.response"
+            [attr.name]="_innerValue.origin"
+            [(ngModel)]="_innerValue.content"
             (change)="onChange($event)"
             [attr.maxlength]="max"
             [attr.minlength]="min"
@@ -27,9 +27,9 @@
             (blur)="onBlur($event)"></textarea>
   <input appAutoFocus
          *ngSwitchDefault
-         [attr.name]="_innerValue.source"
+         [attr.name]="_innerValue.origin"
          [type]="type"
-         [(ngModel)]="_innerValue.response"
+         [(ngModel)]="_innerValue.content"
          (change)="onChange($event)"
          [max]="max"
          [min]="min"

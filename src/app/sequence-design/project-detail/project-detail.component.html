@@ -1,0 +1,23 @@
+<div #projectForm="ngForm" role="form">
+  <fieldset>
+    <legend>
+      <h3>Project</h3>
+    </legend>
+    <div>
+      <label for="projectName">
+        name
+      </label>
+      <input type="text" id="projectName" name="name" [(ngModel)]="project.name">
+    </div>
+    <div>
+      <label for="projectDescription">
+        notes
+      </label>
+      <textarea id="projectDescription" name="description" [(ngModel)]="project.description"></textarea>
+    </div>
+  </fieldset>
+
+
+
+
+</div>

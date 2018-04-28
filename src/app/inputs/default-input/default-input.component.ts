@@ -1,12 +1,7 @@
-import {
-  Component, ElementRef, EventEmitter, forwardRef, Input, NgZone, OnInit, Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output  } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs/util/noop';
-import { ResponseBody } from '../../../models/response';
-import { TYPE_ValidationTypes } from '../../../models/enums/formatConstraint.enums';
-import extend = require('lodash/fp/extend');
+import { ResponseBody } from '../../../api-models/responseBody';
 
 export const DEFAULT_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -51,7 +46,7 @@ export class DefaultInputComponent implements OnInit, ControlValueAccessor {
   private onChangeCallback: (_: any) => void = noop;
 
 
-  private _innerValue = new ResponseBody({response: null});
+  private _innerValue = new ResponseBody();
 
   @Input()
   get value(): ResponseBody{
@@ -76,7 +71,7 @@ export class DefaultInputComponent implements OnInit, ControlValueAccessor {
   onChange(e) {
     this.value = {
       ...this.value,
-      response: this._innerValue.response
+      content: this._innerValue.content
     }
   }
 

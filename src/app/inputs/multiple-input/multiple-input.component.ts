@@ -1,8 +1,8 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { noop } from 'rxjs/util/noop';
-import { ResponseBody } from '../../../models/response';
 import * as _ from 'lodash';
+import { ResponseBody } from '../../../api-models/responseBody';
 
 
 export const MULTIPLE_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -64,7 +64,7 @@ export class MultipleInputComponent implements OnInit, ControlValueAccessor {
       this._options = o.map(opt => {
         return {
           value: opt,
-          selected: new ResponseBody({response: this.isOptionSelected(opt), source: opt.source}),
+          selected: {content: this.isOptionSelected(opt), origin: opt.origin, isOriginal: opt.isOriginal },
           isOther: false,
         };
       });
