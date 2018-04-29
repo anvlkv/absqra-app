@@ -32,7 +32,7 @@ describe('ArrayInputComponent', () => {
     });
 
     it('should add items', fakeAsync(() => {
-      const addButton = fixture.nativeElement.querySelector('button.add-question');
+      const addButton = fixture.nativeElement.querySelector('button.add-item');
       addButton.click();
       addButton.click();
       fixture.detectChanges();
@@ -55,7 +55,7 @@ describe('ArrayInputComponent', () => {
       fixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('app-default-input').length).toEqual(2);
 
-      const removeButton = fixture.nativeElement.querySelector('button.remove-question');
+      const removeButton = fixture.nativeElement.querySelector('button.remove-item');
       removeButton.click();
       fixture.detectChanges();
 
@@ -76,9 +76,9 @@ describe('ArrayInputComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should create first question', () => {
+    it('should create first item', () => {
       expect(component.value).toEqual([
-        {content: 10, origin: 'source', isOriginal: false}
+        {content: 10, origin: 'source', isOriginal: true}
       ]);
     });
   });
@@ -197,7 +197,7 @@ describe('ArrayInputComponent', () => {
         fixture.detectChanges();
         await fixture.whenStable();
 
-        const orderInputs = fixture.nativeElement.querySelectorAll('.question-order');
+        const orderInputs = fixture.nativeElement.querySelectorAll('.item-order');
         orderInputs[0].value = 4;
         orderInputs[0].dispatchEvent(new Event('change'));
         fixture.detectChanges();

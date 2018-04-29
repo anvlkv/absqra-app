@@ -5,6 +5,8 @@ import { ComponentFixture } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Deferred, defer } from 'q';
 import { HttpClientModule } from '@angular/common/http';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 let fixture: ComponentFixture<AppComponent>;
@@ -28,6 +30,8 @@ describe('AppComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         AppComponent,
+        HeaderComponent,
+        FooterComponent
       ],
       imports: [
         RouterTestingModule,

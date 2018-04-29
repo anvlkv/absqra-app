@@ -46,7 +46,7 @@ export class DefaultInputComponent implements OnInit, ControlValueAccessor {
   private onChangeCallback: (_: any) => void = noop;
 
 
-  private _innerValue = new ResponseBody();
+  private _innerValue: ResponseBody = {};
 
   @Input()
   get value(): ResponseBody{
@@ -66,13 +66,6 @@ export class DefaultInputComponent implements OnInit, ControlValueAccessor {
 
   onBlur() {
     this.onTouchedCallback();
-  }
-
-  onChange(e) {
-    this.value = {
-      ...this.value,
-      content: this._innerValue.content
-    }
   }
 
   // From ControlValueAccessor interface
