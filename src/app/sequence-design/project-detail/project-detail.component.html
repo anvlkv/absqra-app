@@ -1,4 +1,4 @@
-<div ngForm #projectForm="ngForm" role="form">
+<div *appDynamicState="project" ngForm #projectForm="ngForm" role="form">
   <fieldset>
     <legend>
       <h3>Project</h3>
@@ -17,5 +17,25 @@
     </div>
   </fieldset>
 
+  <fieldset>
+    <legend>
+      <h4>Sequence</h4>
+    </legend>
+    <app-sequence-detail [(sequence)]="project.topSequence">
+    </app-sequence-detail>
+  </fieldset>
 
+  <fieldset>
+    <legend>
+      <h4>Respondents</h4>
+    </legend>
+    <app-respondent-list-list [(lists)]="project.respondentsLists"></app-respondent-list-list>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <h4>Responses</h4>
+    </legend>
+    <app-response-list [(responses)]="project.responses"></app-response-list>
+  </fieldset>
 </div>

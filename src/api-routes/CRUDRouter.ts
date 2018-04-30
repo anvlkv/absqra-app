@@ -23,53 +23,53 @@ export const CRUDRouter = {
         path: '/projects/:projectId',
         params: ['projectId'],
     },
-    getAllResponsesOfProject: {
-        path: '/projects/:projectId/responses',
+    getAllSequenceResponsesOfProject: {
+        path: '/projects/:projectId/sequenceResponses',
         params: ['projectId'],
     },
-    getResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId',
-        params: ['projectId', 'responseId'],
+    getSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId',
+        params: ['projectId', 'sequenceResponseId'],
     },
-    newResponseOfProject: {
-        path: '/projects/:projectId/responses',
+    newSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses',
         params: ['projectId'],
     },
-    saveResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId',
-        params: ['projectId', 'responseId'],
+    saveSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId',
+        params: ['projectId', 'sequenceResponseId'],
     },
-    updateResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId',
-        params: ['projectId', 'responseId'],
+    updateSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId',
+        params: ['projectId', 'sequenceResponseId'],
     },
-    deleteResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId',
-        params: ['projectId', 'responseId'],
+    deleteSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId',
+        params: ['projectId', 'sequenceResponseId'],
     },
-    getAllStepResponsesOfResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId/stepResponses',
-        params: ['projectId', 'responseId'],
+    getAllStepResponsesOfSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses',
+        params: ['projectId', 'sequenceResponseId'],
     },
-    getStepResponseOfResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId/stepResponses/:stepResponseId',
-        params: ['projectId', 'responseId', 'stepResponseId'],
+    getStepResponseOfSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses/:stepResponseId',
+        params: ['projectId', 'sequenceResponseId', 'stepResponseId'],
     },
-    newStepResponseOfResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId/stepResponses',
-        params: ['projectId', 'responseId'],
+    newStepResponseOfSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses',
+        params: ['projectId', 'sequenceResponseId'],
     },
-    saveStepResponseOfResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId/stepResponses/:stepResponseId',
-        params: ['projectId', 'responseId', 'stepResponseId'],
+    saveStepResponseOfSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses/:stepResponseId',
+        params: ['projectId', 'sequenceResponseId', 'stepResponseId'],
     },
-    updateStepResponseOfResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId/stepResponses/:stepResponseId',
-        params: ['projectId', 'responseId', 'stepResponseId'],
+    updateStepResponseOfSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses/:stepResponseId',
+        params: ['projectId', 'sequenceResponseId', 'stepResponseId'],
     },
-    deleteStepResponseOfResponseOfProject: {
-        path: '/projects/:projectId/responses/:responseId/stepResponses/:stepResponseId',
-        params: ['projectId', 'responseId', 'stepResponseId'],
+    deleteStepResponseOfSequenceResponseOfProject: {
+        path: '/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses/:stepResponseId',
+        params: ['projectId', 'sequenceResponseId', 'stepResponseId'],
     },
     getAllSequences: {
         path: '/sequences',

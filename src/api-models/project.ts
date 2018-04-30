@@ -1,11 +1,11 @@
 import { Base } from './base';
 import { Sequence } from './sequence';
 import { RespondentsList } from './respondentsList';
-import { Response } from './response';
+import { SequenceResponse } from './response';
 export declare class Project extends Base {
     name?: string;
     description?: string;
-    sequence: Sequence;
+    topSequence: Sequence;
     respondentsLists: RespondentsList[];
-    responses: Response[];
+    responses: SequenceResponse[];
 }

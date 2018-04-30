@@ -4,6 +4,8 @@ import { ApiService } from './api.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Provider } from '@angular/core/src/di';
 import { CredentialsInterceptor } from './credentials.interceptor';
+import { DynamicStateDirective } from './dynamic-state.directive';
+import { LoadingComponent } from './loading/loading.component';
 
 const providers: Provider[] = [
   ApiService,
@@ -14,12 +16,25 @@ const providers: Provider[] = [
   }
 ];
 
+const directives = [
+  DynamicStateDirective
+];
+
 @NgModule({
   imports: [
     CommonModule
   ],
-  declarations: [],
-  providers
+  entryComponents: [
+    LoadingComponent
+  ],
+  declarations: [
+    ...directives,
+    LoadingComponent
+  ],
+  providers,
+  exports: [
+    ...directives
+  ]
 })
 export class AppCommonModule {
   static forRoot() {

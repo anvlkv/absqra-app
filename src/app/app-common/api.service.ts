@@ -82,6 +82,7 @@ export class ApiService {
       }
       console.error(`API err at: ${triggeredBy}`);
       console.error(errMsg);
+
       return Observable.throw(errMsg);
     };
   }

@@ -7,6 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 import { Project } from '../../../api-models';
+import { RespondentListComponent } from '../respondent-list/respondent-list.component';
+import { RespondentListsComponent } from '../respondent-lists/respondent-lists.component';
+import { SequenceDetailComponent } from '../sequence-detail/sequence-detail.component';
+import { ResponseListComponent } from '../response-list/response-list.component';
+import { RespondentListThumbnailComponent } from '../respondent-list-thumbnail/respondent-list-thumbnail.component';
 
 class MockApi {
   getData() {
@@ -28,7 +33,11 @@ describe('ProjectDetailComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        ProjectDetailComponent
+        ProjectDetailComponent,
+        SequenceDetailComponent,
+        ResponseListComponent,
+        RespondentListThumbnailComponent,
+        RespondentListsComponent,
       ],
       providers: [
         {

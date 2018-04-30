@@ -1,0 +1,26 @@
+<div *appDynamicState="sequence" ngForm #sequenceForm="ngForm" role="form">
+  <fieldset>
+    <legend>
+      <h5>Configuration</h5>
+    </legend>
+    <div>
+      <label for="sequenceName">
+        name
+      </label>
+      <input type="text" id="sequenceName" name="name" [(ngModel)]="sequence.header.name">
+    </div>
+    <div>
+      <label for="sequenceDescription">
+        notes
+      </label>
+      <textarea id="sequenceDescription" name="description" [(ngModel)]="sequence.header.description"></textarea>
+    </div>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <h5>Steps</h5>
+    </legend>
+    <app-step-list [(steps)]="sequence.steps"></app-step-list>
+  </fieldset>
+</div>
