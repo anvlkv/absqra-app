@@ -1,41 +1,50 @@
-<div *appDynamicState="project" ngForm #projectForm="ngForm" role="form">
-  <fieldset>
-    <legend>
-      <h3>Project</h3>
-    </legend>
+<h3>Project</h3>
+<app-dynamic-state [state]="projectState">
+  <ng-template #viewingTemplate>
     <div>
-      <label for="projectName">
-        name
-      </label>
-      <input type="text" id="projectName" name="name" [(ngModel)]="project.name">
+      <h4>{{dataItem.name}}</h4>
+      <p>
+        {{dataItem.description}}
+      </p>
+      <button (click)="editProject()">edit</button>
     </div>
-    <div>
-      <label for="projectDescription">
-        notes
-      </label>
-      <textarea id="projectDescription" name="description" [(ngModel)]="project.description"></textarea>
-    </div>
-  </fieldset>
+  </ng-template>
+  <ng-template #editingTemplate>
+    <form #projectForm="ngForm" (submit)="save(projectForm)">
+      <div>
+        <label for="projectName">
+          name
+        </label>
+        <input type="text" id="projectName" name="name" [(ngModel)]="dataItem.name">
+      </div>
+      <div>
+        <label for="projectDescription">
+          notes
+        </label>
+        <textarea id="projectDescription" name="description" [(ngModel)]="dataItem.description"></textarea>
+      </div>
+      <button type="submit">save</button>
+    </form>
+  </ng-template>
+</app-dynamic-state>
 
-  <fieldset>
-    <legend>
+<app-dynamic-state [state]="projectState">
+  <ng-template #defaultTemplate>
+    <section>
       <h4>Sequence</h4>
-    </legend>
-    <app-sequence-detail [(sequence)]="project.topSequence">
-    </app-sequence-detail>
-  </fieldset>
+      <app-sequence-detail [dataItemId]="dataItem?.topSequenceId" [dataItem]="dataItem?.topSequence"
+                           [defaultItemIfNone]="true" (dataItemChange)="onTopSequenceChange($event)">
+      </app-sequence-detail>
+    </section>
 
-  <fieldset>
-    <legend>
+    <section>
       <h4>Respondents</h4>
-    </legend>
-    <app-respondent-list-list [(lists)]="project.respondentsLists"></app-respondent-list-list>
-  </fieldset>
+      <app-respondent-list-list [respondentsLists]="dataItem?.respondentsLists"></app-respondent-list-list>
+    </section>
 
-  <fieldset>
-    <legend>
+    <section>
       <h4>Responses</h4>
-    </legend>
-    <app-response-list [(responses)]="project.responses"></app-response-list>
-  </fieldset>
-</div>
+      <app-response-list [responses]="dataItem?.responses"></app-response-list>
+    </section>
+  </ng-template>
+</app-dynamic-state>

@@ -18,5 +18,8 @@
       "dom",
       "es6"
     ]
-  }
+  },
+  "exclude": [
+    "src/api-models/index.ts"
+  ]
 }

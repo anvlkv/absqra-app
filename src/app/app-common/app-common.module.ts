@@ -4,8 +4,11 @@ import { ApiService } from './api.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Provider } from '@angular/core/src/di';
 import { CredentialsInterceptor } from './credentials.interceptor';
-import { DynamicStateDirective } from './dynamic-state.directive';
 import { LoadingComponent } from './loading/loading.component';
+import { DynamicStateComponent } from './dynamic-state/dynamic-state.component';
+import { CookieService } from 'ngx-cookie-service';
+import { ErrorComponent } from './error/error.component';
+import { DataService } from './data.service';
 
 const providers: Provider[] = [
   ApiService,
@@ -13,11 +16,13 @@ const providers: Provider[] = [
     provide: HTTP_INTERCEPTORS,
     useClass: CredentialsInterceptor,
     multi: true
-  }
+  },
+  CookieService,
+  DataService
 ];
 
-const directives = [
-  DynamicStateDirective
+const declareAndExport = [
+  DynamicStateComponent
 ];
 
 @NgModule({
@@ -28,12 +33,15 @@ const directives = [
     LoadingComponent
   ],
   declarations: [
-    ...directives,
-    LoadingComponent
+    ...declareAndExport,
+    LoadingComponent,
+    ErrorComponent
   ],
-  providers,
+  providers: [
+    ...providers
+  ],
   exports: [
-    ...directives
+    ...declareAndExport
   ]
 })
 export class AppCommonModule {

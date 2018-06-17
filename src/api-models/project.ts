@@ -6,6 +6,9 @@ export declare class Project extends Base {
     name?: string;
     description?: string;
     topSequence: Sequence;
+    topSequenceId?: number;
     respondentsLists: RespondentsList[];
+    respondentsListsIds?: number[];
     responses: SequenceResponse[];
+    responsesIds?: number[];
 }

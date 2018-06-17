@@ -12,7 +12,7 @@ import { AppCommonModule } from './app-common/app-common.module';
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

@@ -1,30 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../app-common/api.service';
+import { ApiService, CRUD } from '../../app-common/api.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs/index';
+import { Project } from '../../../api-models';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
-import { Observable } from 'rxjs/Observable';
-import { Project } from '../../../api-models/project';
+import { BaseList } from '../../app-common/base-list';
+import { DataService } from '../../app-common/data.service';
+import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { AddAt } from '../../inputs/array-input/array-input.component';
+
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.scss']
 })
-export class ProjectListComponent implements OnInit {
-  projects: Observable<Project[]>;
-  newProject: Partial<Project> = {};
+export class ProjectListComponent extends BaseList<Project, null> implements OnInit{
+  // projects: Observable<Project[]>;
+  // newProject: Partial<Project> = {};
+
+  addAt = AddAt;
 
   constructor(
-    private api: ApiService
-  ) { }
+    data: DataService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
+    super(data);
+    this.callConfigurator = (projects, cause) => {
+      switch (cause) {
+        case CRUD.CREATE: {
+          return {
+            route: CRUDRouter.newProject,
+          };
+        }
+        case CRUD.READ: {
+          return {
+            route: CRUDRouter.getAllProjects
+          };
+        }
+      }
+    };
 
-  ngOnInit() {
-    this.projects = this.api.getData<Project[]>(CRUDRouter.getAllProjects);
+    this.archetypeRetriever = () => data.getData<Project>(CRUDRouter.getProject, {projectId: null})
   }
 
-  createNewProject() {
-    this.api.postData<Project>(CRUDRouter.newProject, null, this.newProject).subscribe(project => {
-      console.log(project);
+  createNewProject(projectsInput, item: Project, i) {
+    this.data.postData<Project>(CRUDRouter.newProject, null, item).subscribe(project => {
+      // console.log(project);
+      this.router.navigate([project.id], {relativeTo: this.route}).catch(e => this.$state.next(ComponentDynamicStates.FAILING));
     });
   }
-
 }

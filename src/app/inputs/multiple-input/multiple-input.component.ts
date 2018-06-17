@@ -1,6 +1,6 @@
 import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop } from 'rxjs/util/noop';
+import { noop } from 'rxjs';
 import * as _ from 'lodash';
 import { ResponseBody } from '../../../api-models/responseBody';
 

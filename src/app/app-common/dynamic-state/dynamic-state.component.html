@@ -1,0 +1,13 @@
+<ng-container [ngTemplateOutlet]="currentTemplate"></ng-container>
+
+<ng-template #fallbackTemplate>
+  <ng-content></ng-content>
+</ng-template>
+
+<ng-template #defaultLoadingTemplate>
+  <app-loading></app-loading>
+</ng-template>
+
+<ng-template #defaultFailingTemplate>
+  <app-error></app-error>
+</ng-template>

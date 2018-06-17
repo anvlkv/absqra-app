@@ -6,6 +6,9 @@ import { Respondent } from './respondent';
 export declare class SequenceResponse extends Base {
     project: Project;
     sequence: Sequence;
+    sequenceId?: number;
     respondent: Respondent;
+    respondentId?: number;
     stepResponses: StepResponse[];
+    stepResponsesIds?: number[];
 }

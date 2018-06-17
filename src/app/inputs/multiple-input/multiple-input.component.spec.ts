@@ -1,7 +1,7 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 
 import { MultipleInputComponent, MultipleInputTypes } from './multiple-input.component';
-import { DefaultInputComponent } from '../default-input/default-input.component';
+
 import { FormsModule } from '@angular/forms';
 
 describe('MultipleInputComponent', () => {
@@ -11,8 +11,7 @@ describe('MultipleInputComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        MultipleInputComponent,
-        DefaultInputComponent
+        MultipleInputComponent
       ],
       imports: [
         FormsModule

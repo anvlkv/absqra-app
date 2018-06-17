@@ -1,10 +1,12 @@
+import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
 import { Operation } from 'fast-json-patch';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
 import { environment } from '../../environments/environment';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable, throwError } from 'rxjs';
+
+
 
 export interface ApiRoute {
   path: string,
@@ -12,64 +14,32 @@ export interface ApiRoute {
 }
 
 export interface RouteParams {
-  [paramName: string]: string
+  [paramName: string]: string | number
+}
+
+export enum CRUD {
+  CREATE,
+  READ,
+  UPDATE,
+  DELETE
 }
 
 @Injectable()
 export class ApiService {
 
+  private apiEndpoint: string;
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    cs: CookieService
   ) {
+    this.apiEndpoint = environment.api ? `${environment.api}` : cs.get('API-URL');
 
-  }
-
-  getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
-    const url = setUrlParams(route.path, params);
-    const queryParams = new HttpParams();
-    for (const p in query) {
-      queryParams.append(p, query[p])
+    if (!this.apiEndpoint) {
+      throw Error('Illegal api');
     }
-
-    return this.http.get(`${environment.apiEndpoint}${url}`, {
-      params: queryParams,
-    }).catch(this.handleError(route.path))
   }
 
-  postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
-    const url = setUrlParams(route.path, params);
-    const queryParams = new HttpParams();
-    for (const p in query) {
-      queryParams.append(p, query[p])
-    }
-    return this.http.post(`${environment.apiEndpoint}${url}`, body, {
-      params: queryParams,
-    }).catch(this.handleError(route.path))
-  }
-
-  patchData<T>(route: ApiRoute, params?: RouteParams, operations?: Operation[], query?: RouteParams): Observable<T> {
-    const url = setUrlParams(route.path, params);
-    const queryParams = new HttpParams();
-    for (const p in query) {
-      queryParams.append(p, query[p])
-    }
-    return this.http.patch(`${environment.apiEndpoint}${url}`, operations, {
-      params: queryParams,
-    }).catch(this.handleError(route.path))
-  }
-
-  deleteData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
-    const url = setUrlParams(route.path, params);
-    const queryParams = new HttpParams();
-    for (const p in query) {
-      queryParams.append(p, query[p])
-    }
-    return this.http.delete(`${environment.apiEndpoint}${url}`, {
-      params: queryParams,
-    }).catch(this.handleError(route.path))
-  }
-
-  handleError(triggeredBy) {
+  private errorHandler(triggeredBy) {
     return function (error: Response | any, ) {
       // In a real world app, you might use a remote logging infrastructure
       let errMsg: string;
@@ -81,22 +51,62 @@ export class ApiService {
         errMsg = error.message ? error.message : error.toString();
       }
       console.error(`API err at: ${triggeredBy}`);
-      console.error(errMsg);
+      console.error(error);
 
-      return Observable.throw(errMsg);
+      return throwError(errMsg);
     };
+  }
+
+  getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
+    const url = setUrlParams(route.path, params);
+    const queryParams = setQueryParams(query);
+
+    return <Observable<T>>this.http.get<T>(`${this.apiEndpoint}${url}`, {
+      params: queryParams,
+    }).pipe(catchError(this.errorHandler(route.path)))
+  }
+
+  postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
+    const url = setUrlParams(route.path, params);
+    const queryParams = setQueryParams(query);
+
+    return <Observable<T>>this.http.post<T>(`${this.apiEndpoint}${url}`, body, {
+      params: queryParams,
+    }).pipe(catchError(this.errorHandler(route.path)))
+  }
+
+  patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams): Observable<T> {
+    const url = setUrlParams(route.path, params);
+    const queryParams = setQueryParams(query);
+
+    return <Observable<T>>this.http.patch<T>(`${this.apiEndpoint}${url}`, operations, {
+      params: queryParams,
+    }).pipe(catchError(this.errorHandler(route.path)))
+  }
+
+  deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
+    const url = setUrlParams(route.path, params);
+    const queryParams = setQueryParams(query);
+
+    return <Observable<T>>this.http.delete<T>(`${this.apiEndpoint}${url}`, {
+      params: queryParams,
+    }).pipe(catchError(this.errorHandler(route.path)))
   }
 
 }
 
-function setUrlParams(path: string, params: {[param: string]: string}) {
+function setUrlParams(path: string, params: RouteParams) {
   for (const param in params) {
-    if (params[param]) {
-      path = path.replace(`:${param}`, params[param]);
-    }
-    else {
-      throw Error(`Param ${param} is required for route ${path}`)
-    }
+    path = path.replace(`:${param}`, `${params[param] || 0}`);
   }
   return path;
+}
+
+function setQueryParams (query) {
+  const queryParams = new HttpParams();
+  for (const p in query) {
+    queryParams.append(p, `${query[p]}`)
+  }
+
+  return queryParams;
 }

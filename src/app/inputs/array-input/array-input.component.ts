@@ -1,13 +1,17 @@
-import { Component, ElementRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
-import { InputTypes } from '../default-input/default-input.component';
+import {
+  ChangeDetectorRef,
+  Component, ContentChild, ElementRef, EventEmitter, forwardRef, Input, NgZone, OnInit, Output, TemplateRef, ViewChild,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { noop } from 'rxjs/util/noop';
+import { noop } from 'rxjs';
 import { Sortable } from '../../../models/sortable';
 import { ResponseBody } from '../../../api-models/responseBody';
+import { Observable, Subject } from 'rxjs';
+import * as _ from 'lodash';
 
 
-export interface ArrayInputItemArchetype extends ResponseBody {
-  type: InputTypes
+export interface ArrayInputItemArchetype {
+  [prop: string]: any
 }
 
 export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -16,6 +20,11 @@ export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   multi: true
 };
 
+export enum AddAt {
+  START,
+  END
+}
+
 @Component({
   selector: 'app-array-input',
   templateUrl: './array-input.component.html',
@@ -23,7 +32,17 @@ export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   providers: [ARRAY_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class ArrayInputComponent implements OnInit, ControlValueAccessor {
-  @Input() archetype: ArrayInputItemArchetype = {content: null, origin: null, type: InputTypes.text, isOriginal: true};
+  @Input() archetype: ArrayInputItemArchetype;
+  @Input() reflectOrder: string;
+  @Input() tackByItemProperty = 'id';
+  @Input() orderable = true;
+  @Input() addAt: AddAt = AddAt.END;
+  addAtTypes = AddAt;
+
+  // @Output() change = new EventEmitter<any[]>();
+
+  @ContentChild(TemplateRef)
+  public itemTemplate: TemplateRef<any>;
 
   // Placeholders for the callbacks which are later provided
   // by the Control Value Accessor
@@ -31,26 +50,63 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   private onChangeCallback: (_: any) => void = noop;
 
 
-  private _innerValue: Sortable<ResponseBody>[] = [];
-  @Input()
-  get value(): ResponseBody[] {
-    return this._innerValue.map(s => s.item);
+  private _innerValue: Sortable<any>[] = [];
+  private _oldValue: Sortable<any>[] = [];
+
+  private innerValue: Observable<Sortable<any>[]>;
+  private $subj = new Subject<Sortable<any>[]>();
+
+  get value(): any[] {
+    return this._innerValue.map((item, index) => {
+      item = this.setOrder(item);
+      return item.item
+    }).filter(item => item.hasOwnProperty(this.tackByItemProperty));
   };
-  set value(v: ResponseBody[]) {
+  set value(v: any[]) {
     if (v) {
-      this._innerValue = v.map((item, index) => {return {order: index + 1, item}});
-      this.onChangeCallback(v);
+      this._oldValue = _.cloneDeep(this.value);
+      this.$subj.next(v.map((item, index) => {
+        return this.setOrder({order: index + 1, item});
+      }));
     }
   }
 
-  static trackByFn(index: number, sortable: Sortable<ResponseBody>) {
-    return index;
-  }
 
   constructor(
-  ) { }
+    private zone: NgZone
+  ) {
+    this.innerValue = this.$subj.asObservable();
+  }
+
+  private innerValueSubscriber(v) {
+    const oldVal = this._oldValue;
+    this._innerValue = v;
+    this.zone.run(() => {
+      const currentVal = [...this.value];
+      // if (!_.isEqual(oldVal, currentVal)) {
+      this.onChangeCallback(this.value);
+        // this.change.emit(this.value);
+      // }
+    });
+  }
+
+  trackByFn(index: number, sortable: Sortable<any>): string {
+    if (sortable.item[this.tackByItemProperty]) {
+      return String(sortable.item[this.tackByItemProperty])
+    }
+    return `itemAt_${sortable.order}`;
+  }
+
+  private setOrder(sortable) {
+    if (this.reflectOrder) {
+      sortable.item[this.reflectOrder] = sortable.order
+    }
+    return sortable;
+  }
 
   ngOnInit() {
+    this.innerValue.subscribe(this.innerValueSubscriber.bind(this));
+
     if (this.archetype && !this.value.length) {
       this.addItem();
     }
@@ -65,13 +121,6 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
       this.addItem(e);
     }
   }
-
-  // onChange(e) {
-  //   this.value = {
-  //     ...this.value,
-  //     content: this._innerValue.content
-  //   }
-  // }
 
   // From ControlValueAccessor interface
   writeValue(value: ResponseBody[]) {
@@ -92,14 +141,16 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     e ? e.preventDefault() : null;
 
     const currentVal = [...this.value];
-    currentVal.push({
-      content: this.archetype.content,
-      isOriginal: this.archetype.isOriginal,
-      origin: this.archetype.origin
-    });
+    if (this.addAt == AddAt.END) {
+      currentVal.push({...this.archetype});
+    }
+    else {
+      currentVal.splice(0, 0, {...this.archetype});
+    }
 
+
+    // this.$subj.next(currentVal);
     this.writeValue(currentVal);
-    this.onTouchedCallback();
   }
 
   removeItem(at: number, e?) {
@@ -110,27 +161,25 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
     currentVal.splice(at, 1);
 
     this.writeValue(currentVal);
-    this.onTouchedCallback();
+    // this.change.emit(this.value);
   }
 
-  onOrderChanged(newPosition: number, oldPosition: number) {
+  onOrderChanged(newPosition: number, oldPosition: number, e) {
     if (!newPosition || !oldPosition) {
       return;
     }
+    else {
+      e.target.blur();
+    }
 
-    newPosition--;
-    oldPosition--;
+    const oldIndex = oldPosition - 1, newIndex = newPosition - 1;
+
 
     const currentVal = [...this.value];
-    const itemToReplace = currentVal[newPosition];
-    const item = currentVal[oldPosition];
 
-    currentVal[oldPosition] = itemToReplace;
-    currentVal[newPosition] = item;
+    currentVal.splice(newIndex, 0, currentVal.splice(oldIndex, 1)[0]);
 
     this.writeValue(currentVal);
-    this.onTouchedCallback();
-    // console.table(this.value);
   }
 
 }

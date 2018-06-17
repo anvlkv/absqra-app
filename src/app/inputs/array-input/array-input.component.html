@@ -1,28 +1,37 @@
-<ol>
-  <li *ngFor="let sortable of _innerValue; trackBy: trackByFn">
-    <label>
+<ol *ngIf="orderable; else unorderedListTemplate">
+  <ng-container *ngTemplateOutlet="listContentTemplate"></ng-container>
+</ol>
+
+<ng-template #unorderedListTemplate>
+  <ul>
+    <ng-container *ngTemplateOutlet="listContentTemplate"></ng-container>
+  </ul>
+</ng-template>
+
+
+<ng-template #listContentTemplate>
+  <li *ngIf="addAt == addAtTypes.START">
+    <button type="button" tabindex="0" (click)="addItem($event)" class="add-item">add</button>
+  </li>
+  <li *ngFor="let sortable of innerValue | async; trackBy: let i = index;">
+    <label *ngIf="orderable">
       <input type="number"
              min="1"
              class="item-order"
              [max]="_innerValue.length"
              [ngModel]="sortable.order"
-             name="{{sortable.order}}_input_order"
-             tabindex="-1"
-             (change)="onOrderChanged($event.target.value, sortable.order)">
+             name="{{i}}_input_order"
+             tabindex="1"
+             (change)="onOrderChanged($event.target.value, sortable.order, $event)">
       .
     </label>
-    <app-default-input
-      [(ngModel)]="sortable.item"
-      [name]="sortable.order"
-      [type]="archetype?.type"
-      tabindex="0"
-      (keydown)="onKeyDown($event)"></app-default-input>
+    <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: sortable, itemIndex: i}"></ng-container>
     <button type="button"
             tabindex="2"
             class="remove-item"
             (click)="removeItem(sortable.order, $event)">remove</button>
   </li>
-  <li>
+  <li *ngIf="addAt == addAtTypes.END">
     <button type="button" tabindex="0" (click)="addItem($event)" class="add-item">add</button>
   </li>
-</ol>
+</ng-template>

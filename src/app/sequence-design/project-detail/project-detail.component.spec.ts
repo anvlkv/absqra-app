@@ -4,18 +4,33 @@ import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../app-common/api.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
+import { Observable, of } from 'rxjs';
 import { Project } from '../../../api-models';
 import { RespondentListComponent } from '../respondent-list/respondent-list.component';
-import { RespondentListsComponent } from '../respondent-lists/respondent-lists.component';
+import { RespondentListsComponent } from '../respondent-list-list/respondent-lists.component';
 import { SequenceDetailComponent } from '../sequence-detail/sequence-detail.component';
 import { ResponseListComponent } from '../response-list/response-list.component';
 import { RespondentListThumbnailComponent } from '../respondent-list-thumbnail/respondent-list-thumbnail.component';
+import { AppCommonModule } from '../../app-common/app-common.module';
+import { StepListComponent } from '../step-list/step-list.component';
+import { InputsModule } from '../../inputs/inputs.module';
+import { StepDetailComponent } from '../step-detail/step-detail.component';
+import { QuestionThumbnailComponent } from '../question-thumbnail/question-thumbnail.component';
+import { QuestionDetailComponent } from '../question-detail/question-detail.component';
+import { TaskDetailComponent } from '../task-detail/task-detail.component';
+import { TaskThumbnailComponent } from '../task-thumbnail/task-thumbnail.component';
+import { LogicThumbnailComponent } from '../logic-thumbnail/logic-thumbnail.component';
+import { LogicDetailComponent } from '../logic-detail/logic-detail.component';
+import { SequenceThumbnailComponent } from '../sequence-thumbnail/sequence-thumbnail.component';
+import { AssetThumbnailComponent } from '../asset-thumbnail/asset-thumbnail.component';
+import { AssetDetailComponent } from '../asset-detail/asset-detail.component';
+import { FormatConstraintsListComponent } from '../format-constraints-list/format-constraints-list.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { DataService } from '../../app-common/data.service';
 
 class MockApi {
   getData() {
-    return Observable.of(<Project>{
+    return of(<Project>{
       name: 'test project',
       description: 'test project description',
     })
@@ -33,21 +48,20 @@ describe('ProjectDetailComponent', () => {
         RouterTestingModule
       ],
       declarations: [
-        ProjectDetailComponent,
-        SequenceDetailComponent,
-        ResponseListComponent,
-        RespondentListThumbnailComponent,
-        RespondentListsComponent,
+        ProjectDetailComponent
+      ],
+      schemas: [
+        NO_ERRORS_SCHEMA
       ],
       providers: [
         {
-          provide: ApiService,
+          provide: DataService,
           useClass: MockApi
         },
         {
           provide: ActivatedRoute,
           useValue: {
-            params: Observable.of({ projectId: 1 })
+            params: of({ projectId: 1 })
           }
         }
       ]
