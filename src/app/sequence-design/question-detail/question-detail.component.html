@@ -1,0 +1,134 @@
+<app-dynamic-state [state]="questionState">
+  <ng-template #viewingTemplate>
+    <h5>{{dataItem.name}}</h5>
+    <p>{{dataItem.description}}</p>
+    <app-asset-thumbnail [asset]="dataItem.content"></app-asset-thumbnail>
+    <dl>
+      <dt>
+        offers
+      </dt>
+      <dd>
+        {{dataItem.offers}}
+      </dd>
+      <dt>
+        expects
+      </dt>
+      <dd>
+        {{dataItem.expects}}
+      </dd>
+      <dt>
+        life cycle
+      </dt>
+      <dd>
+        {{dataItem.lifeCycle}}
+      </dd>
+      <dt>
+        format constraints
+      </dt>
+      <dd>
+        {{dataItem.formatConstraintsIds.length}}
+      </dd>
+      <dt>
+        question options
+      </dt>
+      <dd>
+        {{dataItem.questionOptionsIds.length}}
+      </dd>
+      <dt>
+        response options
+      </dt>
+      <dd>
+        {{dataItem.responseOptionsIds.length}}
+      </dd>
+    </dl>
+  </ng-template>
+  <ng-template #editingTemplate>
+    <form #questionForm="ngForm" (submit)="save(questionForm)">
+      <div>
+        <label for="questionName">
+          name
+        </label>
+        <input type="text" id="questionName" name="name" [(ngModel)]="dataItem.name">
+      </div>
+
+      <div>
+        <label for="questionDescription">
+          notes
+        </label>
+        <textarea name="description" id="questionDescription" [(ngModel)]="dataItem.description"></textarea>
+      </div>
+
+      <app-asset-detail></app-asset-detail>
+
+      <div>
+        <legend>
+          offers
+        </legend>
+        <label *ngFor="let type of quantityOrderList; trackBy: trackType">
+          <input type="radio" required [name]="dataItem.id + '_offers'" [value]="type" [(ngModel)]="dataItem.offers">
+          {{type}}
+        </label>
+      </div>
+
+      <div>
+        <legend>
+          expects
+        </legend>
+        <label *ngFor="let type of quantityOrderList; trackBy: trackType">
+          <input type="radio" required [name]="dataItem.id + '_expects'" [value]="type" [(ngModel)]="dataItem.expects">
+          {{type}}
+        </label>
+      </div>
+
+      <div>
+        <legend>
+          question life cycle
+        </legend>
+        <label *ngFor="let type of lifeCyclesList; trackBy: trackType">
+          <input type="radio" required [name]="dataItem.id + '_lifeCycle'" [value]="type" [(ngModel)]="dataItem.lifeCycle">
+          {{type}}
+        </label>
+      </div>
+
+      <app-dynamic-state [state]="questionState">
+        <section>
+          <h5>response format constraints</h5>
+          <app-format-constraints-list [questionId]="sourceItemId"></app-format-constraints-list>
+        </section>
+      </app-dynamic-state>
+      <button type="submit">save</button>
+    </form>
+
+    <!--<dl>-->
+      <!--<dt>-->
+        <!--expects-->
+      <!--</dt>-->
+      <!--<dd>-->
+        <!--{{dataItem.expects}}-->
+      <!--</dd>-->
+      <!--<dt>-->
+        <!--life cycle-->
+      <!--</dt>-->
+      <!--<dd>-->
+        <!--{{dataItem.lifeCycle}}-->
+      <!--</dd>-->
+      <!--<dt>-->
+        <!--format constraints-->
+      <!--</dt>-->
+      <!--<dd>-->
+        <!--{{dataItem.formatConstraintsIds.length}}-->
+      <!--</dd>-->
+      <!--<dt>-->
+        <!--question options-->
+      <!--</dt>-->
+      <!--<dd>-->
+        <!--{{dataItem.questionOptionsIds.length}}-->
+      <!--</dd>-->
+      <!--<dt>-->
+        <!--response options-->
+      <!--</dt>-->
+      <!--<dd>-->
+        <!--{{dataItem.responseOptionsIds.length}}-->
+      <!--</dd>-->
+  </ng-template>
+</app-dynamic-state>
