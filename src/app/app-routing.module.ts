@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { LoadingComponent } from './app-common/loading/loading.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
   {
     path: 'ask',
     loadChildren: 'app/sequence-design/sequence-design.module#SequenceDesignModule',
+  },
+  {
+    path: '',
+    component: LoadingComponent
   }
 ];
 

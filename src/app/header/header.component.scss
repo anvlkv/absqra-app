@@ -1,0 +1,22 @@
+@import 'var-colors';
+:host{
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: $primary-background;
+  .app-branding {
+    margin: 0;
+
+    .logo{
+      display: inline-block;
+      width: 1em;
+      vertical-align: middle;
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+    }
+  }
+}
