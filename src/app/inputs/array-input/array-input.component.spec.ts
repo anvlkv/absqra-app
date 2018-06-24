@@ -7,9 +7,9 @@ import { InputTypes } from '../input-types.enum';
 @Component({
   selector: 'app-test-cmp',
   template: `
-    <app-array-input [archetype]="archetype" [(ngModel)]="value" (ngModelChanges)="onItemsChange($event)" (change)="onItemsChange($event)">
+    <app-array-input [archetype]="archetype" [(ngModel)]="value" (ngModelChanges)="onItemsChange($event)">
         <ng-template let-sortable>
-          <input class="test-input-class" type="text" name="some" [(ngModel)]="sortable.item.content" (ngModelChanges)="onSingleItemChanged($event)" (change)="onSingleItemChanged($event)">
+          <input class="test-input-class" type="text" name="some" [(ngModel)]="sortable.item.content" (change)="onSingleItemChanged($event, sortable.item)">
         </ng-template>
     </app-array-input>
   `,
@@ -22,8 +22,10 @@ class TestWrapperComponent {
     console.log(e);
   }
 
-  onSingleItemChanged(e) {
-    console.log(e);
+  onSingleItemChanged(e, item) {
+    if (!item.id) {
+      this.value = [...this.value, {...item, id: new Date().valueOf() }]
+    }
   }
 }
 
@@ -67,7 +69,7 @@ describe('ArrayInputComponent', () => {
   });
 
   describe('with archetype', () => {
-    beforeEach(fakeAsync(() => {
+    beforeEach(async(() => {
       testWrapperComponent.archetype = {
         content: 'some content',
         isOriginal: true,
@@ -75,9 +77,10 @@ describe('ArrayInputComponent', () => {
       };
       hostFixture.detectChanges();
       component.ngOnInit();
-      tick();
       hostFixture.detectChanges();
-      // fixture.detectChanges();
+      // (async() => {
+      //   await hostFixture.whenStable();
+      // })();
     }));
 
     it('should add placeholder - first item', async(() => {
@@ -85,13 +88,53 @@ describe('ArrayInputComponent', () => {
       expect(fixture.nativeElement.querySelector('.test-input-class').value).toEqual('some content');
     }));
 
-    it('should add items', async(() => {
+    it('should not add items which are same as archetype', async(() => {
       const addButton = fixture.nativeElement.querySelector('button.add-item');
       hostFixture.detectChanges();
+      (async() => {
+        await hostFixture.whenStable();
+        addButton.click();
+        hostFixture.detectChanges();
+        await hostFixture.whenStable();
+        addButton.click();
+        hostFixture.detectChanges();
+        await hostFixture.whenStable();
+      })();
+      expect(fixture.nativeElement.querySelectorAll('.test-input-class')[0].value).toEqual(component.archetype.content);
+      expect(fixture.nativeElement.querySelectorAll('.test-input-class').length).toEqual(1 /* one question initially added */);
+    }));
+
+    it('should add items', async(() => {
+      const inputsQuery = () => fixture.nativeElement.querySelectorAll('.test-input-class');
+      const addButton = fixture.nativeElement.querySelector('button.add-item');
+
+
+      inputsQuery()[0].value = 'new another value 1';
+      inputsQuery()[0].dispatchEvent(new Event('change'));
+      hostFixture.detectChanges();
+
+      (async() => {
+        await hostFixture.whenStable();
+      })();
+
       addButton.click();
       hostFixture.detectChanges();
+
+      inputsQuery()[1].value = 'new another value 2';
+      inputsQuery()[1].dispatchEvent(new Event('change'));
+      hostFixture.detectChanges();
+
+      (async() => {
+        await hostFixture.whenStable();
+      })();
+
       addButton.click();
       hostFixture.detectChanges();
+
+      (async() => {
+        await hostFixture.whenStable();
+      })();
+
       expect(fixture.nativeElement.querySelectorAll('.test-input-class').length).toEqual(3 /* one question initially added */);
     }));
   });
@@ -179,10 +222,8 @@ describe('ArrayInputComponent', () => {
 
       (async () => {
         await hostFixture.whenStable();
-        hostFixture.detectChanges();
-        await hostFixture.whenStable();
 
-        inputs = hostFixture.nativeElement.querySelectorAll('.test-input-class, .test-input-class');
+        inputs = hostFixture.nativeElement.querySelectorAll('.test-input-class');
         expect(inputs[0].value).toEqual('new value');
         expect(inputs[1].value).toEqual('new value 2');
         expect(inputs[2].value).toEqual('new value 3');
@@ -223,12 +264,12 @@ describe('ArrayInputComponent', () => {
         hostFixture.detectChanges();
         await hostFixture.whenStable();
 
-        const orderInputs = fixture.nativeElement.querySelectorAll('.item-order');
+        let orderInputs = fixture.nativeElement.querySelectorAll('.item-order');
         orderInputs[0].value = 4;
         orderInputs[0].dispatchEvent(new Event('change'));
         hostFixture.detectChanges();
         await hostFixture.whenStable();
-
+        orderInputs = fixture.nativeElement.querySelectorAll('.item-order');
         orderInputs[2].value = 1;
         orderInputs[2].dispatchEvent(new Event('change'));
         hostFixture.detectChanges();

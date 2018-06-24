@@ -65,9 +65,11 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   set value(v: any[]) {
     if (v) {
       this._oldValue = _.cloneDeep(this.value);
-      this.$subj.next(v.map((item, index) => {
-        return this.setOrder({order: index + 1, item});
-      }));
+      this.$subj.next(
+        v.map((item, index) => {
+          return this.setOrder({order: index + 1, item});
+        }
+      ));
     }
   }
 
@@ -138,6 +140,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   addItem(e?) {
+    this.onTouchedCallback();
     e ? e.preventDefault() : null;
 
     const currentVal = [...this.value];
@@ -154,6 +157,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   removeItem(at: number, e?) {
+    this.onTouchedCallback();
     e ? e.preventDefault() : null;
     const currentVal = [...this.value];
     at--;
@@ -165,6 +169,7 @@ export class ArrayInputComponent implements OnInit, ControlValueAccessor {
   }
 
   onOrderChanged(newPosition: number, oldPosition: number, e) {
+    this.onTouchedCallback();
     if (!newPosition || !oldPosition) {
       return;
     }

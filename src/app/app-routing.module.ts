@@ -8,6 +8,10 @@ const routes: Routes = [
   // {path: 'old', loadChildren: 'app/old/old.module#OldModule'},
   // {path: 'answer', loadChildren: 'app/response/response.module#ResponseModule'},
   {
+    path: 'old',
+    loadChildren: 'app/sequence-design-old/sequence-design-old.module#SequenceDesignModuleOld',
+  },
+  {
     path: 'ask',
     loadChildren: 'app/sequence-design/sequence-design.module#SequenceDesignModule',
   }
