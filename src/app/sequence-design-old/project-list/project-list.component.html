@@ -1,5 +1,5 @@
 <app-dynamic-state [state]="listState">
-  <app-array-input [(ngModel)]="dataItems" #projectsInput="ngModel" [archetype]="archetype" (ngModelChanges)="onItemsChange(projectsInput)" [orderable]="false" [addAt]="addAt.START">
+  <app-array-input-old [(ngModel)]="dataItems" #projectsInput="ngModel" [archetype]="archetype" (ngModelChanges)="onItemsChange(projectsInput)" [orderable]="false" [addAt]="addAt.START">
     <ng-template let-arrayItem let-i="itemIndex">
       <app-project-thumbnail *ngIf="arrayItem.item.id; else projectForm" [project]="arrayItem.item"></app-project-thumbnail>
       <ng-template #projectForm>
@@ -9,5 +9,5 @@
         </form>
       </ng-template>
     </ng-template>
-  </app-array-input>
+  </app-array-input-old>
 </app-dynamic-state>

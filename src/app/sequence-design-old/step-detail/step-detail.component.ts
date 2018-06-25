@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { unpackEnum } from '../../utils';
 import { CRUDRouter } from '../../../../../intervey-api/lib/router/CRUDRouter';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { DataService } from '../../app-common/data.service';
 import { BaseDetail } from '../../app-common/base-detail';
 import { BehaviorSubject, Observable } from 'rxjs/index';
@@ -19,11 +19,11 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
   typeControlName: string;
   stepTypesList: string[];
 
-  referenceState: Observable<ComponentDynamicStates>;
-  stepState: Observable<ComponentDynamicStates>;
+  referenceState: Observable<DynamicState>;
+  stepState: Observable<DynamicState>;
 
 
-  private $refState = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.VIEWING);
+  private $refState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.VIEWING);
 
   constructor(
     data: DataService

@@ -1,0 +1,18 @@
+@import "var-sizes";
+@import "./base-surface";
+@import "var-colors";
+@import "partials/limitations";
+
+.page{
+  @extend .base-surface;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: flex-start;
+  align-items: flex-start;
+  padding: $small-white-space;
+  margin: $small-white-space $medium-white-space $medium-white-space $small-white-space;
+  touch-action: manipulation;
+  border: $thin-line solid $primary-text-color;
+  box-shadow: $thick-line $thick-line 0 rgba($primary-text-color, .25);
+  white-space: unset;
+}

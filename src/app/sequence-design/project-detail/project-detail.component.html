@@ -1,49 +1,53 @@
-<h3>Project</h3>
-<app-dynamic-state [state]="state">
-  <ng-template #viewingTemplate>
-    <div>
-      <h4>{{project.name}}</h4>
-      <p>
-        {{project.description}}
-      </p>
-      <button (click)="editProject()">edit</button>
-    </div>
-  </ng-template>
-  <ng-template #editingTemplate>
-    <form [formGroup]="projectForm" (submit)="save()">
-      <div>
-        <label for="name">
-          name
-        </label>
-        <input type="text" id="name" formControlName="name">
-      </div>
-      <div>
-        <label for="description">
-          notes
-        </label>
-        <textarea id="description" formControlName="description"></textarea>
-      </div>
-      <button type="submit">save</button>
-    </form>
-  </ng-template>
-</app-dynamic-state>
+<div dragScroll [snap-disabled]="true" [drag-disabled]="!panning" [ngClass]="{'panning': panning}">
+  <section class="project-page">
+    <h3>Project</h3>
+    <app-dynamic-state [state]="state">
+      <ng-template #viewingTemplate>
+        <div class="project-card">
+          <h4>{{project.name}}</h4>
+          <p>
+            {{project.description}}
+          </p>
+          <button (click)="editProject()">edit</button>
+        </div>
+      </ng-template>
+      <ng-template #editingTemplate>
+        <form [formGroup]="projectForm" (ngSubmit)="save()">
+          <div>
+            <label for="name">
+              name
+            </label>
+            <input type="text" id="name" formControlName="name">
+          </div>
+          <div>
+            <label for="description">
+              notes
+            </label>
+            <textarea id="description" formControlName="description"></textarea>
+          </div>
+          <button type="submit">save</button>
+        </form>
+      </ng-template>
+    </app-dynamic-state>
 
-<app-dynamic-state [state]="state">
-  <ng-template #defaultTemplate>
-    <section>
-      <h4>Sequence</h4>
-      <app-sequence-detail [sequenceId]="project.topSequenceId" (sequenceIdChange)="onSequenceIdChange($event)">
-      </app-sequence-detail>
-    </section>
+    <app-dynamic-state [state]="state">
+      <ng-template #defaultTemplate>
+        <section>
+          <h4>Sequence</h4>
+          <app-sequence-detail [sequenceId]="project.topSequenceId" (sequenceIdChange)="onSequenceIdChange($event)">
+          </app-sequence-detail>
+        </section>
 
-    <section>
-      <h4>Respondents</h4>
-      <app-respondent-list-list [respondentsLists]="project?.respondentsLists"></app-respondent-list-list>
-    </section>
+        <section>
+          <h4>Respondents</h4>
+          <app-respondent-list-list [respondentsLists]="project?.respondentsLists"></app-respondent-list-list>
+        </section>
 
-    <section>
-      <h4>Responses</h4>
-      <app-response-list [responses]="project?.responses"></app-response-list>
-    </section>
-  </ng-template>
-</app-dynamic-state>
+        <section>
+          <h4>Responses</h4>
+          <app-response-list [responses]="project?.responses"></app-response-list>
+        </section>
+      </ng-template>
+    </app-dynamic-state>
+  </section>
+</div>

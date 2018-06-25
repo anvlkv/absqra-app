@@ -8,7 +8,7 @@
     </div>
   </ng-template>
   <ng-template #editingTemplate>
-    <form [formGroup]="sequenceForm" (submit)="saveHeader()">
+    <form [formGroup]="sequenceForm" (ngSubmit)="saveHeader()">
       <fieldset formGroupName="header">
         <label for="name">
           name
@@ -29,23 +29,24 @@
       </fieldset>
       <button type="submit">save</button>
     </form>
-    <!--<form #dataItemForm="ngForm" (submit)="save(dataItemForm)">-->
-      <!--<div>-->
-      <!--</div>-->
-      <!--<div>-->
-        <!--<label for="sequenceDescription">-->
-          <!--notes-->
-        <!--</label>-->
-        <!--<textarea id="sequenceDescription" name="description" [(ngModel)]="dataItem.header.description"></textarea>-->
-      <!--</div>-->
-      <!--<button type="submit">save</button>-->
-    <!--</form>-->
   </ng-template>
 </app-dynamic-state>
 
 <app-dynamic-state [state]="state">
-  <!--<section>-->
-    <!--<h5>Steps</h5>-->
-    <!--<app-step-list [sourceItemId]="dataItemId"></app-step-list>-->
-  <!--</section>-->
+  <ng-template #defaultTemplate>
+    <section>
+      <!--<app-step-list [sourceSequenceId]="sequenceId"></app-step-list>-->
+      <form [formGroup]="sequenceForm">
+        <legend>
+          <h5>Steps</h5>
+        </legend>
+        <app-array-input-old formArrayName="steps" [archetype]="defaultStep">
+          <ng-template let-arrayItem let-i="itemIndex">
+            <!--<app-step-detail [dataItemId]="arrayItem.item?.id" [(dataItem)]="arrayItem.item" (dataItemChange)="onSingleItemChanged(stepsInput, $event, i)"></app-step-detail>-->
+            <p>;sdkjf</p>
+          </ng-template>
+        </app-array-input-old>
+      </form>
+    </section>
+  </ng-template>
 </app-dynamic-state>

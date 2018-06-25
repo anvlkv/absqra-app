@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ArrayInputComponent } from './array-input/array-input.component';
+import { ArrayInputOldComponent } from './array-input-old/array-input-old.component';
 import { MultipleInputComponent } from './multiple-input/multiple-input.component';
 import { FormsModule } from '@angular/forms';
 import { AutoFocusDirective } from './autofocus.directive';
 
 const inputs = [
-  ArrayInputComponent,
+  ArrayInputOldComponent,
   MultipleInputComponent
 ];
 

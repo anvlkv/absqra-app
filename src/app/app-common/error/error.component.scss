@@ -1,3 +1,13 @@
-div {
-  color: red;
+@import "var-colors";
+@import "partials/limitations";
+@import "partials/surfaces/card";
+
+:host{
+  @extend .fits-on-screen-important;
+  @extend .card;
+  border-color: $error-color;
+
+  h5 {
+    color: $error-color;
+  }
 }

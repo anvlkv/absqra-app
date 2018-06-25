@@ -1,7 +1,7 @@
 <app-dynamic-state [state]="listState">
-  <app-array-input [(ngModel)]="dataItems" #stepsInput="ngModel" [archetype]="archetype" [reflectOrder]="'order'" (ngModelChanges)="onItemsChange($event, stepsInput)">
+  <app-array-input-old [(ngModel)]="dataItems" #stepsInput="ngModel" [archetype]="archetype" [reflectOrder]="'order'" (ngModelChanges)="onItemsChange($event, stepsInput)">
     <ng-template let-arrayItem let-i="itemIndex">
       <app-step-detail [dataItemId]="arrayItem.item?.id" [(dataItem)]="arrayItem.item" (dataItemChange)="onSingleItemChanged(stepsInput, $event, i)"></app-step-detail>
     </ng-template>
-  </app-array-input>
+  </app-array-input-old>
 </app-dynamic-state>

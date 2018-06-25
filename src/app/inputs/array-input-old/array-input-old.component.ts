@@ -16,7 +16,7 @@ export interface ArrayInputItemArchetype {
 
 export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => ArrayInputComponent),
+  useExisting: forwardRef(() => ArrayInputOldComponent),
   multi: true
 };
 
@@ -26,12 +26,12 @@ export enum AddAt {
 }
 
 @Component({
-  selector: 'app-array-input',
-  templateUrl: './array-input.component.html',
-  styleUrls: ['./array-input.component.scss'],
+  selector: 'app-array-input-old',
+  templateUrl: './array-input-old.component.html',
+  styleUrls: ['./array-input-old.component.scss'],
   providers: [ARRAY_INPUT_CONTROL_VALUE_ACCESSOR]
 })
-export class ArrayInputComponent implements OnInit, ControlValueAccessor {
+export class ArrayInputOldComponent implements OnInit, ControlValueAccessor {
   @Input() archetype: ArrayInputItemArchetype;
   @Input() reflectOrder: string;
   @Input() tackByItemProperty = 'id';

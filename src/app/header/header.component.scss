@@ -1,14 +1,14 @@
-@import 'var-colors';
+@import "partials/surfaces";
+@import "var-colors";
+@import "var-sizes";
+
 :host{
-  display: block;
-  position: fixed;
-  top: 0;
-  left: 0;
+  @extend .card;
+  @include marginalElementEdge(top);
   width: 100%;
+  height: $large-panel-bar;
   background-color: $primary-background;
   .app-branding {
-    margin: 0;
-
     .logo{
       display: inline-block;
       width: 1em;

@@ -19,7 +19,7 @@ import { AppCommonModule } from './app-common/app-common.module';
     FormsModule,
     HttpClientModule,
     AppRoutingModule,
-    AppCommonModule
+    AppCommonModule,
   ],
   providers: [
     Title

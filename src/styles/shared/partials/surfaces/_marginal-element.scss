@@ -1,0 +1,39 @@
+@import "var-sizes";
+
+$sides: top, left, right, bottom;
+$oppositeSides: (top: bottom, left: right, right: left, bottom: top);
+
+.marginal-element {
+  @each $side in $sides {
+    &.#{side}{
+      border-#{side}: none;
+    }
+  }
+}
+
+@mixin marginalElementEdge($side) {
+  @each $side2 in $sides {
+    @if($side != map_get($oppositeSides, $side2)){
+      border-#{$side2}: none;
+      padding-#{$side2}: 0;
+      > * {
+        marging-#{$side2}:  $x-small-white-space * 1.2;
+      }
+    }
+  }
+
+  padding: $x-small-white-space;
+  > * {
+    margin: $x-small-white-space;
+  }
+}
+
+//@mixin  @each $side in $sides {
+//  .marginal-element-#{side}-edge {
+//    @each $side2 in $sides {
+//      @if($side != $side2){
+//        border-#{side2}: none;
+//      }
+//    }
+//  }
+//}

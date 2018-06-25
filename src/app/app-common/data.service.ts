@@ -4,6 +4,7 @@ import { Observable ,  Subject ,  concat } from 'rxjs';
 import { Operation } from 'fast-json-patch';
 import { PublicMembersInterface } from '../../models/public-members.interface';
 import * as objectHash from 'object-hash';
+import { errorHandler } from '../utils';
 
 
 interface RequestParams {
@@ -99,7 +100,7 @@ export class DataService implements PublicMembersInterface<ApiService> {
 
     request.subscribe((d) => {
       storeSubject.next(d);
-    });
+    }, e => storeSubject.error(e));
 
 
     return storeSubject.asObservable();

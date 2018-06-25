@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Project, Sequence } from '../../../api-models';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { DataService } from '../../app-common/data.service';
 import { Observable, Subscription } from 'rxjs/index';
 import { map } from 'rxjs/operators';
@@ -17,7 +17,7 @@ import { CRUD } from '../../app-common/api.service';
   styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent extends BaseDetail<Project> {
-  projectState: Observable<ComponentDynamicStates>;
+  projectState: Observable<DynamicState>;
   private projectIdSubscription: Subscription;
 
   constructor(

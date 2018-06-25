@@ -5,6 +5,7 @@ import { Operation } from 'fast-json-patch';
 import { environment } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, throwError } from 'rxjs';
+import { errorHandler } from '../utils';
 
 
 
@@ -39,31 +40,13 @@ export class ApiService {
     }
   }
 
-  private errorHandler(triggeredBy) {
-    return function (error: Response | any, ) {
-      // In a real world app, you might use a remote logging infrastructure
-      let errMsg: string;
-      try {
-        const body = error.json() || '';
-        const err = body.error || JSON.stringify(body);
-        errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
-      } catch (e) {
-        errMsg = error.message ? error.message : error.toString();
-      }
-      console.error(`API err at: ${triggeredBy}`);
-      console.error(error);
-
-      return throwError(errMsg);
-    };
-  }
-
   getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
     const url = setUrlParams(route.path, params);
     const queryParams = setQueryParams(query);
 
     return <Observable<T>>this.http.get<T>(`${this.apiEndpoint}${url}`, {
       params: queryParams,
-    }).pipe(catchError(this.errorHandler(route.path)))
+    }).pipe(catchError(errorHandler(route.path)))
   }
 
   postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
@@ -72,7 +55,7 @@ export class ApiService {
 
     return <Observable<T>>this.http.post<T>(`${this.apiEndpoint}${url}`, body, {
       params: queryParams,
-    }).pipe(catchError(this.errorHandler(route.path)))
+    }).pipe(catchError(errorHandler(route.path)))
   }
 
   patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams): Observable<T> {
@@ -81,7 +64,7 @@ export class ApiService {
 
     return <Observable<T>>this.http.patch<T>(`${this.apiEndpoint}${url}`, operations, {
       params: queryParams,
-    }).pipe(catchError(this.errorHandler(route.path)))
+    }).pipe(catchError(errorHandler(route.path)))
   }
 
   deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
@@ -90,7 +73,7 @@ export class ApiService {
 
     return <Observable<T>>this.http.delete<T>(`${this.apiEndpoint}${url}`, {
       params: queryParams,
-    }).pipe(catchError(this.errorHandler(route.path)))
+    }).pipe(catchError(errorHandler(route.path)))
   }
 
 }

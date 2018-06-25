@@ -1,4 +1,8 @@
+@import "partials/surfaces";
 .projects-grid{
   display: grid;
   grid-template-columns: repeat(3, auto [col-start]);
+  > * {
+    @extend .card;
+  }
 }

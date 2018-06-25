@@ -1,4 +1,4 @@
-import { ComponentDynamicStates } from './dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from './dynamic-state/dynamic-state.component';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/index';
 import { Input, OnDestroy, OnInit } from '@angular/core';
 import { Step } from '../../api-models/step';
@@ -11,8 +11,8 @@ import { CRUD } from './api.service';
 
 export abstract class BaseList<T extends Base, P extends Base> implements OnInit, OnDestroy {
 
-  $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.LOADING);
-  listState: Observable<ComponentDynamicStates>;
+  $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
+  listState: Observable<DynamicState>;
 
   @Input()
   dataItems: T[];
@@ -71,8 +71,8 @@ export abstract class BaseList<T extends Base, P extends Base> implements OnInit
       this.itemsSubscription = this.data.getData<T[]>(itemsCallConfig.route, itemsCallConfig.params, itemsCallConfig.query).subscribe(items => {
         this.dataItems = items;
         this.$state.next(ComponentDynamicStates.VIEWING);
-      }, e => {
-        this.$state.next(ComponentDynamicStates.FAILING);
+      }, err => {
+        this.$state.next({state: ComponentDynamicStates.FAILING, err});
       });
     }
     else if (this.dataItems) {

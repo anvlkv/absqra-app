@@ -6,12 +6,19 @@ import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
 import { Observable, Subscription } from 'rxjs/index';
 
+export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
+
 export enum ComponentDynamicStates {
   LOADING = 'load',
   VIEWING = 'view',
   EDITING = 'edit',
   SAVING = 'save',
   FAILING = 'fail'
+}
+
+export interface ImmediateStateConfiguration {
+  state: ComponentDynamicStates,
+  err?: any;
 }
 
 @Component({
@@ -41,6 +48,8 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
 
 
   private _editingTemplate: TemplateRef<any>;
+  stateContext: {[prop: string]: string | number};
+
   @ContentChild('editingTemplate')
   public set editingTemplate (template: TemplateRef<any>) {
     if (template) {
@@ -64,13 +73,13 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   public failingTemplate: TemplateRef<any>;
 
   private _stateSubscription: Subscription;
-  private _observableState: Observable<ComponentDynamicStates>;
+  private _observableState: Observable<ComponentDynamicStates | ImmediateStateConfiguration>;
   private currentTemplate: TemplateRef<any>;
 
   private ready: boolean;
 
   @Input()
-  set state(state: Observable<ComponentDynamicStates>) {
+  set state(state: Observable<DynamicState>) {
     if (state) {
       this._observableState = state;
       if (this.currentState) {
@@ -88,7 +97,14 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
     }
 
     this._stateSubscription = observableState.subscribe(state => {
-      this.displayState(state);
+      if (typeof state == 'string') {
+        this.displayState(<ComponentDynamicStates>state);
+        this.stateContext = null;
+      }
+      else {
+        this.displayState(state.state);
+        this.stateContext = {...state};
+      }
 
       this.ready = state == ComponentDynamicStates.VIEWING || state == ComponentDynamicStates.EDITING
     });

@@ -1,5 +1,5 @@
 import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { ArrayInputComponent } from './array-input.component';
+import { ArrayInputOldComponent } from './array-input-old.component';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 import { InputTypes } from '../input-types.enum';
@@ -7,11 +7,12 @@ import { InputTypes } from '../input-types.enum';
 @Component({
   selector: 'app-test-cmp',
   template: `
-    <app-array-input [archetype]="archetype" [(ngModel)]="value" (ngModelChanges)="onItemsChange($event)">
-        <ng-template let-sortable>
-          <input class="test-input-class" type="text" name="some" [(ngModel)]="sortable.item.content" (change)="onSingleItemChanged($event, sortable.item)">
-        </ng-template>
-    </app-array-input>
+    <app-array-input-old [archetype]="archetype" [(ngModel)]="value" (ngModelChanges)="onItemsChange($event)">
+      <ng-template let-sortable>
+        <input class="test-input-class" type="text" name="some" [(ngModel)]="sortable.item.content"
+               (change)="onSingleItemChanged($event, sortable.item)">
+      </ng-template>
+    </app-array-input-old>
   `,
 })
 class TestWrapperComponent {
@@ -30,15 +31,15 @@ class TestWrapperComponent {
 }
 
 describe('ArrayInputComponent', () => {
-  let component: ArrayInputComponent;
+  let component: ArrayInputOldComponent;
   let hostFixture: ComponentFixture<TestWrapperComponent>;
-  let fixture: Partial<ComponentFixture<ArrayInputComponent>>;
+  let fixture: Partial<ComponentFixture<ArrayInputOldComponent>>;
   let testWrapperComponent: TestWrapperComponent;
   // let fixture: Element;
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        ArrayInputComponent,
+        ArrayInputOldComponent,
         TestWrapperComponent
       ],
       imports: [

@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Sequence, SequenceLifeCycleTypes } from '../../../api-models';
+import { Sequence, SequenceLifeCycleTypes, Step } from '../../../api-models';
 import { DataService } from '../../app-common/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs/internal/Observable';
-import { BehaviorSubject } from 'rxjs/index';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { BehaviorSubject, combineLatest } from 'rxjs/index';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { unpackEnum } from '../../utils';
+import { combineAll } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sequence-detail',
@@ -16,14 +17,15 @@ import { unpackEnum } from '../../utils';
 export class SequenceDetailComponent implements OnInit {
 
   sequence: Sequence;
-  state: Observable<ComponentDynamicStates>;
+  state: Observable<DynamicState>;
   @Input() sequenceId: number;
   @Output() sequenceIdChange = new EventEmitter<number>();
   sequenceForm: FormGroup;
 
-  private $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.LOADING);
+  private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   private lifeCycleOptions: string[];
 
+  private defaultStep: Step;
   constructor(
     private data: DataService,
     private fb: FormBuilder
@@ -33,14 +35,25 @@ export class SequenceDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0}).subscribe(defaultStep => {
+      this.defaultStep = defaultStep;
+    });
+
     if (!this.sequence && this.sequenceId) {
-      this.data.getData<Sequence>(CRUDRouter.getSequence, {sequenceId: this.sequenceId}).subscribe(sequence => {
+      combineLatest(
+        this.data.getData<Sequence>(CRUDRouter.getSequence, {sequenceId: this.sequenceId}),
+        this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0})
+      ).subscribe(([sequence, defaultStep]) => {
         this.sequence = sequence;
         this.sequenceForm = this.fb.group({
           ...sequence,
-          header: this.fb.group(sequence.header),
-          steps: this.fb.array(sequence.steps || [])
+          header: this.fb.group({
+            ...sequence.header,
+            description: ''
+          }),
+          steps: this.fb.array(sequence.steps || [defaultStep])
         });
+        this.defaultStep = defaultStep;
         this.$state.next(ComponentDynamicStates.VIEWING);
       });
     }
@@ -50,14 +63,24 @@ export class SequenceDetailComponent implements OnInit {
       }
       this.sequenceId = this.sequence.id;
       this.$state.next(ComponentDynamicStates.VIEWING);
+      this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0}).subscribe(defaultStep => {
+        this.defaultStep = defaultStep;
+      });
     }
     else {
-      this.data.getData<Sequence>(CRUDRouter.getSequence, {sequenceId: 0}).subscribe(defaultSequence => {
+      combineLatest(
+        this.data.getData<Sequence>(CRUDRouter.getSequence, {sequenceId: 0}),
+        this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0})
+      ).subscribe(([defaultSequence, defaultStep]) => {
         this.sequenceForm = this.fb.group({
           ...defaultSequence,
-          header: this.fb.group(defaultSequence.header),
-          steps: this.fb.array(defaultSequence.steps || [])
+          header: this.fb.group({
+            ...defaultSequence.header,
+            description: ''
+          }),
+          steps: this.fb.array(defaultSequence.steps || [defaultStep])
         });
+        this.defaultStep = defaultStep;
         this.$state.next(ComponentDynamicStates.EDITING);
       });
     }

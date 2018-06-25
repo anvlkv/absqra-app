@@ -1,9 +1,11 @@
-@import 'var-colors';
+@import "partials/surfaces";
+@import "var-colors";
+@import "var-sizes";
+
 :host{
-  display: block;
-  position: fixed;
-  bottom: 0;
-  left: 0;
+  @extend .card;
+  @include marginalElementEdge(bottom);
   width: 100%;
   background-color: $primary-background;
+  height: $large-panel-bar;
 }

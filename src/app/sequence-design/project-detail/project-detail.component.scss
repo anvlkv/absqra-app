@@ -1,0 +1,26 @@
+@import "partials/surfaces/page";
+@import "partials/surfaces/surfaces-container";
+
+:host{
+  display: contents;
+  div[dragScroll]{
+    @extend .surfaces-container;
+
+    &.panning {
+      cursor: grab;
+      &:active {
+        cursor: grabbing;
+      }
+      > * {
+        pointer-events: none;
+        user-select: none;
+      }
+    }
+  }
+  .project-page{
+    @extend .page;
+    > * {
+     white-space: initial;
+    }
+  }
+}

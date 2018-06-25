@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CRUDRouter } from '../../../../../intervey-api/lib/router/CRUDRouter';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { Observable } from 'rxjs/index';
 import { Sequence } from '../../../api-models';
 import { BaseDetail } from '../../app-common/base-detail';
@@ -13,7 +13,7 @@ import { CRUD } from '../../app-common/api.service';
   styleUrls: ['./sequence-detail.component.scss'],
 })
 export class SequenceDetailComponent extends BaseDetail<Sequence> {
-  sequenceState: Observable<ComponentDynamicStates>;
+  sequenceState: Observable<DynamicState>;
   constructor(
     data: DataService
   ) {

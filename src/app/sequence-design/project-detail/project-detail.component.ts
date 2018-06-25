@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Project } from '../../../api-models';
 import { DataService } from '../../app-common/data.service';
 import { ActivatedRoute } from '@angular/router';
@@ -7,9 +7,10 @@ import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { Observable } from 'rxjs/internal/Observable';
 import { BehaviorSubject } from 'rxjs/index';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Operation } from 'fast-json-patch';
+import { HotKeysService } from '../../app-common/hot-keys.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -18,16 +19,19 @@ import { Operation } from 'fast-json-patch';
 })
 export class ProjectDetailComponent implements OnInit, OnDestroy {
   project: Project;
-  state: Observable<ComponentDynamicStates>;
+  state: Observable<DynamicState>;
   projectForm: FormGroup;
 
+  panning = true;
+
   private projectSubscription: Subscription;
-  private $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.LOADING);
+  private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
 
   constructor(
     private data: DataService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private hotkeys: HotKeysService,
   ) {
     this.state = this.$state.asObservable();
   }
@@ -42,6 +46,8 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       this.projectForm = this.fb.group({name: project.name, description: project.description});
       this.$state.next(ComponentDynamicStates.VIEWING);
     });
+
+    this.hotkeys.on('space').subscribe(p => this.panning = p);
   }
 
   ngOnDestroy() {
@@ -57,7 +63,7 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       this.data.postData<Project>(CRUDRouter.saveProject, {projectId: this.project.id}, this.projectForm.value).subscribe(savedProject => {
         this.project = savedProject;
         this.$state.next(ComponentDynamicStates.VIEWING)
-      }, e => this.$state.next(ComponentDynamicStates.FAILING));
+      }, err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
     }
   }
 
@@ -68,6 +74,6 @@ export class ProjectDetailComponent implements OnInit, OnDestroy {
       value: {id}
     }]).subscribe(updatedProject => {
       this.project = updatedProject;
-    }, e => this.$state.next(ComponentDynamicStates.FAILING));
+    }, err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
   }
 }

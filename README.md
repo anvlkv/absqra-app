@@ -1,3 +1,5 @@
-# Intervey
+# absQra
 
-this project is an attempt to design tool for interactive surveys... free 4ever and so on
+this project is an attempt to design a tool for interactive surveys...
+
+[CC-BY-SA 4.0](LICENSE.md)

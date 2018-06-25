@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ComponentDynamicStates, DynamicStateComponent } from './dynamic-state.component';
+import { ComponentDynamicStates, DynamicState, DynamicStateComponent } from './dynamic-state.component';
 import { AppCommonModule } from '../app-common.module';
 import { Component, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
@@ -15,8 +15,8 @@ import { Subject } from 'rxjs/internal/Subject';
   `,
 })
 class TestWrapperComponent implements OnInit {
-  public state: Observable<ComponentDynamicStates>;
-  public $state = new Subject<ComponentDynamicStates>();
+  public state: Observable<DynamicState>;
+  public $state = new Subject<DynamicState>();
   ngOnInit() {
     this.state = this.$state.asObservable();
   }

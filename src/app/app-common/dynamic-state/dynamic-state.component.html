@@ -9,5 +9,5 @@
 </ng-template>
 
 <ng-template #defaultFailingTemplate>
-  <app-error></app-error>
+  <app-error [error]="stateContext?.err"></app-error>
 </ng-template>

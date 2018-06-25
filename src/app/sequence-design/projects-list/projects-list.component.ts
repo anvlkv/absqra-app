@@ -5,9 +5,12 @@ import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import {
+  ComponentDynamicStates, DynamicState,
+  ImmediateStateConfiguration,
+} from '../../app-common/dynamic-state/dynamic-state.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { combineAll } from 'rxjs/operators';
+import { catchError, combineAll } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 
 @Component({
@@ -19,8 +22,8 @@ export class ProjectsListComponent implements OnInit {
   projects: Observable<Project[]>;
   projectForm: FormGroup;
 
-  private $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.LOADING);
-  state: Observable<ComponentDynamicStates>;
+  private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
+  state: Observable<DynamicState>;
   constructor(
     private data: DataService,
     private fb: FormBuilder,
@@ -34,6 +37,11 @@ export class ProjectsListComponent implements OnInit {
     combineLatest(
       this.data.getData<Project[]>(CRUDRouter.getAllProjects),
       this.data.getData<Project>(CRUDRouter.getProject, {projectId: 0})
+    ).pipe(
+      catchError((err, obs) => {
+        this.$state.next({state: ComponentDynamicStates.FAILING, err});
+        return obs;
+      })
     ).subscribe(([projects, defaultProject]) => {
       this.projectForm = this.fb.group(defaultProject);
       this.projects = of(projects);
@@ -44,7 +52,7 @@ export class ProjectsListComponent implements OnInit {
   saveProject() {
     if (this.projectForm.valid) {
       this.data.postData<Project>(CRUDRouter.newProject, {}, this.projectForm.value).subscribe(project => {
-        this.router.navigate([project.id], {relativeTo: this.route}).catch(e => this.$state.next(ComponentDynamicStates.FAILING));
+        this.router.navigate([project.id], {relativeTo: this.route}).catch(err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
       })
     }
   }

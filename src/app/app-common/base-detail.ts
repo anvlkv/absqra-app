@@ -1,6 +1,6 @@
 import { EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { DataService, ReFetchQuery } from './data.service';
-import { ComponentDynamicStates } from './dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from './dynamic-state/dynamic-state.component';
 import { Base } from '../../api-models';
 import { ApiRoute, CRUD, RouteParams } from './api.service';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs/index';
@@ -51,13 +51,13 @@ export abstract class BaseDetail<T extends Base> implements OnInit, OnDestroy {
 
   @Input() defaultItemIfNone: boolean;
 
-  $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.LOADING);
+  $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   private itemSubscription: Subscription;
   private idSubscription: Subscription;
 
   itemBaseValidator: (item: T) => boolean;
   dataItemIdObservableSource?: () => Observable<number>
-  currentState: ComponentDynamicStates;
+  currentState: DynamicState;
 
   constructor(
     public data: DataService,
@@ -88,8 +88,8 @@ export abstract class BaseDetail<T extends Base> implements OnInit, OnDestroy {
     }
   }
 
-  private errorSubscriber(e): void {
-    this.$state.next(ComponentDynamicStates.FAILING);
+  private errorSubscriber(err): void {
+    this.$state.next({state: ComponentDynamicStates.FAILING, err});
   }
 
   ngOnInit(): void {

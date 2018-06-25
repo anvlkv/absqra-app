@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -9,7 +8,8 @@ import { Title } from '@angular/platform-browser';
 })
 export class AppComponent implements OnInit {
   constructor(
-  ) {}
+  ) {
+  }
 
   ngOnInit() {
 

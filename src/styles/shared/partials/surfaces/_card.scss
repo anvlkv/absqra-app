@@ -1,0 +1,15 @@
+@import "./base-surface";
+@import "var-colors";
+@import "var-time";
+@import "var-sizes";
+
+.card {
+  @extend .base-surface;
+  border: $thin-line solid $primary-text-color;
+  padding: 1em;
+  transition: border-color $basic-transition-time, border-width $basic-transition-time;
+  overflow: hidden;
+  &.primary-interaction {
+    border: $thick-line solid lighten($primary-text-color, 10%);
+  }
+}

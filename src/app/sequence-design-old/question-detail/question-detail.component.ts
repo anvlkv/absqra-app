@@ -4,7 +4,7 @@ import { BaseDetail } from '../../app-common/base-detail';
 import { DataService } from '../../app-common/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { unpackEnum } from '../../utils';
 import { CRUD } from '../../app-common/api.service';
 import { NgForm } from '@angular/forms';
@@ -21,7 +21,7 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
   quantityOrders = QuantityOrder;
   quantityOrderList: string[];
 
-  questionState: Observable<ComponentDynamicStates>;
+  questionState: Observable<DynamicState>;
   constructor(
     data: DataService
   ) {

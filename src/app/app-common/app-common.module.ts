@@ -9,6 +9,8 @@ import { DynamicStateComponent } from './dynamic-state/dynamic-state.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorComponent } from './error/error.component';
 import { DataService } from './data.service';
+import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { HotKeysService } from './hot-keys.service';
 
 const providers: Provider[] = [
   ApiService,
@@ -18,7 +20,8 @@ const providers: Provider[] = [
     multi: true
   },
   CookieService,
-  DataService
+  DataService,
+  HotKeysService
 ];
 
 const declareAndExport = [
@@ -27,7 +30,8 @@ const declareAndExport = [
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    NgxJsonViewerModule
   ],
   entryComponents: [
     LoadingComponent
@@ -35,7 +39,7 @@ const declareAndExport = [
   declarations: [
     ...declareAndExport,
     LoadingComponent,
-    ErrorComponent
+    ErrorComponent,
   ],
   providers: [
     ...providers

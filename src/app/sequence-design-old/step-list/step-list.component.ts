@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { DataService } from '../../app-common/data.service';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/index';
 import { Step } from '../../../api-models/step';
@@ -16,7 +16,7 @@ import { CRUD } from '../../app-common/api.service';
 })
 export class StepListComponent extends BaseList<Step, Sequence> {
 
-  listState: Observable<ComponentDynamicStates>;
+  listState: Observable<DynamicState>;
 
   constructor(
     data: DataService
