@@ -1,10 +1,9 @@
-@import "partials/surfaces/page";
-@import "partials/surfaces/surfaces-container";
+@import "partials/surfaces";
 
 :host{
   display: contents;
   div[dragScroll]{
-    @extend .surfaces-container;
+    @extend ._surfaces-container;
 
     &.panning {
       cursor: grab;
@@ -18,9 +17,13 @@
     }
   }
   .project-page{
-    @extend .page;
+    @extend ._page;
     > * {
      white-space: initial;
+    }
+    .project-card{
+      @extend ._card;
+      flex-direction: column;
     }
   }
 }

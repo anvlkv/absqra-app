@@ -1,0 +1,10 @@
+@import "vars/var-sizes";
+
+._grid-surfaces-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr [col-start]);
+  grid-auto-columns: 1fr;
+  grid-auto-rows: 1fr;
+  grid-gap: $small-white-space;
+  margin: $medium-white-space;
+}

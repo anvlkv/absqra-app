@@ -1,17 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 
-
 @Injectable({
   providedIn: 'root'
 })
-export class HotKeysService {
-  private windowRef: Window;
+export class HotKeysService implements OnDestroy {
+  private readonly windowRef: Window;
   private subjectsStore: {
     [key: string]: BehaviorSubject<boolean>;
   } = {};
+  private readonly keyUpListener: (event) => void;
+  private readonly keyDownListener: (event) => void;
+
   private get mappedKeys(): string[] {
     return Object.keys(this.subjectsStore);
   }
@@ -22,29 +24,24 @@ export class HotKeysService {
   constructor(
   ) {
     this.windowRef = window;
-    this.windowRef.addEventListener('keydown', event => {
-      return this.keysListener(event, true);
-    });
-    this.windowRef.addEventListener('keyup', event => {
-      return this.keysListener(event, false);
-    });
+    this.keyUpListener = (event) => {
+      keysListener(event, false, this.mappedKeys, this.trigger.bind(this));
+    };
+    this.keyDownListener = (event) => {
+      keysListener(event, true, this.mappedKeys, this.trigger.bind(this));
+    };
+
+    this.windowRef.addEventListener('keydown', this.keyDownListener);
+    this.windowRef.addEventListener('keyup', this.keyUpListener);
   }
 
-  private keysListener(event: KeyboardEvent, pressed: boolean) {
-    try {
-      const tagName = (<HTMLElement>event.target).tagName.toLowerCase();
-      if (tagName == 'body' && this.mappedKeys.includes(event.code.toLowerCase())) {
-        event.preventDefault();
-        this.trigger(pressed, event.code.toLowerCase());
-        return false;
-      }
-      else {
-        return event;
-      }
-    } catch (e) {
-      console.log(e);
-      return event;
-    }
+  private trigger(pressed: boolean, key: string) {
+    this.subjectsStore[key].next(pressed);
+  }
+
+  ngOnDestroy(): void {
+    this.windowRef.removeEventListener('keydown', this.keyDownListener);
+    this.windowRef.removeEventListener('keyup', this.keyUpListener);
   }
 
   on(...keys: string[]): Observable<boolean> {
@@ -64,13 +61,30 @@ export class HotKeysService {
       })
     );
   }
+}
 
-  off(...keys: string[]) {
+const focusableElements = [
+  'input',
+  'select',
+  'textarea',
+  'button',
+  'a',
+  'area'
+];
 
-  }
-
-  trigger(pressed: boolean, key: string) {
-    this.subjectsStore[key].next(pressed);
-    console.log(pressed);
+function keysListener(event: KeyboardEvent, pressed: boolean, keys: string[], cb: Function) {
+  try {
+    const tagName = (<HTMLElement>event.target).tagName.toLowerCase();
+    if (!focusableElements.includes(tagName) && keys.includes(event.code.toLowerCase())) {
+      event.preventDefault();
+      cb(pressed, event.code.toLowerCase());
+      return false;
+    }
+    else {
+      return event;
+    }
+  } catch (e) {
+    console.log(e);
+    return event;
   }
 }

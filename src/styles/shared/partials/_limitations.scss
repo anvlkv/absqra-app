@@ -1,10 +1,14 @@
-.fits-on-screen{
+._fits-on-screen{
   max-height: 90vh;
   max-width: 90vw;
 }
 
-.fits-on-screen-important{
-  @extend .fits-on-screen;
+._fits-on-screen-important{
+  @extend ._fits-on-screen;
   display: block !important;
   overflow: auto !important;
+}
+
+._no-selection{
+  user-select: none;
 }

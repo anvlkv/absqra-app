@@ -1,4 +1,4 @@
-@import "var-sizes";
+@import "vars/var-sizes";
 @import "partials/surfaces/surfaces-container";
 
 :host{
@@ -9,7 +9,7 @@
   justify-content: space-between;
 }
 main {
-  @extend .surfaces-container;
+  @extend ._surfaces-container;
   flex-grow: 1;
   flex-shrink: 1;
   width: 100%;

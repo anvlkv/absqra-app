@@ -1,9 +1,9 @@
-@import "var-sizes";
+@import "vars/var-sizes";
 
 $sides: top, left, right, bottom;
 $oppositeSides: (top: bottom, left: right, right: left, bottom: top);
 
-.marginal-element {
+._marginal-element {
   @each $side in $sides {
     &.#{side}{
       border-#{side}: none;

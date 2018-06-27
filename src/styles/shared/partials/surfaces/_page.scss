@@ -1,10 +1,10 @@
-@import "var-sizes";
+@import "vars/var-sizes";
 @import "./base-surface";
-@import "var-colors";
+@import "vars/var-colors";
 @import "partials/limitations";
 
-.page{
-  @extend .base-surface;
+._page{
+  @extend ._base-surface;
   flex-direction: column;
   flex-grow: 1;
   justify-content: flex-start;

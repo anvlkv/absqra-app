@@ -8,31 +8,28 @@ import { Sortable } from '../../../models/sortable';
 import { ResponseBody } from '../../../api-models/responseBody';
 import { Observable, Subject } from 'rxjs';
 import * as _ from 'lodash';
+import { AddAt } from '../array-input/array-input.component';
 
 
-export interface ArrayInputItemArchetype {
-  [prop: string]: any
-}
+// export interface ArrayInputItemArchetype {
+//   [prop: string]: any
+// }
 
-export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR: any = {
+export const ARRAY_INPUT_OLD_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   useExisting: forwardRef(() => ArrayInputOldComponent),
   multi: true
 };
 
-export enum AddAt {
-  START,
-  END
-}
 
 @Component({
   selector: 'app-array-input-old',
   templateUrl: './array-input-old.component.html',
   styleUrls: ['./array-input-old.component.scss'],
-  providers: [ARRAY_INPUT_CONTROL_VALUE_ACCESSOR]
+  providers: [ARRAY_INPUT_OLD_CONTROL_VALUE_ACCESSOR]
 })
 export class ArrayInputOldComponent implements OnInit, ControlValueAccessor {
-  @Input() archetype: ArrayInputItemArchetype;
+  @Input() archetype: any;
   @Input() reflectOrder: string;
   @Input() tackByItemProperty = 'id';
   @Input() orderable = true;

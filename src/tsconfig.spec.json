@@ -22,5 +22,8 @@
     "**/*.d.ts",
     "**/*.mock.ts",
     "api-*/**/*.*"
+  ],
+  "exclude": [
+    "node_modules/@types/selenium-webdriver"
   ]
 }

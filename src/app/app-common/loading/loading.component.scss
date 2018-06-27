@@ -1,8 +1,11 @@
+@import "vars/var-sizes";
+
 :host{
   width:100%;
   height: 100%;
   display: block;
   text-align: center;
+  margin: $small-white-space;
 
   span{
     vertical-align: middle;

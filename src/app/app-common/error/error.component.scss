@@ -1,10 +1,10 @@
-@import "var-colors";
+@import "vars/var-colors";
 @import "partials/limitations";
 @import "partials/surfaces/card";
 
 :host{
-  @extend .fits-on-screen-important;
-  @extend .card;
+  @extend ._fits-on-screen-important;
+  @extend ._card;
   border-color: $error-color;
 
   h5 {

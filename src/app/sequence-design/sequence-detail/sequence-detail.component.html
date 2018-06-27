@@ -40,12 +40,12 @@
         <legend>
           <h5>Steps</h5>
         </legend>
-        <app-array-input-old formArrayName="steps" [archetype]="defaultStep">
-          <ng-template let-arrayItem let-i="itemIndex">
+        <app-array-input formControlName="stepIds" [archetype]="defaultStep">
+          <ng-template let-step let-i="itemIndex">
             <!--<app-step-detail [dataItemId]="arrayItem.item?.id" [(dataItem)]="arrayItem.item" (dataItemChange)="onSingleItemChanged(stepsInput, $event, i)"></app-step-detail>-->
             <p>;sdkjf</p>
           </ng-template>
-        </app-array-input-old>
+        </app-array-input>
       </form>
     </section>
   </ng-template>

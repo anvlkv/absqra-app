@@ -1,15 +1,24 @@
 @import "./base-surface";
-@import "var-colors";
-@import "var-time";
-@import "var-sizes";
+@import "vars";
 
-.card {
-  @extend .base-surface;
+._card {
+  @extend ._base-surface;
   border: $thin-line solid $primary-text-color;
   padding: 1em;
   transition: border-color $basic-transition-time, border-width $basic-transition-time;
   overflow: hidden;
+  background-color: $primary-background;
   &.primary-interaction {
     border: $thick-line solid lighten($primary-text-color, 10%);
+  }
+
+  > * {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    * {
+      text-overflow: inherit;
+      overflow: inherit;
+    }
   }
 }

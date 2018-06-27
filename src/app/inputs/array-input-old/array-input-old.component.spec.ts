@@ -30,7 +30,7 @@ class TestWrapperComponent {
   }
 }
 
-describe('ArrayInputComponent', () => {
+describe('ArrayInputOldComponent', () => {
   let component: ArrayInputOldComponent;
   let hostFixture: ComponentFixture<TestWrapperComponent>;
   let fixture: Partial<ComponentFixture<ArrayInputOldComponent>>;

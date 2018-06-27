@@ -46,12 +46,12 @@ export class SequenceDetailComponent implements OnInit {
       ).subscribe(([sequence, defaultStep]) => {
         this.sequence = sequence;
         this.sequenceForm = this.fb.group({
-          ...sequence,
           header: this.fb.group({
-            ...sequence.header,
-            description: ''
+            name: sequence.header.name,
+            description: sequence.header.description,
+            lifeCycle: sequence.header.lifeCycle
           }),
-          steps: this.fb.array(sequence.steps || [defaultStep])
+          stepIds: this.fb.control(sequence.stepIds || [])
         });
         this.defaultStep = defaultStep;
         this.$state.next(ComponentDynamicStates.VIEWING);

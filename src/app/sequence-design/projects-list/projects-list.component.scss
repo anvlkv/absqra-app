@@ -1,8 +1,22 @@
 @import "partials/surfaces";
+@import "vars/var-sizes";
+
+:host{
+  width: 100%;
+}
 .projects-grid{
-  display: grid;
-  grid-template-columns: repeat(3, auto [col-start]);
-  > * {
-    @extend .card;
+  @extend ._grid-surfaces-container;
+  min-width: 0;
+  min-height: 0;
+
+  > *:not(.new-project-tile) {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  .new-project-tile{
+    @extend ._card;
+    height: 100%;
+    width: 100%;
   }
 }

@@ -1,6 +1,6 @@
 @import "normailization-config";
 @import "~normalize-scss";
-@import "var-colors";
+@import "shared/vars/var-colors";
 @include normalize();
 
 body{

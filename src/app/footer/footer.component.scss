@@ -1,9 +1,10 @@
 @import "partials/surfaces";
-@import "var-colors";
-@import "var-sizes";
+@import "partials/limitations";
+@import "vars";
 
 :host{
-  @extend .card;
+  @extend ._card;
+  @extend ._no-selection;
   @include marginalElementEdge(bottom);
   width: 100%;
   background-color: $primary-background;
