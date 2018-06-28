@@ -61,7 +61,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
   }
   @Input()
   set max (max: number){
-    this._min = max;
+    this._max = max;
     this.onValidatorChangeCallback();
   }
 
@@ -70,7 +70,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
 
 
   get value(): any[] {
-    return this.sortableItems.map((item, index) => {
+    return this.sortableItems.map((item) => {
       item = setOrder(item, this.reflectOrderInProperty);
       return item.item
     })
@@ -113,14 +113,34 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
 
   onBlur(value: any[]) {
     this.focused = null;
+    this.onTouchedCallback(value);
   }
 
   onFocus(value: any) {
     this.focused = value;
-    this.onTouchedCallback();
+    this.onTouchedCallback(value);
+  }
+
+  onOrderKeydown(e: KeyboardEvent, order) {
+    switch (e.code) {
+      case 'ArrowUp': {
+        e.preventDefault();
+        this.reorderItems(order - 1, order);
+        break;
+      }
+      case 'ArrowDown': {
+        e.preventDefault();
+        this.reorderItems(order + 1, order);
+        break;
+      }
+      default: {
+        return e;
+      }
+    }
   }
 
   writeValue(items: any[]): void {
+    items = items || [];
     this.sortableItems = items.map((item, i) => {
       return <Sortable<any>> {
         order: i + this.orderShift,
@@ -136,6 +156,11 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
   addItem(e?) {
     e ? e.preventDefault() : null;
     const currentVal = [...this.value];
+
+    if (this.max <= currentVal.length) {
+      return;
+    }
+
     if (this.addAt == AddAt.END) {
       currentVal.push(_.cloneDeep(this.archetype));
     }
@@ -148,26 +173,27 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
   removeItem(order: number, e?) {
     e ? e.preventDefault() : null;
     const currentVal = [...this.value];
+
+    if (this.min >= currentVal.length) {
+      return;
+    }
+
     currentVal.splice(order - this.orderShift, 1);
     this.value = currentVal;
   }
 
-  onOrderChanged(newOrder: number, oldOrder: number, e?) {
-    if (!newOrder || !oldOrder) {
-      return;
-    }
-    else {
-      e ? e.target.blur() : null;
-    }
-
-    const oldIndex = oldOrder - this.orderShift, newIndex = newOrder - this.orderShift;
+  reorderItems(newOrder: number, oldOrder: number, e?) {
+    e ? e.target.blur() : null;
     const currentVal = [...this.value];
+    const oldIndex = oldOrder - this.orderShift;
+    let newIndex = newOrder - this.orderShift;
+    newIndex = newIndex >= 0 ? newIndex : currentVal.length + newIndex;
     currentVal.splice(newIndex, 0, currentVal.splice(oldIndex, 1)[0]);
     this.value = currentVal;
   }
 
   registerOnValidatorChange(fn: () => void): void {
-
+    this.onValidatorChangeCallback = fn;
   }
 
   validate(c: AbstractControl): ValidationErrors | null {

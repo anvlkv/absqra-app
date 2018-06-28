@@ -1,3 +1,6 @@
+@import "vars/var-colors";
+
 ._base-surface {
   display: flex;
+  background-color: $primary-background;
 }

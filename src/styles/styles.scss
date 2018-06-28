@@ -5,7 +5,7 @@
 
 body{
   color: $primary-text-color;
-  background-color: $primary-background;
+  background-color: darken($primary-background, 10%);
   &, * {
     box-sizing: border-box;
   }

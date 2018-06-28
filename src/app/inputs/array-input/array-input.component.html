@@ -22,13 +22,13 @@
              class="item-order"
              (focus)="onFocus(sortable.item)"
              (blur)="onBlur(sortable.item)"
-             (change)="onOrderChanged($event.target.value, sortable.order)"
+             (change)="reorderItems($event.target.value, sortable.order)"
+             (keydown)="onOrderKeydown($event, sortable.order)"
              tabindex="1">
       .
     </label>
     <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: sortable, itemIndex: i}"></ng-container>
-    <button type="delete"
-            tabindex="2"
+    <button tabindex="2"
             class="remove-item"
             (focus)="onFocus(sortable.item)"
             (blur)="onBlur(sortable.item)"
