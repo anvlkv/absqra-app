@@ -1,112 +1,70 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Sequence, SequenceLifeCycleTypes, Step } from '../../../api-models';
+import { Component, OnInit } from '@angular/core';
+import { Sequence, SequenceLifeCycleTypes } from '../../../api-models';
 import { DataService } from '../../app-common/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs/internal/Observable';
-import { BehaviorSubject, combineLatest } from 'rxjs/index';
-import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { unpackEnum } from '../../utils';
-import { combineAll } from 'rxjs/operators';
+import { BaseDetail } from '../../app-common/base-detail/base-detail';
+import { CRUD } from '../../app-common/api.service';
 
 @Component({
   selector: 'app-sequence-detail',
   templateUrl: './sequence-detail.component.html',
   styleUrls: ['./sequence-detail.component.scss']
 })
-export class SequenceDetailComponent implements OnInit {
-
-  sequence: Sequence;
-  state: Observable<DynamicState>;
-  @Input() sequenceId: number;
-  @Output() sequenceIdChange = new EventEmitter<number>();
+export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnInit {
   sequenceForm: FormGroup;
+  sequenceHeaderForm: FormGroup;
+  lifeCycleOptions: string[];
 
-  private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
-  private lifeCycleOptions: string[];
-
-  private defaultStep: Step;
   constructor(
-    private data: DataService,
+    data: DataService,
     private fb: FormBuilder
   ) {
-    this.state = this.$state.asObservable();
+    super(data);
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
+    this.callConfigurator = (sequenceId, cause, sequence) => {
+      switch (cause) {
+        case CRUD.CREATE: {
+          return {
+            route: CRUDRouter.repoSequences
+          }
+        }
+        default: {
+          return {
+            route: CRUDRouter.entitySequence,
+            params: {sequenceId}
+          }
+        }
+      }
+    }
   }
 
   ngOnInit() {
-    this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0}).subscribe(defaultStep => {
-      this.defaultStep = defaultStep;
-    });
+    super.ngOnInit();
+    this.itemSetObservable.subscribe((loaded) => {
+      const sequence = loaded ? this.dataItem : this.defaultItem;
+      this.sequenceHeaderForm = this.fb.group({...sequence.header, description: sequence.header.description});
 
-    if (!this.sequence && this.sequenceId) {
-      combineLatest(
-        this.data.getData<Sequence>(CRUDRouter.getSequence, {sequenceId: this.sequenceId}),
-        this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0})
-      ).subscribe(([sequence, defaultStep]) => {
-        this.sequence = sequence;
-        this.sequenceForm = this.fb.group({
-          header: this.fb.group({
-            name: sequence.header.name,
-            description: sequence.header.description,
-            lifeCycle: sequence.header.lifeCycle
-          }),
-          stepIds: this.fb.control(sequence.stepIds || [])
-        });
-        this.defaultStep = defaultStep;
-        this.$state.next(ComponentDynamicStates.VIEWING);
+      this.sequenceForm = this.fb.group({
+        stepIds: this.fb.control(sequence.stepIds)
       });
-    }
-    else if (this.sequence) {
-      if (this.sequenceId && this.sequenceId != this.sequence.id) {
-        throw new Error('its a mess');
+
+      if (!loaded) {
+        this.edit();
       }
-      this.sequenceId = this.sequence.id;
-      this.$state.next(ComponentDynamicStates.VIEWING);
-      this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0}).subscribe(defaultStep => {
-        this.defaultStep = defaultStep;
-      });
-    }
-    else {
-      combineLatest(
-        this.data.getData<Sequence>(CRUDRouter.getSequence, {sequenceId: 0}),
-        this.data.getData<Step>(CRUDRouter.getStep, {stepId: 0})
-      ).subscribe(([defaultSequence, defaultStep]) => {
-        this.sequenceForm = this.fb.group({
-          ...defaultSequence,
-          header: this.fb.group({
-            ...defaultSequence.header,
-            description: ''
-          }),
-          steps: this.fb.array(defaultSequence.steps || [defaultStep])
-        });
-        this.defaultStep = defaultStep;
-        this.$state.next(ComponentDynamicStates.EDITING);
-      });
-    }
-  }
-
-  editHeader() {
-    this.$state.next(ComponentDynamicStates.EDITING);
+    });
   }
 
   saveHeader() {
-    if (this.sequenceForm.valid) {
-      if (this.sequenceId) {
-        this.data.postData<Sequence>(CRUDRouter.saveSequence, {sequenceId: this.sequenceId}, {header: this.sequenceForm.value.header}).subscribe(updatedSequence => {
-          this.sequence = updatedSequence;
-          this.$state.next(ComponentDynamicStates.VIEWING);
-        });
+    if (this.sequenceHeaderForm.valid) {
+      this.dataItem.header = this.sequenceHeaderForm.value;
+      if (this.id) {
+        this.update();
       }
       else {
-        this.data.postData<Sequence>(CRUDRouter.newSequence, {}, {header: this.sequenceForm.value.header}).subscribe(newSequence => {
-          this.sequence = newSequence;
-          this.sequenceId = newSequence.id;
-          this.sequenceIdChange.emit(newSequence.id);
-          this.$state.next(ComponentDynamicStates.VIEWING);
-        });
+        this.save();
       }
     }
   }
-
 }

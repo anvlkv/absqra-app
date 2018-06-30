@@ -11,69 +11,65 @@ import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-s
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Operation } from 'fast-json-patch';
 import { HotKeysService } from '../../app-common/hot-keys.service';
+import { BaseDetail } from '../../app-common/base-detail/base-detail';
+import { CRUD } from '../../app-common/api.service';
 
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.scss']
 })
-export class ProjectDetailComponent implements OnInit, OnDestroy {
-  project: Project;
-  state: Observable<DynamicState>;
+export class ProjectDetailComponent extends BaseDetail<Project> implements OnInit, OnDestroy {
   projectForm: FormGroup;
 
   panning = true;
 
-  private projectSubscription: Subscription;
-  private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
-
   constructor(
-    private data: DataService,
+    data: DataService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private hotkeys: HotKeysService,
   ) {
-    this.state = this.$state.asObservable();
+    super(data);
+    this.callConfigurator = (projectId, cause, project) => {
+      switch (cause) {
+        case CRUD.CREATE: {
+          return {
+            route: CRUDRouter.repoProjects
+          }
+        }
+        default: {
+          return {
+            route: CRUDRouter.entityProject,
+            params: {projectId}
+          }
+        }
+      }
+    }
   }
 
   ngOnInit() {
-    this.projectSubscription = this.route.params.pipe(
-      flatMap(({projectId}) => {
-        return this.data.getData<Project>(CRUDRouter.getProject, {projectId})
-      })
-    ).subscribe(project => {
-      this.project = project;
+    super.ngOnInit();
+    this.hotkeys.on('space').subscribe(p => this.panning = p);
+
+    this.itemSetObservable.subscribe((loaded) => {
+      const project = loaded ? this.dataItem : this.defaultItem;
       this.projectForm = this.fb.group({name: project.name, description: project.description});
-      this.$state.next(ComponentDynamicStates.VIEWING);
     });
 
-    this.hotkeys.on('space').subscribe(p => this.panning = p);
+    this.route.params.subscribe(({projectId}) => {
+      this.id = projectId;
+    });
   }
 
-  ngOnDestroy() {
-    this.projectSubscription.unsubscribe();
-  }
-
-  editProject() {
-    this.$state.next(ComponentDynamicStates.EDITING);
-  }
-
-  save() {
+  saveProjectHeader() {
     if (this.projectForm.valid) {
-      this.data.postData<Project>(CRUDRouter.saveProject, {projectId: this.project.id}, this.projectForm.value).subscribe(savedProject => {
-        this.project = savedProject;
-        this.$state.next(ComponentDynamicStates.VIEWING)
-      }, err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
+      this.update({...this.dataItem, ...this.projectForm.value})
     }
   }
 
   onSequenceIdChange(id: number) {
-    this.data.patchData<Project>(CRUDRouter.updateProject, {projectId: this.project.id}, [<Operation>{
-      op: this.project.topSequenceId ? 'replace' : 'add',
-      path: '/topSequence',
-      value: {id}
-    }]).subscribe(updatedProject => {
-      this.project = updatedProject;
-    }, err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
+    this.dataItem.topSequence = {id};
+    this.update();
   }
 }

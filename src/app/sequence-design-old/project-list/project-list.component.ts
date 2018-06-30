@@ -27,26 +27,13 @@ export class ProjectListComponent extends BaseList<Project, null> implements OnI
     private route: ActivatedRoute
   ) {
     super(data);
-    this.callConfigurator = (projects, cause) => {
-      switch (cause) {
-        case CRUD.CREATE: {
-          return {
-            route: CRUDRouter.newProject,
-          };
-        }
-        case CRUD.READ: {
-          return {
-            route: CRUDRouter.getAllProjects
-          };
-        }
-      }
-    };
+    this.callConfigurator = () => { return {route: CRUDRouter.repoProjects} };
 
-    this.archetypeRetriever = () => data.getData<Project>(CRUDRouter.getProject, {projectId: null})
+    this.archetypeRetriever = () => data.getData<Project>(CRUDRouter.entityProject, {projectId: null})
   }
 
   createNewProject(projectsInput, item: Project, i) {
-    this.data.postData<Project>(CRUDRouter.newProject, null, item).subscribe(project => {
+    this.data.postData<Project>(CRUDRouter.repoProjects, null, item).subscribe(project => {
       // console.log(project);
       this.router.navigate([project.id], {relativeTo: this.route}).catch(e => this.$state.next(ComponentDynamicStates.FAILING));
     });

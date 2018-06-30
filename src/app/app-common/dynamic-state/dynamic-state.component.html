@@ -1,4 +1,4 @@
-<ng-container [ngTemplateOutlet]="currentTemplate"></ng-container>
+<ng-container [ngTemplateOutlet]="currentTemplate" [ngTemplateOutletContext]="stateContext"></ng-container>
 
 <ng-template #fallbackTemplate>
   <ng-content></ng-content>
@@ -6,6 +6,12 @@
 
 <ng-template #defaultLoadingTemplate>
   <app-loading></app-loading>
+</ng-template>
+
+<ng-template #defaultInterimTemplate>
+  <app-disabled-content>
+    <ng-container [ngTemplateOutlet]="viewingTemplate || editingTemplate || fallbackTemplate" [ngTemplateOutletContext]="stateContext"></ng-container>
+  </app-disabled-content>
 </ng-template>
 
 <ng-template #defaultFailingTemplate>

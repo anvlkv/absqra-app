@@ -19,10 +19,10 @@ export interface RouteParams {
 }
 
 export enum CRUD {
-  CREATE,
-  READ,
-  UPDATE,
-  DELETE
+  CREATE = 'create',
+  READ = 'read',
+  UPDATE = 'update',
+  DELETE = 'delete'
 }
 
 @Injectable()

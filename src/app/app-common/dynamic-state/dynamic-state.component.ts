@@ -5,6 +5,7 @@ import {
 import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
 import { Observable, Subscription } from 'rxjs/index';
+import { DisabledContentComponent } from '../disabled-content/disabled-content.component';
 
 export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
 
@@ -12,13 +13,15 @@ export enum ComponentDynamicStates {
   LOADING = 'load',
   VIEWING = 'view',
   EDITING = 'edit',
-  SAVING = 'save',
-  FAILING = 'fail'
+  INTERIM = 'interim',
+  FAILING = 'fail',
+  DELETED = 'delete'
 }
 
 export interface ImmediateStateConfiguration {
   state: ComponentDynamicStates,
   err?: any;
+  deleted?: any;
 }
 
 @Component({
@@ -66,8 +69,10 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   }
 
 
-  @ContentChild('savingTemplate')
-  public savingTemplate: TemplateRef<any>;
+  @ContentChild('interimTemplate')
+  public interimTemplate: TemplateRef<any>;
+  @ViewChild('defaultInterimTemplate')
+  defaultInterimTemplate: TemplateRef<DisabledContentComponent>;
 
   @ContentChild('failingTemplate')
   public failingTemplate: TemplateRef<any>;
@@ -135,8 +140,8 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
         resolved = this.editingTemplate;
         break;
       }
-      case ComponentDynamicStates.SAVING: {
-        resolved = this.savingTemplate;
+      case ComponentDynamicStates.INTERIM: {
+        resolved = this.interimTemplate || this.defaultInterimTemplate;
         break;
       }
       case ComponentDynamicStates.FAILING: {

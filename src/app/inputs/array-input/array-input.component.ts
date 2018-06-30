@@ -107,8 +107,10 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
     this.disabled = isDisabled;
   }
 
-  onChange(value: any[]) {
-    this.value = value;
+  onChange(value, order) {
+    const currentVal = this.value;
+    currentVal[order - this.orderShift] = value;
+    this.value = currentVal;
   }
 
   onBlur(value: any[]) {
@@ -155,7 +157,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
 
   addItem(e?) {
     e ? e.preventDefault() : null;
-    const currentVal = [...this.value];
+    const currentVal = this.value;
 
     if (this.max <= currentVal.length) {
       return;
@@ -172,7 +174,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
 
   removeItem(order: number, e?) {
     e ? e.preventDefault() : null;
-    const currentVal = [...this.value];
+    const currentVal = this.value;
 
     if (this.min >= currentVal.length) {
       return;
@@ -184,7 +186,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
 
   reorderItems(newOrder: number, oldOrder: number, e?) {
     e ? e.target.blur() : null;
-    const currentVal = [...this.value];
+    const currentVal = this.value;
     const oldIndex = oldOrder - this.orderShift;
     let newIndex = newOrder - this.orderShift;
     newIndex = newIndex >= 0 ? newIndex : currentVal.length + newIndex;

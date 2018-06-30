@@ -61,6 +61,7 @@
     "concurrently": "^3.6.0",
     "jasmine": "^3.1.0",
     "jasmine-core": "^2.99.1",
+    "jasmine-marbles": "^0.3.1",
     "jasmine-spec-reporter": "~3.2.0",
     "karma": "~1.4.1",
     "karma-chrome-launcher": "~2.0.0",
@@ -70,7 +71,7 @@
     "karma-jasmine-html-reporter": "^0.2.2",
     "node-sass": "^4.9.0",
     "protractor": "~5.1.0",
-    "ts-mockito": "^2.3.0",
+    "ts-mockito": "git://github.com:anvlkv/ts-mockito.git#891926fd6b17318695a97f875c34bcc3c8fe6b06",
     "ts-node": "~2.0.0",
     "tslint": "~5.7.0",
     "typescript": "~2.7.2"

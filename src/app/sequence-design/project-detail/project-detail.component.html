@@ -4,15 +4,15 @@
     <app-dynamic-state [state]="state">
       <ng-template #viewingTemplate>
         <div class="project-card">
-          <h4>{{project.name}}</h4>
+          <h4>{{dataItem.name}}</h4>
           <p>
-            {{project.description}}
+            {{dataItem.description}}
           </p>
-          <button (click)="editProject()">edit</button>
+          <button (click)="edit()">edit</button>
         </div>
       </ng-template>
       <ng-template #editingTemplate>
-        <form [formGroup]="projectForm" (ngSubmit)="save()">
+        <form [formGroup]="projectForm" (ngSubmit)="saveProjectHeader()">
           <div>
             <label for="name">
               name
@@ -34,18 +34,18 @@
       <ng-template #defaultTemplate>
         <section>
           <h4>Sequence</h4>
-          <app-sequence-detail [sequenceId]="project.topSequenceId" (sequenceIdChange)="onSequenceIdChange($event)">
+          <app-sequence-detail [id]="dataItem.topSequenceId" (idChange)="onSequenceIdChange($event)">
           </app-sequence-detail>
         </section>
 
         <section>
           <h4>Respondents</h4>
-          <app-respondent-list-list [respondentsLists]="project?.respondentsLists"></app-respondent-list-list>
+          <app-respondent-list-list [respondentsLists]="dataItem?.respondentsLists"></app-respondent-list-list>
         </section>
 
         <section>
           <h4>Responses</h4>
-          <app-response-list [responses]="project?.responses"></app-response-list>
+          <app-response-list [responses]="dataItem?.responses"></app-response-list>
         </section>
       </ng-template>
     </app-dynamic-state>

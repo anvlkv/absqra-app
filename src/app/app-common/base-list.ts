@@ -5,8 +5,8 @@ import { Step } from '../../api-models/step';
 import { DataService } from './data.service';
 import { FormControl } from '@angular/forms';
 import { Base } from '../../api-models';
-import { CallConfig } from './base-detail';
 import { CRUD } from './api.service';
+import { CallConfig } from './call-config';
 
 
 export abstract class BaseList<T extends Base, P extends Base> implements OnInit, OnDestroy {
@@ -91,7 +91,7 @@ export abstract class BaseList<T extends Base, P extends Base> implements OnInit
     if (this.sourceItemId &&
       (this.dataItems.every(d => !!d.id) || !this.dataItems.length)) {
       const sourceItemCallConfig = this.parentCallConfigurator(body, CRUD.UPDATE)
-      this.data.postData<P>(sourceItemCallConfig.route, sourceItemCallConfig.params, body, sourceItemCallConfig.query, ...sourceItemCallConfig.refetch).subscribe(r => {
+      this.data.postData<P>(sourceItemCallConfig.route, sourceItemCallConfig.params, body, sourceItemCallConfig.query).subscribe(r => {
         console.log(r);
       });
     }

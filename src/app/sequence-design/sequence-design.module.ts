@@ -14,6 +14,7 @@ import { RespondentListsComponent } from './respondent-list-list/respondent-list
 import { RespondentListThumbnailComponent } from './respondent-list-thumbnail/respondent-list-thumbnail.component';
 import { InputsModule } from '../inputs/inputs.module';
 import { DragScrollModule } from 'ngx-drag-scroll';
+import { StepDetailComponent } from './step-detail/step-detail.component';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { DragScrollModule } from 'ngx-drag-scroll';
     RespondentListComponent,
     ResponseListComponent,
     RespondentListThumbnailComponent,
-    RespondentListsComponent
+    RespondentListsComponent,
+    StepDetailComponent
   ]
 })
 export class SequenceDesignModule { }

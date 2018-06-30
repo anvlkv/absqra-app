@@ -106,9 +106,9 @@ export class DataService implements PublicMembersInterface<ApiService> {
     return storeSubject.asObservable();
   }
 
-  postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams, ...refetch: ReFetchQuery[]): Observable<T> {
+  postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
     const request = this.api.postData<T>(route, params, body, query);
-    const refetchRequests = concat(refetch.map(r => this.reFetch(r)));
+    // const refetchRequests = concat(refetch.map(r => this.reFetch(r)));
     const identifier = this.getIdentifier(route, params, query);
 
     const storeSubject = this.getFromStore<T>(identifier, {route, params, query}, true);
@@ -120,9 +120,9 @@ export class DataService implements PublicMembersInterface<ApiService> {
     return storeSubject ? storeSubject.asObservable() : request;
   }
 
-  patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams, ...refetch: ReFetchQuery[]): Observable<T> {
+  patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams): Observable<T> {
     const request = this.api.patchData<T>(route, params, operations, query);
-    const refetchRequests = concat(refetch.map(r => this.reFetch(r)));
+    // const refetchRequests = concat(refetch.map(r => this.reFetch(r)));
     const identifier = this.getIdentifier(route, params, query);
 
     const storeSubject = this.getFromStore<T>(identifier, {route, params, query}, true);
@@ -134,11 +134,11 @@ export class DataService implements PublicMembersInterface<ApiService> {
     return storeSubject ? storeSubject.asObservable() : request;
   }
 
-  deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams, ...refetch: ReFetchQuery[]): Observable<T> {
+  deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
     const request = this.api.deleteData<T>(route, params, query);
-    request.toPromise().then(r => {
-      const refetchRequests = concat(refetch.map(ref => this.reFetch(ref)));
-    });
+    // request.toPromise().then(r => {
+    //   const refetchRequests = concat(refetch.map(ref => this.reFetch(ref)));
+    // });
     const identifier = this.getIdentifier(route, params, query);
 
     const storeSubject = this.getFromStore<T>(identifier, {route, params, query}, true);

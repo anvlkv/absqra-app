@@ -106,7 +106,7 @@ describe('ArrayInputComponent', () => {
       <app-array-input [archetype]="archetype" formControlName="array" class="test-component" [max]="max" [min]="min" >
         <ng-template let-sortable let-i="itemIndex">
           <div [formGroup]="sortable.item" *ngIf="!ignoreContent">
-            <input class="test-input-class" type="text" formControlName="string" (change)="sortable.onChange(form.value)" (focus)="sortable.onChange($event.target.value)" (blur)="sortable.onBlur($event.target.value)">
+            <input class="test-input-class" type="text" formControlName="string" (change)="sortable.onChange(form.value)" (focus)="sortable.onChange($event.target.value, sortable.order)" (blur)="sortable.onBlur($event.target.value)">
           </div>
         </ng-template>
       </app-array-input>
@@ -279,8 +279,11 @@ describe('ArrayInputComponent', () => {
 
     it('should trigger value changes', () => {
       debugElement.nativeElement.querySelector('.remove-item').click();
-      debugElement.nativeElement.querySelector('.remove-item').click();
-      debugElement.nativeElement.querySelector('.remove-item').click();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      const input = debugElement.nativeElement.querySelector('.test-input-class');
+      input.value = 10;
+      input.dispatchEvent(new Event('change'));
+
       hostFixture.detectChanges();
       expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(3);
     });
@@ -350,7 +353,7 @@ describe('ArrayInputComponent', () => {
       <app-array-input [archetype]="archetype" name="array" [(ngModel)]="model.array" class="test-component" [max]="max" [min]="min">
         <ng-template let-sortable let-i="itemIndex">
           <div *ngIf="!ignoreContent">
-            <input class="test-input-class" type="text" name="{{sortable.order}}.string" [(ngModel)]="sortable.item.string" (change)="sortable.onChange(form.value)" (focus)="sortable.onChange($event.target.value)" (blur)="sortable.onBlur($event.target.value)">
+            <input class="test-input-class" type="text" name="{{sortable.order}}.string" [(ngModel)]="sortable.item.string" (change)="sortable.onChange($event.target.value, sortable.order)" (focus)="sortable.onChange($event.target.value)" (blur)="sortable.onBlur($event.target.value)">
           </div>
         </ng-template>
       </app-array-input>

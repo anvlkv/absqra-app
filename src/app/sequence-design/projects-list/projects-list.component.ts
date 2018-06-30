@@ -35,8 +35,8 @@ export class ProjectsListComponent implements OnInit {
 
   ngOnInit() {
     combineLatest(
-      this.data.getData<Project[]>(CRUDRouter.getAllProjects),
-      this.data.getData<Project>(CRUDRouter.getProject, {projectId: 0})
+      this.data.getData<Project[]>(CRUDRouter.repoProjects),
+      this.data.getData<Project>(CRUDRouter.entityProject, {projectId: 0})
     ).pipe(
       catchError((err, obs) => {
         this.$state.next({state: ComponentDynamicStates.FAILING, err});
@@ -51,7 +51,7 @@ export class ProjectsListComponent implements OnInit {
 
   saveProject() {
     if (this.projectForm.valid) {
-      this.data.postData<Project>(CRUDRouter.newProject, {}, this.projectForm.value).subscribe(project => {
+      this.data.postData<Project>(CRUDRouter.repoProjects, {}, this.projectForm.value).subscribe(project => {
         this.router.navigate([project.id], {relativeTo: this.route}).catch(err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
       })
     }

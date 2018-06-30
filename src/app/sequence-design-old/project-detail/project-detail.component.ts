@@ -6,7 +6,7 @@ import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-s
 import { DataService } from '../../app-common/data.service';
 import { Observable, Subscription } from 'rxjs/index';
 import { map } from 'rxjs/operators';
-import { BaseDetail } from '../../app-common/base-detail';
+import { BaseDetailOld } from '../../app-common/base-detail/base-detail-old';
 import { CRUD } from '../../app-common/api.service';
 
 
@@ -16,7 +16,7 @@ import { CRUD } from '../../app-common/api.service';
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.scss']
 })
-export class ProjectDetailComponent extends BaseDetail<Project> {
+export class ProjectDetailComponent extends BaseDetailOld<Project> {
   projectState: Observable<DynamicState>;
   private projectIdSubscription: Subscription;
 
@@ -31,29 +31,17 @@ export class ProjectDetailComponent extends BaseDetail<Project> {
       switch (cause) {
         case CRUD.CREATE: {
           return {
-            route: CRUDRouter.newProject
+            route: CRUDRouter.repoProjects
           }
         }
-        case CRUD.READ: {
+        default: {
           return {
-            route: CRUDRouter.getProject,
-            params: { projectId: this.dataItemId }
-          }
-        }
-        case CRUD.UPDATE: {
-          return {
-            route: CRUDRouter.saveProject,
-            params: { projectId: this.dataItemId }
-          }
-        }
-        case CRUD.DELETE: {
-          return {
-            route: CRUDRouter.deleteProject,
+            route: CRUDRouter.entityProject,
             params: { projectId: this.dataItemId }
           }
         }
       }
-    }
+    };
 
     this.dataItemIdObservableSource = () => {
       return route.params.pipe(map(({projectId}) => projectId));

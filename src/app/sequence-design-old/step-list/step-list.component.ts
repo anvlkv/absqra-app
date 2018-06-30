@@ -27,12 +27,12 @@ export class StepListComponent extends BaseList<Step, Sequence> {
       switch (cause) {
         case CRUD.CREATE: {
           return {
-            route: CRUDRouter.newStep,
+            route: CRUDRouter.repoSteps,
           };
         }
         case CRUD.READ: {
           return {
-            route: CRUDRouter.getAllStepsOfSequence,
+            route: CRUDRouter.repoStepsOfSequence,
             params: {sequenceId: this.sourceItemId},
           };
         }
@@ -43,20 +43,20 @@ export class StepListComponent extends BaseList<Step, Sequence> {
       switch (cause) {
         case CRUD.READ: {
           return {
-            route: CRUDRouter.getSequence,
+            route: CRUDRouter.entitySequence,
             params: {sequenceId: this.sourceItemId}
           };
         }
         case CRUD.UPDATE: {
           return {
-            route: CRUDRouter.saveSequence,
+            route: CRUDRouter.entitySequence,
             params: {sequenceId: this.sourceItemId}
           };
         }
       }
     };
 
-    this.archetypeRetriever = () => data.getData<Step>(CRUDRouter.getStep, {stepId: null});
+    this.archetypeRetriever = () => data.getData<Step>(CRUDRouter.entityStep, {stepId: null});
 
     this.sourceItemRelationName = 'steps';
   }

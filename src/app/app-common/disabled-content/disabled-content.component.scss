@@ -1,0 +1,6 @@
+@import "partials/limitations";
+
+:host{
+  @extend ._disabled;
+  display: block;
+}

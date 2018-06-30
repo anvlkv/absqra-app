@@ -12,3 +12,9 @@
 ._no-selection{
   user-select: none;
 }
+
+._disabled{
+  @extend ._no-selection;
+  pointer-events: none;
+  opacity: .75;
+}

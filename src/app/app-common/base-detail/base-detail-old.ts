@@ -1,20 +1,14 @@
 import { EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { DataService, ReFetchQuery } from './data.service';
-import { ComponentDynamicStates, DynamicState } from './dynamic-state/dynamic-state.component';
-import { Base } from '../../api-models';
-import { ApiRoute, CRUD, RouteParams } from './api.service';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs/index';
+import { DataService } from '../data.service';
+import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-state.component';
+import { Base } from '../../../api-models/index';
+import { CRUD } from '../api.service';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs/index';
 import * as _ from 'lodash';
+import { CallConfig } from '../call-config';
+import { HttpClient } from '@angular/common/http';
 
-export interface CallConfig {
-  route: ApiRoute,
-  params?: RouteParams,
-  query?: RouteParams,
-  refetch?: ReFetchQuery[]
-}
-
-
-export abstract class BaseDetail<T extends Base> implements OnInit, OnDestroy {
+export abstract class BaseDetailOld<T extends Base> implements OnInit, OnDestroy {
 
   private _dataItemId: number;
 
@@ -146,11 +140,11 @@ export abstract class BaseDetail<T extends Base> implements OnInit, OnDestroy {
 
     if (this.itemSubscription) {
       const updateConfig = this.callConfigurator(this.dataItem, CRUD.UPDATE);
-      this.data.postData<T>(updateConfig.route, updateConfig.params, this.dataItem, updateConfig.query, ...updateConfig.refetch);
+      this.data.postData<T>(updateConfig.route, updateConfig.params, this.dataItem, updateConfig.query);
     }
     else {
       const createConfig = this.callConfigurator(this.dataItem, CRUD.CREATE);
-      this.itemSubscription = this.data.postData<T>(createConfig.route, createConfig.params, this.dataItem, createConfig.query, ...createConfig.refetch).subscribe(this.itemSubscriber.bind(this), this.errorSubscriber.bind(this));
+      this.itemSubscription = this.data.postData<T>(createConfig.route, createConfig.params, this.dataItem, createConfig.query).subscribe(this.itemSubscriber.bind(this), this.errorSubscriber.bind(this));
     }
   }
 

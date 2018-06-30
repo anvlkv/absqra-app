@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { QuantityOrder, Question } from '../../../api-models';
-import { BaseDetail } from '../../app-common/base-detail';
+import { BaseDetailOld } from '../../app-common/base-detail/base-detail-old';
 import { DataService } from '../../app-common/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
@@ -17,7 +17,7 @@ import { NgForm } from '@angular/forms';
   templateUrl: './question-detail.component.html',
   styleUrls: ['./question-detail.component.scss']
 })
-export class QuestionDetailComponent extends BaseDetail<Question> implements OnInit {
+export class QuestionDetailComponent extends BaseDetailOld<Question> implements OnInit {
   quantityOrders = QuantityOrder;
   quantityOrderList: string[];
 
@@ -33,24 +33,24 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
       switch (cause) {
         case CRUD.CREATE: {
           return {
-            route: CRUDRouter.newQuestion,
+            route: CRUDRouter.repoQuestions,
           };
         }
         case CRUD.READ: {
           return {
-            route: CRUDRouter.getQuestion,
+            route: CRUDRouter.entityQuestion,
             params: {questionId: this.dataItemId},
           };
         }
         case CRUD.UPDATE: {
           return {
-            route: CRUDRouter.saveQuestion,
+            route: CRUDRouter.entityQuestion,
             params: {questionId: this.dataItemId},
           };
         }
         case CRUD.DELETE: {
           return {
-            route: CRUDRouter.deleteQuestion,
+            route: CRUDRouter.entityQuestion,
             params: {questionId: this.dataItemId},
           };
         }
