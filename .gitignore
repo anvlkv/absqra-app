@@ -5,4 +5,5 @@ typings
 .idea
 build
 dist
-coverage
+coverage/
+etc/
