@@ -522,6 +522,37 @@ describe('ArrayInputComponent', () => {
       ]);
     }));
 
+    it('should add items after reordering', () => {
+      const input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
+      input.value = 3;
+      input.dispatchEvent(new Event('change'));
+
+      hostFixture.detectChanges();
+
+      debugElement.nativeElement.querySelector('.add-item').click();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      expect(component.value.length).toEqual(6);
+    });
+
+    it('should reorder items after adding', () => {
+      debugElement.nativeElement.querySelector('.add-item').click();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      expect(component.value.length).toEqual(6);
+
+      const inputs = debugElement.nativeElement.querySelectorAll('.item-order');
+      inputs[inputs.length - 1].value = 1;
+      inputs[inputs.length - 1].dispatchEvent(new Event('change'));
+
+      hostFixture.detectChanges();
+
+      expect(component.value.length).toEqual(6);
+      expect(debugElement.nativeElement.querySelectorAll('.test-input-class').length).toEqual(6);
+    });
+
     it('should be valid', () => {
       expect(hostComponent.form.valid).toBeTruthy();
     });

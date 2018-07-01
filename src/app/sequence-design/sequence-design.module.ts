@@ -15,6 +15,10 @@ import { RespondentListThumbnailComponent } from './respondent-list-thumbnail/re
 import { InputsModule } from '../inputs/inputs.module';
 import { DragScrollModule } from 'ngx-drag-scroll';
 import { StepDetailComponent } from './step-detail/step-detail.component';
+import { QuestionThumbnailComponent } from './question-thumbnail/question-thumbnail.component';
+import { TaskThumbnailComponent } from './task-thumbnail/task-thumbnail.component';
+import { LogicThumbnailComponent } from './logic-thumbnail/logic-thumbnail.component';
+import { SequenceThumbnailComponent } from './sequence-thumbnail/sequence-thumbnail.component';
 
 @NgModule({
   imports: [
@@ -34,7 +38,11 @@ import { StepDetailComponent } from './step-detail/step-detail.component';
     ResponseListComponent,
     RespondentListThumbnailComponent,
     RespondentListsComponent,
-    StepDetailComponent
+    StepDetailComponent,
+    QuestionThumbnailComponent,
+    TaskThumbnailComponent,
+    LogicThumbnailComponent,
+    SequenceThumbnailComponent
   ]
 })
 export class SequenceDesignModule { }

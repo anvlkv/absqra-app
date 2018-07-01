@@ -21,22 +21,7 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit{
   stepTypeState: Observable<DynamicState>;
   stepTypesList: string[];
   typeForm: FormGroup;
-  // private _stepId: number;
-  // get stepId(): number {
-  //   return this._stepId;
-  // }
-  // @Input()
-  // set stepId(id: number) {
-  //   this._stepId = id;
-  //   // this.fetchStep();
-  // }
-  //
-  // @Output() stepIdChange = new EventEmitter<number>(true);
-  //
-  // constructor() { }
-  //
-  // ngOnInit() {
-  // }
+  stepTypes = StepTypes;
 
   constructor(
     data: DataService,
@@ -66,17 +51,27 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit{
     super.ngOnInit();
     this.itemSetObservable.subscribe((loaded) => {
       const step = loaded ? this.dataItem : this.defaultItem;
+
       this.typeForm = this.fb.group({type: step.type});
+
       this.typeForm.valueChanges.subscribe(v => {
         if (this.id) {
           this.dataItem.type = v.type;
           this.update();
         }
         else {
-          this.$state.next(ComponentDynamicStates.EDITING);
+          this.dataItem = v;
+          this.save();
           this.$typeState.next(ComponentDynamicStates.VIEWING);
         }
       });
+
+      if (!loaded) {
+        this.editType();
+      }
+      else {
+        this.$typeState.next(ComponentDynamicStates.VIEWING);
+      }
     });
   }
 
@@ -86,5 +81,7 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit{
 
   trackType(i, type) {
     return i;
-  };
+  }
+
+
 }

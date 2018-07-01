@@ -9,11 +9,11 @@ describe('ProjectThumbnailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        ProjectThumbnailComponent,
-      ],
       imports: [
         RouterTestingModule
+      ],
+      declarations: [
+        ProjectThumbnailComponent,
       ]
     })
     .compileComponents();
@@ -22,6 +22,7 @@ describe('ProjectThumbnailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectThumbnailComponent);
     component = fixture.componentInstance;
+    component.project = {id: 0, name: 'a'}
     fixture.detectChanges();
   });
 

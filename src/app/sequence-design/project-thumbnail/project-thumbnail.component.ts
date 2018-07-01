@@ -7,7 +7,7 @@ import { Project } from '../../../api-models';
   styleUrls: ['./project-thumbnail.component.scss']
 })
 export class ProjectThumbnailComponent implements OnInit {
-  @Input() project: Project;
+  @Input() project: Partial<Project>;
 
   constructor() { }
 

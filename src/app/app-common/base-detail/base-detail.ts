@@ -44,8 +44,13 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
   }
   set dataItem(item: T) {
     if (item && item.id != this.id) {
+      const oldId = this._id;
       this._id = item.id;
-      this.idChange.emit(this._id);
+      if ((oldId && !this._id) ||
+        (oldId != this._id)
+      ) {
+        this.idChange.emit(this._id);
+      }
     }
 
     this._dataItem = item;
@@ -56,7 +61,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
       this.dataItemObserver = jsonpatch.observe<T>(this._dataItem);
     }
 
-    this.$itemSet.next(!!item);
+    this.$itemSet.next(!!item && !!item.id);
   }
 
   constructor(
@@ -115,10 +120,10 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
     });
   }
 
-  save(): void {
+  save(dataItem?: T): void {
     this.$state.next(ComponentDynamicStates.INTERIM);
-    const callConfig = this.configureCall(CRUD.CREATE);
-    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, this.dataItem, callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
+    const callConfig = this.configureCall(this.id ? CRUD.UPDATE : CRUD.CREATE);
+    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, (dataItem || this.dataItem), callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
 
     if (!this.itemSubscription) {
       this.itemSubscription = subscription;

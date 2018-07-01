@@ -10,6 +10,7 @@ import {
 } from '@angular/forms';
 import * as _ from 'lodash';
 import { noop } from 'rxjs';
+import * as objectHash from 'object-hash';
 
 export enum AddAt {
   START,
@@ -38,6 +39,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
 
   @Input() archetype: any;
   @Input() reflectOrderInProperty: string;
+  @Input() trackByProperty = 'id';
   @Input() orderable = true;
   @Input() addAt: AddAt = AddAt.END;
   @Input() orderShift = 1;
@@ -94,6 +96,16 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
   }
 
   ngOnDestroy(): void {
+  }
+
+  trackByFn(index: number, sortable: Sortable<any>): string | number {
+    try {
+      return this.trackByProperty && sortable.item[this.trackByProperty] ?
+        sortable.item[this.trackByProperty] : objectHash({_: sortable.item});
+    } catch (e) {
+      return index;
+    }
+
   }
 
   registerOnChange(fn: any): void {

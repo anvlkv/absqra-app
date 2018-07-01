@@ -13,6 +13,7 @@
   <li *ngIf="addAt == addAtTypes.START">
     <button type="button" tabindex="0" (click)="addItem($event)" class="add-item">add</button>
   </li>
+  <!--TODO: Learn to use trackby here. In track by there's problem with missing id. Have a temp ids store-->
   <li *ngFor="let sortable of sortableItems">
     <label *ngIf="orderable">
       <input type="number"

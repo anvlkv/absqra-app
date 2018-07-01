@@ -17,20 +17,22 @@
   </ng-template>
 </app-dynamic-state>
 
-<!--<div [ngSwitch]="dataItem?.type">-->
-  <!--<ng-container *ngSwitchCase="stepTypes.QUESTION_REF">-->
-    <!--<app-dynamic-state [state]="state">-->
-      <!--<ng-template #viewingTemplate>-->
-        <!--<app-question-thumbnail [question]="dataItem.questionReference"></app-question-thumbnail>-->
-      <!--</ng-template>-->
-      <!--<ng-template #editingTemplate>-->
+<div [ngSwitch]="dataItem?.type">
+  <ng-container *ngSwitchCase="stepTypes.QUESTION_REF">
+    <app-dynamic-state [state]="state">
+      <ng-template #viewingTemplate>
+        <app-question-thumbnail></app-question-thumbnail>
+      </ng-template>
+      <ng-template #editingTemplate>
+        <!--<app-question-detail></app-question-detail>-->
         <!--<select name="question" [(ngModel)]="dataItem.questionReference"></select>-->
-      <!--</ng-template>-->
-    <!--</app-dynamic-state>-->
+      </ng-template>
+    </app-dynamic-state>
     <!--<app-question-detail [dataItemId]="dataItem.questionReferenceId" [(dataItem)]="dataItem.questionReference" [defaultItemIfNone]="true" (dataItemChange)="stepContentChanged($event, dataItem)"></app-question-detail>-->
-  <!--</ng-container>-->
+  </ng-container>
 
-  <!--<ng-container *ngSwitchCase="stepTypes.TASK_REF">-->
+  <ng-container *ngSwitchCase="stepTypes.TASK_REF">
+    <app-task-thumbnail></app-task-thumbnail>
     <!--<app-dynamic-state [state]="state">-->
       <!--<ng-template #viewingTemplate>-->
         <!--<app-task-thumbnail [task]="dataItem.taskReference"></app-task-thumbnail>-->
@@ -40,9 +42,10 @@
       <!--</ng-template>-->
     <!--</app-dynamic-state>-->
     <!--<app-task-detail [task]="dataItem.taskReference"></app-task-detail>-->
-  <!--</ng-container>-->
+  </ng-container>
 
-  <!--<ng-container *ngSwitchCase="stepTypes.LOGICAL_ITEM">-->
+  <ng-container *ngSwitchCase="stepTypes.LOGICAL_ITEM">
+    <app-logic-thumbnail></app-logic-thumbnail>
     <!--<app-dynamic-state [state]="state">-->
       <!--<ng-template #viewingTemplate>-->
         <!--<app-logic-thumbnail [logic]="dataItem.logicReference"></app-logic-thumbnail>-->
@@ -51,10 +54,11 @@
         <!--<app-logic-detail [logic]="dataItem.logicReference"></app-logic-detail>-->
       <!--</ng-template>-->
     <!--</app-dynamic-state>-->
-  <!--</ng-container>-->
+  </ng-container>
 
 
-  <!--<ng-container *ngSwitchCase="stepTypes.SEQUENCE_REF">-->
+  <ng-container *ngSwitchCase="stepTypes.SEQUENCE_REF">
+    <app-sequence-thumbnail></app-sequence-thumbnail>
     <!--<app-dynamic-state [state]="state">-->
       <!--<ng-template #viewingTemplate>-->
         <!--<app-sequence-thumbnail [sequence]="dataItem.sequenceReference"></app-sequence-thumbnail>-->
@@ -68,9 +72,9 @@
       <!--</ng-template>-->
     <!--</app-dynamic-state>-->
     <!--<app-sequence-detail [id]="dataItem.sequenceReferenceId"></app-sequence-detail>-->
-  <!--</ng-container>-->
+  </ng-container>
 
-  <!--<div *ngSwitchCaseDefault>-->
-    <!--{{step | json}}-->
-  <!--</div>-->
-<!--</div>-->
+  <div *ngSwitchCaseDefault>
+    {{step | json}}
+  </div>
+</div>

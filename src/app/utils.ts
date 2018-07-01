@@ -7,10 +7,10 @@ export function unpackEnum(en: {}) {
 };
 
 export function errorHandler(triggeredBy?) {
-  return function (error: HttpErrorResponse | any, ) {
+  return function (response: HttpErrorResponse | any, ) {
     // In a real world app, you might use a remote logging infrastructure
-    triggeredBy ? console.error(`API err at: ${triggeredBy}`) : null;
+    triggeredBy ? console.error(`err at: ${triggeredBy}`) : null;
 
-    return throwError(error);
+    return throwError(response.error || response);
   };
 }

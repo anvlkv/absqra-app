@@ -4,8 +4,10 @@ import {
 } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
-import { Observable, Subscription } from 'rxjs/index';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { DisabledContentComponent } from '../disabled-content/disabled-content.component';
+import { debounceTime, map, reduce } from 'rxjs/operators';
+import { s } from '@angular/core/src/render3';
 
 export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
 
@@ -52,6 +54,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
 
   private _editingTemplate: TemplateRef<any>;
   stateContext: {[prop: string]: string | number};
+  interimState: boolean;
 
   @ContentChild('editingTemplate')
   public set editingTemplate (template: TemplateRef<any>) {
@@ -68,11 +71,6 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
     return this._editingTemplate;
   }
 
-
-  @ContentChild('interimTemplate')
-  public interimTemplate: TemplateRef<any>;
-  @ViewChild('defaultInterimTemplate')
-  defaultInterimTemplate: TemplateRef<DisabledContentComponent>;
 
   @ContentChild('failingTemplate')
   public failingTemplate: TemplateRef<any>;
@@ -101,7 +99,9 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
       this._stateSubscription.unsubscribe();
     }
 
-    this._stateSubscription = observableState.subscribe(state => {
+    this._stateSubscription = observableState.pipe(
+      debounceTime(42)
+    ).subscribe(state => {
       if (typeof state == 'string') {
         this.displayState(<ComponentDynamicStates>state);
         this.stateContext = null;
@@ -126,6 +126,9 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
 
   private resolveTemplate(state: ComponentDynamicStates): TemplateRef<any> {
     let resolved;
+
+    this.interimState = state == ComponentDynamicStates.INTERIM;
+
     switch (state) {
       case undefined:
       case ComponentDynamicStates.LOADING: {
@@ -141,7 +144,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
         break;
       }
       case ComponentDynamicStates.INTERIM: {
-        resolved = this.interimTemplate || this.defaultInterimTemplate;
+        resolved = this.currentTemplate;
         break;
       }
       case ComponentDynamicStates.FAILING: {
@@ -158,6 +161,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
 
 
   private displayState(state?: ComponentDynamicStates) {
+
     if (this.currentState !== state) {
       this.currentTemplate = this.resolveTemplate(state);
       this.currentState = state;
@@ -167,5 +171,24 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   ngOnInit() {
     this.displayState(this.currentState);
   }
+}
 
+export function stateCombinator(...statesToCombine: Observable<DynamicState>[]): Observable<DynamicState> {
+  return combineLatest(
+    ...statesToCombine
+  ).pipe(
+    map((states) => {
+      return states.reduce((acc, state, at, all) => {
+        const prior = all[at - 1];
+        const priorState = prior instanceof Object ? (<ImmediateStateConfiguration>prior).state : prior;
+        if (!prior || [ComponentDynamicStates.VIEWING, ComponentDynamicStates.EDITING].includes(priorState)) {
+          acc = state;
+        }
+        else {
+          acc = prior;
+        }
+        return <DynamicState> acc;
+      })
+    })
+  )
 }

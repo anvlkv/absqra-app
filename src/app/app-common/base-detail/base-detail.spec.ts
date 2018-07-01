@@ -110,6 +110,16 @@ describe('BaseDetail', () => {
     expect(component.dataItem).toBeTruthy();
   });
 
+  it('should save new item using provided value', () => {
+    component.save({
+      createdDate: new Date(0)
+    });
+    verify(mockedData.postData(deepEqual(CRUDRouter.repoProjects), anything(), notNull(), anything())).called();
+    fixture.detectChanges();
+    expect(component.id).toEqual(2);
+    expect(component.dataItem).toBeTruthy();
+  });
+
   it('should update item', () => {
     component.id = 1;
     fixture.detectChanges();

@@ -64,7 +64,7 @@ describe('ArrayInputOldComponent', () => {
       // fixture.detectChanges();
     }));
 
-    it('should create', () => {
+    xit('should create', () => {
       expect(component).toBeTruthy();
     });
   });
@@ -84,12 +84,12 @@ describe('ArrayInputOldComponent', () => {
       // })();
     }));
 
-    it('should add placeholder - first item', async(() => {
+    xit('should add placeholder - first item', async(() => {
       expect(fixture.nativeElement.querySelectorAll('.test-input-class').length).toEqual(1);
       expect(fixture.nativeElement.querySelector('.test-input-class').value).toEqual('some content');
     }));
 
-    it('should not add items which are same as archetype', async(() => {
+    xit('should not add items which are same as archetype', async(() => {
       const addButton = fixture.nativeElement.querySelector('button.add-item');
       hostFixture.detectChanges();
       (async() => {
@@ -105,7 +105,7 @@ describe('ArrayInputOldComponent', () => {
       expect(fixture.nativeElement.querySelectorAll('.test-input-class').length).toEqual(1 /* one question initially added */);
     }));
 
-    it('should add items', async(() => {
+    xit('should add items', async(() => {
       const inputsQuery = () => fixture.nativeElement.querySelectorAll('.test-input-class');
       const addButton = fixture.nativeElement.querySelector('button.add-item');
 
@@ -169,7 +169,7 @@ describe('ArrayInputOldComponent', () => {
       hostFixture.detectChanges();
     }));
 
-    it('should remove items', () => {
+    xit('should remove items', () => {
       hostFixture.detectChanges();
       expect(fixture.nativeElement.querySelectorAll('.test-input-class').length).toEqual(2);
 
@@ -180,20 +180,20 @@ describe('ArrayInputOldComponent', () => {
       expect(fixture.nativeElement.querySelectorAll('.test-input-class').length).toEqual(1);
     });
 
-    it('should display multiple inputs', async(() => {
+    xit('should display multiple inputs', async(() => {
 
       const inputs = fixture.nativeElement.querySelectorAll('.test-input-class');
       expect(inputs.length).toEqual(2);
     }));
 
 
-    it('should set value', async(() => {
+    xit('should set value', async(() => {
       const inputs = fixture.nativeElement.querySelectorAll('.test-input-class');
       expect(inputs[0].value).toEqual('a');
       expect(inputs[1].value).toEqual('b');
     }));
 
-    it('should update value', async(() => {
+    xit('should update value', async(() => {
       let inputs = fixture.nativeElement.querySelectorAll('.test-input-class');
       expect(inputs[0].value).toEqual('a');
       expect(inputs[1].value).toEqual('b');
@@ -231,7 +231,7 @@ describe('ArrayInputOldComponent', () => {
       })();
     }));
 
-    it('should reorder items', fakeAsync(() => {
+    xit('should reorder items', fakeAsync(() => {
       testWrapperComponent.value = [
         {
           content: 'a',
