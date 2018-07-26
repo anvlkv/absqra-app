@@ -26,7 +26,7 @@ import { AssetThumbnailComponent } from '../asset-thumbnail/asset-thumbnail.comp
 import { AssetDetailComponent } from '../asset-detail/asset-detail.component';
 import { FormatConstraintsListComponent } from '../format-constraints-list/format-constraints-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 
 class MockApi {
   getData() {

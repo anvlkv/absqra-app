@@ -7,7 +7,7 @@ import { InputsModule } from '../../inputs/inputs.module';
 import { StepDetailComponent } from '../step-detail/step-detail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { instance, mock } from 'ts-mockito';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 
 describe('StepListComponent', () => {
   let component: StepListComponent;

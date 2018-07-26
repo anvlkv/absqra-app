@@ -17,9 +17,13 @@
       "es2016",
       "dom",
       "es6"
-    ]
+    ],
+    "paths": {
+      "api":["src/models/api-routes"]
+    }
   },
   "exclude": [
-    "src/api-models/index.ts"
+    "src/api-models/index.ts",
+    "**/intervey-api/**/*.*"
   ]
 }

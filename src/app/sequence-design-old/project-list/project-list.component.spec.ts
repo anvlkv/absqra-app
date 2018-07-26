@@ -10,7 +10,7 @@ import { AppCommonModule } from '../../app-common/app-common.module';
 import { InputsModule } from '../../inputs/inputs.module';
 import { ProjectThumbnailComponent } from '../project-thumbnail/project-thumbnail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 
 
 class MockApi {

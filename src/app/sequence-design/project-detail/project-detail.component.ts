@@ -1,6 +1,6 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { Project } from '../../../api-models';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { flatMap } from 'rxjs/operators';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';

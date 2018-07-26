@@ -11,7 +11,7 @@ import { LogicDetailComponent } from '../logic-detail/logic-detail.component';
 import { LogicThumbnailComponent } from '../logic-thumbnail/logic-thumbnail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { instance, mock } from 'ts-mockito';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 
 describe('StepDetailComponent', () => {
   let component: StepDetailComponent;

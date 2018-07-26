@@ -2,7 +2,7 @@ import { EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular
 import { Base } from '../../../api-models';
 import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-state.component';
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { DataService } from '../data.service';
+import { DataService } from '../data-service/data.service';
 import { CRUD } from '../api.service';
 import { CallConfig } from '../call-config';
 import * as jsonpatch from 'fast-json-patch';
@@ -34,6 +34,9 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
     if (id && id != this._id) {
       this._id = id;
       this.fetch();
+    }
+    else if (!id && !this.dataItem) {
+      this.$state.next(ComponentDynamicStates.EMPTY);
     }
   }
   @Output()

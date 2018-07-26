@@ -12,6 +12,7 @@ import { s } from '@angular/core/src/render3';
 export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
 
 export enum ComponentDynamicStates {
+  EMPTY = 'empty',
   LOADING = 'load',
   VIEWING = 'view',
   EDITING = 'edit',
@@ -45,16 +46,19 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   @ViewChild('defaultFailingTemplate')
   defaultFailingTemplate: TemplateRef<ErrorComponent>;
 
+  @ContentChild('emptyTemplate')
+  public emptyTemplate: TemplateRef<any>;
+  @ViewChild('defaultEmptyTemplate')
+  defaultEmptyTemplate: TemplateRef<any>;
 
   @ContentChild('defaultTemplate')
   defaultTemplate: TemplateRef<any>;
   @ViewChild('fallbackTemplate')
   fallbackTemplate: TemplateRef<any>;
 
-
   private _editingTemplate: TemplateRef<any>;
-  stateContext: {[prop: string]: string | number};
-  interimState: boolean;
+  stateContext: {[prop: string]: string | number | boolean} = {};
+
 
   @ContentChild('editingTemplate')
   public set editingTemplate (template: TemplateRef<any>) {
@@ -79,8 +83,6 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   private _observableState: Observable<ComponentDynamicStates | ImmediateStateConfiguration>;
   private currentTemplate: TemplateRef<any>;
 
-  private ready: boolean;
-
   @Input()
   set state(state: Observable<DynamicState>) {
     if (state) {
@@ -104,14 +106,12 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
     ).subscribe(state => {
       if (typeof state == 'string') {
         this.displayState(<ComponentDynamicStates>state);
-        this.stateContext = null;
+        this.stateContext = {};
       }
       else {
         this.displayState(state.state);
         this.stateContext = {...state};
       }
-
-      this.ready = state == ComponentDynamicStates.VIEWING || state == ComponentDynamicStates.EDITING
     });
   }
 
@@ -127,7 +127,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   private resolveTemplate(state: ComponentDynamicStates): TemplateRef<any> {
     let resolved;
 
-    this.interimState = state == ComponentDynamicStates.INTERIM;
+    this.stateContext.interimState = state == ComponentDynamicStates.INTERIM;
 
     switch (state) {
       case undefined:
@@ -149,6 +149,10 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
       }
       case ComponentDynamicStates.FAILING: {
         resolved = this.failingTemplate || this.defaultFailingTemplate;
+        break;
+      }
+      case ComponentDynamicStates.EMPTY: {
+        resolved = this.emptyTemplate || this.defaultEmptyTemplate ;
         break;
       }
       default: {

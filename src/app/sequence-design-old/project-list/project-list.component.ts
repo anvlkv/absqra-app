@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/index';
 import { Project } from '../../../api-models';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { BaseList } from '../../app-common/base-list';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
 import { AddAt } from '../../inputs/array-input/array-input.component';
 

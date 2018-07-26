@@ -1,5 +1,5 @@
 import { EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { DataService } from '../data.service';
+import { DataService } from '../data-service/data.service';
 import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-state.component';
 import { Base } from '../../../api-models/index';
 import { CRUD } from '../api.service';

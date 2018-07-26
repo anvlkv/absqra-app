@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { Project } from '../../../api-models';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
@@ -10,7 +10,7 @@ import {
   ImmediateStateConfiguration,
 } from '../../app-common/dynamic-state/dynamic-state.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, combineAll } from 'rxjs/operators';
+import { catchError, combineAll, delay } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 
 @Component({

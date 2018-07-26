@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Sequence, SequenceLifeCycleTypes } from '../../../api-models';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { unpackEnum } from '../../utils';
@@ -88,6 +88,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
       if (!loaded) {
         this.$state.next(ComponentDynamicStates.EDITING);
         this.$headerState.next(ComponentDynamicStates.EDITING);
+        this.$stepsState.next(ComponentDynamicStates.EMPTY);
       }
       else {
         this.$headerState.next(ComponentDynamicStates.VIEWING);

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { QuantityOrder, Question } from '../../../api-models';
 import { BaseDetailOld } from '../../app-common/base-detail/base-detail-old';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';

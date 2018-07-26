@@ -4,7 +4,7 @@ import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-s
 import { Observable } from 'rxjs/index';
 import { Sequence } from '../../../api-models';
 import { BaseDetailOld } from '../../app-common/base-detail/base-detail-old';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { CRUD } from '../../app-common/api.service';
 
 @Component({

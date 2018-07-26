@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { Step, StepTypes } from '../../../api-models';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { CRUD } from '../../app-common/api.service';
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
@@ -15,7 +15,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   templateUrl: './step-detail.component.html',
   styleUrls: ['./step-detail.component.scss'],
 })
-export class StepDetailComponent extends BaseDetail<Step> implements OnInit{
+export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
   private $typeState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
 
   stepTypeState: Observable<DynamicState>;

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/index';

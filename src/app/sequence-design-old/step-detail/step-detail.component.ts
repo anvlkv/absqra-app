@@ -1,18 +1,20 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { unpackEnum } from '../../utils';
-import { CRUDRouter } from '../../../../../intervey-api/lib/router/CRUDRouter';
+
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { BaseDetailOld } from '../../app-common/base-detail/base-detail-old';
 import { BehaviorSubject, Observable } from 'rxjs/index';
 import { Step } from '../../../api-models/step';
 import { StepTypes } from '../../../api-models/enums/step.enums';
 import { CRUD } from '../../app-common/api.service';
+import { CRUDRouter } from 'api-routes/CRUDRouter';
+
 
 @Component({
   selector: 'app-step-detail',
   templateUrl: './step-detail.component.html',
-  styleUrls: ['./step-detail.component.scss']
+  styleUrls: ['./step-detail.component.scss'],
 })
 export class StepDetailComponent extends BaseDetailOld<Step> implements OnInit {
   stepTypes = StepTypes;
@@ -26,7 +28,7 @@ export class StepDetailComponent extends BaseDetailOld<Step> implements OnInit {
   private $refState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.VIEWING);
 
   constructor(
-    data: DataService
+    data: DataService,
   ) {
     super(data);
     this.itemBaseValidator = (step: Step) => !!step.type;

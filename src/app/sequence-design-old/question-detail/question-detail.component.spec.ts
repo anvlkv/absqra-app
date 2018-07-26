@@ -17,7 +17,7 @@ import { LogicDetailComponent } from '../logic-detail/logic-detail.component';
 import { SequenceThumbnailComponent } from '../sequence-thumbnail/sequence-thumbnail.component';
 import { SequenceDetailComponent } from '../sequence-detail/sequence-detail.component';
 import { instance, mock } from 'ts-mockito';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('QuestionDetailComponent', () => {

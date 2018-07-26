@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { Project, Sequence } from '../../../api-models';
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 import { Observable, Subscription } from 'rxjs/index';
 import { map } from 'rxjs/operators';
 import { BaseDetailOld } from '../../app-common/base-detail/base-detail-old';

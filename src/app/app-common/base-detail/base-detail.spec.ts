@@ -2,12 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component } from '@angular/core';
 import { BaseDetail } from './base-detail';
 import { Base } from '../../../api-models';
-import { DataService } from '../data.service';
+import { DataService } from '../data-service/data.service';
 import { anyOfClass, anything, deepEqual, instance, mock, notNull, verify, when } from 'ts-mockito';
 import { CRUD } from '../api.service';
-import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { of, Subject, throwError } from 'rxjs';
 import { buffer, bufferCount } from 'rxjs/operators';
+import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 
 describe('BaseDetail', () => {
   let mockedData: DataService;
@@ -164,7 +164,19 @@ describe('BaseDetail', () => {
     component.state.pipe(
       buffer(ready.asObservable())
     ).subscribe((b: any[]) => {
-      expect(b).toEqual(['load', 'view', 'interim', 'view', 'interim', jasmine.anything(), jasmine.anything(), 'edit', 'interim', 'view'])
+      console.log(b);
+      expect(b).toEqual([
+        'load',
+        'view',
+        'interim',
+        'view',
+        'interim',
+        {state: 'delete', deleted: jasmine.anything()},
+        {state: 'fail', err: 'error'},
+        'empty',
+        'edit',
+        'interim',
+        'view']);
     });
     component.id = 1;
     component.dataItem.createdDate = new Date(0);

@@ -1,5 +1,6 @@
-import { ApiRoute, RouteParams } from './api.service';
-import { ReFetchQuery } from './data.service';
+import { RouteParams } from './api.service';
+import { ReFetchQuery } from './data-service/data.service';
+import { ApiRoute } from 'api';
 
 export interface CallConfig {
   route: ApiRoute,

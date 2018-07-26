@@ -2,7 +2,7 @@ import { ComponentDynamicStates, DynamicState } from './dynamic-state/dynamic-st
 import { BehaviorSubject, Observable, Subscription } from 'rxjs/index';
 import { Input, OnDestroy, OnInit } from '@angular/core';
 import { Step } from '../../api-models/step';
-import { DataService } from './data.service';
+import { DataService } from './data-service/data.service';
 import { FormControl } from '@angular/forms';
 import { Base } from '../../api-models';
 import { CRUD } from './api.service';

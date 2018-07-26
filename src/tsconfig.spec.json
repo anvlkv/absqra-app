@@ -11,7 +11,8 @@
       "node"
     ],
     "paths":{
-      "typeorm":["../node_modules/typeorm/typeorm-model-shim"]
+      "typeorm":["../node_modules/typeorm/typeorm-model-shim"],
+      "api":["models/api-routes"]
     }
   },
   "files": [

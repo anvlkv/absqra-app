@@ -17,7 +17,7 @@ import { AssetDetailComponent } from '../asset-detail/asset-detail.component';
 import { AssetThumbnailComponent } from '../asset-thumbnail/asset-thumbnail.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { instance, mock } from 'ts-mockito';
-import { DataService } from '../../app-common/data.service';
+import { DataService } from '../../app-common/data-service/data.service';
 
 describe('SequenceDetailComponent', () => {
   let component: SequenceDetailComponent;

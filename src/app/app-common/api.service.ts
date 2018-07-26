@@ -6,13 +6,7 @@ import { environment } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable, throwError } from 'rxjs';
 import { errorHandler } from '../utils';
-
-
-
-export interface ApiRoute {
-  path: string,
-  params: string[]
-}
+import { ApiRoute } from 'api';
 
 export interface RouteParams {
   [paramName: string]: string | number
