@@ -17,7 +17,7 @@ describe('DataService', () => {
     when(mockedApi.getData(anything(), anything(), anything())).thenReturn(of({id: 1}));
     when(mockedApi.postData(anything(), anything(), anything(), anything())).thenReturn(of({id: 2}));
     when(mockedApi.patchData(anything(), anything(), anything(), anything())).thenReturn(of({id: 1, data: 1}));
-    when(mockedApi.deleteData(anything(), anything(), anything())).thenReturn(of({id: 4}));
+    when(mockedApi.deleteData(anything(), anything(), anything())).thenReturn(of(null));
     when(mockedApi.getData(anything(), deepEqual({id: 10}), anything())).thenReturn(throwError('error'));
 
     TestBed.configureTestingModule({
@@ -169,21 +169,21 @@ describe('DataService', () => {
       ).never();
     })));
 
-    it('should not get data that was posted', inject([DataService], (service: DataService) => {
+    it('should not get data that was posted', fakeAsync(inject([DataService], (service: DataService) => {
       const reqPost = service.postData(CRUDRouter.repoSequences, {}, {value: 'some'}).subscribe(val => {
         expect(val).toEqual({id: 2});
       });
-
+      tick();
       const reqGet = service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
         expect(val).toEqual({id: 2});
       });
-
+      tick();
       verify(mockedApi.getData(
         deepEqual(CRUDRouter.entitySequence),
-        deepEqual({sequenceId: 1}),
+        anything(),
         anything())
       ).never();
-    }));
+    })));
 
     it('should update store item when posting', inject([DataService], (service: DataService) => {
 

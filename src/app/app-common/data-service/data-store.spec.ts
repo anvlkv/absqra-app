@@ -96,8 +96,8 @@ describe('DataStore', () => {
     describe('with multiple temp items', () => {
       let tempId2, tempId3;
       beforeEach(() => {
-        tempId2 = dataStore.addItem('type', {value: 2}),
-          tempId3 = dataStore.addItem('type', {value: 2});
+        tempId2 = dataStore.addItem('type', {value: 2});
+        tempId3 = dataStore.addItem('type', {value: 2});
       });
 
       it('should add items with same value', () => {

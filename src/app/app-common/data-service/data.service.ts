@@ -23,7 +23,7 @@ export class DataService implements PublicMembersInterface<ApiService> {
   ) { }
 
   getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
-    const itemId = params ? `${params[`${route.typeName}Id`]}` : null;
+    const itemId = getItemIdFromParams(params, route.typeName);
     if (itemId && this.dataStore.checkIsInStore(route.typeName, itemId)) {
       return this.dataStore.getItem(route.typeName, itemId).subject$.asObservable();
     }
@@ -55,7 +55,7 @@ export class DataService implements PublicMembersInterface<ApiService> {
   }
 
   postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
-    const itemId = params ? `${params[`${route.typeName}Id`]}` : null;
+    const itemId = getItemIdFromParams(params, route.typeName);
     if (itemId && this.dataStore.checkIsInStore(route.typeName, itemId)) {
       const storeItem = this.dataStore.getItem(route.typeName, itemId);
       storeItem.inFlight = this.api.postData<T>(route, params, body, query);
@@ -79,6 +79,7 @@ export class DataService implements PublicMembersInterface<ApiService> {
       storeItem.inFlight = this.api.postData<T>(route, params, body, query);
       return storeItem.inFlight.pipe(
         mergeMap(data => {
+          storeItem.permanentId = data.id;
           storeItem.subject$.next(data);
           return storeItem.subject$.asObservable();
         })
@@ -87,7 +88,7 @@ export class DataService implements PublicMembersInterface<ApiService> {
   }
 
   patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams): Observable<T> {
-    const itemId = params ? `${params[`${route.typeName}Id`]}` : null;
+    const itemId = getItemIdFromParams(params, route.typeName);
     const storeItem = this.dataStore.getItem(route.typeName, itemId);
     storeItem.inFlight = this.api.patchData<T>(route, params, operations, query);
     return storeItem.inFlight.pipe(
@@ -117,4 +118,9 @@ export class DataService implements PublicMembersInterface<ApiService> {
     return request;
   }
 
+}
+
+
+function getItemIdFromParams(params, typeName) {
+  return params && params.hasOwnProperty(`${typeName}Id`) ? `${params[`${typeName}Id`]}` : null;
 }

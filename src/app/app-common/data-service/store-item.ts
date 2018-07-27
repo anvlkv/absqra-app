@@ -27,7 +27,7 @@ export class DataStoreItem<T> {
   }
   set permanentId(id: string) {
     if (id) {
-      this._tempId = null;
+      delete this._tempId;
       this._permanentId = id;
     }
   }
