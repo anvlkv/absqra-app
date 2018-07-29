@@ -1,5 +1,5 @@
 import {
-  AfterContentInit, Component, ContentChild, Input, OnInit,
+  AfterContentInit, Component, ContentChild, ContentChildren, Input, OnInit,
   TemplateRef, ViewChild,
 } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
@@ -34,6 +34,10 @@ export interface ImmediateStateConfiguration {
 })
 export class DynamicStateComponent implements OnInit, AfterContentInit {
   private currentState: ComponentDynamicStates;
+
+  // @ContentChildren('ng-template')
+  // providedTemplates: TemplateRef<any>;
+
 
   @ContentChild('loadingTemplate')
   public loadingTemplate: TemplateRef<any>;
@@ -101,9 +105,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
       this._stateSubscription.unsubscribe();
     }
 
-    this._stateSubscription = observableState.pipe(
-      debounceTime(42)
-    ).subscribe(state => {
+    this._stateSubscription = observableState.subscribe(state => {
       if (typeof state == 'string') {
         this.displayState(<ComponentDynamicStates>state);
         this.stateContext = {};
