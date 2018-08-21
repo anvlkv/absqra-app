@@ -112,7 +112,6 @@ export class DataStore {
     this.updateItemStoreId(this.getStoreId(type, newData), item);
 
     if (oldData.id !== newData.id) {
-      delete this.store[storeId];
       storeId = this.getStoreId(type, newData);
       this.store[storeId] = item;
     }

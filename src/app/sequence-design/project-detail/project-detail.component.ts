@@ -30,7 +30,7 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
     private fb: FormBuilder,
     private hotkeys: HotKeysService,
   ) {
-    super(data);
+    super(data, 'project');
     this.callConfigurator = (projectId, cause, project) => {
       switch (cause) {
         case CRUD.CREATE: {

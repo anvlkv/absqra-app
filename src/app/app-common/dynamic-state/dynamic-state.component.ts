@@ -1,13 +1,12 @@
 import {
-  AfterContentInit, Component, ContentChild, ContentChildren, Input, OnInit,
+  AfterContentInit, Component, ContentChild, ErrorHandler, Input, OnInit,
   TemplateRef, ViewChild,
 } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { DisabledContentComponent } from '../disabled-content/disabled-content.component';
-import { debounceTime, map, reduce } from 'rxjs/operators';
-import { s } from '@angular/core/src/render3';
+import { debounce, debounceTime, map } from 'rxjs/operators';
+import { DynamicStateErrorHandler } from './dynamic-state-error.handler';
 
 export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
 
@@ -61,7 +60,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   fallbackTemplate: TemplateRef<any>;
 
   private _editingTemplate: TemplateRef<any>;
-  stateContext: {[prop: string]: string | number | boolean} = {};
+  stateContext: {[prop: string]: any} = {};
 
 
   @ContentChild('editingTemplate')
@@ -98,7 +97,26 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   }
 
   constructor(
+    private errorHandler: ErrorHandler
   ) { }
+
+  ngOnInit() {
+    (<DynamicStateErrorHandler>this.errorHandler).error.subscribe(err => {
+      this.currentState = ComponentDynamicStates.FAILING;
+      this.stateContext = err;
+      this.displayState(this.currentState);
+    });
+    this.displayState(this.currentState);
+  }
+
+  ngAfterContentInit(): void {
+    if (!this.currentState) {
+      this.updateSubscription(this._observableState);
+    }
+    else {
+      this.displayState(this.currentState);
+    }
+  }
 
   private updateSubscription(observableState) {
     if (this._stateSubscription && !this._stateSubscription.closed) {
@@ -115,15 +133,6 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
         this.stateContext = {...state};
       }
     });
-  }
-
-  ngAfterContentInit(): void {
-    if (!this.currentState) {
-      this.updateSubscription(this._observableState);
-    }
-    else {
-      this.displayState(this.currentState);
-    }
   }
 
   private resolveTemplate(state: ComponentDynamicStates): TemplateRef<any> {
@@ -158,24 +167,34 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
         break;
       }
       default: {
-        throw Error(`unknown dynamic state - ${state}`);
+        throw Error(`unknown dynamic state [${state}]`);
       }
     }
 
     return resolved || this.defaultTemplate || this.fallbackTemplate;
   }
 
-
-  private displayState(state?: ComponentDynamicStates) {
-
-    if (this.currentState !== state) {
-      this.currentTemplate = this.resolveTemplate(state);
-      this.currentState = state;
+  private displayInternalError(err, state?) {
+    if (state !== ComponentDynamicStates.FAILING) {
+      this.stateContext = {err};
+      this.currentTemplate = this.resolveTemplate(ComponentDynamicStates.FAILING);
+      this.currentState = ComponentDynamicStates.FAILING;
+    }
+    else {
+      console.error(this.stateContext.err);
+      console.error(err);
     }
   }
 
-  ngOnInit() {
-    this.displayState(this.currentState);
+  private displayState(state?: ComponentDynamicStates) {
+    try {
+      if (this.currentState !== state) {
+        this.currentTemplate = this.resolveTemplate(state);
+        this.currentState = state;
+      }
+    } catch (err) {
+      this.displayInternalError(err, state);
+    }
   }
 }
 
@@ -184,6 +203,7 @@ export function stateCombinator(...statesToCombine: Observable<DynamicState>[]):
     ...statesToCombine
   ).pipe(
     map((states) => {
+      console.log(states);
       return states.reduce((acc, state, at, all) => {
         const prior = all[at - 1];
         const priorState = prior instanceof Object ? (<ImmediateStateConfiguration>prior).state : prior;
@@ -195,6 +215,7 @@ export function stateCombinator(...statesToCombine: Observable<DynamicState>[]):
         }
         return <DynamicState> acc;
       })
-    })
+    }),
+    debounceTime(100)
   )
 }

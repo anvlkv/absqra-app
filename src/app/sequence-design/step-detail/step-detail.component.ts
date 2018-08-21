@@ -27,7 +27,7 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
     data: DataService,
     private fb: FormBuilder
   ) {
-    super(data);
+    super(data, 'step');
     this.stepTypeState = this.$typeState.asObservable();
     this.stepTypesList = unpackEnum(StepTypes);
     this.callConfigurator = (stepId, cause, step) => {

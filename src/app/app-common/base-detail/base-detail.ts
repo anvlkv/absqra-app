@@ -69,6 +69,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
 
   constructor(
     public data: DataService,
+    readonly instanceName: string
   ) {
     this.state = this.$state.asObservable();
     this.itemSetObservable = this.$itemSet.asObservable();

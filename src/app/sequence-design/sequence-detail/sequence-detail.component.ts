@@ -34,7 +34,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
     data: DataService,
     private fb: FormBuilder
   ) {
-    super(data);
+    super(data, 'sequence');
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
     this.callConfigurator = (sequenceId, cause, sequence) => {
       switch (cause) {
@@ -52,15 +52,9 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
       }
     };
 
-    this.headerState = stateCombinator(
-      this.state,
-      this.$headerState.asObservable()
-    );
+    this.headerState = this.$state.asObservable();
 
-    this.stepsState = stateCombinator(
-      this.state,
-      this.$stepsState.asObservable()
-    );
+    this.stepsState = this.$state.asObservable();
   }
 
   ngOnInit() {
