@@ -73,7 +73,7 @@
     "karma-jasmine-matchers": "^3.7.0",
     "node-sass": "^4.9.0",
     "protractor": "~5.1.0",
-    "ts-mockito": "git://github.com:anvlkv/ts-mockito.git#891926fd6b17318695a97f875c34bcc3c8fe6b06",
+    "ts-mockito": "^2.3.0",
     "ts-node": "~2.0.0",
     "tslint": "~5.7.0",
     "typescript": "~2.7.2"

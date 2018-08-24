@@ -1,7 +1,7 @@
-import { EventEmitter, Input, NgZone, OnDestroy, OnInit, Output } from '@angular/core';
+import { EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Base } from '../../../api-models';
 import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-state.component';
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { DataService } from '../data-service/data.service';
 import { CRUD } from '../api.service';
 import { CallConfig } from '../call-config';
@@ -15,7 +15,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
   private _dataItem: T;
   private _dataItemPristine: T;
   private itemSubscription: Subscription;
-  private $itemSet = new Subject<boolean>();
+  private $itemSet = new ReplaySubject<boolean>(1);
   protected $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   protected dataItemObserver: Observer<T>;
   protected itemSubscriber: (item: T) => void;
@@ -98,7 +98,6 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
       throw Error(`${this.constructor.name} doesn't have a call configurator`)
     }
 
-    this.$state.next(ComponentDynamicStates.LOADING);
     if (!this.id) {
       this.fetchDefault();
     }

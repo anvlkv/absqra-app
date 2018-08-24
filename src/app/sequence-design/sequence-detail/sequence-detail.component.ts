@@ -6,14 +6,11 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { unpackEnum } from '../../utils';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { CRUD } from '../../app-common/api.service';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ComponentDynamicStates,
   DynamicState,
-  ImmediateStateConfiguration, stateCombinator,
 } from '../../app-common/dynamic-state/dynamic-state.component';
-import { map } from 'rxjs/operators';
-import { instance } from 'ts-mockito';
 
 @Component({
   selector: 'app-sequence-detail',
@@ -36,7 +33,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
   ) {
     super(data, 'sequence');
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
-    this.callConfigurator = (sequenceId, cause, sequence) => {
+    this.callConfigurator = (sequenceId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
           return {
