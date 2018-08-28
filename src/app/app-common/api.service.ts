@@ -4,7 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Operation } from 'fast-json-patch';
 import { environment } from '../../environments/environment';
 import { CookieService } from 'ngx-cookie-service';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { errorHandler } from '../utils';
 import { ApiRoute } from 'api';
 
@@ -82,7 +82,9 @@ function setUrlParams(path: string, params: RouteParams) {
 function setQueryParams (query) {
   const queryParams = new HttpParams();
   for (const p in query) {
-    queryParams.append(p, `${query[p]}`)
+    if (query.hasOwnProperty(p)) {
+      queryParams.append(p, `${query[p]}`)
+    }
   }
 
   return queryParams;

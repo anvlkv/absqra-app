@@ -1,15 +1,9 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Project } from '../../../api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { ActivatedRoute } from '@angular/router';
-import { flatMap } from 'rxjs/operators';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
-import { Subscription } from 'rxjs/internal/Subscription';
-import { Observable } from 'rxjs/internal/Observable';
-import { BehaviorSubject } from 'rxjs/index';
-import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { Operation } from 'fast-json-patch';
 import { HotKeysService } from '../../app-common/hot-keys.service';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { CRUD } from '../../app-common/api.service';
@@ -30,8 +24,8 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
     private fb: FormBuilder,
     private hotkeys: HotKeysService,
   ) {
-    super(data, 'project');
-    this.callConfigurator = (projectId, cause, project) => {
+    super(data);
+    this.callConfigurator = (projectId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
           return {
@@ -49,7 +43,12 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
   }
 
   ngOnInit() {
+    this.route.params.subscribe(({projectId}) => {
+      this.id = projectId;
+    });
+
     super.ngOnInit();
+
     this.hotkeys.on('space').subscribe(p => this.panning = p);
 
     this.itemSetObservable.subscribe((loaded) => {
@@ -57,9 +56,6 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
       this.projectForm = this.fb.group({name: project.name, description: project.description});
     });
 
-    this.route.params.subscribe(({projectId}) => {
-      this.id = projectId;
-    });
   }
 
   saveProjectHeader() {

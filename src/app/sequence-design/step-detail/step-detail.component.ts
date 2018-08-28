@@ -4,7 +4,11 @@ import { Step, StepTypes } from '../../../api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { CRUD } from '../../app-common/api.service';
-import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
+import {
+  ComponentDynamicStates,
+  DynamicState,
+  stateCombinator,
+} from '../../app-common/dynamic-state/dynamic-state.component';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { unpackEnum } from '../../utils';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -17,20 +21,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
   private $typeState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
+  private $contentState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
 
   stepTypeState: Observable<DynamicState>;
   stepTypesList: string[];
   typeForm: FormGroup;
   stepTypes = StepTypes;
+  private stepContentState: Observable<DynamicState>;
 
   constructor(
     data: DataService,
     private fb: FormBuilder
   ) {
-    super(data, 'step');
-    this.stepTypeState = this.$typeState.asObservable();
+    super(data);
     this.stepTypesList = unpackEnum(StepTypes);
-    this.callConfigurator = (stepId, cause, step) => {
+    this.callConfigurator = (stepId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
           return {
@@ -45,6 +50,33 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
         }
       }
     };
+
+    this.stepTypeState = stateCombinator(
+      this.$state.asObservable(),
+      this.$typeState.asObservable()
+    );
+
+    this.stepContentState = stateCombinator(
+      this.$state.asObservable(),
+      this.$contentState.asObservable()
+    );
+  }
+
+
+  referredEntityId() {
+    switch (this.dataItem.type) {
+      case StepTypes.QUESTION_REF:
+        return this.dataItem.questionReferenceId;
+      case StepTypes.TASK_REF:
+        return this.dataItem.taskReferenceId;
+      case StepTypes.LOGICAL_ITEM:
+        return this.dataItem.logicReferenceId;
+      case StepTypes.SEQUENCE_REF:
+        return this.dataItem.sequenceReferenceId;
+      default:
+        break;
+    }
+    return;
   }
 
   ngOnInit() {
@@ -71,6 +103,12 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
       }
       else {
         this.$typeState.next(ComponentDynamicStates.VIEWING);
+        if (!this.referredEntityId()) {
+          this.$contentState.next(ComponentDynamicStates.EDITING);
+        }
+        else {
+          this.$contentState.next(ComponentDynamicStates.VIEWING);
+        }
       }
     });
   }
@@ -79,9 +117,13 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
     this.$typeState.next(ComponentDynamicStates.EDITING);
   }
 
-  trackType(i, type) {
+  trackType(i) {
     return i;
   }
 
 
+  updateReference(refId: number, referencedProperty: string) {
+    this.dataItem[referencedProperty] = {id: refId};
+    this.update();
+  }
 }

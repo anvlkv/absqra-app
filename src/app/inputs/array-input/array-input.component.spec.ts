@@ -102,16 +102,20 @@ describe('ArrayInputComponent', () => {
     @Component({
       selector: 'app-test-cmp',
       template: `
-    <form [formGroup]="form">
-      <app-array-input [archetype]="archetype" formControlName="array" class="test-component" [max]="max" [min]="min" >
-        <ng-template let-sortable let-i="itemIndex">
-          <div [formGroup]="sortable.item" *ngIf="!ignoreContent">
-            <input class="test-input-class" type="text" formControlName="string" (change)="sortable.onChange(form.value)" (focus)="sortable.onChange($event.target.value, sortable.order)" (blur)="sortable.onBlur($event.target.value)">
-          </div>
-        </ng-template>
-      </app-array-input>
-    </form>
-  `,
+        <form [formGroup]="form">
+          <app-array-input [archetype]="archetype" formControlName="array" class="test-component" [max]="max"
+                           [min]="min">
+            <ng-template let-sortable let-i="itemIndex">
+              <div [formGroup]="sortable.item" *ngIf="!ignoreContent">
+                <input class="test-input-class" type="text" formControlName="string"
+                       (change)="sortable.onOrderChange(form.value)"
+                       (focus)="sortable.onOrderChange($event.target.value, sortable.order)"
+                       (blur)="sortable.onBlur($event.target.value)">
+              </div>
+            </ng-template>
+          </app-array-input>
+        </form>
+      `,
     })
     class TestWrapperComponent implements OnInit {
       archetype: any;
@@ -349,16 +353,21 @@ describe('ArrayInputComponent', () => {
     @Component({
       selector: 'app-test-cmp',
       template: `
-    <form #form="ngForm">
-      <app-array-input [archetype]="archetype" name="array" [(ngModel)]="model.array" class="test-component" [max]="max" [min]="min">
-        <ng-template let-sortable let-i="itemIndex">
-          <div *ngIf="!ignoreContent">
-            <input class="test-input-class" type="text" name="{{sortable.order}}.string" [(ngModel)]="sortable.item.string" (change)="sortable.onChange($event.target.value, sortable.order)" (focus)="sortable.onChange($event.target.value)" (blur)="sortable.onBlur($event.target.value)">
-          </div>
-        </ng-template>
-      </app-array-input>
-    </form>
-  `,
+        <form #form="ngForm">
+          <app-array-input [archetype]="archetype" name="array" [(ngModel)]="model.array" class="test-component"
+                           [max]="max" [min]="min">
+            <ng-template let-sortable let-i="itemIndex">
+              <div *ngIf="!ignoreContent">
+                <input class="test-input-class" type="text" name="{{sortable.order}}.string"
+                       [(ngModel)]="sortable.item.string"
+                       (change)="sortable.onOrderChange($event.target.value, sortable.order)"
+                       (focus)="sortable.onOrderChange($event.target.value)"
+                       (blur)="sortable.onBlur($event.target.value)">
+              </div>
+            </ng-template>
+          </app-array-input>
+        </form>
+      `,
     })
     class TestWrapperComponent implements OnInit {
       public archetype: any;

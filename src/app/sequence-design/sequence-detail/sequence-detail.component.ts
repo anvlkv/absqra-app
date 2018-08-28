@@ -10,7 +10,10 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ComponentDynamicStates,
   DynamicState,
+  stateCombinator,
 } from '../../app-common/dynamic-state/dynamic-state.component';
+import { filter } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-sequence-detail',
@@ -31,7 +34,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
     data: DataService,
     private fb: FormBuilder
   ) {
-    super(data, 'sequence');
+    super(data);
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
     this.callConfigurator = (sequenceId, cause) => {
       switch (cause) {
@@ -49,9 +52,15 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
       }
     };
 
-    this.headerState = this.$state.asObservable();
+    this.headerState = stateCombinator(
+      this.state,
+      this.$headerState.asObservable()
+    );
 
-    this.stepsState = this.$state.asObservable();
+    this.stepsState = stateCombinator(
+      this.state,
+      this.$stepsState.asObservable(),
+    );
   }
 
   ngOnInit() {
@@ -72,7 +81,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
       this.sequenceForm.valueChanges.subscribe(({stepIds}) => {
         if (stepIds.every(id => !!id)) {
           this.dataItem.steps = stepIds.map((id, i) => ({id, order: i}));
-          this.update();
+          this.update(this.dataItem);
         }
       });
 
@@ -81,11 +90,11 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
         this.$headerState.next(ComponentDynamicStates.EDITING);
         this.$stepsState.next(ComponentDynamicStates.EMPTY);
       }
-      else {
+    });
+
+    this.state.pipe(filter((s) => s == ComponentDynamicStates.VIEWING)).subscribe(() => {
         this.$headerState.next(ComponentDynamicStates.VIEWING);
         this.$stepsState.next(ComponentDynamicStates.EDITING);
-      }
-
     });
   }
 
@@ -101,6 +110,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
 
   saveHeader() {
     if (this.sequenceHeaderForm.valid) {
+      this.$headerState.next(ComponentDynamicStates.INTERIM);
       if (this.id) {
         this.dataItem.header = this.sequenceHeaderForm.value;
         this.update();

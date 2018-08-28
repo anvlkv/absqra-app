@@ -2,11 +2,10 @@ import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { DataService } from './data.service';
 import { ApiService } from '../api.service';
 import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
-import { combineLatest, noop, of, pipe, range, throwError } from 'rxjs';
+import { noop, of, throwError } from 'rxjs';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
 import { TestScheduler } from 'rxjs/testing';
-import { cold as coldMarbles } from 'jasmine-marbles';
-import { buffer, bufferCount, map } from 'rxjs/operators';
+import { bufferCount} from 'rxjs/operators';
 
 describe('DataService', () => {
   let mockedApi: ApiService;
@@ -106,10 +105,6 @@ describe('DataService', () => {
 
   describe('caching', () => {
 
-    const testScheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
-
     beforeEach(() => {
       when(mockedApi.getData(deepEqual(CRUDRouter.entitySequence), anything(), anything())).thenReturn(of({id: 1}));
       when(mockedApi.getData(deepEqual(CRUDRouter.repoSequences), anything(), anything())).thenReturn(of([{id: 1}, {id: 2}, {id: 3}]));
@@ -120,13 +115,13 @@ describe('DataService', () => {
     });
 
     it('should not get same data repeatedly', inject([DataService], (service: DataService) => {
-      const req1 = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
         expect(val).toEqual({id: 1});
       });
-      const req2 = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
         expect(val).toEqual({id: 1});
       });
-      const req3 = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
         expect(val).toEqual({id: 1});
       });
       verify(mockedApi.getData(
@@ -138,20 +133,20 @@ describe('DataService', () => {
 
     it('should get multiple entries once', fakeAsync(inject([DataService], (service: DataService) => {
       const resolved = [];
-      const req1 = service.getData(CRUDRouter.repoSequences).subscribe(val => {
+      service.getData(CRUDRouter.repoSequences).subscribe(val => {
         expect(val).toEqual([{id: 1}, {id: 2}, {id: 3}]);
         resolved.push(val);
       });
       tick();
-      const req2 = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
         expect(val).toEqual({id: 1});
         resolved.push(val);
       });
-      const req3 = service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
         expect(val).toEqual({id: 2});
         resolved.push(val);
       });
-      const req4 = service.getData(CRUDRouter.entitySequence, {sequenceId: 3}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 3}).subscribe(val => {
         expect(val).toEqual({id: 3});
         resolved.push(val);
       });
@@ -170,11 +165,11 @@ describe('DataService', () => {
     })));
 
     it('should not get data that was posted', fakeAsync(inject([DataService], (service: DataService) => {
-      const reqPost = service.postData(CRUDRouter.repoSequences, {}, {value: 'some'}).subscribe(val => {
+      service.postData(CRUDRouter.repoSequences, {}, {value: 'some'}).subscribe(val => {
         expect(val).toEqual({id: 2});
       });
       tick();
-      const reqGet = service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
         expect(val).toEqual({id: 2});
       });
       tick();
@@ -187,12 +182,12 @@ describe('DataService', () => {
 
     it('should update store item when posting', inject([DataService], (service: DataService) => {
 
-      const reqGet = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(bufferCount(2))
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(bufferCount(2))
       .subscribe(val => {
         expect(val).toEqual([{id: 1}, {id: 2}]);
       });
 
-      const reqPost = service.postData(CRUDRouter.entitySequence, {sequenceId: 1}, {value: 'some'}).subscribe(val => {
+      service.postData(CRUDRouter.entitySequence, {sequenceId: 1}, {value: 'some'}).subscribe(val => {
         expect(val).toEqual({id: 2});
       });
 
@@ -212,9 +207,9 @@ describe('DataService', () => {
 
     it('should update store item when patching', inject([DataService],  (service) => {
       let reqGet = false;
-      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(bufferCount(2))
-      .subscribe(val => {
-        expect(val).toEqual([{id: 1}, {id: 1, data: 1}]);
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(bufferCount(2)).subscribe(([initial, val]) => {
+        expect(val).toEqual({id: 1, data: 1});
+        expect(initial).toEqual({id: 1});
         reqGet = true;
       });
 
@@ -242,27 +237,13 @@ describe('DataService', () => {
     }));
 
     xit('should remove store item when deleting', inject([DataService],  (service) => {
-      service.deleteData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(d => {
-
-      });
+      service.deleteData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe();
 
     }));
 
     xit('should recover store item when recovering', inject([DataService],  (service) => {
 
     }));
-
-    // it('should return updated value when getting after post', inject([DataService], (service: DataService) => {
-    //   expect(null).toBeTruthy();
-    // }));
-    //
-    // it('should return updated value when getting after patch', inject([DataService], (service: DataService) => {
-    //   expect(null).toBeTruthy();
-    // }));
-    //
-    // it('should get new value when getting after deletion', inject([DataService], (service: DataService) => {
-    //   expect(null).toBeTruthy();
-    // }));
   });
 
 });

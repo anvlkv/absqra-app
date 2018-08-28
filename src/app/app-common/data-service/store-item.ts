@@ -1,11 +1,21 @@
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { RequestParams } from 'api';
-import { filter, mergeMap } from 'rxjs/operators';
-import getPrototypeOf = Reflect.getPrototypeOf;
+import { mergeMap } from 'rxjs/operators';
 
 export class DataStoreItem<T> {
   requestParams: RequestParams;
-  inFlight: Observable<T>;
+  private _inFlight: Observable<T>;
+  set inFlight (observable: Observable<T>) {
+    // if (observable) {
+    this._inFlight = observable;
+    // }
+  }
+  get inFlight(): Observable<T> {
+    return this._inFlight.pipe(mergeMap(d => {
+      this.subject$.next(d);
+      return this.subject$.asObservable();
+    }));
+  }
   subject$: ReplaySubject<T>;
 
   private _tempId: string;

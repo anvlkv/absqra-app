@@ -119,7 +119,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
     this.disabled = isDisabled;
   }
 
-  onChange(value, order) {
+  onOrderChange(value, order) {
     const currentVal = this.value;
     currentVal[order - this.orderShift] = value;
     this.value = currentVal;
@@ -161,7 +161,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
         item,
         onBlur: this.onBlur.bind(this),
         onFocus: this.onFocus.bind(this),
-        onChange: this.onChange.bind(this)
+        onOrderChange: this.onOrderChange.bind(this)
       }
     });
     this.onChangeCallback(items);

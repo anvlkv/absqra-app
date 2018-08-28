@@ -19,6 +19,7 @@ import { QuestionThumbnailComponent } from './question-thumbnail/question-thumbn
 import { TaskThumbnailComponent } from './task-thumbnail/task-thumbnail.component';
 import { LogicThumbnailComponent } from './logic-thumbnail/logic-thumbnail.component';
 import { SequenceThumbnailComponent } from './sequence-thumbnail/sequence-thumbnail.component';
+import { QuestionDetailComponent } from './question-detail/question-detail.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { SequenceThumbnailComponent } from './sequence-thumbnail/sequence-thumbn
     QuestionThumbnailComponent,
     TaskThumbnailComponent,
     LogicThumbnailComponent,
-    SequenceThumbnailComponent
+    SequenceThumbnailComponent,
+    QuestionDetailComponent
   ]
 })
 export class SequenceDesignModule { }

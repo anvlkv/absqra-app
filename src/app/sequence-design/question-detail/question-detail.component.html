@@ -1,0 +1,28 @@
+<app-dynamic-state [state]="state">
+  <ng-template #viewingTemplate>
+    <div class="question-card">
+      <h4>{{dataItem.name}}</h4>
+      <p>
+        {{dataItem.description}}
+      </p>
+      <button (click)="edit()">edit</button>
+    </div>
+  </ng-template>
+  <ng-template #editingTemplate>
+    <form [formGroup]="questionForm" (ngSubmit)="saveQuestionHeader()">
+      <div>
+        <label for="name">
+          name
+        </label>
+        <input type="text" id="name" formControlName="name">
+      </div>
+      <div>
+        <label for="description">
+          notes
+        </label>
+        <textarea id="description" formControlName="description"></textarea>
+      </div>
+      <button type="submit">save</button>
+    </form>
+  </ng-template>
+</app-dynamic-state>

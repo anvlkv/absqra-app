@@ -5,11 +5,10 @@ import {
   DynamicStateComponent,
   stateCombinator,
 } from './dynamic-state.component';
-import { AfterViewInit, Component, DebugElement, ErrorHandler, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
+import { AfterViewInit, Component, DebugElement, NO_ERRORS_SCHEMA, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { By } from '@angular/platform-browser';
-import { DynamicStateErrorHandler } from './dynamic-state-error.handler';
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -59,12 +58,6 @@ describe('DynamicStateComponent', () => {
         TestWrapperComponent,
         TestErrorComponent,
         DynamicStateComponent
-      ],
-      providers: [
-        {
-          provide: ErrorHandler,
-          useClass: DynamicStateErrorHandler
-        }
       ],
       schemas: [
         NO_ERRORS_SCHEMA
@@ -124,7 +117,7 @@ describe('DynamicStateComponent', () => {
     it('should display provided template', () => {
       hostFixture.componentInstance.$state.next(ComponentDynamicStates.VIEWING);
       hostFixture.detectChanges();
-      expect((<DebugElement>hostFixture.debugElement.childNodes[0]).query(By.css('.test-viewing-template'))).toBeTruthy
+      expect((<DebugElement>hostFixture.debugElement.childNodes[0]).query(By.css('.test-viewing-template'))).toBeTruthy();
     });
   });
 

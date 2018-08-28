@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { LoadingComponent } from './app-common/loading/loading.component';
-
 
 const routes: Routes = [
-  // {path: 'old', loadChildren: 'app/old/old.module#OldModule'},
-  // {path: 'answer', loadChildren: 'app/response/response.module#ResponseModule'},
   {
     path: 'old',
     loadChildren: 'app/sequence-design-old/sequence-design-old.module#SequenceDesignModuleOld',
@@ -16,7 +12,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: LoadingComponent
+    pathMatch: 'full',
+    redirectTo: 'ask'
   }
 ];
 

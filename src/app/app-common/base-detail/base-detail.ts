@@ -8,6 +8,7 @@ import { CallConfig } from '../call-config';
 import * as jsonpatch from 'fast-json-patch';
 import { Observer, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 
 export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
@@ -58,9 +59,8 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
 
     this._dataItem = item;
     this._dataItemPristine = _.cloneDeep(item);
-    this.dataItemObserver ? this.dataItemObserver.unobserve() : null;
 
-    if (item) {
+    if (item && !this.dataItemObserver) {
       this.dataItemObserver = jsonpatch.observe<T>(this._dataItem);
     }
 
@@ -68,11 +68,10 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
   }
 
   constructor(
-    public data: DataService,
-    readonly instanceName: string
+    public data: DataService
   ) {
     this.state = this.$state.asObservable();
-    this.itemSetObservable = this.$itemSet.asObservable();
+    this.itemSetObservable = this.$itemSet.pipe(distinctUntilChanged());
     this.itemSubscriber = (item: T) => {
       this.dataItem = item;
       this.$state.next(ComponentDynamicStates.VIEWING);
@@ -113,6 +112,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
     const callConfig = this.callConfigurator(0, CRUD.READ);
     this.data.getData<T>(callConfig.route, callConfig.params, callConfig.query).subscribe((defaultItem) => {
       this.defaultItem = defaultItem;
+      
       if (!this.id) {
         this.$itemSet.next(false);
       }

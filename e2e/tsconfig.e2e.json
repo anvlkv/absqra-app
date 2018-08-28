@@ -4,8 +4,14 @@
     "outDir": "../out-tsc/e2e",
     "module": "commonjs",
     "target": "es5",
+    "baseUrl": ".",
+    "paths":{
+      "typeorm":["../node_modules/typeorm/typeorm-model-shim"],
+      "api":["../src/models/api-routes"]
+    },
     "types": [
       "jasmine",
+      "jasminewd2",
       "node"
     ]
   }

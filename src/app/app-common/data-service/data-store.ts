@@ -1,6 +1,6 @@
 import { DataStoreItem } from './store-item';
 import * as objectHash from 'object-hash';
-import { filter, mergeMap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 
 interface Store {
@@ -51,10 +51,10 @@ export class DataStore {
     }
   }
 
-  private updateByStoreId(storeId, data) {
-    const item = this.getByStoreId(storeId);
-    item.subject$.next(data);
-  }
+  // private updateByStoreId(storeId, data) {
+  //   const item = this.getByStoreId(storeId);
+  //   item.subject$.next(data);
+  // }
 
   checkIsInStore(type: string, data): boolean {
     return !!this.store[this.getStoreId(type, data)]
@@ -76,8 +76,8 @@ export class DataStore {
     return this.store[storeId];
   }
 
-  addItem(type: string, initialData): string {
-    const item = new DataStoreItem(initialData);
+  addItem(type: string, initialData, asEmpty = false): string {
+    const item = new DataStoreItem(asEmpty ? null : initialData);
     const storeId = this.getStoreId(type, initialData, true);
     if (this.store[storeId] && storeId.includes(this.tempSelector)) {
       throw new Error(`store item [${storeId}] already exists`);

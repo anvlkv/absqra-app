@@ -1,14 +1,32 @@
-<!--<ng-container [ngSwitch]="type">-->
-  <!--<label *ngSwitchCase="MultipleInputTypes.select" >-->
-    <!--<select>-->
-      <!--<option *ngFor="let opt of _options" [value]="opt.value">{{opt.value.content}}</option>-->
-    <!--</select>-->
-  <!--</label>-->
-  <!--<ul *ngSwitchDefault>-->
-    <!--<li *ngFor="let opt of _options;">-->
-      <!--<app-default-input [type]="type" [label]="opt.value.content" [(ngModel)]="opt.selected" (change)="onSelectionChanged($event, opt)" [name]="name"></app-default-input>-->
-    <!--</li>-->
-  <!--</ul>-->
-<!--</ng-container>-->
+<ul>
+  <li *ngFor="let option of selectableOptions; let i = index;">
+    <ng-container *ngIf="multiSelect; then selectMultiple; else selectSingle"></ng-container>
 
+    <ng-template #selectMultiple>
+      <input type="checkbox"
+             class="selection-input"
+             [attr.id]="instanceNumber + '_selection_input_' + i"
+             [indeterminate]="option.state === selectionStates.IND"
+             [checked]="option.state === selectionStates.ON"
+             (change)="onCheckboxChanged($event, i)"
+             [disabled]="disabled">
+    </ng-template>
+    <ng-template #selectSingle>
+      <input type="radio"
+             class="selection-input"
+             [name]="instanceNumber + '_selection_input'"
+             [attr.id]="instanceNumber + '_selection_input_' + i"
+             [checked]="option.state === selectionStates.ON"
+             (change)="onRadioChanged($event, i)"
+             [disabled]="disabled">
+    </ng-template>
 
+    <label [attr.for]="instanceNumber + '_selection_input_' + i">
+      <ng-container *ngIf="itemTemplate; else textLabel" [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{$implicit: option, itemIndex: i}">
+      </ng-container>
+      <ng-template #textLabel>
+        {{option.item}}
+      </ng-template>
+    </label>
+  </li>
+</ul>

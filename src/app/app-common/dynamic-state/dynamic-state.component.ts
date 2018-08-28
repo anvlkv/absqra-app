@@ -1,12 +1,11 @@
 import {
-  AfterContentInit, Component, ContentChild, ErrorHandler, Input, OnInit,
+  AfterContentInit, Component, ContentChild, Input, OnInit,
   TemplateRef, ViewChild,
 } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { debounce, debounceTime, map } from 'rxjs/operators';
-import { DynamicStateErrorHandler } from './dynamic-state-error.handler';
+import { map } from 'rxjs/operators';
 
 export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
 
@@ -97,15 +96,9 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   }
 
   constructor(
-    private errorHandler: ErrorHandler
   ) { }
 
   ngOnInit() {
-    (<DynamicStateErrorHandler>this.errorHandler).error.subscribe(err => {
-      this.currentState = ComponentDynamicStates.FAILING;
-      this.stateContext = err;
-      this.displayState(this.currentState);
-    });
     this.displayState(this.currentState);
   }
 
@@ -198,24 +191,23 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   }
 }
 
-export function stateCombinator(...statesToCombine: Observable<DynamicState>[]): Observable<DynamicState> {
+export const stateCombinator = function (...statesToCombine: Observable<DynamicState>[]): Observable<DynamicState> {
   return combineLatest(
     ...statesToCombine
   ).pipe(
     map((states) => {
-      console.log(states);
       return states.reduce((acc, state, at, all) => {
         const prior = all[at - 1];
         const priorState = prior instanceof Object ? (<ImmediateStateConfiguration>prior).state : prior;
-        if (!prior || [ComponentDynamicStates.VIEWING, ComponentDynamicStates.EDITING].includes(priorState)) {
-          acc = state;
-        }
-        else {
+        if (prior &&
+          ![ComponentDynamicStates.VIEWING, ComponentDynamicStates.EDITING, ComponentDynamicStates.EMPTY].includes(priorState)) {
           acc = prior;
         }
+        else {
+          acc = state;
+        }
         return <DynamicState> acc;
-      })
-    }),
-    debounceTime(100)
+      });
+    })
   )
-}
+};

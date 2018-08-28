@@ -1,0 +1,23 @@
+@import "vars/var-sizes";
+
+ol, ul {
+  padding-left: 0;
+  li {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-items: center;
+    width: 100%;
+    button, label {
+      flex-grow: 0;
+    }
+    .remove-item {
+      justify-self: flex-end;
+      margin-left: $small-white-space;
+    }
+    label {
+      margin-right: $x-small-white-space;
+      justify-self: flex-start;
+    }
+  }
+}
+

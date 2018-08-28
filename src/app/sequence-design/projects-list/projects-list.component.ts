@@ -7,10 +7,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import {
   ComponentDynamicStates, DynamicState,
-  ImmediateStateConfiguration,
 } from '../../app-common/dynamic-state/dynamic-state.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { catchError, combineAll, delay } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs/internal/observable/of';
 
 @Component({
