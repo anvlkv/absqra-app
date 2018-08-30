@@ -4,8 +4,8 @@ import { ApiService } from '../api.service';
 import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
 import { noop, of, throwError } from 'rxjs';
 import { CRUDRouter } from '../../../api-routes/CRUDRouter';
-import { TestScheduler } from 'rxjs/testing';
-import { bufferCount} from 'rxjs/operators';
+import { bufferCount, mergeMap } from 'rxjs/operators';
+import createSpy = jasmine.createSpy;
 
 describe('DataService', () => {
   let mockedApi: ApiService;
@@ -13,8 +13,8 @@ describe('DataService', () => {
 
   beforeEach(() => {
     mockedApi = mock(ApiService);
-    when(mockedApi.getData(anything(), anything(), anything())).thenReturn(of({id: 1}));
-    when(mockedApi.postData(anything(), anything(), anything(), anything())).thenReturn(of({id: 2}));
+    when(mockedApi.getData(anything(), anything(), anything())).thenReturn(of({id: 1, data: 'some1'}));
+    when(mockedApi.postData(anything(), anything(), anything(), anything())).thenReturn(of({id: 2, data: 'some2'}));
     when(mockedApi.patchData(anything(), anything(), anything(), anything())).thenReturn(of({id: 1, data: 1}));
     when(mockedApi.deleteData(anything(), anything(), anything())).thenReturn(of(null));
     when(mockedApi.getData(anything(), deepEqual({id: 10}), anything())).thenReturn(throwError('error'));
@@ -106,23 +106,23 @@ describe('DataService', () => {
   describe('caching', () => {
 
     beforeEach(() => {
-      when(mockedApi.getData(deepEqual(CRUDRouter.entitySequence), anything(), anything())).thenReturn(of({id: 1}));
-      when(mockedApi.getData(deepEqual(CRUDRouter.repoSequences), anything(), anything())).thenReturn(of([{id: 1}, {id: 2}, {id: 3}]));
-      when(mockedApi.postData(anything(), anything(), anything(), anything())).thenReturn(of({id: 2}));
+      when(mockedApi.getData(deepEqual(CRUDRouter.entitySequence), anything(), anything())).thenReturn(of({id: 1, data: 'some1'}));
+      when(mockedApi.getData(deepEqual(CRUDRouter.repoSequences), anything(), anything())).thenReturn(of([{id: 1, data: 'some1'}, {id: 2, data: 'some2'}, {id: 3, data: 'some3'}]));
+      when(mockedApi.postData(anything(), anything(), anything(), anything())).thenReturn(of({id: 2, data: 'some2'}));
       // when(mockedApi.patchData(anything(), anything(), anything(), anything())).thenReturn(of({id: 3}));
-      when(mockedApi.deleteData(anything(), anything(), anything())).thenReturn(of({id: 1}));
+      when(mockedApi.deleteData(anything(), anything(), anything())).thenReturn(of({id: 1, data: 'some1'}));
       // when(mockedApi.getData(anything(), deepEqual({id: 10}), anything())).thenReturn(throwError('error'));
     });
 
     it('should not get same data repeatedly', inject([DataService], (service: DataService) => {
       service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
-        expect(val).toEqual({id: 1});
+        expect(val).toEqual({id: 1, data: 'some1'});
       });
       service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
-        expect(val).toEqual({id: 1});
+        expect(val).toEqual({id: 1 , data: 'some1'});
       });
       service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
-        expect(val).toEqual({id: 1});
+        expect(val).toEqual({id: 1, data: 'some1'});
       });
       verify(mockedApi.getData(
         deepEqual(CRUDRouter.entitySequence),
@@ -134,20 +134,20 @@ describe('DataService', () => {
     it('should get multiple entries once', fakeAsync(inject([DataService], (service: DataService) => {
       const resolved = [];
       service.getData(CRUDRouter.repoSequences).subscribe(val => {
-        expect(val).toEqual([{id: 1}, {id: 2}, {id: 3}]);
+        expect(val).toEqual([{id: 1, data: 'some1'}, {id: 2, data: 'some2'}, {id: 3, data: 'some3'}]);
         resolved.push(val);
       });
       tick();
       service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe(val => {
-        expect(val).toEqual({id: 1});
+        expect(val).toEqual({id: 1, data: 'some1'});
         resolved.push(val);
       });
       service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
-        expect(val).toEqual({id: 2});
+        expect(val).toEqual({id: 2, data: 'some2'});
         resolved.push(val);
       });
       service.getData(CRUDRouter.entitySequence, {sequenceId: 3}).subscribe(val => {
-        expect(val).toEqual({id: 3});
+        expect(val).toEqual({id: 3, data: 'some3'});
         resolved.push(val);
       });
 
@@ -166,11 +166,11 @@ describe('DataService', () => {
 
     it('should not get data that was posted', fakeAsync(inject([DataService], (service: DataService) => {
       service.postData(CRUDRouter.repoSequences, {}, {value: 'some'}).subscribe(val => {
-        expect(val).toEqual({id: 2});
+        expect(val).toEqual({id: 2, data: 'some2'});
       });
       tick();
       service.getData(CRUDRouter.entitySequence, {sequenceId: 2}).subscribe(val => {
-        expect(val).toEqual({id: 2});
+        expect(val).toEqual({id: 2, data: 'some2'});
       });
       tick();
       verify(mockedApi.getData(
@@ -184,11 +184,11 @@ describe('DataService', () => {
 
       service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(bufferCount(2))
       .subscribe(val => {
-        expect(val).toEqual([{id: 1}, {id: 2}]);
+        expect(val).toEqual([{id: 1, data: 'some1'}, {id: 2, data: 'some2'}]);
       });
 
       service.postData(CRUDRouter.entitySequence, {sequenceId: 1}, {value: 'some'}).subscribe(val => {
-        expect(val).toEqual({id: 2});
+        expect(val).toEqual({id: 2, data: 'some2'});
       });
 
       verify(mockedApi.getData(
@@ -209,7 +209,7 @@ describe('DataService', () => {
       let reqGet = false;
       service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(bufferCount(2)).subscribe(([initial, val]) => {
         expect(val).toEqual({id: 1, data: 1});
-        expect(initial).toEqual({id: 1});
+        expect(initial).toEqual({id: 1, data: 'some1'});
         reqGet = true;
       });
 
@@ -236,13 +236,47 @@ describe('DataService', () => {
       )).once();
     }));
 
-    xit('should remove store item when deleting', inject([DataService],  (service) => {
-      service.deleteData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe();
+    it('should try re-fetching store item which was deleted', inject([DataService], (service: DataService) => {
+      const reqs = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(mergeMap(initialData => {
+        verify(mockedApi.getData(
+          deepEqual(CRUDRouter.entitySequence),
+          deepEqual({sequenceId: 1}),
+          anything())
+        ).once();
+        expect(initialData).toEqual({id: 1, data: 'some1'});
+        return service.deleteData(CRUDRouter.entitySequence, {sequenceId: 1});
+      }),
+        mergeMap(deletedData => {
+          expect(deletedData).toEqual({id: 1, data: 'some1'});
+          return service.getData(CRUDRouter.entitySequence, {sequenceId: 1});
+        })
+      );
+      const spy = createSpy('reqssubscribe');
+      reqs.subscribe(spy);
 
+
+      expect(spy).toHaveBeenCalled();
+      verify(mockedApi.getData(
+        deepEqual(CRUDRouter.entitySequence),
+        deepEqual({sequenceId: 1}),
+        anything())
+      ).twice();
     }));
 
-    xit('should recover store item when recovering', inject([DataService],  (service) => {
+    it('should recover store item when recovering', inject([DataService],  (service: DataService) => {
+      service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(mergeMap(initialData => {
+          expect(initialData).toBeTruthy();
+          return service.deleteData(CRUDRouter.entitySequence, {sequenceId: 1});
+        })
+      ).subscribe(deletedData => {
+        expect(deletedData).toBeTruthy();
+      });
 
+      service.restoreData(CRUDRouter.entitySequence, {sequenceId: 1}).subscribe((d) => {
+        expect(d).toEqual({id: 2, data: 'some2'});
+      });
+
+      verify(mockedApi.postData(CRUDRouter.entitySequence, anything(), deepEqual({id: 1, data: 'some1'}), anything())).once();
     }));
   });
 

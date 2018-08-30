@@ -12,7 +12,6 @@ export type ReFetchQuery = string | {params: RouteParams, query: RouteParams} | 
 
 @Injectable()
 export class DataService implements PublicMembersInterface<ApiService> {
-
   private dataStore = new DataStore();
 
   constructor(
@@ -90,7 +89,27 @@ export class DataService implements PublicMembersInterface<ApiService> {
   }
 
   deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
-      return this.api.deleteData<T>(route, params, query);
+    const itemId = getItemIdFromParams(params, route.typeName);
+    const deleteRequest = this.api.deleteData<T>(route, params, query);
+    let storeItem;
+    if (this.dataStore.checkIsInStore(route.typeName, itemId)) {
+      storeItem = this.dataStore.getItem(route.typeName, itemId);
+      storeItem.inFlight = deleteRequest;
+      this.dataStore.safeDelete(route.typeName, itemId);
+    }
+    return deleteRequest;
+  }
+
+  restoreData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
+    const itemId = getItemIdFromParams(params, route.typeName);
+    if (this.dataStore.checkIsInStore(route.typeName, itemId, true)) {
+      const storeItem = this.dataStore.restoreItem(route.typeName, itemId);
+      return storeItem.subject$.pipe(
+        mergeMap(restoredData => {
+          return this.api.postData<T>(route, params, restoredData, query);
+        })
+      )
+    }
   }
 
 }

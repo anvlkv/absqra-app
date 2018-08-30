@@ -1,21 +1,25 @@
-import { Observable, ReplaySubject } from 'rxjs';
+import { Observable, of, ReplaySubject } from 'rxjs';
 import { RequestParams } from 'api';
 import { mergeMap } from 'rxjs/operators';
 
 export class DataStoreItem<T> {
-  requestParams: RequestParams;
   private _inFlight: Observable<T>;
   set inFlight (observable: Observable<T>) {
-    // if (observable) {
     this._inFlight = observable;
-    // }
   }
   get inFlight(): Observable<T> {
     return this._inFlight.pipe(mergeMap(d => {
-      this.subject$.next(d);
-      return this.subject$.asObservable();
+      if (!this.isSafeDeleted) {
+        this.subject$.next(d);
+        return this.subject$.asObservable();
+      }
+      else {
+        this.latestValue = d;
+        return of(d);
+      }
     }));
   }
+  private latestValue: T;
   subject$: ReplaySubject<T>;
 
   private _tempId: string;
@@ -42,10 +46,34 @@ export class DataStoreItem<T> {
     }
   }
 
+  private _isSafeDeleted: boolean;
+  get isSafeDeleted(): boolean {
+    return this._isSafeDeleted;
+  }
+
+  set isSafeDeleted(is: boolean) {
+    this._isSafeDeleted = is;
+
+    if (is) {
+      this.subject$.complete();
+      this.subject$.closed = true;
+    }
+    else {
+      this.subject$ = new ReplaySubject<T>(this.bufferSize, this.itemExpiresIn);
+      this.subject$.next(this.latestValue);
+    }
+
+  }
+
   constructor(
-    data?: T
+    data?: T,
+    private requestParams?: RequestParams,
+    private bufferSize = 1,
+    private itemExpiresIn: number = undefined
   ) {
-    this.subject$ = new ReplaySubject<T>(1);
+    this.subject$ = new ReplaySubject<T>(bufferSize, itemExpiresIn);
+
+    this.subject$.subscribe(v => this.latestValue = v);
 
     if (data) {
       this.subject$.next(data);

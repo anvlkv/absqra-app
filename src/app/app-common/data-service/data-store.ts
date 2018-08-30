@@ -56,8 +56,9 @@ export class DataStore {
   //   item.subject$.next(data);
   // }
 
-  checkIsInStore(type: string, data): boolean {
-    return !!this.store[this.getStoreId(type, data)]
+  checkIsInStore(type: string, data, includeSafeDeleted?: boolean): boolean {
+    const item = this.store[this.getStoreId(type, data)];
+    return !!item && (!item.isSafeDeleted || includeSafeDeleted);
   }
 
   getByStoreId(storeId: string): DataStoreItem<any> {
@@ -73,6 +74,7 @@ export class DataStore {
     if (!this.store[storeId]) {
       throw new Error(`store item [${storeId}] does not exist`);
     }
+
     return this.store[storeId];
   }
 
@@ -130,5 +132,16 @@ export class DataStore {
     this.store[storeId].subject$.complete();
     delete this.store[storeId];
     return storeId;
+  }
+
+  safeDelete(type: string, id: string) {
+    const storeId = this.getStoreId(type, id);
+    this.store[storeId].isSafeDeleted = true;
+  }
+
+  restoreItem(type: string, data) {
+    const storeId = this.getStoreId(type, data);
+    this.store[storeId].isSafeDeleted = false;
+    return this.store[storeId];
   }
 }
