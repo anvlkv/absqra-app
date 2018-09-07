@@ -1,19 +1,21 @@
-<a [routerLink]="[project.id]">
+<ng-container *ngIf="state | async">
   <div>
-    <h3>{{project.name}}</h3>
+    <h3>{{dataItem.name}}</h3>
+    <p>{{dataItem.description}}</p>
     <dl>
       <dt>
         created
       </dt>
       <dd>
-        {{project.createdDate}}
+        {{dataItem.createdDate | date: 'short'}}
       </dd>
       <dt>
         updated
       </dt>
       <dd>
-        {{project.updatedDate}}
+        {{dataItem.updatedDate | date: 'short'}}
       </dd>
     </dl>
+    <ng-content></ng-content>
   </div>
-</a>
+</ng-container>

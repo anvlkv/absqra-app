@@ -1,20 +1,14 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Question } from '../../../api-models';
+import { Component, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Question } from 'models/api-models';
+import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
+import { NgIfContext } from '@angular/common';
 
 
 
 @Component({
   selector: 'app-question-thumbnail',
   templateUrl: './question-thumbnail.component.html',
-  styleUrls: ['./question-thumbnail.component.scss'],
+  styleUrls: ['./question-thumbnail.component.scss', '../styles/sequence-design.scss'],
 })
-export class QuestionThumbnailComponent implements OnInit {
-  @Input()
-  question: Question;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class QuestionThumbnailComponent extends BaseThumbnail<Question> {
 }

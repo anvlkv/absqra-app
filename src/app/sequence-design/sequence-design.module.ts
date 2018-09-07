@@ -20,6 +20,10 @@ import { TaskThumbnailComponent } from './task-thumbnail/task-thumbnail.componen
 import { LogicThumbnailComponent } from './logic-thumbnail/logic-thumbnail.component';
 import { SequenceThumbnailComponent } from './sequence-thumbnail/sequence-thumbnail.component';
 import { QuestionDetailComponent } from './question-detail/question-detail.component';
+import { AssetThumbnailComponent } from './asset-thumbnail/asset-thumbnail.component';
+import { AssetDetailComponent } from './asset-detail/asset-detail.component';
+import { FormatConstraintDetailComponent } from './format-constraint-detail/format-constraint-detail.component';
+import { FormatConstraintThumbnailComponent } from './format-constraint-thumbnail/format-constraint-thumbnail.component';
 
 @NgModule({
   imports: [
@@ -44,7 +48,11 @@ import { QuestionDetailComponent } from './question-detail/question-detail.compo
     TaskThumbnailComponent,
     LogicThumbnailComponent,
     SequenceThumbnailComponent,
-    QuestionDetailComponent
+    QuestionDetailComponent,
+    AssetThumbnailComponent,
+    AssetDetailComponent,
+    FormatConstraintDetailComponent,
+    FormatConstraintThumbnailComponent
   ]
 })
 export class SequenceDesignModule { }

@@ -5,8 +5,8 @@
     "module": "es2015",
     "baseUrl": "",
     "paths":{
-      "typeorm":["../node_modules/typeorm/typeorm-model-shim"],
-      "api":["models/api-routes"]
+      "api":["models/api"],
+      "models":["models/*"]
     }
   },
   "exclude": [

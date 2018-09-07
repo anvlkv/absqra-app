@@ -42,13 +42,6 @@ describe('MultipleInputComponent', () => {
         expect(fixture.debugElement.queryAll(By.css('li')).length).toEqual(4);
       });
 
-      it('should throw error if options provided are the same', () => {
-        spyOnProperty(component, 'options', 'set').and.callThrough();
-        expect(() => {
-          component.options = ['a', 'b', 'a', 'b'];
-        }).toThrowError();
-      });
-
       describe('with value', () => {
         beforeEach(() => {
           component.value = ['a', 'c'];
@@ -83,15 +76,21 @@ describe('MultipleInputComponent', () => {
           expect(component.value).toEqual(['a', 'c']);
         });
 
+        it('should return single value when multiselect is false', () => {
+          component.multiSelect = false;
+          fixture.detectChanges();
+          expect(component.value).toEqual('a');
+        });
+
         it('should update value when toggling radio', () => {
           component.multiSelect = false;
           fixture.detectChanges();
           fixture.debugElement.queryAll(By.css('.selection-input'))[0].nativeElement.click();
           fixture.detectChanges();
-          expect(component.value).toEqual(['a']);
+          expect(component.value).toEqual('a');
           fixture.debugElement.queryAll(By.css('.selection-input'))[1].nativeElement.click();
           fixture.detectChanges();
-          expect(component.value).toEqual(['b']);
+          expect(component.value).toEqual('b');
         });
       });
     });
@@ -104,7 +103,7 @@ describe('MultipleInputComponent', () => {
     @Component({
       selector: 'app-test-cmp',
       template: `
-    <form [formGroup]="form">
+    <div [formGroup]="form">
       <app-multiple-input formControlName="multiple" class="test-component" [max]="max" [min]="min" [options]="options">
         <ng-template let-sortable let-i="itemIndex">
           <div class="test-content">
@@ -112,7 +111,7 @@ describe('MultipleInputComponent', () => {
           </div>
         </ng-template>
       </app-multiple-input>
-    </form>
+    </div>
   `,
     })
     class TestWrapperComponent implements OnInit {

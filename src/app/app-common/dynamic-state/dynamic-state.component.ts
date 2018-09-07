@@ -1,11 +1,14 @@
 import {
-  AfterContentInit, Component, ContentChild, Input, OnInit,
+  AfterContentChecked,
+  AfterContentInit, Component, ContentChild, ElementRef, ErrorHandler, Input, OnInit,
   TemplateRef, ViewChild,
 } from '@angular/core';
 import { LoadingComponent } from '../loading/loading.component';
 import { ErrorComponent } from '../error/error.component';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { DynamicStateErrorHandler } from './dyanmic-state.error-handler';
 
 export type DynamicState = ComponentDynamicStates | ImmediateStateConfiguration;
 
@@ -28,14 +31,17 @@ export interface ImmediateStateConfiguration {
 @Component({
   selector: 'app-dynamic-state',
   templateUrl: './dynamic-state.component.html',
-  styleUrls: ['./dynamic-state.component.scss']
+  styleUrls: ['./dynamic-state.component.scss'],
+  providers: [
+    {
+      provide: ErrorHandler,
+      useClass: DynamicStateErrorHandler,
+      multi: true
+    }
+  ]
 })
 export class DynamicStateComponent implements OnInit, AfterContentInit {
   private currentState: ComponentDynamicStates;
-
-  // @ContentChildren('ng-template')
-  // providedTemplates: TemplateRef<any>;
-
 
   @ContentChild('loadingTemplate')
   public loadingTemplate: TemplateRef<any>;
@@ -83,7 +89,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
 
   private _stateSubscription: Subscription;
   private _observableState: Observable<ComponentDynamicStates | ImmediateStateConfiguration>;
-  private currentTemplate: TemplateRef<any>;
+  currentTemplate: TemplateRef<any>;
 
   @Input()
   set state(state: Observable<DynamicState>) {
@@ -96,6 +102,8 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
   }
 
   constructor(
+    private el: ElementRef,
+    private errorHandler: ErrorHandler
   ) { }
 
   ngOnInit() {
@@ -173,7 +181,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
       this.currentTemplate = this.resolveTemplate(ComponentDynamicStates.FAILING);
       this.currentState = ComponentDynamicStates.FAILING;
     }
-    else {
+    else if (!environment.production) {
       console.error(this.stateContext.err);
       console.error(err);
     }
@@ -189,6 +197,7 @@ export class DynamicStateComponent implements OnInit, AfterContentInit {
       this.displayInternalError(err, state);
     }
   }
+
 }
 
 export const stateCombinator = function (...statesToCombine: Observable<DynamicState>[]): Observable<DynamicState> {

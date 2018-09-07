@@ -10,6 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { By } from '@angular/platform-browser';
 import { BehaviorSubject } from 'rxjs';
+import { DynamicStateErrorHandler } from './dyanmic-state.error-handler';
 
 
 @Component({
@@ -59,6 +60,9 @@ describe('DynamicStateComponent', () => {
         TestErrorComponent,
         DynamicStateComponent
       ],
+      providers: [
+        DynamicStateErrorHandler
+      ],
       schemas: [
         NO_ERRORS_SCHEMA
       ]
@@ -95,14 +99,14 @@ describe('DynamicStateComponent', () => {
       expect((<DebugElement>hostFixture.debugElement.childNodes[0]).query(By.css('.test-content'))).toBeTruthy();
     }));
 
-    xit('should display internal errors', async(() => {
+    it('should display internal errors', async(() => {
       hostFixture.componentInstance.testError = true;
       hostFixture.detectChanges();
       component.ngAfterContentInit();
       hostFixture.componentInstance.$state.next(ComponentDynamicStates.EDITING);
-      // const spy = spyOn(hostFixture, 'detectChanges');
-      hostFixture.detectChanges();
-      // expect(hostFixture.detectChanges).toThrowError('test error');
+      expect(() => {
+        hostFixture.detectChanges();
+      }).toThrowError('test error');
       expect((<DebugElement>hostFixture.debugElement.childNodes[0]).query(By.css('app-error'))).toBeTruthy();
       expect(component.stateContext.err).toBeTruthy();
     }));

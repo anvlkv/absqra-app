@@ -1,8 +1,19 @@
+@import "vars/var-breakpoints";
+@import "~breakpoint-sass";
 @import "vars/var-sizes";
 
 ._grid-surfaces-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr [col-start]);
+  grid-template-columns: repeat(1, 1fr [col-start]);
+  @include breakpoint($medium-screen) {
+    grid-template-columns: repeat(2, 1fr [col-start]);
+  }
+  @include breakpoint($large-screen) {
+    grid-template-columns: repeat(3, 1fr [col-start]);
+  }
+  @include breakpoint($x-large-screen) {
+    grid-template-columns: repeat(4, 1fr [col-start]);
+  }
   grid-auto-columns: 1fr;
   grid-auto-rows: 1fr;
   grid-gap: $small-white-space;

@@ -22,7 +22,7 @@ describe('ProjectThumbnailComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ProjectThumbnailComponent);
     component = fixture.componentInstance;
-    component.project = {id: 0, name: 'a'}
+    component.dataItem = {id: 0, name: 'a'};
     fixture.detectChanges();
   });
 

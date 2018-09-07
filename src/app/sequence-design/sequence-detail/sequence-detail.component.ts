@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { Sequence, SequenceLifeCycleTypes } from '../../../api-models';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { Sequence, SequenceLifeCycleTypes } from '../../../models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
-import { CRUDRouter } from '../../../api-routes/CRUDRouter';
+import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { unpackEnum } from '../../utils';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { CRUD } from '../../app-common/api.service';
+import { CRUD } from '../../app-common/api-service/api.service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import {
   ComponentDynamicStates,
@@ -18,7 +18,7 @@ import { filter } from 'rxjs/operators';
 @Component({
   selector: 'app-sequence-detail',
   templateUrl: './sequence-detail.component.html',
-  styleUrls: ['./sequence-detail.component.scss']
+  styleUrls: ['./sequence-detail.component.scss', '../styles/sequence-design.scss']
 })
 export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnInit {
   private $headerState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
@@ -32,9 +32,10 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
 
   constructor(
     data: DataService,
+    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data);
+    super(data, el);
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
     this.callConfigurator = (sequenceId, cause) => {
       switch (cause) {
@@ -108,10 +109,13 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
     }
   }
 
-  saveHeader() {
+  saveHeader(e: Event) {
+    e ? e.preventDefault() : null;
+    e ? e.stopPropagation() : null;
+
     if (this.sequenceHeaderForm.valid) {
       this.$headerState.next(ComponentDynamicStates.INTERIM);
-      if (this.id) {
+      if (this.dataItemId) {
         this.dataItem.header = this.sequenceHeaderForm.value;
         this.update();
       }
@@ -119,6 +123,8 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
         this.save({header: this.sequenceHeaderForm.value});
       }
     }
+
+    return false;
   }
 
   editHeader() {

@@ -3,30 +3,28 @@
     <h3>Project</h3>
     <app-dynamic-state [state]="state">
       <ng-template #viewingTemplate>
-        <div class="project-card">
-          <h4>{{dataItem.name}}</h4>
-          <p>
-            {{dataItem.description}}
-          </p>
-          <button (click)="edit()">edit</button>
-        </div>
+        <!--<div class="project-card">-->
+          <app-project-thumbnail [dataItem]="dataItem">
+            <button (click)="edit()">edit</button>
+          </app-project-thumbnail>
+        <!--</div>-->
       </ng-template>
       <ng-template #editingTemplate>
-        <form [formGroup]="projectForm" (ngSubmit)="saveProjectHeader()">
-          <div>
+        <fieldset [formGroup]="projectForm">
+          <div class="input-group">
             <label for="name">
               name
             </label>
             <input type="text" id="name" formControlName="name">
           </div>
-          <div>
+          <div class="input-group">
             <label for="description">
               notes
             </label>
             <textarea id="description" formControlName="description"></textarea>
           </div>
-          <button type="submit">save</button>
-        </form>
+          <button (click)="saveProjectHeader($event)">save</button>
+        </fieldset>
       </ng-template>
     </app-dynamic-state>
 
@@ -34,7 +32,7 @@
       <ng-template #defaultTemplate>
         <section>
           <h4>Sequence</h4>
-          <app-sequence-detail [id]="dataItem.topSequenceId" (idChange)="onSequenceIdChange($event)">
+          <app-sequence-detail [dataItemId]="dataItem.topSequenceId" (idChange)="onSequenceIdChange($event)">
           </app-sequence-detail>
         </section>
 

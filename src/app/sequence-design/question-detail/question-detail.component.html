@@ -1,28 +1,82 @@
 <app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
     <div class="question-card">
-      <h4>{{dataItem.name}}</h4>
-      <p>
-        {{dataItem.description}}
-      </p>
-      <button (click)="edit()">edit</button>
+      <app-question-thumbnail [dataItem]="dataItem">
+        <button (click)="edit()">edit</button>
+      </app-question-thumbnail>
+
     </div>
   </ng-template>
   <ng-template #editingTemplate>
-    <form [formGroup]="questionForm" (ngSubmit)="saveQuestionHeader()">
-      <div>
+    <fieldset [formGroup]="questionForm">
+      <div class="input-group">
         <label for="name">
           name
         </label>
         <input type="text" id="name" formControlName="name">
       </div>
-      <div>
+      <div class="input-group">
         <label for="description">
           notes
         </label>
         <textarea id="description" formControlName="description"></textarea>
       </div>
-      <button type="submit">save</button>
-    </form>
+      <div class="input-group">
+        <label for="questionContentAsset">
+          question content
+        </label>
+        <app-asset-detail id="questionContentAsset" [dataItemId]="dataItem?.contentId" [assetPurposeType]="assetPurposeTypes.QUESTION" (idChange)="setQuestionContentId($event)" [parentId]="dataItem?.id"></app-asset-detail>
+      </div>
+      <div class="input-group">
+        <label for="questionOffers">
+          offers
+        </label>
+        <app-multiple-input id="questionOffers" [options]="qttOrder" formControlName="offers" [multiSelect]="false"></app-multiple-input>
+      </div>
+      <div class="input-group">
+        <label for="questionExpects">
+          expects
+        </label>
+        <app-multiple-input id="questionExpects" [options]="qttOrder" formControlName="expects" [multiSelect]="false"></app-multiple-input>
+      </div>
+      <button (click)="saveQuestionHeader($event)">save</button>
+    </fieldset>
+  </ng-template>
+</app-dynamic-state>
+<app-dynamic-state [state]="state">
+  <ng-template #defaultTemplate>
+    <fieldset [formGroup]="questionForm" *ngIf="dataItem?.id">
+      <div class="input-group">
+        <label for="formatConstraints">
+          format constraints
+        </label>
+        <app-array-input formControlName="formatConstraintsIds" id="formatConstraints">
+          <ng-template let-sortable let-i="itemIndex">
+            <app-format-constraint-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+          </ng-template>
+        </app-array-input>
+      </div>
+      <div class="input-group">
+        <label for="questionOptionsIds">
+          question options
+        </label>
+        <app-array-input formControlName="questionOptionsIds" id="questionOptionsIds">
+          <ng-template let-sortable let-i="itemIndex">
+            <app-asset-detail [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"
+                              (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+          </ng-template>
+        </app-array-input>
+      </div>
+      <div class="input-group">
+        <label for="responseOptionsIds">
+          response options
+        </label>
+        <app-array-input formControlName="responseOptionsIds" id="responseOptionsIds">
+          <ng-template let-sortable let-i="itemIndex">
+            <app-asset-detail [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+          </ng-template>
+        </app-array-input>
+      </div>
+    </fieldset>
   </ng-template>
 </app-dynamic-state>

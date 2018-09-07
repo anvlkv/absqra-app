@@ -7,7 +7,7 @@ import { anything, instance, mock, when } from 'ts-mockito';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
-import { HotKeysService } from '../../app-common/hot-keys.service';
+import { HotKeysService } from '../../app-common/hot-keys-service/hot-keys.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ProjectDetailComponent', () => {

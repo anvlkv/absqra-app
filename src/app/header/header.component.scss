@@ -10,6 +10,13 @@
   height: $large-panel-bar;
   background-color: $primary-background;
   .app-branding {
+    a{
+      color: inherit;
+      text-decoration: none;
+    }
+    .text{
+      margin-left: .25em;
+    }
     .logo{
       display: inline-block;
       width: 1em;

@@ -28,7 +28,9 @@
              tabindex="1">
       .
     </label>
-    <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: sortable, itemIndex: i}"></ng-container>
+    <div class="input-wrapper">
+      <ng-container *ngTemplateOutlet="itemTemplate; context: {$implicit: sortable, itemIndex: i}"></ng-container>
+    </div>
     <button tabindex="2"
             class="remove-item"
             (focus)="onFocus(sortable.item)"

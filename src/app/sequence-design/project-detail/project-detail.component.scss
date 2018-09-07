@@ -21,9 +21,9 @@
     > * {
      white-space: initial;
     }
-    .project-card{
-      @extend ._card;
-      flex-direction: column;
-    }
+    //.project-card{
+    //  @extend ._card;
+    //  flex-direction: column;
+    //}
   }
 }

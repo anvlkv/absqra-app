@@ -1,15 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { Step, StepTypes } from '../../../api-models';
+import { Step, StepTypes } from '../../../models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
-import { CRUDRouter } from '../../../api-routes/CRUDRouter';
-import { CRUD } from '../../app-common/api.service';
-import {
-  ComponentDynamicStates,
-  DynamicState,
-  stateCombinator,
-} from '../../app-common/dynamic-state/dynamic-state.component';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUD } from '../../app-common/api-service/api.service';
+import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
+import { Observable } from 'rxjs';
 import { unpackEnum } from '../../utils';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
@@ -17,12 +13,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-step-detail',
   templateUrl: './step-detail.component.html',
-  styleUrls: ['./step-detail.component.scss'],
+  styleUrls: ['./step-detail.component.scss', '../styles/sequence-design.scss'],
 })
 export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
-  private $typeState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
-  private $contentState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
-
   stepTypeState: Observable<DynamicState>;
   stepTypesList: string[];
   typeForm: FormGroup;
@@ -31,15 +24,17 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
 
   constructor(
     data: DataService,
+    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data);
+    super(data, el);
     this.stepTypesList = unpackEnum(StepTypes);
     this.callConfigurator = (stepId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
           return {
-            route: CRUDRouter.repoSteps,
+            route: CRUDRouter.repoStepsOfSequence,
+            params: {sequenceId: this.parentId}
           };
         }
         default: {
@@ -50,16 +45,6 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
         }
       }
     };
-
-    this.stepTypeState = stateCombinator(
-      this.$state.asObservable(),
-      this.$typeState.asObservable()
-    );
-
-    this.stepContentState = stateCombinator(
-      this.$state.asObservable(),
-      this.$contentState.asObservable()
-    );
   }
 
 
@@ -87,34 +72,24 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
       this.typeForm = this.fb.group({type: step.type});
 
       this.typeForm.valueChanges.subscribe(v => {
-        if (this.id) {
+        if (this.dataItemId) {
           this.dataItem.type = v.type;
           this.update();
         }
         else {
           this.dataItem = v;
           this.save();
-          this.$typeState.next(ComponentDynamicStates.VIEWING);
         }
       });
 
       if (!loaded) {
         this.editType();
       }
-      else {
-        this.$typeState.next(ComponentDynamicStates.VIEWING);
-        if (!this.referredEntityId()) {
-          this.$contentState.next(ComponentDynamicStates.EDITING);
-        }
-        else {
-          this.$contentState.next(ComponentDynamicStates.VIEWING);
-        }
-      }
     });
   }
 
   editType() {
-    this.$typeState.next(ComponentDynamicStates.EDITING);
+    this.$state.next(ComponentDynamicStates.EDITING);
   }
 
   trackType(i) {

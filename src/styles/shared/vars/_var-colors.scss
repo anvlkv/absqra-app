@@ -1,3 +1,8 @@
 $primary-background: #fafafa !default;
 $primary-text-color: #333 !default;
+$primary-interactive: blue !default;
 $error-color: #e62100 !default;
+
+$secondary-interactive: lighten(mix($primary-text-color, $primary-interactive), 45%) !default;
+
+$primary-interactive-background: mix($primary-background, lighten($primary-interactive, 45%));

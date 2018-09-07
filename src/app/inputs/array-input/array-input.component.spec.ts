@@ -102,7 +102,7 @@ describe('ArrayInputComponent', () => {
     @Component({
       selector: 'app-test-cmp',
       template: `
-        <form [formGroup]="form">
+        <div [formGroup]="form">
           <app-array-input [archetype]="archetype" formControlName="array" class="test-component" [max]="max"
                            [min]="min">
             <ng-template let-sortable let-i="itemIndex">
@@ -114,7 +114,7 @@ describe('ArrayInputComponent', () => {
               </div>
             </ng-template>
           </app-array-input>
-        </form>
+        </div>
       `,
     })
     class TestWrapperComponent implements OnInit {

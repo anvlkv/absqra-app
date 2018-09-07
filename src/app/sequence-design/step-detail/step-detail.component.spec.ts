@@ -4,7 +4,7 @@ import { StepDetailComponent } from './step-detail.component';
 import { of } from 'rxjs';
 import { anything, instance, mock, when } from 'ts-mockito';
 import { DataService } from '../../app-common/data-service/data.service';
-import { StepTypes } from '../../../api-models';
+import { StepTypes } from '../../../models/api-models';
 import { SequenceDetailComponent } from '../sequence-detail/sequence-detail.component';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';

@@ -59,17 +59,10 @@ export class MultipleInputComponent implements OnInit, OnDestroy, ControlValueAc
     return this._max;
   }
 
-  private selectableOptions: Selectable<any>[] = [];
+  selectableOptions: Selectable<any>[] = [];
   @Input()
   set options(opts: any[]){
-    if (opts) {
-      opts.forEach((opt, index) => {
-        const identicalOptionIndex = opts.findIndex((o, i) => i !== index && _.isEqual(o, opt));
-        if (identicalOptionIndex >= 0) {
-         throw new Error(`Identical options found at [${index}] and [${identicalOptionIndex}]`);
-        }
-      });
-
+    if (opts && !areOptionSetsEqual(opts, this.options)) {
       this.selectableOptions = opts.map(o => ({
         item: o,
         state: this.getOptionState(o)
@@ -87,11 +80,15 @@ export class MultipleInputComponent implements OnInit, OnDestroy, ControlValueAc
   }
 
   @Input()
-  set value(items: any[]) {
+  set value(items: any[] & any) {
+    if (!(items instanceof Array)) {
+      items = [items];
+    }
     this.writeValue(items);
   }
-  get value(): any[] {
-    return this.selectableOptions.filter(o => o.state === SelectionState.ON).map(o => o.item);
+  get value(): any[] & any {
+    const val = this.selectableOptions.filter(o => o.state === SelectionState.ON).map(o => o.item);
+    return this.multiSelect ? val : val[0]
   }
 
   @Input()
@@ -168,13 +165,18 @@ export class MultipleInputComponent implements OnInit, OnDestroy, ControlValueAc
   }
 
   writeValue(selected: any[]): void {
+    if (typeof selected === 'string') {
+      selected = [selected];
+    }
     selected = selected || [];
+
     const options = this.options;
     const selectedIndexes = selected.map(opt => options.findIndex(o => _.isEqual(opt, o)));
     this.selectableOptions.forEach((opt, index) => {
       opt.state = selectedIndexes.includes(index) ? SelectionState.ON : SelectionState.OFF;
     });
-    this.onChangeCallback(selected);
+
+    this.onChangeCallback(this.value);
   }
 
   registerOnValidatorChange(fn: () => void): void {
@@ -194,4 +196,8 @@ export class MultipleInputComponent implements OnInit, OnDestroy, ControlValueAc
 
     return Object.keys(errors).length ? errors : null;
   }
+}
+
+function areOptionSetsEqual(x: any[], y: any[]): boolean {
+  return _(x).differenceWith(y, _.isEqual).isEmpty();
 }

@@ -4,19 +4,31 @@ ol, ul {
   padding-left: 0;
   li {
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: nowrap;
     align-items: center;
+    justify-content: space-between;
     width: 100%;
+    margin-bottom: $small-white-space;
     button, label {
       flex-grow: 0;
+      white-space: nowrap;
     }
     .remove-item {
       justify-self: flex-end;
       margin-left: $small-white-space;
     }
+
+    .add-item {
+      flex-grow: 1;
+    }
+
     label {
       margin-right: $x-small-white-space;
       justify-self: flex-start;
+    }
+
+    .input-wrapper{
+      flex-grow: 1;
     }
   }
 }

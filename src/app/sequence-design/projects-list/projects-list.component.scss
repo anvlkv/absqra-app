@@ -9,14 +9,30 @@
   min-width: 0;
   min-height: 0;
 
-  > *:not(.new-project-tile) {
-    min-width: 0;
-    min-height: 0;
-  }
+  > *{
+    a, .new-project-tile {
+      @extend ._base-surface;
+      height: 100%;
+      width: 100%;
+    }
 
-  .new-project-tile{
-    @extend ._card;
-    height: 100%;
-    width: 100%;
+    a {
+      app-project-thumbnail{
+        width: 100%;
+      }
+    }
+
+    .new-project-tile {
+      flex-direction: column;
+      align-content: stretch;
+      input {
+        flex-grow: 1;
+        flex-shrink: 0;
+      }
+      button {
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
+    }
   }
 }

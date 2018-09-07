@@ -1,4 +1,4 @@
-<app-dynamic-state [state]="stepTypeState">
+<app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
     <a (click)="editType()">
       {{dataItem?.type}}
@@ -6,20 +6,23 @@
   </ng-template>
 
   <ng-template #editingTemplate>
-    <form [formGroup]="typeForm">
-      <div>
-        <label *ngFor="let type of stepTypesList; trackBy: trackType">
-          <input type="radio" required formControlName="type" [value]="type">
-          {{type}}
+    <fieldset [formGroup]="typeForm">
+      <div class="input-group">
+        <label for="stepType">
+          type
         </label>
+        <app-multiple-input id="stepType" [multiSelect]="false" [options]="stepTypesList" formControlName="type"></app-multiple-input>
       </div>
-    </form>
+    </fieldset>
   </ng-template>
 </app-dynamic-state>
 
 <div [ngSwitch]="dataItem?.type">
   <ng-container *ngSwitchCase="stepTypes.QUESTION_REF">
-    <app-question-detail [id]="dataItem.questionReferenceId" (idChange)="updateReference($event, 'questionReference')"></app-question-detail>
+    <div class="input-group">
+      <label for="questionReferenceId"></label>
+      <app-question-detail id="questionReferenceId" [dataItemId]="dataItem.questionReferenceId" (idChange)="updateReference($event, 'questionReference')"></app-question-detail>
+    </div>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.TASK_REF">
@@ -32,9 +35,11 @@
 
 
   <ng-container *ngSwitchCase="stepTypes.SEQUENCE_REF">
-    <label>
-      Selected sequence
-    </label>
-    <app-sequence-thumbnail></app-sequence-thumbnail>
+    <div class="input-group">
+      <label for="sequenceReferenceId">
+        Selected sequence
+      </label>
+      <app-sequence-thumbnail id="sequenceReferenceId"></app-sequence-thumbnail>
+    </div>
   </ng-container>
 </div>

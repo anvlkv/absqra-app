@@ -1,0 +1,37 @@
+<app-dynamic-state [state]="state">
+  <ng-template #viewingTemplate>
+    <app-format-constraint-thumbnail [dataItem]="dataItem">
+      <button (click)="edit()">edit</button>
+    </app-format-constraint-thumbnail>
+  </ng-template>
+  <ng-template #editingTemplate>
+    <fieldset [formGroup]="constraintForm">
+      <div class="input-group">
+        <label for="validationType">
+          validation type
+        </label>
+        <app-multiple-input id="validationType" [multiSelect]="false" [options]="validationTypesValues" formControlName="validationType"></app-multiple-input>
+      </div>
+      <div class="input-group">
+        <label for="validationSubType">
+          validation sub type
+        </label>
+        <app-multiple-input id="validationSubType" [multiSelect]="false" [options]="currentValidationTypeSubtypes" formControlName="validationSubType"></app-multiple-input>
+      </div>
+      <div class="input-group">
+        <label for="constraintValue">
+          constraint
+        </label>
+        <ng-container [ngSwitch]="currentConstraintType">
+          <input id="constraintValue" *ngSwitchCase="'text'" type="text" formControlName="stringConstraint">
+          <input id="constraintValue" *ngSwitchCase="'number'" type="number" formControlName="numericConstraint">
+          <label *ngSwitchCase="'boolean'">
+            <input type="checkbox" formControlName="booleanConstraint">
+            is
+          </label>
+        </ng-container>
+      </div>
+      <button (click)="saveConstraint($event)">save</button>
+    </fieldset>
+  </ng-template>
+</app-dynamic-state>

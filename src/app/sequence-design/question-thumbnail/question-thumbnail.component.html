@@ -1,3 +1,46 @@
-<p>
-  question-thumbnail works!
-</p>
+<ng-container *ngIf="state | async">
+  <h4>{{dataItem.name}}</h4>
+  <p>
+    {{dataItem.description}}
+  </p>
+  <app-asset-thumbnail [dataItem]="dataItem?.content"></app-asset-thumbnail>
+  <dl>
+    <dt>
+      offers
+    </dt>
+    <dd>
+      {{dataItem.offers}}
+    </dd>
+    <dt>
+      expects
+    </dt>
+    <dd>
+      {{dataItem.expects}}
+    </dd>
+    <dt>
+      life cycle
+    </dt>
+    <dd>
+      {{dataItem.lifeCycle}}
+    </dd>
+    <dt>
+      format constraints
+    </dt>
+    <dd>
+      {{dataItem.formatConstraintsIds.length}}
+    </dd>
+    <dt>
+      question options
+    </dt>
+    <dd>
+      {{dataItem.questionOptionsIds.length}}
+    </dd>
+    <dt>
+      response options
+    </dt>
+    <dd>
+      {{dataItem.responseOptionsIds.length}}
+    </dd>
+  </dl>
+  <ng-content></ng-content>
+</ng-container>

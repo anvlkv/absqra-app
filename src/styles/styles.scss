@@ -1,6 +1,8 @@
+@import "shared/vars/var-breakpoints";
+@import "~breakpoint-sass";
 @import "normailization-config";
 @import "~normalize-scss";
-@import "shared/vars/var-colors";
+@import "shared/vars";
 @include normalize();
 
 body{
@@ -8,5 +10,19 @@ body{
   background-color: darken($primary-background, 10%);
   &, * {
     box-sizing: border-box;
+  }
+  // TODO: move it somewhere when you have more of these...
+  button {
+    border: 1px solid $primary-interactive;
+    color: $primary-interactive;
+    background-color: $primary-interactive-background;
+  }
+  input, textarea {
+    border: 1px solid desaturate($primary-interactive, 50%);
+    &:focus {
+      border-color: transparent;
+      outline: $primary-interactive solid 2px;
+    }
+    padding: $x-small-white-space;
   }
 }

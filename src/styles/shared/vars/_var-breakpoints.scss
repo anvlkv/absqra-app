@@ -1,0 +1,15 @@
+//
+//// assume min-width (by default) if only a number
+//$high-tide: 500px;
+//// set min-width/max-width if both values are numbers
+//$ex-presidents: 600px 800px;
+//// if one value is a string, assume a feature/value pair
+//$surfboard-width: max-width 1000px;
+//// string tests together within parentheses, assume each item is a feature value pair
+//$surfboard-height: (min-height 1000px) (orientation portrait);
+
+$x-small-screen: 300px;
+$small-screen: 301px 600px;
+$medium-screen: 601px 900px;
+$large-screen: 901px 1200px;
+$x-large-screen: min-width 1200px;

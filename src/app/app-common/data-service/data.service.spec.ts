@@ -1,9 +1,9 @@
 import { TestBed, inject, fakeAsync, tick } from '@angular/core/testing';
 import { DataService } from './data.service';
-import { ApiService } from '../api.service';
+import { ApiService } from '../api-service/api.service';
 import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
 import { noop, of, throwError } from 'rxjs';
-import { CRUDRouter } from '../../../api-routes/CRUDRouter';
+import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
 import { bufferCount, mergeMap } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
@@ -236,6 +236,10 @@ describe('DataService', () => {
       )).once();
     }));
 
+    it('should throw error when patching with 0 operations', inject([DataService], (service: DataService) => {
+      service.patchData(CRUDRouter.entitySequence, {sequenceId: 1}, []).subscribe(() => {}, err => expect(err).toBeTruthy());
+    }));
+
     it('should try re-fetching store item which was deleted', inject([DataService], (service: DataService) => {
       const reqs = service.getData(CRUDRouter.entitySequence, {sequenceId: 1}).pipe(mergeMap(initialData => {
         verify(mockedApi.getData(
@@ -255,7 +259,7 @@ describe('DataService', () => {
       reqs.subscribe(spy);
 
 
-      expect(spy).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalledWith({id: 1, data: 'some1'});
       verify(mockedApi.getData(
         deepEqual(CRUDRouter.entitySequence),
         deepEqual({sequenceId: 1}),

@@ -1,24 +1,33 @@
-import { EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Base } from '../../../api-models';
+import {
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  QueryList, SimpleChanges,
+  ViewChildren,
+} from '@angular/core';
+import { Base } from 'models/api-models';
 import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-state.component';
 import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { DataService } from '../data-service/data.service';
-import { CRUD } from '../api.service';
-import { CallConfig } from '../call-config';
+import { CRUD } from '../api-service/api.service';
+import { CallConfig } from '../../../models/call-config';
 import * as jsonpatch from 'fast-json-patch';
 import { Observer, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 
-export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
-  private _id: number;
-  private _dataItem: T;
+export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, OnChanges {
+  private _dataItem: T = <T>{};
+  private _dataItemId: number;
   private _dataItemPristine: T;
   private itemSubscription: Subscription;
   private $itemSet = new ReplaySubject<boolean>(1);
   protected $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
-  protected dataItemObserver: Observer<T>;
   protected itemSubscriber: (item: T) => void;
   protected errorHandler: (err) => void;
 
@@ -27,48 +36,41 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
   defaultItem = <T>{};
   callConfigurator: (itemId: number, cause: CRUD, item?: T) => CallConfig;
 
-  get id(): number {
-    return this._id;
-  }
   @Input()
-  set id(id: number) {
-    if (id && id != this._id) {
-      this._id = id;
+  set dataItemId(id: number) {
+    if (id && id !== this._dataItemId) {
+      this._dataItemId = id;
       this.fetch();
     }
-    else if (!id && !this.dataItem) {
-      this.$state.next(ComponentDynamicStates.EMPTY);
-    }
   }
+  get dataItemId(): number {
+    return this._dataItemId;
+  }
+
   @Output()
   idChange = new EventEmitter<number>(true);
 
-  get dataItem(): T {
-    return this._dataItem;
-  }
-  set dataItem(item: T) {
-    if (item && item.id != this.id) {
-      const oldId = this._id;
-      this._id = item.id;
-      if ((oldId && !this._id) ||
-        (oldId != this._id)
-      ) {
-        this.idChange.emit(this._id);
-      }
-    }
 
+  @Input()
+  set dataItem(item: T) {
+    if (item) {
+      this._dataItemId = item.id;
+    }
     this._dataItem = item;
     this._dataItemPristine = _.cloneDeep(item);
 
-    if (item && !this.dataItemObserver) {
-      this.dataItemObserver = jsonpatch.observe<T>(this._dataItem);
-    }
-
     this.$itemSet.next(!!item && !!item.id);
   }
+  get dataItem(): T {
+    return this._dataItem;
+  }
+
+  @Input()
+  parentId: number;
 
   constructor(
-    public data: DataService
+    public data: DataService,
+    public el: ElementRef<HTMLElement>
   ) {
     this.state = this.$state.asObservable();
     this.itemSetObservable = this.$itemSet.pipe(distinctUntilChanged());
@@ -83,13 +85,12 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
   }
 
   private configureCall(cause: CRUD): CallConfig {
-    return this.callConfigurator(this._id, cause, this.dataItem);
+    return this.callConfigurator(this.dataItemId, cause, this.dataItem);
   }
 
 
   ngOnDestroy(): void {
     this.itemSubscription ? this.itemSubscription.unsubscribe() : null;
-    this.dataItemObserver ? this.dataItemObserver.unobserve() : null;
   }
 
   ngOnInit(): void {
@@ -97,8 +98,19 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
       throw Error(`${this.constructor.name} doesn't have a call configurator`)
     }
 
-    if (!this.id) {
+    if (!this.dataItemId) {
       this.fetchDefault();
+    }
+    else {
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.dataItemId) {
+      const id = changes.dataItemId.currentValue;
+      if (!id && !this.dataItem) {
+        this.$state.next(ComponentDynamicStates.EMPTY);
+      }
     }
   }
 
@@ -113,11 +125,11 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
     this.data.getData<T>(callConfig.route, callConfig.params, callConfig.query).subscribe((defaultItem) => {
       this.defaultItem = defaultItem;
       
-      if (!this.id) {
+      if (!this.dataItemId) {
         this.$itemSet.next(false);
       }
     }, (err) => {
-      if (!this.id) {
+      if (!this.dataItemId) {
         this.errorHandler(err);
       }
     });
@@ -125,8 +137,12 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
 
   save(dataItem?: T): void {
     this.$state.next(ComponentDynamicStates.INTERIM);
-    const callConfig = this.configureCall(this.id ? CRUD.UPDATE : CRUD.CREATE);
-    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, (dataItem || this.dataItem), callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
+
+    const callConfig = this.configureCall(this.dataItemId ? CRUD.UPDATE : CRUD.CREATE);
+    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, (dataItem || this.dataItem), callConfig.query).subscribe((d) => {
+      this.itemSubscriber(d);
+      this.idChange.emit(d.id);
+    }, this.errorHandler);
 
     if (!this.itemSubscription) {
       this.itemSubscription = subscription;
@@ -141,7 +157,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
       patch = jsonpatch.compare(this._dataItemPristine, dataItem);
     }
     else {
-      patch = jsonpatch.generate(this.dataItemObserver);
+      patch = jsonpatch.compare(this._dataItemPristine, this.dataItem);
     }
     this.data.patchData<T>(callConfig.route, callConfig.params, patch, callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
   }
@@ -163,6 +179,6 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy {
   }
 
   reset(): void {
-    this.dataItem = this._dataItemPristine;
+    this.dataItem = _.cloneDeep(this._dataItemPristine);
   }
 }

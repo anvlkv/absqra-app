@@ -1,17 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Project } from '../../../api-models';
+import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Project } from '../../../models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { ActivatedRoute } from '@angular/router';
-import { CRUDRouter } from '../../../api-routes/CRUDRouter';
+import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { HotKeysService } from '../../app-common/hot-keys.service';
+import { HotKeysService } from '../../app-common/hot-keys-service/hot-keys.service';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { CRUD } from '../../app-common/api.service';
+import { CRUD } from '../../app-common/api-service/api.service';
 
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
-  styleUrls: ['./project-detail.component.scss']
+  styleUrls: ['./project-detail.component.scss' /*, '../styles/sequence-design.scss'*/]
 })
 export class ProjectDetailComponent extends BaseDetail<Project> implements OnInit, OnDestroy {
   projectForm: FormGroup;
@@ -20,11 +20,12 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
 
   constructor(
     data: DataService,
+    el: ElementRef,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private hotkeys: HotKeysService,
   ) {
-    super(data);
+    super(data, el);
     this.callConfigurator = (projectId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
@@ -44,7 +45,7 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
 
   ngOnInit() {
     this.route.params.subscribe(({projectId}) => {
-      this.id = projectId;
+      this.dataItemId = projectId;
     });
 
     super.ngOnInit();
@@ -58,10 +59,14 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
 
   }
 
-  saveProjectHeader() {
+  saveProjectHeader(e: Event) {
+    e ? e.preventDefault() : null;
+    e ? e.stopPropagation() : null;
+
     if (this.projectForm.valid) {
       this.update({...this.dataItem, ...this.projectForm.value})
     }
+    return false;
   }
 
   onSequenceIdChange(id: number) {

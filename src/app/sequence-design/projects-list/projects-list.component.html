@@ -1,12 +1,16 @@
 <app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
     <div class="projects-grid">
-      <form class="new-project-tile" [formGroup]="projectForm" (ngSubmit)="saveProject()">
-        <input type="text" formControlName="name">
-        <button type="submit">save</button>
-      </form>
+      <fieldset [formGroup]="projectForm">
+        <div class="new-project-tile">
+          <input type="text" formControlName="name">
+          <button (click)="saveProject($event)">save</button>
+        </div>
+      </fieldset>
       <div *ngFor="let project of projects | async">
-        <app-project-thumbnail [project]="project"></app-project-thumbnail>
+        <a [routerLink]="[project.id]">
+          <app-project-thumbnail [dataItem]="project"></app-project-thumbnail>
+        </a>
       </div>
     </div>
   </ng-template>

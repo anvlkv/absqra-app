@@ -1,17 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Project } from '../../../api-models';
+import { Component } from '@angular/core';
+import { Project } from 'models/api-models';
+import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
 
 @Component({
   selector: 'app-project-thumbnail',
   templateUrl: './project-thumbnail.component.html',
-  styleUrls: ['./project-thumbnail.component.scss']
+  styleUrls: ['./project-thumbnail.component.scss', '../styles/sequence-design.scss']
 })
-export class ProjectThumbnailComponent implements OnInit {
-  @Input() project: Partial<Project>;
-
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+export class ProjectThumbnailComponent extends BaseThumbnail<Project> {
 }

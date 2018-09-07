@@ -1,13 +1,14 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component } from '@angular/core';
+import { Component, ElementRef } from '@angular/core';
 import { BaseDetail } from './base-detail';
-import { Base } from '../../../api-models';
+import { Base } from '../../../models/api-models';
 import { DataService } from '../data-service/data.service';
 import { anyOfClass, anything, deepEqual, instance, mock, notNull, verify, when } from 'ts-mockito';
-import { CRUD } from '../api.service';
+import { CRUD } from '../api-service/api.service';
 import { of, Subject, throwError } from 'rxjs';
-import { buffer, bufferCount } from 'rxjs/operators';
-import { CRUDRouter } from '../../../api-routes/CRUDRouter';
+import { buffer, bufferCount, delay } from 'rxjs/operators';
+import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { time } from 'jasmine-marbles';
 
 describe('BaseDetail', () => {
   let mockedData: DataService;
@@ -19,9 +20,10 @@ describe('BaseDetail', () => {
   class TestExtendingComponent extends BaseDetail<Base> {
 
     constructor(
-      data: DataService
+      data: DataService,
+      el: ElementRef,
     ) {
-      super(data);
+      super(data, el);
 
       this.callConfigurator = (id, cause) => {
         switch (cause) {
@@ -40,8 +42,19 @@ describe('BaseDetail', () => {
       }
     }
   }
+  
+  @Component({
+    selector: 'app-test-wrapper',
+    template: '<app-test-cmp [dataItemId]="id" [dataItem]="dataItem"></app-test-cmp>'
+  })
+  class TestWrapperComponent {
+    id;
+    dataItem;
+  }
+  
   let component: TestExtendingComponent;
-  let fixture: ComponentFixture<TestExtendingComponent>;
+  let hostComponent: TestWrapperComponent;
+  let hostFixture: ComponentFixture<TestWrapperComponent>;
   beforeEach(() => {
     mockedData = mock(DataService);
     when(mockedData.getData(anything(), anything(), anything())).thenReturn(of({id: 1}));
@@ -51,9 +64,6 @@ describe('BaseDetail', () => {
     when(mockedData.deleteData(anything(), anything(), anything())).thenReturn(of({id: 4}));
     when(mockedData.getData(anything(), deepEqual({id: 10}), anything())).thenReturn(throwError('error'));
     TestBed.configureTestingModule({
-      imports: [
-        // HttpClientTestingModule
-      ],
       providers: [
         {
           provide: DataService,
@@ -61,15 +71,17 @@ describe('BaseDetail', () => {
         }
       ],
       declarations: [
-        TestExtendingComponent
+        TestExtendingComponent,
+        TestWrapperComponent
       ]
     }).compileComponents();
   });
 
   beforeEach(async(() => {
-    fixture = TestBed.createComponent(TestExtendingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    hostFixture = TestBed.createComponent(TestWrapperComponent);
+    hostComponent = hostFixture.componentInstance;
+    component = hostFixture.debugElement.childNodes[0].componentInstance;
+    hostFixture.detectChanges();
   }));
 
   it('should be created', () => {
@@ -77,25 +89,24 @@ describe('BaseDetail', () => {
   });
 
   it('should fetch item with id', () => {
-    component.id = 1;
-    fixture.detectChanges();
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     verify(mockedData.getData(deepEqual(CRUDRouter.entityProject), deepEqual({id: 1}), anything())).called();
     expect(component.dataItem.id).toEqual(1);
   });
 
   it('should fetch default item', () => {
     verify(mockedData.getData(deepEqual(CRUDRouter.entityProject), deepEqual({id: 0}), anything())).called();
-    fixture.detectChanges();
-    console.log(component.defaultItem);
+    hostFixture.detectChanges();
     expect(component.defaultItem.id).toEqual(0);
   });
 
   it('should refetch item on id changes', () => {
-    component.id = 1;
-    fixture.detectChanges();
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     expect(component.dataItem.id).toEqual(1);
-    component.id = 2;
-    fixture.detectChanges();
+    hostComponent.id = 2;
+    hostFixture.detectChanges();
     verify(mockedData.getData(anything(), deepEqual({id: 2}), anything())).called();
   });
 
@@ -103,10 +114,11 @@ describe('BaseDetail', () => {
     component.dataItem = {
       createdDate: new Date(0)
     };
+    hostFixture.detectChanges();
     component.save();
     verify(mockedData.postData(deepEqual(CRUDRouter.repoProjects), anything(), notNull(), anything())).called();
-    fixture.detectChanges();
-    expect(component.id).toEqual(2);
+    hostFixture.detectChanges();
+    expect(component.dataItemId).toEqual(2);
     expect(component.dataItem).toBeTruthy();
   });
 
@@ -115,46 +127,50 @@ describe('BaseDetail', () => {
       createdDate: new Date(0)
     });
     verify(mockedData.postData(deepEqual(CRUDRouter.repoProjects), anything(), notNull(), anything())).called();
-    fixture.detectChanges();
-    expect(component.id).toEqual(2);
+    hostFixture.detectChanges();
+    expect(component.dataItemId).toEqual(2);
     expect(component.dataItem).toBeTruthy();
   });
 
   it('should update item', () => {
-    component.id = 1;
-    fixture.detectChanges();
-    component.dataItem.createdDate = new Date(0);
+    const val = new Date(0);
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
+    component.dataItem.createdDate = val;
     component.update();
-    fixture.detectChanges();
-    verify(mockedData.patchData(deepEqual(CRUDRouter.entityProject), deepEqual({id: 1}), anyOfClass(Array), anything())).called();
-    expect(component.id).toEqual(3);
+    hostFixture.detectChanges();
+    verify(mockedData.patchData(deepEqual(CRUDRouter.entityProject), deepEqual({id: 1}), deepEqual([{
+      "op": "add",
+      "path": "/createdDate",
+      "value": val.toISOString()
+    }]), anything())).called();
+    expect(component.dataItemId).toEqual(3);
   });
 
   it('should update item using provided value', () => {
-    component.id = 1;
-    fixture.detectChanges();
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     component.dataItem.createdDate = new Date(0);
     component.update({createdDate: new Date(100)});
-    fixture.detectChanges();
+    hostFixture.detectChanges();
     verify(mockedData.patchData(deepEqual(CRUDRouter.entityProject), deepEqual({id: 1}), deepEqual([{op: 'remove', path: '/id'}, {op: 'add', path: '/createdDate', value: '1970-01-01T00:00:00.100Z'}]), anything())).called();
   });
 
   it('should reset item', () => {
-    component.id = 1;
-    fixture.detectChanges();
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     expect(component.dataItem.id).toEqual(1);
-    component.dataItem.id = 3;
-    expect(component.dataItem.id).toEqual(3);
+    component.dataItem.createdDate = new Date();
     component.reset();
-    expect(component.dataItem.id).toEqual(1);
+    expect(component.dataItem.createdDate).toBeFalsy();
   });
 
   it('should delete item', () => {
-    component.id = 1;
-    fixture.detectChanges();
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     expect(component.dataItem).toBeTruthy();
     component.remove();
-    fixture.detectChanges();
+    hostFixture.detectChanges();
     verify(mockedData.deleteData(deepEqual(CRUDRouter.entityProject), deepEqual({id: 1}), anything())).called();
     expect(component.dataItem).toBeFalsy();
   });
@@ -164,9 +180,8 @@ describe('BaseDetail', () => {
     component.state.pipe(
       buffer(ready.asObservable())
     ).subscribe((b: any[]) => {
-      console.log(b);
       expect(b).toEqual([
-        'load',
+        'empty',
         'view',
         'interim',
         'view',
@@ -178,17 +193,20 @@ describe('BaseDetail', () => {
         'interim',
         'view']);
     });
-    component.id = 1;
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     component.dataItem.createdDate = new Date(0);
     component.update();
     component.remove();
-    component.id = 10;
-    component.id = null;
+    hostComponent.id = 10;
+    hostFixture.detectChanges();
+    hostComponent.id = null;
+    hostFixture.detectChanges();
     component.edit();
     component.dataItem.createdDate = new Date(3);
     component.save();
     ready.next(true);
-    fixture.detectChanges();
+    hostFixture.detectChanges();
   });
 
   it('should set error state if default item fetch fails', () => {
@@ -205,7 +223,8 @@ describe('BaseDetail', () => {
     ).subscribe((b: number[]) => {
       expect(b).toEqual([1, 2]);
     });
-    component.id = 1;
+    hostComponent.id = 1;
+    hostFixture.detectChanges();
     component.dataItem.createdDate = new Date(0);
     component.save();
   });
