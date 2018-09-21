@@ -9,7 +9,7 @@ import { SequenceResponse } from '../../../models/api-models';
 })
 export class ResponseListComponent implements OnInit {
   @Input()
-  responses: SequenceResponse[];
+  sequenceResponses: SequenceResponse[];
 
   constructor() { }
 

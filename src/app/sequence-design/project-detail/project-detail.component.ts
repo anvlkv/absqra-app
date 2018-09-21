@@ -20,12 +20,11 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
 
   constructor(
     data: DataService,
-    el: ElementRef,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private hotkeys: HotKeysService,
   ) {
-    super(data, el);
+    super(data);
     this.callConfigurator = (projectId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {

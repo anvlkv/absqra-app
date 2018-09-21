@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { Step, StepTypes } from '../../../models/api-models';
+import { Step, StepTypes } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { CRUD } from '../../app-common/api-service/api.service';
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
 import { Observable } from 'rxjs';
@@ -20,14 +20,13 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
   stepTypesList: string[];
   typeForm: FormGroup;
   stepTypes = StepTypes;
-  private stepContentState: Observable<DynamicState>;
+  private stepcontentAssetState: Observable<DynamicState>;
 
   constructor(
     data: DataService,
-    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data, el);
+    super(data);
     this.stepTypesList = unpackEnum(StepTypes);
     this.callConfigurator = (stepId, cause) => {
       switch (cause) {

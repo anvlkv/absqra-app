@@ -33,10 +33,9 @@ export class AssetDetailComponent extends BaseDetail<AssetBase> implements OnIni
 
   constructor(
     data: DataService,
-    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data, el);
+    super(data);
     this.callConfigurator = (assetId, cause) => {
       let repo;
       let entity;
@@ -96,7 +95,7 @@ export class AssetDetailComponent extends BaseDetail<AssetBase> implements OnIni
 
     this.itemSetObservable.subscribe((loaded) => {
       const asset = loaded ? this.dataItem : this.defaultItem;
-      this.assetForm = this.fb.group({...asset, content: this.fb.control(asset.content || '', Validators.required)});
+      this.assetForm = this.fb.group({...asset, content: this.fb.control(asset.content || null, Validators.required)});
       if (!loaded) {
         this.$state.next(ComponentDynamicStates.EDITING);
       }

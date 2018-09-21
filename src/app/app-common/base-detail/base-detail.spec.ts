@@ -21,9 +21,8 @@ describe('BaseDetail', () => {
 
     constructor(
       data: DataService,
-      el: ElementRef,
     ) {
-      super(data, el);
+      super(data);
 
       this.callConfigurator = (id, cause) => {
         switch (cause) {

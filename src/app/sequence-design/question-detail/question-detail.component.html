@@ -57,23 +57,23 @@
         </app-array-input>
       </div>
       <div class="input-group">
-        <label for="questionOptionsIds">
+        <label for="questionAssets">
           question options
         </label>
-        <app-array-input formControlName="questionOptionsIds" id="questionOptionsIds">
+        <app-array-input formControlName="questionAssetsIds" id="questionAssets">
           <ng-template let-sortable let-i="itemIndex">
-            <app-asset-detail [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"
+            <app-asset-detail [parentId]="dataItem.id" [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"
                               (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
           </ng-template>
         </app-array-input>
       </div>
       <div class="input-group">
-        <label for="responseOptionsIds">
+        <label for="responseAssets">
           response options
         </label>
-        <app-array-input formControlName="responseOptionsIds" id="responseOptionsIds">
+        <app-array-input formControlName="responseAssetsIds" id="responseAssets">
           <ng-template let-sortable let-i="itemIndex">
-            <app-asset-detail [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+            <app-asset-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
           </ng-template>
         </app-array-input>
       </div>

@@ -30,10 +30,9 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
 
   constructor(
     data: DataService,
-    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data, el);
+    super(data);
     this.callConfigurator = (formatConstraintId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {

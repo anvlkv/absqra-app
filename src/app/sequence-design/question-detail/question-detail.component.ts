@@ -5,9 +5,14 @@ import { DataService } from '../../app-common/data-service/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CRUD } from '../../app-common/api-service/api.service';
 import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import {
+  ComponentDynamicStates,
+  DynamicState,
+  stateCombinator,
+} from '../../app-common/dynamic-state/dynamic-state.component';
 import { unpackEnum } from '../../utils';
 import { AssetPurposes } from '../asset-detail/asset-detail.component';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -20,13 +25,13 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
   questionForm: FormGroup;
   qttOrder = unpackEnum(QuantityOrder);
   assetPurposeTypes = AssetPurposes;
+  contentState: Observable<DynamicState>;
 
   constructor(
     data: DataService,
-    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data, el);
+    super(data);
     this.callConfigurator = (questionId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
@@ -41,7 +46,7 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
           }
         }
       }
-    }
+    };
   }
 
   ngOnInit() {
@@ -51,7 +56,9 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
       this.questionForm = this.fb.group({
         ...question,
         description: question.description || '',
-        formatConstraintsIds: this.fb.control(question.formatConstraintsIds)
+        formatConstraintsIds: this.fb.control(question.formatConstraintsIds),
+        questionAssetsIds: this.fb.control(question.questionAssetsIds),
+        responseAssetsIds: this.fb.control(question.responseAssetsIds)
       });
 
       if (!loaded) {
@@ -76,7 +83,7 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
   }
 
   setQuestionContentId(id: number) {
-    this.dataItem.content = {id};
+    this.dataItem.contentAsset = {id};
     if (this.dataItemId) {
       this.update({...this.dataItem})
     }

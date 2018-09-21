@@ -32,10 +32,9 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
 
   constructor(
     data: DataService,
-    el: ElementRef,
     private fb: FormBuilder
   ) {
-    super(data, el);
+    super(data);
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
     this.callConfigurator = (sequenceId, cause) => {
       switch (cause) {

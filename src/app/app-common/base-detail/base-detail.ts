@@ -23,7 +23,7 @@ import { distinctUntilChanged } from 'rxjs/operators';
 
 export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, OnChanges {
   private _dataItem: T = <T>{};
-  private _dataItemId: number;
+  // private _dataItemId: number;
   private _dataItemPristine: T;
   private itemSubscription: Subscription;
   private $itemSet = new ReplaySubject<boolean>(1);
@@ -36,25 +36,24 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   defaultItem = <T>{};
   callConfigurator: (itemId: number, cause: CRUD, item?: T) => CallConfig;
 
-  @Input()
-  set dataItemId(id: number) {
-    if (id && id !== this._dataItemId) {
-      this._dataItemId = id;
-      this.fetch();
-    }
-  }
-  get dataItemId(): number {
-    return this._dataItemId;
-  }
+  @Input() dataItemId: number;
+  // set dataItemId(id: number) {
+  //   if (id && id !== this._dataItemId) {
+  //     this._dataItemId = id;
+  //     this.fetch();
+  //   }
+  // }
+  // get dataItemId(): number {
+  //   return this._dataItemId;
+  // }
 
-  @Output()
-  idChange = new EventEmitter<number>(true);
+  @Output() idChange = new EventEmitter<number>(true);
 
 
   @Input()
   set dataItem(item: T) {
     if (item) {
-      this._dataItemId = item.id;
+      this.dataItemId = item.id;
     }
     this._dataItem = item;
     this._dataItemPristine = _.cloneDeep(item);
@@ -69,8 +68,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   parentId: number;
 
   constructor(
-    public data: DataService,
-    public el: ElementRef<HTMLElement>
+    public data: DataService
   ) {
     this.state = this.$state.asObservable();
     this.itemSetObservable = this.$itemSet.pipe(distinctUntilChanged());
@@ -101,7 +99,8 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
     if (!this.dataItemId) {
       this.fetchDefault();
     }
-    else {
+    else if (!this.itemSubscription) {
+      this.fetch();
     }
   }
 
@@ -110,6 +109,9 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
       const id = changes.dataItemId.currentValue;
       if (!id && !this.dataItem) {
         this.$state.next(ComponentDynamicStates.EMPTY);
+      }
+      else if (id) {
+        this.fetch();
       }
     }
   }

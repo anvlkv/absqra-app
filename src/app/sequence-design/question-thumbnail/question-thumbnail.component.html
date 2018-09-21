@@ -3,7 +3,7 @@
   <p>
     {{dataItem.description}}
   </p>
-  <app-asset-thumbnail [dataItem]="dataItem?.content"></app-asset-thumbnail>
+  <app-asset-thumbnail [dataItem]="dataItem?.contentAsset"></app-asset-thumbnail>
   <dl>
     <dt>
       offers
@@ -33,13 +33,13 @@
       question options
     </dt>
     <dd>
-      {{dataItem.questionOptionsIds.length}}
+      {{dataItem.questionAssetsIds.length}}
     </dd>
     <dt>
       response options
     </dt>
     <dd>
-      {{dataItem.responseOptionsIds.length}}
+      {{dataItem.responseAssetsIds.length}}
     </dd>
   </dl>
   <ng-content></ng-content>

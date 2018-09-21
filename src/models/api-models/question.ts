@@ -7,14 +7,14 @@ import { QuestionContentAsset } from './questionContentAsset';
 export declare class Question extends Base {
     name?: string;
     description?: string;
-    content: QuestionContentAsset;
-    contentId?: number;
+    contentAsset: QuestionContentAsset;
+    contentAssetId?: number;
     offers: QuantityOrder;
     expects: QuantityOrder;
     formatConstraints?: FormatConstraint[];
     formatConstraintsIds?: number[];
-    questionOptions?: QuestionAsset[];
-    questionOptionsIds?: number[];
-    responseOptions?: ResponseAsset[];
-    responseOptionsIds?: number[];
+    questionAssets?: QuestionAsset[];
+    questionAssetsIds?: number[];
+    responseAssets?: ResponseAsset[];
+    responseAssetsIds?: number[];
 }
