@@ -53,7 +53,7 @@ export class DataService implements PublicMembersInterface<ApiService> {
                 }),
                 combineAll()
               ) :
-              of([]);
+              of(<any>[]);
           })
         );
       }

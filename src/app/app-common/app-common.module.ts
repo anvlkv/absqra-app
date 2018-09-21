@@ -13,6 +13,11 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotKeysService } from './hot-keys-service/hot-keys.service';
 import { DisabledContentComponent } from './disabled-content/disabled-content.component';
 import { DynamicStateErrorHandler } from './dynamic-state/dyanmic-state.error-handler';
+import { WebSocketService } from './web-socket-service/web-socket.service';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
+import { RouterModule } from '@angular/router';
+import { FooterService } from './footer/footer.service';
 
 const providers: Provider[] = [
   ApiService,
@@ -23,16 +28,21 @@ const providers: Provider[] = [
   },
   CookieService,
   DataService,
-  HotKeysService
+  HotKeysService,
+  WebSocketService,
+  FooterService
 ];
 
 const declareAndExport = [
-  DynamicStateComponent
+  DynamicStateComponent,
+  HeaderComponent,
+  FooterComponent
 ];
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule,
     NgxJsonViewerModule
   ],
   entryComponents: [
@@ -45,7 +55,6 @@ const declareAndExport = [
     DisabledContentComponent,
   ],
   providers: [
-    ...providers,
     DynamicStateErrorHandler
   ],
   exports: [

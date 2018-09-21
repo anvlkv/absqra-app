@@ -6,7 +6,7 @@
     "baseUrl": "",
     "paths":{
       "api":["models/api"],
-      "models":["models/*"]
+      "models":["models"]
     }
   },
   "exclude": [

@@ -6,7 +6,7 @@ import { getConstraintType } from '../format-constraint-detail/format-constraint
 @Component({
   selector: 'app-format-constraint-thumbnail',
   templateUrl: './format-constraint-thumbnail.component.html',
-  styleUrls: ['./format-constraint-thumbnail.component.scss', '../styles/sequence-design.scss']
+  styleUrls: ['./format-constraint-thumbnail.component.scss']
 })
 export class FormatConstraintThumbnailComponent extends BaseThumbnail<FormatConstraint> {
   getConstraintType() {

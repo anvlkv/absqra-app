@@ -6,7 +6,7 @@ import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
 @Component({
   selector: 'app-asset-thumbnail',
   templateUrl: './asset-thumbnail.component.html',
-  styleUrls: ['./asset-thumbnail.component.scss', '../styles/sequence-design.scss']
+  styleUrls: ['./asset-thumbnail.component.scss']
 })
 export class AssetThumbnailComponent extends BaseThumbnail<AssetBase> {
   assetTypes = AssetTypes;

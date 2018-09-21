@@ -22,7 +22,7 @@ export enum CRUD {
 @Injectable()
 export class ApiService {
 
-  private apiEndpoint: string;
+  private apiUrl: string;
   private callLog: {
     [METHOD_endpoint: string]: Date[]
   } = {};
@@ -32,9 +32,9 @@ export class ApiService {
     private http: HttpClient,
     cs: CookieService
   ) {
-    this.apiEndpoint = environment.api ? `${environment.api}` : cs.get('API-URL');
+    this.apiUrl = environment.api ? `${environment.api}` : cs.get('API-URL');
 
-    if (!this.apiEndpoint) {
+    if (!this.apiUrl) {
       throw Error('Illegal api');
     }
   }
@@ -57,7 +57,7 @@ export class ApiService {
   }
 
   getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
-    const url = `${this.apiEndpoint}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.get<T>(url, {
       params: queryParams,
@@ -69,7 +69,7 @@ export class ApiService {
   }
 
   postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
-    const url = `${this.apiEndpoint}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.post<T>(url, body, {
       params: queryParams,
@@ -81,7 +81,7 @@ export class ApiService {
   }
 
   patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams): Observable<T> {
-    const url = `${this.apiEndpoint}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.patch<T>(url, operations, {
       params: queryParams,
@@ -93,7 +93,7 @@ export class ApiService {
   }
 
   deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
-    const url = `${this.apiEndpoint}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.delete<T>(url, {
       params: queryParams,

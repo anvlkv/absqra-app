@@ -16,10 +16,12 @@
       width: 100%;
     }
 
-    a {
-      app-project-thumbnail{
-        width: 100%;
-      }
+    app-project-thumbnail{
+      @extend ._card;
+      width: 100%;
+      max-height: 33vh;
+      min-height: 100%;
+      overflow: hidden;
     }
 
     .new-project-tile {

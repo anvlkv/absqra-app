@@ -7,11 +7,11 @@
           <button (click)="saveProject($event)">save</button>
         </div>
       </fieldset>
-      <div *ngFor="let project of projects | async">
+      <ng-container *ngFor="let project of projects | async">
         <a [routerLink]="[project.id]">
           <app-project-thumbnail [dataItem]="project"></app-project-thumbnail>
         </a>
-      </div>
+      </ng-container>
     </div>
   </ng-template>
 </app-dynamic-state>

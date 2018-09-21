@@ -1,0 +1,26 @@
+@import "partials/surfaces/base-surface";
+
+:host{
+  @extend ._base-surface;
+  flex-direction: column;
+  h3{
+    flex-grow: 0;
+    flex-basis: 30%;
+  }
+  .note{
+    flex-grow: 0;
+    flex-basis: 30%;
+    flex-shrink: 1;
+    span{
+      text-overflow: ellipsis;
+      max-width: 100%;
+    }
+  }
+  dl{
+    flex-grow: 0;
+    flex-basis: 30%;
+  }
+//  <h3>{{dataItem.name}}</h3>
+  //  <p>{{dataItem.description}}</p>
+  //  <dl>
+}

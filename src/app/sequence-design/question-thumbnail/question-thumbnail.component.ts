@@ -8,7 +8,7 @@ import { NgIfContext } from '@angular/common';
 @Component({
   selector: 'app-question-thumbnail',
   templateUrl: './question-thumbnail.component.html',
-  styleUrls: ['./question-thumbnail.component.scss', '../styles/sequence-design.scss'],
+  styleUrls: ['./question-thumbnail.component.scss'],
 })
 export class QuestionThumbnailComponent extends BaseThumbnail<Question> {
 }

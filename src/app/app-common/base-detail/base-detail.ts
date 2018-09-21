@@ -37,23 +37,17 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   callConfigurator: (itemId: number, cause: CRUD, item?: T) => CallConfig;
 
   @Input() dataItemId: number;
-  // set dataItemId(id: number) {
-  //   if (id && id !== this._dataItemId) {
-  //     this._dataItemId = id;
-  //     this.fetch();
-  //   }
-  // }
-  // get dataItemId(): number {
-  //   return this._dataItemId;
-  // }
 
   @Output() idChange = new EventEmitter<number>(true);
-
 
   @Input()
   set dataItem(item: T) {
     if (item) {
+      const oldId = this.dataItemId;
       this.dataItemId = item.id;
+      if (item.id !== oldId) {
+        this.idChange.emit(item.id);
+      }
     }
     this._dataItem = item;
     this._dataItemPristine = _.cloneDeep(item);
@@ -141,10 +135,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
     this.$state.next(ComponentDynamicStates.INTERIM);
 
     const callConfig = this.configureCall(this.dataItemId ? CRUD.UPDATE : CRUD.CREATE);
-    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, (dataItem || this.dataItem), callConfig.query).subscribe((d) => {
-      this.itemSubscriber(d);
-      this.idChange.emit(d.id);
-    }, this.errorHandler);
+    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, (dataItem || this.dataItem), callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
 
     if (!this.itemSubscription) {
       this.itemSubscription = subscription;

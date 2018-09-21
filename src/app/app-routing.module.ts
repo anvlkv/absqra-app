@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: 'app/sequence-design/sequence-design.module#SequenceDesignModule',
   },
   {
+    path: 'answer',
+    loadChildren: 'app/sequence-response/sequence-response.module#SequenceResponseModule'
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'ask'

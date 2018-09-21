@@ -5,8 +5,9 @@ import { ComponentFixture } from '@angular/core/testing';
 import { Title } from '@angular/platform-browser';
 import { Deferred, defer } from 'q';
 import { HttpClientModule } from '@angular/common/http';
-import { HeaderComponent } from './header/header.component';
-import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './app-common/header/header.component';
+import { FooterComponent } from './app-common/footer/footer.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 
 let fixture: ComponentFixture<AppComponent>;
@@ -29,9 +30,7 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent,
-        HeaderComponent,
-        FooterComponent
+        AppComponent
       ],
       imports: [
         RouterTestingModule,
@@ -40,6 +39,9 @@ describe('AppComponent', () => {
       providers: [
         Title
       ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     }).compileComponents();
     fixture = TestBed.createComponent(AppComponent);
     app = fixture.debugElement.componentInstance;

@@ -1,21 +1,21 @@
 <ng-container *ngIf="state | async">
-  <div>
-    <h3>{{dataItem.name}}</h3>
-    <p>{{dataItem.description}}</p>
-    <dl>
-      <dt>
-        created
-      </dt>
-      <dd>
-        {{dataItem.createdDate | date: 'short'}}
-      </dd>
-      <dt>
-        updated
-      </dt>
-      <dd>
-        {{dataItem.updatedDate | date: 'short'}}
-      </dd>
-    </dl>
-    <ng-content></ng-content>
+  <h3>{{dataItem.name}}</h3>
+  <div class="note">
+    <span>{{dataItem.description}}</span>
   </div>
+  <dl>
+    <dt>
+      created
+    </dt>
+    <dd>
+      {{dataItem.createdDate | date: 'short'}}
+    </dd>
+    <dt>
+      updated
+    </dt>
+    <dd>
+      {{dataItem.updatedDate | date: 'short'}}
+    </dd>
+  </dl>
+  <ng-content></ng-content>
 </ng-container>
