@@ -4,7 +4,7 @@ import { ProjectsListComponent } from './projects-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { anything, instance, mock, when } from 'ts-mockito';
-import { StepTypes } from '../../../models/api-models';
+import { StepTypes } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';

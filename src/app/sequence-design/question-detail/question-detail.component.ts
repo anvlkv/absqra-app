@@ -1,10 +1,10 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { QuantityOrder, Question } from '../../../models/api-models';
+import { QuantityOrder, Question } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CRUD } from '../../app-common/api-service/api.service';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import {
   ComponentDynamicStates,
   DynamicState,
@@ -56,9 +56,28 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
       this.questionForm = this.fb.group({
         ...question,
         description: question.description || '',
-        formatConstraintsIds: this.fb.control(question.formatConstraintsIds),
-        questionAssetsIds: this.fb.control(question.questionAssetsIds),
-        responseAssetsIds: this.fb.control(question.responseAssetsIds)
+        formatConstraintsIds: this.fb.control(question.formatConstraintsIds || []),
+        questionAssetsIds: this.fb.control(question.questionAssetsIds|| []),
+        responseAssetsIds: this.fb.control(question.responseAssetsIds || [])
+      });
+
+      this.questionForm.valueChanges.subscribe(({formatConstraintsIds, questionAssetsIds, responseAssetsIds}) => {
+        if (formatConstraintsIds.every(id => !!id)) {
+          this.dataItem.formatConstraints = formatConstraintsIds.map((id, i) => ({id, order: i}));
+        }
+        if (questionAssetsIds.every(id => !!id)) {
+          this.dataItem.questionAssets = questionAssetsIds.map((id, i) => ({id, order: i}));
+        }
+        if (responseAssetsIds.every(id => !!id)) {
+          this.dataItem.responseAssets = responseAssetsIds.map((id, i) => ({id, order: i}));
+        }
+
+        if (formatConstraintsIds.every(id => !!id) ||
+          questionAssetsIds.every(id => !!id) ||
+          responseAssetsIds.every(id => !!id)
+        ) {
+          this.update(this.dataItem);
+        }
       });
 
       if (!loaded) {
@@ -82,7 +101,7 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
     return false;
   }
 
-  setQuestionContentId(id: number) {
+  setQuestionContentId(id: string) {
     this.dataItem.contentAsset = {id};
     if (this.dataItemId) {
       this.update({...this.dataItem})

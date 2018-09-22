@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Sequence, SequenceLifeCycleTypes } from '../../../models/api-models';
+import { Sequence, SequenceLifeCycleTypes } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { unpackEnum } from '../../utils';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';

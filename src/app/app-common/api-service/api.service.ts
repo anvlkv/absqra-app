@@ -26,7 +26,7 @@ export class ApiService {
   private callLog: {
     [METHOD_endpoint: string]: Date[]
   } = {};
-  private allowedInterval = 1000;
+  private allowedInterval = 150;
 
   constructor(
     private http: HttpClient,
@@ -146,7 +146,7 @@ export class ApiService {
 
 function setUrlParams(path: string, params: RouteParams) {
   for (const param in params) {
-    path = path.replace(`:${param}`, `${params[param] || 0}`);
+    path = path.replace(`:${param}`, `${params[param] || 'default'}`);
   }
   return path;
 }

@@ -10,13 +10,14 @@
   min-height: 0;
 
   > *{
-    a, .new-project-tile {
+    a, fieldset {
       @extend ._base-surface;
       height: 100%;
       width: 100%;
     }
 
-    app-project-thumbnail{
+
+    .new-project-tile, app-project-thumbnail{
       @extend ._card;
       width: 100%;
       max-height: 33vh;

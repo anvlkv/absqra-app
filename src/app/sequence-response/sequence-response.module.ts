@@ -2,9 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SequenceResponseRoutingModule } from './sequence-response-routing.module';
-import { SequenceExecutorComponent } from './sequence-executor/sequence-executor.component';
+import { TopSequenceExecutorComponent } from './top-sequence-executor/top-sequence-executor.component';
 import { StepExecutorComponent } from './step-executor/step-executor.component';
 import { AppCommonModule } from '../app-common/app-common.module';
+import { QuestionExecutorComponent } from './question-executor/question-executor.component';
+import { TaskExecutorComponent } from './task-executor/task-executor.component';
 
 @NgModule({
   imports: [
@@ -13,8 +15,10 @@ import { AppCommonModule } from '../app-common/app-common.module';
     SequenceResponseRoutingModule,
   ],
   declarations: [
-    SequenceExecutorComponent,
-    StepExecutorComponent
+    TopSequenceExecutorComponent,
+    StepExecutorComponent,
+    QuestionExecutorComponent,
+    TaskExecutorComponent
   ]
 })
 export class SequenceResponseModule { }

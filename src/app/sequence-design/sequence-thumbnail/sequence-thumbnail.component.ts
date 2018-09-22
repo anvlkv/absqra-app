@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Sequence } from '../../../models/api-models';
+import { Sequence } from 'models/api-models';
 import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
 
 

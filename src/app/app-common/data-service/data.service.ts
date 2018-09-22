@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ApiService, RouteParams } from '../api-service/api.service';
 import { Observable, of, throwError } from 'rxjs';
 import { Operation } from 'fast-json-patch';
-import { PublicMembersInterface } from '../../../models/public-members.interface';
+import { PublicMembersInterface } from 'models/public-members.interface';
 import { ApiRoute } from 'api';
 import { DataStore } from './data-store';
 import { combineAll, flatMap, map, mergeMap, switchMap, tap } from 'rxjs/operators';

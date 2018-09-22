@@ -1,8 +1,8 @@
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
-    <p>
-      step-executor works!
-      {{dataItem.id}}
-    </p>
+    <ng-container [ngSwitch]="dataItem.type">
+      <app-question-executor [dataItemId]="dataItem.questionReferenceId" *ngSwitchCase="stepTypes.QUESTION_REF"></app-question-executor>
+      <app-task-executor *ngSwitchCase="stepTypes.TASK_REF"></app-task-executor>
+    </ng-container>
   </ng-template>
 </app-dynamic-state>

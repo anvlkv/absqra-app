@@ -8,7 +8,7 @@ import {
   Validator,
 } from '@angular/forms';
 import { noop } from 'rxjs';
-import { Selectable, SelectionState } from '../../../models/selectable';
+import { Selectable, SelectionState } from 'models/selectable';
 import * as _ from 'lodash';
 
 

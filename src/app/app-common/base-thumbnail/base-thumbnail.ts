@@ -1,4 +1,4 @@
-import { Base } from 'models/api-models/index';
+import { Base } from 'models/api-models';
 import {
   Input,
   OnChanges,

@@ -1,5 +1,5 @@
 import { Component, ContentChild, forwardRef, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { Sortable } from '../../../models/sortable';
+import { Sortable } from 'models/sortable';
 import {
   AbstractControl,
   ControlValueAccessor,

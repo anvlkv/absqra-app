@@ -10,5 +10,5 @@ export declare class SequenceResponse extends Base {
     respondent: Respondent;
     respondentId?: number;
     stepResponses: StepResponse[];
-    stepResponsesIds?: number[];
+    stepResponsesIds?: string[];
 }

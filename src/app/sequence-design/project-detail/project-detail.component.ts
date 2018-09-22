@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { Project } from '../../../models/api-models';
+import { Project } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { ActivatedRoute } from '@angular/router';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HotKeysService } from '../../app-common/hot-keys-service/hot-keys.service';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
@@ -68,7 +68,7 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
     return false;
   }
 
-  onSequenceIdChange(id: number) {
+  onSequenceIdChange(id: string) {
     this.dataItem.topSequence = {id};
     this.update();
   }

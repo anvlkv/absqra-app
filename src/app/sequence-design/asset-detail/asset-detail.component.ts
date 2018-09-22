@@ -8,7 +8,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { unpackEnum } from '../../utils';
 import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
 import { AssetBase } from 'models/api-models';
-import { ApiRoute } from 'api';
 
 export enum AssetPurposes {
   QUESTION,

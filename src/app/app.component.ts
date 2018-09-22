@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WebSocketService } from './app-common/web-socket-service/web-socket.service';
-import { wsUtil } from '../models/api-routes/wsUtil';
-import { environment } from '../environments/environment';
+import { wsUtil } from 'models/api-routes/wsUtil';
 
 
 @Component({
@@ -17,6 +16,8 @@ export class AppComponent implements OnInit {
       if (event.data == 'reload') {
         window.location.reload();
       }
+    }, e => {
+      console.log(e);
     })
   }
 

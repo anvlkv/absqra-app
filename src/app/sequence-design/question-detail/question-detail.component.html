@@ -25,7 +25,7 @@
         <label for="questionContentAsset">
           question content
         </label>
-        <app-asset-detail id="questionContentAsset" [dataItemId]="dataItem?.contentId" [assetPurposeType]="assetPurposeTypes.QUESTION" (idChange)="setQuestionContentId($event)" [parentId]="dataItem?.id"></app-asset-detail>
+        <app-asset-detail id="questionContentAsset" [dataItemId]="dataItem?.contentAssetId" [assetPurposeType]="assetPurposeTypes.QUESTION" (idChange)="setQuestionContentId($event)" [parentId]="dataItem?.id"></app-asset-detail>
       </div>
       <div class="input-group">
         <label for="questionOffers">

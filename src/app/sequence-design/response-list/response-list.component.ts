@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { SequenceResponse } from '../../../models/api-models';
+import { SequenceResponse } from 'models/api-models';
 
 
 @Component({

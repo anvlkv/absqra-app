@@ -4,8 +4,8 @@ import { ApiRoute } from 'api';
             viewExecutableQuestion: ApiRoute;
     } = {
     viewExecutableQuestion: {
-        path: '/view/question-exec/:questionId',
-        params: ['questionId'],
-        typeName: 'question'
+        path: '/view/question-exec/:executableQuestionId',
+        params: ['executableQuestionId'],
+        typeName: 'executableQuestion'
     }
 };

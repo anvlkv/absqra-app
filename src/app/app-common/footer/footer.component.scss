@@ -1,5 +1,5 @@
-@import "../../../styles/shared/partials/surfaces";
-@import "../../../styles/shared/partials/limitations";
+@import "partials/surfaces";
+@import "partials/limitations";
 @import "vars";
 
 :host{
@@ -8,5 +8,5 @@
   @include marginalElementEdge(bottom);
   width: 100%;
   background-color: $primary-background;
-  height: $large-panel-bar;
+  height: $small-panel-bar;
 }

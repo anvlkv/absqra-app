@@ -1,11 +1,6 @@
-
-
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
-    <p>
-      sequence-executor works!
-    </p>
-    <router-outlet (activate)="onStepActivated($event)"></router-outlet>
+    <app-step-executor [dataItemId]="activatedStepId"></app-step-executor>
     <button (click)="nextStep()">next</button>
   </ng-template>
 </app-dynamic-state>

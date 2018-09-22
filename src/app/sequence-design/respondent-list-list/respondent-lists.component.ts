@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { RespondentsList } from '../../../models/api-models';
+import { RespondentsList } from 'models/api-models';
 
 
 @Component({

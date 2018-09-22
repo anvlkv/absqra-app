@@ -14,7 +14,7 @@ import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-s
 import { BehaviorSubject, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { DataService } from '../data-service/data.service';
 import { CRUD } from '../api-service/api.service';
-import { CallConfig } from '../../../models/call-config';
+import { CallConfig } from 'models/call-config';
 import * as jsonpatch from 'fast-json-patch';
 import { Observer, Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
@@ -34,11 +34,11 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   state: Observable<DynamicState>;
   itemSetObservable: Observable<boolean>;
   defaultItem = <T>{};
-  callConfigurator: (itemId: number, cause: CRUD, item?: T) => CallConfig;
+  callConfigurator: (itemId: string, cause: CRUD, item?: T) => CallConfig;
 
-  @Input() dataItemId: number;
+  @Input() dataItemId: string;
 
-  @Output() idChange = new EventEmitter<number>(true);
+  @Output() idChange = new EventEmitter<string>(true);
 
   @Input()
   set dataItem(item: T) {
@@ -117,7 +117,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   }
 
   fetchDefault(): void {
-    const callConfig = this.callConfigurator(0, CRUD.READ);
+    const callConfig = this.callConfigurator('default', CRUD.READ);
     this.data.getData<T>(callConfig.route, callConfig.params, callConfig.query).subscribe((defaultItem) => {
       this.defaultItem = defaultItem;
       

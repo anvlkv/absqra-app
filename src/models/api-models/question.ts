@@ -12,9 +12,11 @@ export declare class Question extends Base {
     offers: QuantityOrder;
     expects: QuantityOrder;
     formatConstraints?: FormatConstraint[];
-    formatConstraintsIds?: number[];
+    formatConstraintsIds?: string[];
     questionAssets?: QuestionAsset[];
-    questionAssetsIds?: number[];
+    questionAssetsIds?: string[];
     responseAssets?: ResponseAsset[];
-    responseAssetsIds?: number[];
+    responseAssetsIds?: string[];
+    visualization?: string;
+    private determineClientComponent?(next);
 }
