@@ -1,5 +1,7 @@
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
-    {{dataItem?.visualization}}
+    <ng-container [ngSwitch]="dataItem.visualization">
+      <app-static-content *ngSwitchCase="'static'"></app-static-content>
+    </ng-container>
   </ng-template>
 </app-dynamic-state>

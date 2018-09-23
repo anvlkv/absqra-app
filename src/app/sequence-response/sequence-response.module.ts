@@ -7,6 +7,7 @@ import { StepExecutorComponent } from './step-executor/step-executor.component';
 import { AppCommonModule } from '../app-common/app-common.module';
 import { QuestionExecutorComponent } from './question-executor/question-executor.component';
 import { TaskExecutorComponent } from './task-executor/task-executor.component';
+import { StaticContentComponent } from './static-content/static-content.component';
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import { TaskExecutorComponent } from './task-executor/task-executor.component';
     TopSequenceExecutorComponent,
     StepExecutorComponent,
     QuestionExecutorComponent,
-    TaskExecutorComponent
+    TaskExecutorComponent,
+    StaticContentComponent
   ]
 })
 export class SequenceResponseModule { }

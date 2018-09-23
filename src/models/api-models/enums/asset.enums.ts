@@ -1,10 +1,9 @@
-export enum AssetTypes {
-    STATIC = 'static',
-    DYNAMIC = 'dynamic'
+export declare enum AssetTypes {
+    STATIC = "static",
+    DYNAMIC = "dynamic",
 }
-
-export enum AssetContentTypes {
-    TEXT = 'text',
-    FILE = 'file',
-    URL = 'url'
+export declare enum AssetContentTypes {
+    TEXT = "text",
+    FILE = "file",
+    URL = "url",
 }

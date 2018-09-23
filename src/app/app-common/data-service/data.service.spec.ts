@@ -3,7 +3,7 @@ import { DataService } from './data.service';
 import { ApiService } from '../api-service/api.service';
 import { anything, deepEqual, instance, mock, verify, when } from 'ts-mockito';
 import { noop, of, throwError } from 'rxjs';
-import { CRUDRouter } from 'api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { bufferCount, mergeMap } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 

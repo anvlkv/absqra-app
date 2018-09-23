@@ -4,6 +4,7 @@ import { FormatConstraint } from './formatConstraint';
 import { QuantityOrder } from './enums/item.enums';
 import { ResponseAsset } from './responseAsset';
 import { QuestionContentAsset } from './questionContentAsset';
+import { VisualizationTypes } from './enums/visualizationTypes.enums';
 export declare class Question extends Base {
     name?: string;
     description?: string;
@@ -17,6 +18,6 @@ export declare class Question extends Base {
     questionAssetsIds?: string[];
     responseAssets?: ResponseAsset[];
     responseAssetsIds?: string[];
-    visualization?: string;
+    visualization?: VisualizationTypes;
     private determineClientComponent?(next);
 }
