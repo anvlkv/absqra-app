@@ -4,3 +4,6 @@ export declare abstract class Base {
     updatedDate?: Date;
     constructor(data?: any, skipKeys?: string[]);
 }
+export interface IEntityBase extends Base {
+    [prop: string]: any;
+}

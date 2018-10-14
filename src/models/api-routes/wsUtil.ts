@@ -4,7 +4,7 @@ import { ApiRoute } from 'api';
             clientReload: ApiRoute;
     } = {
     clientReload: {
-        path: 'ws://localhost:8080/util/client-reload',
+        path: 'ws://localhost:8090/util/client-reload',
         params: [],
         typeName: ''
     }

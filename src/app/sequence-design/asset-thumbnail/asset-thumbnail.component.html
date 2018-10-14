@@ -7,9 +7,7 @@
   <ng-container *ngSwitchCase="assetTypes.STATIC">
     <ng-container [ngSwitch]="dataItem?.contentType">
       <ng-container *ngSwitchCase="contentTypes.TEXT">
-        <p>
-          {{dataItem?.content}}
-        </p>
+        <div [innerHtml]="dataItem?.content"></div>
       </ng-container>
       <ng-container *ngSwitchCase="contentTypes.URL">
         <a [href]="dataItem?.content" target="_blank">

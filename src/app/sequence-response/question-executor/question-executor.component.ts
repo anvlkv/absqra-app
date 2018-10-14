@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { QuantityOrder, Question } from 'models/api-models';
+import { Question, QuestionPresentationTypes } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
-import { ViewRouter } from 'models/api-routes/ViewRouter';
+import { RespondentRouter } from 'models/api-routes/RespondentRouter';
 
 
 @Component({
@@ -12,13 +12,15 @@ import { ViewRouter } from 'models/api-routes/ViewRouter';
 })
 export class QuestionExecutorComponent extends BaseDetail<Question> {
 
+  presentationTypes = QuestionPresentationTypes;
+
   constructor(
     data: DataService
   ) {
     super(data);
     this.callConfigurator = (executableQuestionId, cause) => {
       return {
-        route: ViewRouter.viewExecutableQuestion,
+        route: RespondentRouter.viewExecutableQuestion,
         params: {executableQuestionId}
       }
     }

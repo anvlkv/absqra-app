@@ -24,6 +24,7 @@ import { AssetThumbnailComponent } from './asset-thumbnail/asset-thumbnail.compo
 import { AssetDetailComponent } from './asset-detail/asset-detail.component';
 import { FormatConstraintDetailComponent } from './format-constraint-detail/format-constraint-detail.component';
 import { FormatConstraintThumbnailComponent } from './format-constraint-thumbnail/format-constraint-thumbnail.component';
+import { QuillModule } from 'ngx-quill';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { FormatConstraintThumbnailComponent } from './format-constraint-thumbnai
     AppCommonModule,
     ReactiveFormsModule,
     InputsModule,
-    DragScrollModule
+    DragScrollModule,
+    QuillModule
   ],
   declarations: [
     ProjectsListComponent,

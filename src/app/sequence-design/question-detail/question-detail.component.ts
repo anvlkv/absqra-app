@@ -10,7 +10,7 @@ import {
   DynamicState,
   stateCombinator,
 } from '../../app-common/dynamic-state/dynamic-state.component';
-import { unpackEnum } from '../../utils';
+import { formDeltaValue, unpackEnum } from '../../utils';
 import { AssetPurposes } from '../asset-detail/asset-detail.component';
 import { Observable } from 'rxjs';
 
@@ -57,28 +57,31 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
         ...question,
         description: question.description || '',
         formatConstraintsIds: this.fb.control(question.formatConstraintsIds || []),
-        questionAssetsIds: this.fb.control(question.questionAssetsIds|| []),
+        questionAssetsIds: this.fb.control(question.questionAssetsIds || []),
         responseAssetsIds: this.fb.control(question.responseAssetsIds || [])
       });
 
-      this.questionForm.valueChanges.subscribe(({formatConstraintsIds, questionAssetsIds, responseAssetsIds}) => {
-        if (formatConstraintsIds.every(id => !!id)) {
-          this.dataItem.formatConstraints = formatConstraintsIds.map((id, i) => ({id, order: i}));
-        }
-        if (questionAssetsIds.every(id => !!id)) {
-          this.dataItem.questionAssets = questionAssetsIds.map((id, i) => ({id, order: i}));
-        }
-        if (responseAssetsIds.every(id => !!id)) {
-          this.dataItem.responseAssets = responseAssetsIds.map((id, i) => ({id, order: i}));
-        }
-
-        if (formatConstraintsIds.every(id => !!id) ||
-          questionAssetsIds.every(id => !!id) ||
-          responseAssetsIds.every(id => !!id)
-        ) {
+      this.questionForm.controls['formatConstraintsIds'].valueChanges.subscribe(ids => {
+        if (ids.every(id => !!id)) {
+          this.dataItem.formatConstraints = ids.map((id, i) => ({id, order: i}));
           this.update(this.dataItem);
         }
       });
+
+      this.questionForm.controls['questionAssetsIds'].valueChanges.subscribe(ids => {
+        if (ids.every(id => !!id)) {
+          this.dataItem.questionAssetsIds = ids.map((id, i) => ({id, order: i}));
+          this.update(this.dataItem);
+        }
+      });
+
+      this.questionForm.controls['responseAssetsIds'].valueChanges.subscribe(ids => {
+        if (ids.every(id => !!id)) {
+          this.dataItem.responseAssetsIds = ids.map((id, i) => ({id, order: i}));
+          this.update(this.dataItem);
+        }
+      });
+
 
       if (!loaded) {
         this.$state.next(ComponentDynamicStates.EDITING);
@@ -90,11 +93,12 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
     e ? e.preventDefault() : null;
     e ? e.stopPropagation() : null;
     if (this.questionForm.valid) {
+
       if (this.dataItemId) {
-        this.update({...this.dataItem, ...this.questionForm.value})
+        this.update({...this.dataItem, ...formDeltaValue(this.questionForm)})
       }
       else {
-        this.save(this.questionForm.value);
+        this.save({...this.dataItem, ...formDeltaValue(this.questionForm)});
       }
     }
 
@@ -105,9 +109,6 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
     this.dataItem.contentAsset = {id};
     if (this.dataItemId) {
       this.update({...this.dataItem})
-    }
-    else {
-      this.save();
     }
   }
 }

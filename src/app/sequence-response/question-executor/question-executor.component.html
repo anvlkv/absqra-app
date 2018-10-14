@@ -1,7 +1,14 @@
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
-    <ng-container [ngSwitch]="dataItem.visualization">
-      <app-static-content *ngSwitchCase="'static'"></app-static-content>
+    <ng-container [ngSwitch]="dataItem.presentationType">
+      <app-sr-static-content *ngSwitchCase="presentationTypes.STATIC"></app-sr-static-content>
+      <app-sr-yes-no *ngSwitchCase="presentationTypes.YES_NO" [question]="dataItem"></app-sr-yes-no>
+      <app-sr-input *ngSwitchCase="presentationTypes.INPUT"></app-sr-input>
+      <app-sr-large-text *ngSwitchCase="presentationTypes.LARGE_TEXT"></app-sr-large-text>
+      <app-sr-radio-buttons *ngSwitchCase="presentationTypes.RADIO_BUTTONS"></app-sr-radio-buttons>
+      <app-sr-check-boxes *ngSwitchCase="presentationTypes.CHECK_BOXES"></app-sr-check-boxes>
+      <app-sr-select *ngSwitchCase="presentationTypes.SELECT"></app-sr-select>
+      <app-sr-list-input *ngSwitchCase="presentationTypes.LIST_INPUT"></app-sr-list-input>
     </ng-container>
   </ng-template>
 </app-dynamic-state>

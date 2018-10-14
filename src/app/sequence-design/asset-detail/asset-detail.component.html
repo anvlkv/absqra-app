@@ -24,7 +24,8 @@
           <label for="textContent">
             content
           </label>
-          <input id="textContent" type="text" formControlName="content">
+          <!--<textarea id="textContent" formControlName="content"></textarea>-->
+          <quill-editor id="textContent" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
         </ng-container>
         <ng-container *ngSwitchCase="contentTypes.URL">
           <label for="urlContent" *ngSwitchCase="contentTypes.URL">

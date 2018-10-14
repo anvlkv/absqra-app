@@ -1,6 +1,8 @@
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
-    <app-step-executor [dataItemId]="activatedStepId"></app-step-executor>
-    <button (click)="nextStep()">next</button>
+    <app-step-executor [dataItemId]="response.stepId"></app-step-executor>
+    <div class="controls">
+      <ng-container *ngTemplateOutlet="template"></ng-container>
+    </div>
   </ng-template>
 </app-dynamic-state>

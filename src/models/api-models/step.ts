@@ -6,7 +6,7 @@ import { Logic } from './logic';
 import { StepAsset } from './stepAsset';
 import { OrderableBase } from './orderableBase';
 export declare class Step extends OrderableBase {
-    type: StepTypes;
+    type?: StepTypes;
     sequenceReference?: Sequence;
     sequenceReferenceId?: number;
     questionReference?: Question;

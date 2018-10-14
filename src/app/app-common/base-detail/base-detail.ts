@@ -134,8 +134,14 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   save(dataItem?: T): void {
     this.$state.next(ComponentDynamicStates.INTERIM);
 
+    dataItem = {
+      // @ts-ignore
+      ...this.dataItem,
+      ...dataItem
+    };
+
     const callConfig = this.configureCall(this.dataItemId ? CRUD.UPDATE : CRUD.CREATE);
-    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, (dataItem || this.dataItem), callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
+    const subscription = this.data.postData<T>(callConfig.route, callConfig.params, dataItem, callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
 
     if (!this.itemSubscription) {
       this.itemSubscription = subscription;

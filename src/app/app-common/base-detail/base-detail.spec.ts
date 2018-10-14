@@ -3,12 +3,11 @@ import { Component, ElementRef } from '@angular/core';
 import { BaseDetail } from './base-detail';
 import { Base } from 'models/api-models';
 import { DataService } from '../data-service/data.service';
-import { anyOfClass, anything, deepEqual, instance, mock, notNull, verify, when } from 'ts-mockito';
+import { anything, deepEqual, instance, mock, notNull, verify, when } from 'ts-mockito';
 import { CRUD } from '../api-service/api.service';
 import { of, Subject, throwError } from 'rxjs';
 import { buffer, bufferCount, delay } from 'rxjs/operators';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';
-import { time } from 'jasmine-marbles';
 
 describe('BaseDetail', () => {
   let mockedData: DataService;

@@ -2,4 +2,9 @@
 
 :host{
   @extend ._page;
+
+  .controls {
+    display: flex;
+    justify-content: space-around;
+  }
 }

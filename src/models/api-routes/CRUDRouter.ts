@@ -23,8 +23,8 @@ import { ApiRoute } from 'api';
             repoQuestionAssetsOfQuestion: ApiRoute;
             repoQuestionContentAssets: ApiRoute;
             repoQuestions: ApiRoute;
-            repoRespondents: ApiRoute;
             repoRespondentsLists: ApiRoute;
+            repoRespondentsOfRespondentsList: ApiRoute;
             repoResponseAssetsOfQuestion: ApiRoute;
             repoSequenceHeaders: ApiRoute;
             repoSequenceResponses: ApiRoute;
@@ -145,15 +145,15 @@ import { ApiRoute } from 'api';
         params: [],
         typeName: 'question'
     },
-    repoRespondents: {
-        path: '/crud/respondents',
-        params: [],
-        typeName: 'respondent'
-    },
     repoRespondentsLists: {
         path: '/crud/respondentsLists',
         params: [],
         typeName: 'respondentsList'
+    },
+    repoRespondentsOfRespondentsList: {
+        path: '/crud/respondentsLists/:respondentsListId/respondents',
+        params: ['respondentsListId'],
+        typeName: 'respondent'
     },
     repoResponseAssetsOfQuestion: {
         path: '/crud/questions/:questionId/responseAssets',

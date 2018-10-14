@@ -32,7 +32,8 @@ export class ApiService {
     private http: HttpClient,
     cs: CookieService
   ) {
-    this.apiUrl = environment.api ? `${environment.api}` : cs.get('API-URL');
+    const cookieAPI = cs.get('API-URL');
+    this.apiUrl = cookieAPI ?  cookieAPI : environment.api;
 
     if (!this.apiUrl) {
       throw Error('Illegal api');
@@ -57,7 +58,7 @@ export class ApiService {
   }
 
   getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
-    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params, route.params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.get<T>(url, {
       params: queryParams,
@@ -69,7 +70,7 @@ export class ApiService {
   }
 
   postData<T>(route: ApiRoute, params?: RouteParams, body?: any, query?: RouteParams): Observable<T> {
-    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params, route.params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.post<T>(url, body, {
       params: queryParams,
@@ -81,7 +82,7 @@ export class ApiService {
   }
 
   patchData<T>(route: ApiRoute, params: RouteParams, operations: Operation[], query?: RouteParams): Observable<T> {
-    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params, route.params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.patch<T>(url, operations, {
       params: queryParams,
@@ -93,7 +94,7 @@ export class ApiService {
   }
 
   deleteData<T>(route: ApiRoute, params: RouteParams, query?: RouteParams): Observable<T> {
-    const url = `${this.apiUrl}${setUrlParams(route.path, params)}`;
+    const url = `${this.apiUrl}${setUrlParams(route.path, params, route.params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.delete<T>(url, {
       params: queryParams,
@@ -144,10 +145,10 @@ export class ApiService {
 
 }
 
-function setUrlParams(path: string, params: RouteParams) {
-  for (const param in params) {
-    path = path.replace(`:${param}`, `${params[param] || 'default'}`);
-  }
+function setUrlParams(path: string, params: RouteParams = {}, allRouteParams: string[] = []) {
+  allRouteParams.forEach((param) => {
+    path = path.replace(new RegExp(`:${param}(?=($|\\/))`), `${params[param] || 'default'}`);
+  });
   return path;
 }
 

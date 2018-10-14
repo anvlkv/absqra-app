@@ -26,9 +26,11 @@ export class HotKeysService implements OnDestroy {
     this.windowRef = window;
     this.keyUpListener = (event) => {
       keysListener(event, false, this.mappedKeys, this.trigger.bind(this));
+      return event;
     };
     this.keyDownListener = (event) => {
       keysListener(event, true, this.mappedKeys, this.trigger.bind(this));
+      return event;
     };
 
     this.windowRef.addEventListener('keydown', this.keyDownListener);
@@ -74,8 +76,11 @@ const focusableElements = [
 
 function keysListener(event: KeyboardEvent, pressed: boolean, keys: string[], cb: Function) {
   try {
-    const tagName = (<HTMLElement>event.target).tagName.toLowerCase();
-    if (!focusableElements.includes(tagName) && keys.includes(event.code.toLowerCase())) {
+    const element = <HTMLElement>event.target;
+    const tagName = element.tagName.toLowerCase();
+    if (!focusableElements.includes(tagName) &&
+      !element.getAttribute('contenteditable') &&
+      keys.includes(event.code.toLowerCase())) {
       event.preventDefault();
       cb(pressed, event.code.toLowerCase());
       return false;

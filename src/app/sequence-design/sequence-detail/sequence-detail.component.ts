@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Sequence, SequenceLifeCycleTypes } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';

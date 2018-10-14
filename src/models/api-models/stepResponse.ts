@@ -1,10 +1,11 @@
 import { Base } from './base';
 import { Step } from './step';
-import { SequenceResponse } from './response';
+import { SequenceResponse } from './sequenceResponse';
 import { ResponseBody } from './responseBody';
 export declare class StepResponse extends Base {
-    step: Step;
+    step?: Step;
     stepId?: number;
-    response: SequenceResponse;
-    body: ResponseBody;
+    sequenceResponse?: SequenceResponse;
+    sequenceResponseId?: string;
+    body?: ResponseBody;
 }
