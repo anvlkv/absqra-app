@@ -19,6 +19,8 @@ export class DataService implements PublicMembersInterface<ApiService> {
     private api: ApiService,
   ) { }
 
+  download(route: ApiRoute, params: RouteParams, query?: RouteParams) { return this.api.download(route, params, query) }
+
   getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
     try {
       const itemId = getItemIdFromParams(params, route.typeName);

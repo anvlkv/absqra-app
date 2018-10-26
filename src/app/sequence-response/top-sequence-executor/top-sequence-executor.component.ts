@@ -16,7 +16,7 @@ import { ResponseService } from '../sr/response.service';
 })
 export class TopSequenceExecutorComponent extends BaseDetail<Sequence> implements OnInit {
 
-  private template: TemplateRef<any>;
+  private controlsTemplate: TemplateRef<any>;
 
   constructor(
     data: DataService,
@@ -27,7 +27,7 @@ export class TopSequenceExecutorComponent extends BaseDetail<Sequence> implement
     private ch: ChangeDetectorRef,
     public response: ResponseService
   ) {
-    super(data);
+    super(data, false);
 
     this.callConfigurator = (sequenceId, cause) => {
       switch (cause) {
@@ -56,7 +56,7 @@ export class TopSequenceExecutorComponent extends BaseDetail<Sequence> implement
     });
 
     this.uiService.template.subscribe(t => {
-      this.template = t;
+      this.controlsTemplate = t;
       this.ch.detectChanges();
     });
 

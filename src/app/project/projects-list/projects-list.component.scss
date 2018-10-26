@@ -1,5 +1,5 @@
-@import "partials/surfaces";
-@import "vars/var-sizes";
+@import "../../../styles/shared/partials/surfaces";
+@import "../../../styles/shared/vars/var-sizes";
 
 :host{
   width: 100%;
@@ -10,8 +10,8 @@
   min-height: 0;
 
   > *{
-    a, fieldset {
-      @extend ._base-surface;
+    fieldset, .project-tile {
+      @extend .__base-surface;
       height: 100%;
       width: 100%;
     }

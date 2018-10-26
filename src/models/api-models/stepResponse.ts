@@ -4,7 +4,7 @@ import { SequenceResponse } from './sequenceResponse';
 import { ResponseBody } from './responseBody';
 export declare class StepResponse extends Base {
     step?: Step;
-    stepId?: number;
+    stepId?: string;
     sequenceResponse?: SequenceResponse;
     sequenceResponseId?: string;
     body?: ResponseBody;

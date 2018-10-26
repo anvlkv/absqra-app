@@ -1,0 +1,10 @@
+<ng-container *ngFor="let response of responses | async">
+  <app-dynamic-state [state]="state">
+    <ng-template #viewingTemplate>
+      <a [routerLink]="[response.id]">
+        <app-response-thumbnail [dataItem]="response"></app-response-thumbnail>
+      </a>
+    </ng-template>
+  </app-dynamic-state>
+</ng-container>
+

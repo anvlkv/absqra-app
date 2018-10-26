@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RadioButtonsComponent } from './radio-buttons.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('RadioButtonsComponent', () => {
   let component: RadioButtonsComponent;
@@ -8,7 +9,10 @@ describe('RadioButtonsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RadioButtonsComponent ]
+      declarations: [ RadioButtonsComponent ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));

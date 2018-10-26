@@ -1,8 +1,9 @@
 <ng-container *ngIf="state | async" [ngSwitch]="dataItem?.assetType">
   <ng-container *ngSwitchCase="assetTypes.DYNAMIC">
-    <p>
-      wow we're looking right in the future
-    </p>
+    Output of
+    <a [routerLink]="routerLink">
+      <app-step-thumbnail [stepId]="dataItem.sourceStepId"></app-step-thumbnail>
+    </a>
   </ng-container>
   <ng-container *ngSwitchCase="assetTypes.STATIC">
     <ng-container [ngSwitch]="dataItem?.contentType">

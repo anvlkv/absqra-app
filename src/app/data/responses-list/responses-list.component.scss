@@ -1,0 +1,6 @@
+@import "partials/surfaces/grid-surfaces-container";
+
+:host {
+  //@extend ._grid-surfaces-container;
+  @include gridSurfacesContainer(3, 2, 1)
+}

@@ -1,3 +1,16 @@
-<p>
-  input works!
-</p>
+<app-dynamic-state [state]="state">
+  <ng-template #defaultTemplate>
+    <fieldset [formGroup]="formGroup">
+      <app-asset-viewer [asset]="question.contentAsset"></app-asset-viewer>
+      <div class="input-group">
+        <input [type]="inputType" formControlName="content" title="Question response">
+      </div>
+    </fieldset>
+  </ng-template>
+</app-dynamic-state>
+
+<ng-template #controls>
+  <button (click)="save()">save & continue</button>
+  <button (click)="sayNA()">n/a</button>
+  <button (click)="reset()">clear</button>
+</ng-template>

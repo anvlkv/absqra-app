@@ -10,8 +10,8 @@ import { ApiRoute } from 'api';
         typeName: 'stepResponseResult'
     },
     viewExecutableQuestion: {
-        path: '/respondent/question-exec/:executableQuestionId',
-        params: ['executableQuestionId'],
+        path: '/respondent/question-exec/:executableQuestionId/:responseId',
+        params: ['executableQuestionId', 'responseId'],
         typeName: 'executableQuestion'
     }
 };

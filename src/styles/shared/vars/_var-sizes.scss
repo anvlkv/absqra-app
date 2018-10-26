@@ -1,6 +1,8 @@
 $line-size-unit: 1px !default;
+$x-thin-line: .33 * $line-size-unit !default;
 $thin-line: 1 * $line-size-unit !default;
 $thick-line: 3 * $line-size-unit !default;
+$x-thick-line: 9 * $line-size-unit !default;
 
 $white-space-unit: 1em !default;
 $x-small-white-space: 0.25 * $white-space-unit !default;
@@ -12,3 +14,10 @@ $panel-bar-size-unit: 1em !default;
 $small-panel-bar: 2.25 * $panel-bar-size-unit !default;
 $medium-panel-bar: 3 * $panel-bar-size-unit !default;
 $large-panel-bar: 3.75 * $panel-bar-size-unit !default;
+
+$font-size-unit: 1rem !default;
+$x-small-font-size: .5 * $font-size-unit !default;
+$small-font-size: .75 * $font-size-unit !default;
+$medium-font-size: 1.25 * $font-size-unit !default;
+$large-font-size: 3 * $font-size-unit !default;
+$x-large-font-size: 4.5 * $font-size-unit !default;

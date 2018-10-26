@@ -1,13 +1,11 @@
 import {
-  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
   Output,
-  QueryList, SimpleChanges,
-  ViewChildren,
+  SimpleChanges
 } from '@angular/core';
 import { Base } from 'models/api-models';
 import { ComponentDynamicStates, DynamicState } from '../dynamic-state/dynamic-state.component';
@@ -16,20 +14,20 @@ import { DataService } from '../data-service/data.service';
 import { CRUD } from '../api-service/api.service';
 import { CallConfig } from 'models/call-config';
 import * as jsonpatch from 'fast-json-patch';
-import { Observer, Operation } from 'fast-json-patch';
+import { Operation } from 'fast-json-patch';
 import * as _ from 'lodash';
 import { distinctUntilChanged } from 'rxjs/operators';
 
 
 export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, OnChanges {
   private _dataItem: T = <T>{};
-  // private _dataItemId: number;
   private _dataItemPristine: T;
   private itemSubscription: Subscription;
   private $itemSet = new ReplaySubject<boolean>(1);
   protected $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   protected itemSubscriber: (item: T) => void;
   protected errorHandler: (err) => void;
+
 
   state: Observable<DynamicState>;
   itemSetObservable: Observable<boolean>;
@@ -49,8 +47,12 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
         this.idChange.emit(item.id);
       }
     }
+
     this._dataItem = item;
-    this._dataItemPristine = _.cloneDeep(item);
+
+    if (!this._dataItemPristine) {
+      this._dataItemPristine = _.cloneDeep(item);
+    }
 
     this.$itemSet.next(!!item && !!item.id);
   }
@@ -62,7 +64,8 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   parentId: number;
 
   constructor(
-    public data: DataService
+    public data: DataService,
+    private shouldFetchDefault = true
   ) {
     this.state = this.$state.asObservable();
     this.itemSetObservable = this.$itemSet.pipe(distinctUntilChanged());
@@ -117,6 +120,9 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   }
 
   fetchDefault(): void {
+    if (!this.shouldFetchDefault) {
+      return;
+    }
     const callConfig = this.callConfigurator('default', CRUD.READ);
     this.data.getData<T>(callConfig.route, callConfig.params, callConfig.query).subscribe((defaultItem) => {
       this.defaultItem = defaultItem;
@@ -148,16 +154,12 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
     }
   }
 
-  update(dataItem?: T): void {
+  update(dataItem = this.dataItem): void {
     this.$state.next(ComponentDynamicStates.INTERIM);
     const callConfig = this.configureCall(CRUD.UPDATE);
     let patch: Operation[];
-    if (dataItem) {
-      patch = jsonpatch.compare(this._dataItemPristine, dataItem);
-    }
-    else {
-      patch = jsonpatch.compare(this._dataItemPristine, this.dataItem);
-    }
+    patch = jsonpatch.compare(this._dataItemPristine, dataItem);
+
     this.data.patchData<T>(callConfig.route, callConfig.params, patch, callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
   }
 

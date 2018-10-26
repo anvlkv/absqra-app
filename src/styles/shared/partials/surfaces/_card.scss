@@ -1,10 +1,11 @@
 @import "./base-surface";
+@import "partials/surfaces/marginal-element";
 @import "vars";
 
 ._card {
-  @extend ._base-surface;
+  @extend .__base-surface;
   border: $thin-line solid lighten($primary-text-color, 50%);
-  padding: 1em;
+  padding: $small-white-space;
   transition: border-color $basic-transition-time, border-width $basic-transition-time;
   overflow: hidden;
   background-color: $primary-background;
@@ -16,6 +17,36 @@
     * {
       text-overflow: inherit;
       overflow: inherit;
+    }
+  }
+}
+
+.__card-wrapper {
+  @extend .__base-surface;
+  padding: 0;
+  background:none;
+  overflow: hidden;
+
+  > * {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 100%;
+    * {
+      text-overflow: inherit;
+      overflow: inherit;
+    }
+  }
+}
+
+.__card-label {
+  border: $x-thin-line solid $primary-text-color;
+  align-self: flex-start;
+  background-color: $primary-background;
+  padding: $x-small-white-space;
+  margin: 0;
+  @each $side in $sides {
+    &.label-#{$side} {
+      border-#{$side}: none;
     }
   }
 }

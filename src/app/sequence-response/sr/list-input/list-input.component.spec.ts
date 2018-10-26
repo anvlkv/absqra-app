@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ListInputComponent } from './list-input.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('ListInputComponent', () => {
   let component: ListInputComponent;
@@ -8,7 +9,10 @@ describe('ListInputComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ListInputComponent ]
+      declarations: [ ListInputComponent ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));

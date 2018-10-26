@@ -1,8 +1,10 @@
-<app-dynamic-state [state]="state">
-  <ng-template #defaultTemplate>
-    <app-step-executor [dataItemId]="response.stepId"></app-step-executor>
-    <div class="controls">
-      <ng-container *ngTemplateOutlet="template"></ng-container>
-    </div>
-  </ng-template>
-</app-dynamic-state>
+<div class="response-page">
+  <app-dynamic-state [state]="state">
+    <ng-template #defaultTemplate>
+      <app-step-executor [dataItemId]="response.stepId"></app-step-executor>
+      <footer class="controls">
+        <ng-container *ngTemplateOutlet="controlsTemplate"></ng-container>
+      </footer>
+    </ng-template>
+  </app-dynamic-state>
+</div>

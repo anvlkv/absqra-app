@@ -1,0 +1,33 @@
+@import "vars";
+@import "surfaces";
+
+dl{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  //flex-wrap: revert;
+  dt, dd{
+    flex-grow: 0;
+    font-size: $font-size-unit;
+    padding: $x-small-white-space;
+    border: $x-thin-line solid $primary-accent;
+    margin: $x-small-white-space 0;
+  }
+
+  dt {
+    border-right: none;
+    background-color: rgba(darken($primary-background, 10%), .5);
+    overflow: hidden;
+  }
+  dd{
+    flex-shrink: 1;
+    border-left: none;
+    background-color: $primary-background;
+    color: $secondary-accent;
+
+    & + dt {
+      margin-left: $small-white-space;
+    }
+  }
+}

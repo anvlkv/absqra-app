@@ -1,4 +1,4 @@
-<p>
-  static-content works!
-  yup;
-</p>
+<app-asset-viewer [asset]="asset || question.contentAsset"></app-asset-viewer>
+<ng-template #controls>
+  <button (click)="sayNA()">Continue</button>
+</ng-template>

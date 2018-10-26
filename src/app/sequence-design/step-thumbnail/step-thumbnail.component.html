@@ -1,0 +1,20 @@
+<dl *ngIf="state | async">
+  <dt>{{dataItem.order}}</dt>
+  <dd [ngSwitch]="dataItem.type">
+    <app-question-thumbnail
+      [dataItem]="dataItem.questionReference"
+      *ngSwitchCase="stepTypes.QUESTION_REF"></app-question-thumbnail>
+    <app-task-thumbnail
+      [dataItem]="dataItem.taskReference"
+      *ngSwitchCase="stepTypes.TASK_REF"></app-task-thumbnail>
+    <app-logic-thumbnail
+      [dataItem]="dataItem.logicReference"
+      *ngSwitchCase="stepTypes.LOGICAL_ITEM"></app-logic-thumbnail>
+    <app-sequence-thumbnail
+      [dataItem]="dataItem.sequenceReference"
+      *ngSwitchCase="stepTypes.SEQUENCE_REF"></app-sequence-thumbnail>
+    <app-asset-thumbnail
+      [dataItem]="dataItem.assetReference"
+      *ngSwitchCase="stepTypes.ASSET_REF"></app-asset-thumbnail>
+  </dd>
+</dl>

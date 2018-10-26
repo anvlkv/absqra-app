@@ -1,9 +1,10 @@
 @import "partials/surfaces";
+@import "vars";
 
 :host{
   display: contents;
   div[dragScroll]{
-    @extend ._surfaces-container;
+    @extend .__surfaces-container;
 
     &.panning {
       cursor: grab;
@@ -25,5 +26,11 @@
     //  @extend ._card;
     //  flex-direction: column;
     //}
+
+    nav{
+      a{
+        margin: $x-small-white-space;
+      }
+    }
   }
 }

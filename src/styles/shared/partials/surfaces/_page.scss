@@ -4,7 +4,7 @@
 @import "partials/limitations";
 
 ._page{
-  @extend ._base-surface;
+  @extend .__base-surface;
   flex-direction: column;
   flex-grow: 1;
   justify-content: flex-start;

@@ -1,23 +1,6 @@
-@import "vars/var-breakpoints";
+@import "vars";
 @import "~breakpoint-sass";
 @import "partials/surfaces";
-
-
-._text-like-input {
-  min-width: 100px;
-  @include breakpoint($small-screen) {
-    min-width: 80vw;
-  }
-  @include breakpoint($medium-screen) {
-    min-width: 40vw;
-  }
-  @include breakpoint($large-screen) {
-    min-width: 20vw;
-  }
-  @include breakpoint($x-large-screen) {
-    min-width: 10vw;
-  }
-}
 
 :host {
   @extend ._card;
@@ -31,33 +14,9 @@
     }
   }
 
-  fieldset{
-    @extend ._base-surface;
-    flex-direction: column;
-    border: none;
-
-    .input-group {
-      @extend ._base-surface;
-      flex-direction: column;
-      margin: $small-white-space auto;
-      label[for] {
-        margin-bottom: $x-small-white-space;
-      }
-    }
-
-    @each $type in text, url, email, date, datetime-local, password, number {
-      input[type=#{$type}]{
-        @extend ._text-like-input;
-      }
-    }
-    textarea, select{
-      @extend ._text-like-input;
-    }
-
-    > button {
-      margin: $small-white-space auto;
-      width: 100%;
-    }
+  app-array-input {
+    background-color: $container-background;
+    box-shadow: inset $x-thin-line $x-thin-line $x-thin-line $x-thin-line rgba($primary-text-color, .25);
+    padding: $small-white-space;
   }
-
 }

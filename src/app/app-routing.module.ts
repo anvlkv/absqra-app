@@ -4,7 +4,7 @@ import { Routes, RouterModule } from '@angular/router';
 const routes: Routes = [
   {
     path: 'ask',
-    loadChildren: 'app/sequence-design/sequence-design.module#SequenceDesignModule',
+    loadChildren: 'app/project/project.module#ProjectModule',
   },
   {
     path: 'answer',

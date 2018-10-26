@@ -8,9 +8,13 @@
         </div>
       </fieldset>
       <ng-container *ngFor="let project of projects | async">
-        <a [routerLink]="[project.id]">
-          <app-project-thumbnail [dataItem]="project"></app-project-thumbnail>
-        </a>
+        <div class="project-tile">
+          <a [routerLink]="[project.id]">
+            <app-project-thumbnail [dataItem]="project">
+            </app-project-thumbnail>
+          </a>
+          <!--<button (click)="deleteProject(project.id)">remove</button>-->
+        </div>
       </ng-container>
     </div>
   </ng-template>

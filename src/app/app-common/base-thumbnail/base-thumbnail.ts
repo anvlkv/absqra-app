@@ -14,7 +14,7 @@ export abstract class BaseThumbnail <T extends Base> implements OnChanges, OnDes
   @Input()
   dataItem: Partial<T>;
 
-  private $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.EMPTY);
+  $state = new BehaviorSubject<ComponentDynamicStates>(ComponentDynamicStates.EMPTY);
 
   public state: Observable<boolean>;
   constructor(
@@ -27,7 +27,7 @@ export abstract class BaseThumbnail <T extends Base> implements OnChanges, OnDes
     if (changes.dataItem && changes.dataItem.currentValue) {
       this.$state.next(ComponentDynamicStates.VIEWING);
     }
-    else {
+    else if (!this.dataItem) {
       this.$state.next(ComponentDynamicStates.EMPTY);
     }
   }

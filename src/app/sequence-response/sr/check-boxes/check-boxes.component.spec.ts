@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckBoxesComponent } from './check-boxes.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('CheckBoxesComponent', () => {
   let component: CheckBoxesComponent;
@@ -8,7 +9,10 @@ describe('CheckBoxesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CheckBoxesComponent ]
+      declarations: [ CheckBoxesComponent ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));

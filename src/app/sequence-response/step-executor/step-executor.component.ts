@@ -18,7 +18,7 @@ export class StepExecutorComponent extends BaseDetail<Step> implements OnInit {
     data: DataService,
     private route: ActivatedRoute
   ) {
-    super(data);
+    super(data, false);
     this.callConfigurator = (stepId, cause) => {
       return {
         route: CRUDRouter.entityStep,

@@ -1,34 +1,20 @@
-@import "shared/vars/var-breakpoints";
-@import "~breakpoint-sass";
+// include normalize first!
 @import "normailization-config";
 @import "~normalize-scss";
-@import "shared/vars";
 @include normalize();
+// end normalize
+
+@import "shared/vars";
+@import "~breakpoint-sass";
+@import "shared/partials/forms";
+@import "shared/partials/controls";
+@import "shared/partials/indicators";
 
 body{
   color: $primary-text-color;
   background-color: darken($primary-background, 10%);
+  font-size: $font-size-unit;
   &, * {
     box-sizing: border-box;
-  }
-  // TODO: move it somewhere when you have more of these...
-
-  button {
-    border: 1px solid $primary-interactive;
-    color: $primary-interactive;
-    background-color: $primary-interactive-background;
-  }
-  input, textarea {
-    border: 1px solid desaturate($primary-interactive, 50%);
-    &:focus {
-      border-color: transparent;
-      outline: $primary-interactive solid 2px;
-    }
-    padding: $x-small-white-space;
-  }
-
-  fieldset {
-    border: none;
-    padding: 0;
   }
 }

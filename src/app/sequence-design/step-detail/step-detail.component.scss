@@ -1,0 +1,10 @@
+@import "partials/surfaces/card";
+
+:host {
+  @extend .__card-wrapper;
+  flex-direction: column;
+
+  .step-type-label {
+    @extend .__card-label;
+  }
+}

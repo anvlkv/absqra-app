@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Project } from 'models/api-models';
+import { Project } from 'models/api-models/index';
 import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
 
 @Component({

@@ -70,14 +70,14 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
 
       this.questionForm.controls['questionAssetsIds'].valueChanges.subscribe(ids => {
         if (ids.every(id => !!id)) {
-          this.dataItem.questionAssetsIds = ids.map((id, i) => ({id, order: i}));
+          this.dataItem.questionAssets = ids.map((id, i) => ({id, order: i}));
           this.update(this.dataItem);
         }
       });
 
       this.questionForm.controls['responseAssetsIds'].valueChanges.subscribe(ids => {
         if (ids.every(id => !!id)) {
-          this.dataItem.responseAssetsIds = ids.map((id, i) => ({id, order: i}));
+          this.dataItem.responseAssets = ids.map((id, i) => ({id, order: i}));
           this.update(this.dataItem);
         }
       });

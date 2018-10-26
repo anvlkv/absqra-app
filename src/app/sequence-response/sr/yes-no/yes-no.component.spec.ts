@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { YesNoComponent } from './yes-no.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('YesNoComponent', () => {
   let component: YesNoComponent;
@@ -8,7 +9,10 @@ describe('YesNoComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ YesNoComponent ]
+      declarations: [ YesNoComponent ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));

@@ -1,7 +1,7 @@
-@import "partials/surfaces/base-surface";
+@import "../../../styles/shared/partials/surfaces/base-surface";
 
 :host{
-  @extend ._base-surface;
+  @extend .__base-surface;
   flex-direction: column;
   h3{
     flex-grow: 0;

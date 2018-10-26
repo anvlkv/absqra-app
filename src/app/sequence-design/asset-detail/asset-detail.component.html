@@ -13,33 +13,48 @@
         </label>
         <app-multiple-input id="assetType" formControlName="assetType" [multiSelect]="false" [options]="assetTypesValues"></app-multiple-input>
       </div>
-      <div class="input-group">
-        <label for="contentType">
-          content type
-        </label>
-        <app-multiple-input id="contentType" formControlName="contentType" [multiSelect]="false" [options]="contentTypesValues"></app-multiple-input>
-      </div>
-      <div class="input-group" [ngSwitch]="assetForm.value.contentType">
-        <ng-container *ngSwitchCase="contentTypes.TEXT">
-          <label for="textContent">
-            content
-          </label>
-          <!--<textarea id="textContent" formControlName="content"></textarea>-->
-          <quill-editor id="textContent" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
+      <ng-container [ngSwitch]="assetForm.value.assetType">
+        <ng-container *ngSwitchCase="assetTypes.STATIC">
+          <div class="input-group">
+            <label for="contentType">
+              content type
+            </label>
+            <app-multiple-input id="contentType" formControlName="contentType" [multiSelect]="false" [options]="contentTypesValues"></app-multiple-input>
+          </div>
+          <div class="input-group" [ngSwitch]="assetForm.value.contentType">
+            <ng-container *ngSwitchCase="contentTypes.TEXT">
+              <label for="textContent">
+                content
+              </label>
+              <quill-editor id="textContent" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
+            </ng-container>
+            <ng-container *ngSwitchCase="contentTypes.URL">
+              <label for="urlContent" *ngSwitchCase="contentTypes.URL">
+                URL
+              </label>
+              <input type="url" id="urlContent" formControlName="content">
+            </ng-container>
+            <ng-container *ngSwitchCase="contentTypes.FILE">
+              <label for="fileContent">
+                file
+              </label>
+              <input type="file" id="fileContent" formControlName="content">
+            </ng-container>
+          </div>
         </ng-container>
-        <ng-container *ngSwitchCase="contentTypes.URL">
-          <label for="urlContent" *ngSwitchCase="contentTypes.URL">
-            URL
-          </label>
-          <input type="url" id="urlContent" formControlName="content">
+        <ng-container *ngSwitchCase="assetTypes.DYNAMIC">
+          <div class="input-group">
+            <label for="sourceStepId">
+              content source
+            </label>
+            <app-multiple-input id="sourceStepId" formControlName="sourceStepId" [multiSelect]="false" [options]="referableSteps | async">
+              <ng-template let-option>
+                <app-step-thumbnail [stepId]="option.item"></app-step-thumbnail>
+              </ng-template>
+            </app-multiple-input>
+          </div>
         </ng-container>
-        <ng-container *ngSwitchCase="contentTypes.FILE">
-          <label for="fileContent">
-            file
-          </label>
-          <input type="file" id="fileContent" formControlName="content">
-        </ng-container>
-      </div>
+      </ng-container>
       <button (click)="saveAssetHeader($event)">save</button>
     </fieldset>
   </ng-template>

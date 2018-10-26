@@ -12,7 +12,7 @@ export function errorHandler(triggeredBy?) {
   return function (response: HttpErrorResponse | any, ) {
     if (!environment.production) {
       triggeredBy ? console.error(`err at: ${triggeredBy}`) : null;
-      console.trace(response);
+//       console.trace(response);
     }
     return throwError(response.error || response);
   };

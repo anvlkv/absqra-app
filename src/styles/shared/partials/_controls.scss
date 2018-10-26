@@ -1,0 +1,27 @@
+@import "vars";
+
+button {
+  margin: $x-small-white-space;
+  border: $thin-line solid $primary-interactive;
+  color: $primary-interactive;
+  background-color: $primary-interactive-background;
+  font-size: $medium-font-size;
+}
+
+a {
+  text-decoration: none;
+  color: $primary-interactive-accent;
+
+  &:visited {
+    color: $primary-interactive;
+  }
+
+  &:hover {
+    color: $primary-interactive-accent;
+    text-decoration: underline;
+  }
+
+  &:active {
+    color: darken($primary-interactive-accent, 20%);
+  }
+}

@@ -28,11 +28,14 @@ import { ApiRoute } from 'api';
             repoResponseAssetsOfQuestion: ApiRoute;
             repoSequenceHeaders: ApiRoute;
             repoSequenceResponses: ApiRoute;
+            repoSequenceResponsesOfProject: ApiRoute;
             repoSequences: ApiRoute;
             repoStepAssetsOfSequence: ApiRoute;
             repoStepResponsesOfSequenceResponse: ApiRoute;
+            repoStepResponsesOfSequenceResponseOfProject: ApiRoute;
             repoStepsOfSequence: ApiRoute;
             repoStepsOfSequenceResponse: ApiRoute;
+            repoStepsOfSequenceResponseOfProject: ApiRoute;
             repoTasksOfSequence: ApiRoute;
     } = {
     entityFormatConstraint: {
@@ -170,6 +173,11 @@ import { ApiRoute } from 'api';
         params: ['operationType'],
         typeName: 'sequenceResponse'
     },
+    repoSequenceResponsesOfProject: {
+        path: '/data-op/projects/:projectId/sequenceResponses/:operationType',
+        params: ['projectId', 'operationType'],
+        typeName: 'sequenceResponse'
+    },
     repoSequences: {
         path: '/data-op/sequences/:operationType',
         params: ['operationType'],
@@ -185,6 +193,11 @@ import { ApiRoute } from 'api';
         params: ['sequenceResponseId', 'operationType'],
         typeName: 'stepResponse'
     },
+    repoStepResponsesOfSequenceResponseOfProject: {
+        path: '/data-op/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses/:operationType',
+        params: ['projectId', 'sequenceResponseId', 'operationType'],
+        typeName: 'stepResponse'
+    },
     repoStepsOfSequence: {
         path: '/data-op/sequences/:sequenceId/steps/:operationType',
         params: ['sequenceId', 'operationType'],
@@ -193,6 +206,11 @@ import { ApiRoute } from 'api';
     repoStepsOfSequenceResponse: {
         path: '/data-op/sequenceResponses/:sequenceResponseId/steps/:operationType',
         params: ['sequenceResponseId', 'operationType'],
+        typeName: 'step'
+    },
+    repoStepsOfSequenceResponseOfProject: {
+        path: '/data-op/projects/:projectId/sequenceResponses/:sequenceResponseId/steps/:operationType',
+        params: ['projectId', 'sequenceResponseId', 'operationType'],
         typeName: 'step'
     },
     repoTasksOfSequence: {

@@ -30,6 +30,11 @@ ol, ul {
     .input-wrapper{
       flex-grow: 1;
     }
+
+    .item-order {
+      min-width: 0;
+      width: 2.5em;
+    }
   }
 }
 

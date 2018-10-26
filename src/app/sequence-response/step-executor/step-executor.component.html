@@ -1,8 +1,14 @@
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
     <ng-container [ngSwitch]="dataItem.type">
-      <app-question-executor [dataItemId]="dataItem.questionReferenceId" *ngSwitchCase="stepTypes.QUESTION_REF"></app-question-executor>
+      <app-question-executor
+        *ngSwitchCase="stepTypes.QUESTION_REF"
+        [dataItemId]="dataItem.questionReferenceId"></app-question-executor>
       <app-task-executor *ngSwitchCase="stepTypes.TASK_REF"></app-task-executor>
+      <app-sr-static-content
+        *ngSwitchCase="stepTypes.ASSET_REF"
+        [asset]="dataItem.assetReference"></app-sr-static-content>
     </ng-container>
+
   </ng-template>
 </app-dynamic-state>

@@ -1,3 +1,16 @@
-<p>
-  list-input works!
-</p>
+<app-asset-viewer [asset]="question.contentAsset"></app-asset-viewer>
+<fieldset [formGroup]="formGroup">
+  <app-array-input formControlName="content" [orderable]="false" [archetype]="archetype">
+    <ng-template let-sortable let-i="itemIndex">
+      <ng-container [formGroup]="sortable.item">
+        <input type="text" formControlName="content"/>
+      </ng-container>
+    </ng-template>
+  </app-array-input>
+</fieldset>
+
+<ng-template #controls>
+  <button (click)="save()">save & continue</button>
+  <button (click)="sayNA()">n/a</button>
+  <button (click)="reset()">clear</button>
+</ng-template>

@@ -3,7 +3,7 @@
 $sides: top, left, right, bottom;
 $oppositeSides: (top: bottom, left: right, right: left, bottom: top);
 
-._marginal-element {
+.__marginal-element {
   @each $side in $sides {
     &.#{side}{
       border-#{side}: none;

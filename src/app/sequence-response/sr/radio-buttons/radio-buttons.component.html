@@ -1,3 +1,14 @@
-<p>
-  radio-buttons works!
-</p>
+<app-asset-viewer [asset]="question.contentAsset"></app-asset-viewer>
+<fieldset [formGroup]="formGroup">
+  <app-multiple-input [options]="question.questionAssets" [multiSelect]="false" formControlName="content">
+    <ng-template let-option>
+      <app-asset-viewer [asset]="option.item"></app-asset-viewer>
+    </ng-template>
+  </app-multiple-input>
+</fieldset>
+
+<ng-template #controls>
+  <button (click)="save()">save & continue</button>
+  <button (click)="sayNA()">n/a</button>
+  <button (click)="reset()">clear</button>
+</ng-template>

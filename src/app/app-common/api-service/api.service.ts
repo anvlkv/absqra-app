@@ -21,6 +21,7 @@ export enum CRUD {
 
 @Injectable()
 export class ApiService {
+  private readonly winRef: Window;
 
   private apiUrl: string;
   private callLog: {
@@ -33,6 +34,7 @@ export class ApiService {
     cs: CookieService
   ) {
     const cookieAPI = cs.get('API-URL');
+    this.winRef = window;
     this.apiUrl = cookieAPI ?  cookieAPI : environment.api;
 
     if (!this.apiUrl) {
@@ -105,6 +107,11 @@ export class ApiService {
     )
   }
 
+  download(route: ApiRoute, params: RouteParams, query?: RouteParams): void {
+    const url = `${this.apiUrl}${setUrlParams(route.path, params, route.params)}`;
+    this.winRef.open(url, '_blank');
+  }
+
   private transform(data) {
     switch (typeof data) {
       case 'object': {
@@ -114,7 +121,6 @@ export class ApiService {
         return data;
       }
       case 'string': {
-
         const [isInt, isFloat, isIsoDate] = [
           /^\d+$/,
           /^[+-]?([0-9]*[.,])[0-9]+$/,

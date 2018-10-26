@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StaticContentComponent } from './static-content.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 
 describe('StaticContentComponent', () => {
   let component: StaticContentComponent;
@@ -8,7 +9,10 @@ describe('StaticContentComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StaticContentComponent ]
+      declarations: [ StaticContentComponent ],
+      schemas: [
+        NO_ERRORS_SCHEMA
+      ]
     })
     .compileComponents();
   }));

@@ -6,6 +6,7 @@
         <app-project-thumbnail [dataItem]="dataItem">
         <button (click)="edit()">edit</button>
         <button [routerLink]="['/answer', dataItem.topSequenceId]">try</button>
+        <button (click)="download()">download</button>
       </app-project-thumbnail>
       </ng-template>
       <ng-template #editingTemplate>
@@ -29,20 +30,13 @@
 
     <app-dynamic-state [state]="state">
       <ng-template #defaultTemplate>
+        <nav>
+          <a [routerLink]="['design', dataItem.topSequenceId || sequenceDetailRouteParams.TOP]">design</a>
+          <a [routerLink]="['respondents']">respondents</a>
+          <a [routerLink]="['data']">data</a>
+        </nav>
         <section>
-          <h4>Sequence</h4>
-          <app-sequence-detail [dataItemId]="dataItem.topSequenceId" (idChange)="onSequenceIdChange($event)">
-          </app-sequence-detail>
-        </section>
-
-        <section>
-          <h4>Respondents</h4>
-          <app-respondent-list-list [respondentsLists]="dataItem?.respondentsLists"></app-respondent-list-list>
-        </section>
-
-        <section>
-          <h4>Responses</h4>
-          <app-response-list [sequenceResponses]="dataItem?.sequenceResponses"></app-response-list>
+          <router-outlet></router-outlet>
         </section>
       </ng-template>
     </app-dynamic-state>

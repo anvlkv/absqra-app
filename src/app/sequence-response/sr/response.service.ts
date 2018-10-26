@@ -22,8 +22,10 @@ export class ResponseService {
   }
   public set sequence(s: Sequence) {
     if (s) {
-      this.$activeStep.next(s.stepIds[0]);
-      this.openSequenceResponse(s);
+      this.openSequenceResponse(s).subscribe(response  => {
+        this.responseId = response.id;
+        this.$activeStep.next(s.stepIds[0]);
+      });
     }
     else {
       console.log('do something. sequence unloaded');
@@ -66,9 +68,7 @@ export class ResponseService {
   }
 
   openSequenceResponse({id, projectId}: Sequence) {
-    this.data.postData<SequenceResponse>(CRUDRouter.repoSequenceResponses, {}, {sequence: {id}, project: {id: projectId}}).subscribe(response  => {
-      this.responseId = response.id;
-    });
+    return this.data.postData<SequenceResponse>(CRUDRouter.repoSequenceResponses, {}, {sequence: {id}, project: {id: projectId}})
   }
 
   sendResponse(value: StepResponse) {

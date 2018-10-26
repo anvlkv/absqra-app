@@ -17,12 +17,16 @@ import { ListInputComponent } from './sr/list-input/list-input.component';
 import { YesNoComponent } from './sr/yes-no/yes-no.component';
 import { ResponseService } from './sr/response.service';
 import { AssetViewerComponent } from './asset-viewer/asset-viewer.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InputsModule } from '../inputs/inputs.module';
 
 @NgModule({
   imports: [
     CommonModule,
     AppCommonModule,
     SequenceResponseRoutingModule,
+    ReactiveFormsModule,
+    InputsModule
   ],
   declarations: [
     TopSequenceExecutorComponent,

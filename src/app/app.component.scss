@@ -13,7 +13,7 @@
   background-size: auto 60vh;
 }
 main {
-  @extend ._surfaces-container;
+  @extend .__surfaces-container;
   flex-grow: 1;
   flex-shrink: 1;
   width: 100%;

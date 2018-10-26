@@ -1,6 +1,6 @@
 <app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
-    <a (click)="editType()">
+    <a class="step-type-label label-bottom" (click)="editType()">
       {{dataItem?.type}}
     </a>
   </ng-template>
@@ -19,10 +19,7 @@
 
 <div [ngSwitch]="dataItem?.type">
   <ng-container *ngSwitchCase="stepTypes.QUESTION_REF">
-    <div class="input-group">
-      <label for="questionReferenceId"></label>
-      <app-question-detail id="questionReferenceId" [dataItemId]="dataItem.questionReferenceId" (idChange)="updateReference($event, 'questionReference')"></app-question-detail>
-    </div>
+    <app-question-detail id="questionReferenceId" [dataItemId]="dataItem.questionReferenceId" (idChange)="updateReference($event, 'questionReference')"></app-question-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.TASK_REF">
@@ -35,11 +32,13 @@
 
 
   <ng-container *ngSwitchCase="stepTypes.SEQUENCE_REF">
-    <div class="input-group">
-      <label for="sequenceReferenceId">
-        Selected sequence
-      </label>
-      <app-sequence-thumbnail id="sequenceReferenceId"></app-sequence-thumbnail>
-    </div>
+    <label for="sequenceReferenceId">
+      Selected sequence
+    </label>
+    <app-sequence-thumbnail id="sequenceReferenceId"></app-sequence-thumbnail>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="stepTypes.ASSET_REF">
+    <app-asset-detail [assetPurposeType]="assetPurposeTypes.STEP_CONTENT" id="assetReferenceId" [dataItemId]="dataItem.assetReferenceId" (idChange)="updateReference($event, 'assetReference')"></app-asset-detail>
   </ng-container>
 </div>

@@ -99,7 +99,7 @@ describe('DynamicStateComponent', () => {
       expect((<DebugElement>hostFixture.debugElement.childNodes[0]).query(By.css('.test-content'))).toBeTruthy();
     }));
 
-    it('should display internal errors', async(() => {
+    xit('should display internal errors', async(() => {
       hostFixture.componentInstance.testError = true;
       hostFixture.detectChanges();
       component.ngAfterContentInit();

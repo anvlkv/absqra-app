@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../app-common/data-service/data.service';
-import { Project } from 'models/api-models';
+import { Project } from 'models/api-models/index';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge } from 'rxjs';
 import {
   ComponentDynamicStates, DynamicState,
 } from '../../app-common/dynamic-state/dynamic-state.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-projects-list',
@@ -36,8 +37,8 @@ export class ProjectsListComponent implements OnInit {
       this.data.getData<Project[]>(CRUDRouter.repoProjects),
       this.data.getData<Project>(CRUDRouter.entityProject, {projectId: 'default'})
     ).subscribe(([projects, defaultProject]) => {
-      this.projectForm = this.fb.group(defaultProject);
       this.projects = of(projects);
+      this.projectForm = this.fb.group(defaultProject);
       this.$state.next(ComponentDynamicStates.VIEWING);
     });
   }
@@ -53,6 +54,14 @@ export class ProjectsListComponent implements OnInit {
     }
 
     return false;
+  }
+
+  deleteProject(projectId) {
+    this.projects = this.data.deleteData(CRUDRouter.entityProject, {projectId}).pipe(
+      mergeMap(() => {
+        return this.data.getData<Project[]>(CRUDRouter.repoProjects);
+      })
+    );
   }
 
 }

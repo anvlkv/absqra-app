@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { Project } from 'models/api-models';
+import { Project } from 'models/api-models/index';
 import { DataService } from '../../app-common/data-service/data.service';
 import { ActivatedRoute } from '@angular/router';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';
@@ -7,15 +7,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HotKeysService } from '../../app-common/hot-keys-service/hot-keys.service';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { CRUD } from '../../app-common/api-service/api.service';
+import { ProjectService } from '../project.service';
+import { DataOpRouter } from 'models/api-routes/DataOpRouter';
+import { SequenceDetailCRouteReservedParam } from 'models/reservedRouteParams';
 
 @Component({
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
-  styleUrls: ['./project-detail.component.scss' /*, '../styles/sequence-design.scss'*/]
+  styleUrls: ['./project-detail.component.scss' /*, '../styles/sequence-design.scss'*/],
+  providers: [ProjectService]
 })
 export class ProjectDetailComponent extends BaseDetail<Project> implements OnInit, OnDestroy {
+
   projectForm: FormGroup;
 
+  sequenceDetailRouteParams = SequenceDetailCRouteReservedParam;
   panning = true;
 
   constructor(
@@ -23,6 +29,7 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private hotkeys: HotKeysService,
+    private projectService: ProjectService
   ) {
     super(data);
     this.callConfigurator = (projectId, cause) => {
@@ -54,6 +61,7 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
     this.itemSetObservable.subscribe((loaded) => {
       const project = loaded ? this.dataItem : this.defaultItem;
       this.projectForm = this.fb.group({name: project.name, description: project.description});
+      this.projectService.activeProject.next(project);
     });
 
   }
@@ -71,5 +79,12 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
   onSequenceIdChange(id: string) {
     this.dataItem.topSequence = {id};
     this.update();
+  }
+
+  download() {
+    this.data.download(DataOpRouter.entityProject, {
+      projectId: this.dataItemId,
+      operationType: 'download'
+    });
   }
 }

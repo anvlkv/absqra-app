@@ -1,3 +1,10 @@
+<app-asset-viewer [asset]="question.contentAsset"></app-asset-viewer>
 <p>
   select works!
 </p>
+
+<ng-template #controls>
+  <button (click)="save()">save & continue</button>
+  <button (click)="sayNA()">n/a</button>
+  <button (click)="reset()">clear</button>
+</ng-template>

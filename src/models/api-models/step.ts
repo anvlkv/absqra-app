@@ -8,14 +8,15 @@ import { OrderableBase } from './orderableBase';
 export declare class Step extends OrderableBase {
     type?: StepTypes;
     sequenceReference?: Sequence;
-    sequenceReferenceId?: number;
+    sequenceReferenceId?: string;
     questionReference?: Question;
-    questionReferenceId?: number;
+    questionReferenceId?: string;
     taskReference?: Task;
-    taskReferenceId?: number;
+    taskReferenceId?: string;
     logicReference?: Logic;
-    logicReferenceId?: number;
+    logicReferenceId?: string;
     assetReference?: StepAsset;
-    assetReferenceId?: number;
+    assetReferenceId?: string;
     sequence?: Sequence;
+    sequenceId?: string;
 }

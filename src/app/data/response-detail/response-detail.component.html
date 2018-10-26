@@ -1,0 +1,8 @@
+<app-dynamic-state [state]="state">
+  <ng-template #defaultTemplate>
+    <ng-container *ngFor="let stepResponseId of dataItem.stepResponsesIds">
+      <app-step-response-detail [dataItemId]="stepResponseId"></app-step-response-detail>
+    </ng-container>
+    <button (click)="download()">download</button>
+  </ng-template>
+</app-dynamic-state>

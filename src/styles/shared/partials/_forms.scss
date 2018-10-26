@@ -1,0 +1,57 @@
+@import "vars";
+@import "surfaces";
+@import "limitations";
+
+._text-like-input {
+  min-width: 100px;
+  padding: $x-small-white-space;
+  border: $thin-line solid desaturate($primary-interactive, 50%);
+  width: 100%;
+  flex-grow: 1;
+  &:focus {
+    border-color: transparent;
+    outline: $primary-interactive solid 2px;
+  }
+  @include breakpoint($small-screen) {
+    min-width: 80vw;
+  }
+  @include breakpoint($medium-screen) {
+    min-width: 40vw;
+  }
+  @include breakpoint($large-screen) {
+    min-width: 20vw;
+  }
+  @include breakpoint($x-large-screen) {
+    min-width: 10vw;
+  }
+}
+
+fieldset{
+  @extend .__base-surface;
+  flex-direction: column;
+  border: none;
+  padding: 0;
+
+  .input-group {
+    @extend .__base-surface;
+    flex-direction: column;
+    margin: $small-white-space auto;
+    label[for] {
+      margin-bottom: $x-small-white-space;
+    }
+  }
+
+  @each $type in text, url, email, date, datetime-local, password, number {
+    input[type=#{$type}]{
+      @extend ._text-like-input;
+    }
+  }
+  textarea, select{
+    @extend ._text-like-input;
+  }
+
+  > button {
+    width: 100%;
+    margin: $x-small-white-space auto;
+  }
+}

@@ -8,4 +8,5 @@ export declare class FormatConstraint extends Base {
     numericConstraint?: number;
     booleanConstraint?: boolean;
     question: Question;
+    questionId?: string;
 }

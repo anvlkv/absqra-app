@@ -1,0 +1,6 @@
+@import "partials/surfaces/card";
+
+:host {
+  @extend ._card;
+  flex-direction: column;
+}

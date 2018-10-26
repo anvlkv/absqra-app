@@ -18,6 +18,7 @@ import { ApiRoute } from 'api';
             entityStepResponse: ApiRoute;
             entityTask: ApiRoute;
             repoFormatConstraintsOfQuestion: ApiRoute;
+            repoLogics: ApiRoute;
             repoLogicsOfSequence: ApiRoute;
             repoProjects: ApiRoute;
             repoQuestionAssetsOfQuestion: ApiRoute;
@@ -28,11 +29,15 @@ import { ApiRoute } from 'api';
             repoResponseAssetsOfQuestion: ApiRoute;
             repoSequenceHeaders: ApiRoute;
             repoSequenceResponses: ApiRoute;
+            repoSequenceResponsesOfProject: ApiRoute;
             repoSequences: ApiRoute;
+            repoStepAssets: ApiRoute;
             repoStepAssetsOfSequence: ApiRoute;
             repoStepResponsesOfSequenceResponse: ApiRoute;
+            repoStepResponsesOfSequenceResponseOfProject: ApiRoute;
+            repoSteps: ApiRoute;
             repoStepsOfSequence: ApiRoute;
-            repoStepsOfSequenceResponse: ApiRoute;
+            repoTasks: ApiRoute;
             repoTasksOfSequence: ApiRoute;
     } = {
     entityFormatConstraint: {
@@ -120,6 +125,11 @@ import { ApiRoute } from 'api';
         params: ['questionId'],
         typeName: 'formatConstraint'
     },
+    repoLogics: {
+        path: '/crud/logics',
+        params: [],
+        typeName: 'logic'
+    },
     repoLogicsOfSequence: {
         path: '/crud/sequences/:sequenceId/logics',
         params: ['sequenceId'],
@@ -170,10 +180,20 @@ import { ApiRoute } from 'api';
         params: [],
         typeName: 'sequenceResponse'
     },
+    repoSequenceResponsesOfProject: {
+        path: '/crud/projects/:projectId/sequenceResponses',
+        params: ['projectId'],
+        typeName: 'sequenceResponse'
+    },
     repoSequences: {
         path: '/crud/sequences',
         params: [],
         typeName: 'sequence'
+    },
+    repoStepAssets: {
+        path: '/crud/stepAssets',
+        params: [],
+        typeName: 'stepAsset'
     },
     repoStepAssetsOfSequence: {
         path: '/crud/sequences/:sequenceId/stepAssets',
@@ -185,15 +205,25 @@ import { ApiRoute } from 'api';
         params: ['sequenceResponseId'],
         typeName: 'stepResponse'
     },
+    repoStepResponsesOfSequenceResponseOfProject: {
+        path: '/crud/projects/:projectId/sequenceResponses/:sequenceResponseId/stepResponses',
+        params: ['projectId', 'sequenceResponseId'],
+        typeName: 'stepResponse'
+    },
+    repoSteps: {
+        path: '/crud/steps',
+        params: [],
+        typeName: 'step'
+    },
     repoStepsOfSequence: {
         path: '/crud/sequences/:sequenceId/steps',
         params: ['sequenceId'],
         typeName: 'step'
     },
-    repoStepsOfSequenceResponse: {
-        path: '/crud/sequenceResponses/:sequenceResponseId/steps',
-        params: ['sequenceResponseId'],
-        typeName: 'step'
+    repoTasks: {
+        path: '/crud/tasks',
+        params: [],
+        typeName: 'task'
     },
     repoTasksOfSequence: {
         path: '/crud/sequences/:sequenceId/tasks',

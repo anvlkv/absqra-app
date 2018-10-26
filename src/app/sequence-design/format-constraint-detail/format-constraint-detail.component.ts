@@ -57,6 +57,7 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
       const formatConstraint = loaded ? this.dataItem : this.defaultItem;
       this.constraintForm = this.fb.group({
         ...formatConstraint,
+        question: {id: this.parentId},
         stringConstraint: formatConstraint.stringConstraint || null,
         numericConstraint: formatConstraint.numericConstraint || null,
         booleanConstraint: formatConstraint.booleanConstraint || null
