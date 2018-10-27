@@ -9,4 +9,6 @@ export declare class FormatConstraint extends Base {
     booleanConstraint?: boolean;
     question: Question;
     questionId?: string;
+    logic: Question;
+    logicId?: string;
 }

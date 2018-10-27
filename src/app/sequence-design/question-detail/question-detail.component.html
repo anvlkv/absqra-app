@@ -52,7 +52,7 @@
         </label>
         <app-array-input formControlName="formatConstraintsIds" id="formatConstraints">
           <ng-template let-sortable let-i="itemIndex">
-            <app-format-constraint-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+            <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.QUESTION" [parentId]="dataItem.id" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
           </ng-template>
         </app-array-input>
       </div>

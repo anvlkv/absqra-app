@@ -1,0 +1,96 @@
+<app-dynamic-state [state]="state">
+  <ng-template #viewingTemplate>
+    <app-logic-thumbnail [dataItem]="dataItem">
+      <button (click)="edit()">edit</button>
+    </app-logic-thumbnail>
+  </ng-template>
+  <ng-template #editingTemplate>
+    <fieldset [formGroup]="logicForm">
+      <div class="input-group">
+        <label for="type">
+          type
+        </label>
+        <app-multiple-input id="type" formControlName="type" [options]="logicTypesOptions" [multiSelect]="false"></app-multiple-input>
+      </div>
+
+      <ng-container [ngSwitch]="logicForm.controls.type.value">
+        <ng-container *ngSwitchCase="logicTypes.SKIP">
+          <ng-container *ngTemplateOutlet="sourceInput"></ng-container>
+          <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>
+          <ng-container *ngTemplateOutlet="destinationInput"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="logicTypes.REPLAY">
+          <ng-container *ngTemplateOutlet="sourceInput"></ng-container>
+          <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>
+          <ng-container *ngTemplateOutlet="destinationInput"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="logicTypes.SWITCH">
+          <ng-container *ngTemplateOutlet="sourceInput"></ng-container>
+          <ng-container *ngTemplateOutlet="alternativesInput"></ng-container>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="logicTypes.ALTERNATIVE">
+          <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>
+          <ng-container *ngTemplateOutlet="destinationInput"></ng-container>
+        </ng-container>
+      </ng-container>
+
+      <ng-template #sourceInput>
+        <div class="input-group">
+          <label for="sourceStepId">
+            content source
+          </label>
+          <app-multiple-input id="sourceStepId" formControlName="sourceStepId" [multiSelect]="false" [options]="referableSteps | async">
+            <ng-template let-option>
+              <app-step-thumbnail [stepId]="option.item"></app-step-thumbnail>
+            </ng-template>
+          </app-multiple-input>
+        </div>
+      </ng-template>
+
+      <ng-template #conditionsInput>
+        <div *ngIf="dataItemId" class="input-group">
+          <label for="formatConstraints">
+            conditions
+          </label>
+          <app-array-input formControlName="formatConstraintsIds" id="formatConstraints">
+            <ng-template let-sortable let-i="itemIndex">
+              <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+            </ng-template>
+          </app-array-input>
+        </div>
+      </ng-template>
+
+      <ng-template #destinationInput>
+        <div class="input-group">
+          <label for="destinationStepId">
+            destination
+          </label>
+          <app-multiple-input id="destinationStepId" formControlName="destinationStepId" [multiSelect]="false" [options]="stepsAhead | async">
+            <ng-template let-option>
+              <app-step-thumbnail [stepId]="option.item"></app-step-thumbnail>
+            </ng-template>
+          </app-multiple-input>
+        </div>
+      </ng-template>
+
+      <ng-template #alternativesInput>
+        <div *ngIf="dataItemId" class="input-group">
+          <label for="alternativesIds">
+            alternatives
+          </label>
+          <app-array-input id="alternativesIds" formControlName="alternativesIds" [orderable]="false">
+            <ng-template let-sortable let-i="itemIndex">
+              <app-logic-detail [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>
+            </ng-template>
+          </app-array-input>
+        </div>
+      </ng-template>
+
+      <button (click)="saveConstraint($event)">save</button>
+
+    </fieldset>
+  </ng-template>
+</app-dynamic-state>

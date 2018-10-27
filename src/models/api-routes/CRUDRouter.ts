@@ -17,9 +17,9 @@ import { ApiRoute } from 'api';
             entityStepAsset: ApiRoute;
             entityStepResponse: ApiRoute;
             entityTask: ApiRoute;
+            repoFormatConstraintsOfLogic: ApiRoute;
             repoFormatConstraintsOfQuestion: ApiRoute;
             repoLogics: ApiRoute;
-            repoLogicsOfSequence: ApiRoute;
             repoProjects: ApiRoute;
             repoQuestionAssetsOfQuestion: ApiRoute;
             repoQuestionContentAssets: ApiRoute;
@@ -38,7 +38,6 @@ import { ApiRoute } from 'api';
             repoSteps: ApiRoute;
             repoStepsOfSequence: ApiRoute;
             repoTasks: ApiRoute;
-            repoTasksOfSequence: ApiRoute;
     } = {
     entityFormatConstraint: {
         path: '/crud/formatConstraints/:formatConstraintId',
@@ -120,6 +119,11 @@ import { ApiRoute } from 'api';
         params: ['taskId'],
         typeName: 'task'
     },
+    repoFormatConstraintsOfLogic: {
+        path: '/crud/logics/:logicId/formatConstraints',
+        params: ['logicId'],
+        typeName: 'formatConstraint'
+    },
     repoFormatConstraintsOfQuestion: {
         path: '/crud/questions/:questionId/formatConstraints',
         params: ['questionId'],
@@ -128,11 +132,6 @@ import { ApiRoute } from 'api';
     repoLogics: {
         path: '/crud/logics',
         params: [],
-        typeName: 'logic'
-    },
-    repoLogicsOfSequence: {
-        path: '/crud/sequences/:sequenceId/logics',
-        params: ['sequenceId'],
         typeName: 'logic'
     },
     repoProjects: {
@@ -223,11 +222,6 @@ import { ApiRoute } from 'api';
     repoTasks: {
         path: '/crud/tasks',
         params: [],
-        typeName: 'task'
-    },
-    repoTasksOfSequence: {
-        path: '/crud/sequences/:sequenceId/tasks',
-        params: ['sequenceId'],
         typeName: 'task'
     }
 };

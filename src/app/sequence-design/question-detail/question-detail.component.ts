@@ -13,6 +13,7 @@ import {
 import { formDeltaValue, unpackEnum } from '../../utils';
 import { AssetPurposes } from '../asset-detail/asset-detail.component';
 import { Observable } from 'rxjs';
+import { FormatConstraintPurposes } from '../format-constraint-detail/format-constraint-detail.component';
 
 
 @Component({
@@ -21,11 +22,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./question-detail.component.scss', '../styles/sequence-design.scss']
 })
 export class QuestionDetailComponent extends BaseDetail<Question> implements OnInit {
-
-  questionForm: FormGroup;
   qttOrder = unpackEnum(QuantityOrder);
   assetPurposeTypes = AssetPurposes;
+  formatConstraintPurposes = FormatConstraintPurposes;
+
+  questionForm: FormGroup;
   contentState: Observable<DynamicState>;
+
+
 
   constructor(
     data: DataService,

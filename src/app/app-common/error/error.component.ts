@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { st } from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-error',

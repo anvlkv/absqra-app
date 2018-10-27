@@ -17,8 +17,9 @@ import { ApiRoute } from 'api';
             entityStepAsset: ApiRoute;
             entityStepResponse: ApiRoute;
             entityTask: ApiRoute;
+            repoFormatConstraintsOfLogic: ApiRoute;
             repoFormatConstraintsOfQuestion: ApiRoute;
-            repoLogicsOfSequence: ApiRoute;
+            repoLogics: ApiRoute;
             repoProjects: ApiRoute;
             repoQuestionAssetsOfQuestion: ApiRoute;
             repoQuestionContentAssets: ApiRoute;
@@ -33,10 +34,10 @@ import { ApiRoute } from 'api';
             repoStepAssetsOfSequence: ApiRoute;
             repoStepResponsesOfSequenceResponse: ApiRoute;
             repoStepResponsesOfSequenceResponseOfProject: ApiRoute;
+            repoSteps: ApiRoute;
             repoStepsOfSequence: ApiRoute;
-            repoStepsOfSequenceResponse: ApiRoute;
             repoStepsOfSequenceResponseOfProject: ApiRoute;
-            repoTasksOfSequence: ApiRoute;
+            repoTasks: ApiRoute;
     } = {
     entityFormatConstraint: {
         path: '/data-op/formatConstraints/:formatConstraintId/:operationType',
@@ -118,14 +119,19 @@ import { ApiRoute } from 'api';
         params: ['taskId', 'operationType'],
         typeName: 'task'
     },
+    repoFormatConstraintsOfLogic: {
+        path: '/data-op/logics/:logicId/formatConstraints/:operationType',
+        params: ['logicId', 'operationType'],
+        typeName: 'formatConstraint'
+    },
     repoFormatConstraintsOfQuestion: {
         path: '/data-op/questions/:questionId/formatConstraints/:operationType',
         params: ['questionId', 'operationType'],
         typeName: 'formatConstraint'
     },
-    repoLogicsOfSequence: {
-        path: '/data-op/sequences/:sequenceId/logics/:operationType',
-        params: ['sequenceId', 'operationType'],
+    repoLogics: {
+        path: '/data-op/logics/:operationType',
+        params: ['operationType'],
         typeName: 'logic'
     },
     repoProjects: {
@@ -198,14 +204,14 @@ import { ApiRoute } from 'api';
         params: ['projectId', 'sequenceResponseId', 'operationType'],
         typeName: 'stepResponse'
     },
+    repoSteps: {
+        path: '/data-op/steps/:operationType',
+        params: ['operationType'],
+        typeName: 'step'
+    },
     repoStepsOfSequence: {
         path: '/data-op/sequences/:sequenceId/steps/:operationType',
         params: ['sequenceId', 'operationType'],
-        typeName: 'step'
-    },
-    repoStepsOfSequenceResponse: {
-        path: '/data-op/sequenceResponses/:sequenceResponseId/steps/:operationType',
-        params: ['sequenceResponseId', 'operationType'],
         typeName: 'step'
     },
     repoStepsOfSequenceResponseOfProject: {
@@ -213,9 +219,9 @@ import { ApiRoute } from 'api';
         params: ['projectId', 'sequenceResponseId', 'operationType'],
         typeName: 'step'
     },
-    repoTasksOfSequence: {
-        path: '/data-op/sequences/:sequenceId/tasks/:operationType',
-        params: ['sequenceId', 'operationType'],
+    repoTasks: {
+        path: '/data-op/tasks/:operationType',
+        params: ['operationType'],
         typeName: 'task'
     }
 };

@@ -1,6 +1,47 @@
 <ng-container *ngIf="state | async">
-  <p>
-  logic-thumbnail works!
-  </p>
+  <dl>
+    <dt>
+      type
+    </dt>
+    <dd>
+      {{dataItem.type}}
+    </dd>
+
+    <ng-container *ngIf="dataItem.sourceStepId">
+      <dt>
+        evaluate output of
+      </dt>
+      <dd>
+        <app-step-thumbnail [stepId]="dataItem.sourceStepId"></app-step-thumbnail>
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="dataItem.formatConstraintsIds.length">
+      <dt>
+        conditions
+      </dt>
+      <dd *ngFor="let condition of dataItem.formatConstraints">
+        <app-format-constraint-thumbnail [dataItem]="condition"></app-format-constraint-thumbnail>
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="dataItem.destinationStepId">
+      <dt>
+        destination
+      </dt>
+      <dd>
+        <app-step-thumbnail [stepId]="dataItem.destinationStepId"></app-step-thumbnail>
+      </dd>
+    </ng-container>
+
+    <ng-container *ngIf="dataItem.alternativesIds.length">
+      <dt>
+        alternatives
+      </dt>
+      <dd *ngFor="let alt of dataItem.alternatives">
+        <app-logic-thumbnail [dataItem]="alt"></app-logic-thumbnail>
+      </dd>
+    </ng-container>
+  </dl>
   <ng-content></ng-content>
 </ng-container>

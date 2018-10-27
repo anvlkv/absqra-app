@@ -26,7 +26,7 @@ import { DesignerRouter } from '../../../models/api-routes/DesignerRouter';
   styleUrls: ['./sequence-detail.component.scss', '../styles/sequence-design.scss'],
   providers: [SequenceService]
 })
-export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnInit, AfterViewInit {
+export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnInit {
   private $headerState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   private $stepsState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
 
@@ -38,15 +38,13 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
 
   @ViewChildren(StepDetailComponent)
   stepComponents: QueryList<StepDetailComponent>;
-  private shouldSaveAsTopSequence: boolean;
-  private project: Project;
+
+  project: Project;
 
   constructor(
     data: DataService,
     private fb: FormBuilder,
-    private route: ActivatedRoute,
     private sequenceService: SequenceService,
-    private router: Router,
     private projectService: ProjectService
   ) {
     super(data);
@@ -54,16 +52,8 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
     this.callConfigurator = (sequenceId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
-          if (this.shouldSaveAsTopSequence) {
-            return {
-              route: DesignerRouter.saveTopSequenceOfProject,
-              params: { projectId: this.project.id }
-            }
-          }
-          else {
-            return {
-              route: CRUDRouter.repoSequences
-            }
+          return {
+            route: CRUDRouter.repoSequences
           }
         }
         default: {
@@ -86,19 +76,7 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
     );
   }
 
-  ngAfterViewInit() {
-    combineLatest(
-      this.stepComponents.changes,
-      this.route.params
-    ).subscribe(([changes, {stepId}]) => {
-      const foundStep = this.stepComponents.find(stepC  => {
-        return stepC.dataItemId === stepId
-      });
-      if (foundStep) {
-        foundStep.scrollIntoView();
-      }
-    });
-  }
+
 
   ngOnInit() {
     super.ngOnInit();
@@ -106,26 +84,14 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
     this.projectService.activeProject.subscribe(p => this.project = p);
 
 
-    this.route.params.subscribe(({sequenceId}) => {
-      if (!unpackEnum(SequenceDetailCRouteReservedParam).includes(sequenceId)) {
-        this.dataItemId = sequenceId;
-        this.fetch();
-      }
-      this.shouldSaveAsTopSequence = sequenceId === SequenceDetailCRouteReservedParam.TOP;
-    });
-
     this.itemSetObservable.subscribe((loaded) => {
       const sequence = loaded ? this.dataItem : this.defaultItem;
 
-      if (!this.sequenceHeaderForm) {
-        this.sequenceHeaderForm = this.fb.group({...sequence.header, description: sequence.header.description});
-      }
+      this.sequenceHeaderForm = this.fb.group({...sequence.header, description: sequence.header.description});
 
-      if (!this.sequenceForm) {
-        this.sequenceForm = this.fb.group({
-          stepIds: this.fb.control(sequence.stepIds)
-        });
-      }
+      this.sequenceForm = this.fb.group({
+        stepIds: this.fb.control(sequence.stepIds)
+      });
 
       this.sequenceForm.valueChanges.subscribe(({stepIds}) => {
         if (stepIds.every(id => !!id)) {
@@ -138,11 +104,6 @@ export class SequenceDetailComponent extends BaseDetail<Sequence> implements OnI
         this.$state.next(ComponentDynamicStates.EDITING);
         this.$headerState.next(ComponentDynamicStates.EDITING);
         this.$stepsState.next(ComponentDynamicStates.EMPTY);
-      }
-      else {
-        const prefix = this.route.snapshot.params['stepId'] ? '../../' : '../';
-        const commands = [prefix, sequence.id, this.route.snapshot.params['stepId']];
-        this.router.navigate(commands.filter(c => !!c), {relativeTo: this.route})
       }
 
       this.sequenceService.activeSequence.next(sequence);

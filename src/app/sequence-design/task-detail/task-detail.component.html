@@ -1,0 +1,38 @@
+<app-dynamic-state [state]="state">
+  <ng-template #viewingTemplate>
+    <div class="task-card">
+      <app-task-thumbnail [dataItem]="dataItem">
+        <button (click)="edit()">edit</button>
+      </app-task-thumbnail>
+    </div>
+  </ng-template>
+  <ng-template #editingTemplate>
+    <fieldset [formGroup]="taskForm">
+      <p>
+        Task is virtually any code that can be evaluated on client or server. It might be stripped down of privileges by security...
+      </p>
+      <p>
+        Task is potentially referable entity and could be reused across multiple projects.
+      </p>
+      <p>
+        This task won't be executed. However you can describe what would you do here.
+      </p>
+
+      <div class="input-group">
+        <label for="executor">
+          executor
+        </label>
+        <app-multiple-input id="executor" formcontrolname="executor" [multiSelect]="false" [options]="taskExecutorOptions">
+        </app-multiple-input>
+      </div>
+
+      <div class="input-group">
+        <label for="content">
+          Content
+        </label>
+        <quill-editor id="content" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
+      </div>
+      <button (click)="saveTask($event)">save</button>
+    </fieldset>
+  </ng-template>
+</app-dynamic-state>

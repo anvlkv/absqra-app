@@ -1,5 +1,9 @@
 <ng-container *ngIf="state | async">
-  <p>
-    task-thumbnail works!
-  </p>
+  <dl>
+    <dt>executor</dt>
+    <dd>
+      {{dataItem.executor}}
+    </dd>
+  </dl>
+  <div [innerHtml]="dataItem.content"></div>
 </ng-container>

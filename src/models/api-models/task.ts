@@ -1,6 +1,6 @@
 import { Base } from './base';
-import { TaskExecutor } from './enums/task.enums';
+import { TaskExecutorType } from './enums/task.enums';
 export declare class Task extends Base {
-    executor: TaskExecutor;
-    code: string;
+    executor: TaskExecutorType;
+    content: string;
 }

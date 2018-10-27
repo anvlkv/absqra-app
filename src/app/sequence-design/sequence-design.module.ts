@@ -23,6 +23,9 @@ import { QuillModule } from 'ngx-quill';
 import { StepThumbnailComponent } from './step-thumbnail/step-thumbnail.component';
 import { SequenceService } from './sequence-detail/sequence.service';
 import { StepService } from './step-detail/step.service';
+import { TaskDetailComponent } from './task-detail/task-detail.component';
+import { SequenceDetailViewComponent } from './sequence-detail/sequence-detail-view.component';
+import { LogicDetailComponent } from './logic-detail/logic-detail.component';
 
 @NgModule({
   imports: [
@@ -49,7 +52,10 @@ import { StepService } from './step-detail/step.service';
     AssetDetailComponent,
     FormatConstraintDetailComponent,
     FormatConstraintThumbnailComponent,
-    StepThumbnailComponent
+    StepThumbnailComponent,
+    TaskDetailComponent,
+    SequenceDetailViewComponent,
+    LogicDetailComponent
   ],
   providers: [
     SequenceService,

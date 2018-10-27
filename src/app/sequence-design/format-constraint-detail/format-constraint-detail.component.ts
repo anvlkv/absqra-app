@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { DataService } from '../../app-common/data-service/data.service';
 import { CRUD } from '../../app-common/api-service/api.service';
@@ -12,8 +12,12 @@ import {
 } from 'models/api-models';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
-import { unpackEnum } from '../../utils';
+import { formDeltaValue, unpackEnum } from '../../utils';
 
+export enum FormatConstraintPurposes {
+  QUESTION = 'question',
+  LOGIC = 'logic'
+}
 
 @Component({
   selector: 'app-format-constraint-detail',
@@ -26,6 +30,9 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
   currentValidationTypeSubtypes: string[];
   currentConstraintType: 'text' | 'number' | 'boolean';
 
+  @Input()
+  formatConstraintPurposeType: FormatConstraintPurposes;
+
   private _previousConstrainFormValue: FormatConstraint = <FormatConstraint>{};
 
   constructor(
@@ -36,10 +43,19 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
     this.callConfigurator = (formatConstraintId, cause) => {
       switch (cause) {
         case CRUD.CREATE: {
-          return {
-            route: CRUDRouter.repoFormatConstraintsOfQuestion,
-            params: {questionId: this.parentId}
+          if (this.formatConstraintPurposeType === FormatConstraintPurposes.QUESTION) {
+            return {
+              route: CRUDRouter.repoFormatConstraintsOfQuestion,
+              params: {questionId: this.parentId}
+            }
           }
+          else if (this.formatConstraintPurposeType === FormatConstraintPurposes.LOGIC) {
+            return {
+              route: CRUDRouter.repoFormatConstraintsOfLogic,
+              params: {logicId: this.parentId}
+            }
+          }
+          break;
         }
         default: {
           return {
@@ -55,9 +71,12 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
     super.ngOnInit();
     this.itemSetObservable.subscribe((loaded) => {
       const formatConstraint = loaded ? this.dataItem : this.defaultItem;
+      const parentRef = {};
+      parentRef[this.formatConstraintPurposeType] = {id: this.parentId};
+
       this.constraintForm = this.fb.group({
         ...formatConstraint,
-        question: {id: this.parentId},
+        ...parentRef,
         stringConstraint: formatConstraint.stringConstraint || null,
         numericConstraint: formatConstraint.numericConstraint || null,
         booleanConstraint: formatConstraint.booleanConstraint || null
@@ -94,10 +113,10 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
     e ? e.stopPropagation() : null;
     if (this.constraintForm.valid) {
       if (this.dataItemId) {
-        this.update({...this.dataItem, ...this.constraintForm.value})
+        this.update({...this.dataItem, ...formDeltaValue(this.constraintForm.value)})
       }
       else {
-        this.save(this.constraintForm.value);
+        this.save({...this.dataItem, ...formDeltaValue(this.constraintForm.value)});
       }
     }
     return false;

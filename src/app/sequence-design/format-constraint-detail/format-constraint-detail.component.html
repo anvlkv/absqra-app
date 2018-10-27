@@ -25,7 +25,7 @@
         <ng-container [ngSwitch]="currentConstraintType">
           <input id="constraintValue" *ngSwitchCase="'text'" type="text" formControlName="stringConstraint">
           <input id="constraintValue" *ngSwitchCase="'number'" type="number" formControlName="numericConstraint">
-          <label *ngSwitchCase="'boolean'">
+          <label id="constraintValue" *ngSwitchCase="'boolean'">
             <input type="checkbox" formControlName="booleanConstraint">
             is
           </label>

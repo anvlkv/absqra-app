@@ -6,13 +6,14 @@
   </ng-template>
 
   <ng-template #editingTemplate>
-    <fieldset [formGroup]="typeForm">
+    <fieldset class="step-type-label label-bottom" [formGroup]="typeForm">
       <div class="input-group">
         <label for="stepType">
           type
         </label>
         <app-multiple-input id="stepType" [multiSelect]="false" [options]="stepTypesList" formControlName="type"></app-multiple-input>
       </div>
+      <button *ngIf="dataItem.id" (click)="save()">done</button>
     </fieldset>
   </ng-template>
 </app-dynamic-state>
@@ -23,19 +24,15 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.TASK_REF">
-
+    <app-task-detail id="taskReferenceId" [dataItemId]="dataItem.taskReferenceId" (idChange)="updateReference($event, 'taskReference')"></app-task-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.LOGICAL_ITEM">
-
+    <app-logic-detail id="logicReferenceId" [dataItemId]="dataItem.logicReferenceId" (idChange)="updateReference($event, 'logicReference')"></app-logic-detail>
   </ng-container>
 
-
   <ng-container *ngSwitchCase="stepTypes.SEQUENCE_REF">
-    <label for="sequenceReferenceId">
-      Selected sequence
-    </label>
-    <app-sequence-thumbnail id="sequenceReferenceId"></app-sequence-thumbnail>
+    <app-sequence-detail id="sequenceReferenceId" [dataItemId]="dataItem.sequenceReferenceId" (idChange)="updateReference($event, 'sequenceReference')"></app-sequence-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.ASSET_REF">

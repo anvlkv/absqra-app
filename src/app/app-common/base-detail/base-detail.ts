@@ -34,9 +34,11 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   defaultItem = <T>{};
   callConfigurator: (itemId: string, cause: CRUD, item?: T) => CallConfig;
 
-  @Input() dataItemId: string;
+  @Input()
+  dataItemId: string;
 
-  @Output() idChange = new EventEmitter<string>(true);
+  @Output()
+  idChange = new EventEmitter<string>(true);
 
   @Input()
   set dataItem(item: T) {
@@ -51,7 +53,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
     this._dataItem = item;
 
     if (!this._dataItemPristine) {
-      this._dataItemPristine = _.cloneDeep(item);
+      this._dataItemPristine = _.cloneDeep(<T>cleanUpBaseForForm(item));
     }
 
     this.$itemSet.next(!!item && !!item.id);
@@ -61,7 +63,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   }
 
   @Input()
-  parentId: number;
+  parentId: string;
 
   constructor(
     public data: DataService,
@@ -158,7 +160,8 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
     this.$state.next(ComponentDynamicStates.INTERIM);
     const callConfig = this.configureCall(CRUD.UPDATE);
     let patch: Operation[];
-    patch = jsonpatch.compare(this._dataItemPristine, dataItem);
+
+    patch = jsonpatch.compare(this._dataItemPristine, cleanUpBaseForForm(dataItem));
 
     this.data.patchData<T>(callConfig.route, callConfig.params, patch, callConfig.query).subscribe(this.itemSubscriber, this.errorHandler);
   }
@@ -172,7 +175,7 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
     }, this.errorHandler);
   }
 
-  edit(): void {
+  edit(edit = true): void {
     if (!this.dataItem) {
       this.dataItem = _.cloneDeep(this.defaultItem);
     }
@@ -182,4 +185,27 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   reset(): void {
     this.dataItem = _.cloneDeep(this._dataItemPristine);
   }
+}
+
+function cleanUpBaseForForm<T extends Base>(data: T): Partial<T> {
+  if (!data) {
+    return data;
+  }
+  const {
+    createdDate,
+    updatedDate,
+    // @ts-ignore
+    ...partialData
+  }: T = data;
+
+  Object.keys(partialData).forEach(prop => {
+    if (partialData[prop] instanceof Array) {
+      partialData[prop] = partialData[prop].map(v => cleanUpBaseForForm(v))
+    }
+    else if (typeof partialData[prop] === 'object') {
+      partialData[prop] = cleanUpBaseForForm(partialData[prop])
+    }
+  });
+
+  return partialData;
 }
