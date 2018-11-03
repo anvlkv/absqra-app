@@ -70,7 +70,7 @@ export class ProjectDetailComponent extends BaseDetail<Project> implements OnIni
     e ? e.preventDefault() : null;
     e ? e.stopPropagation() : null;
 
-    if (this.projectForm.valid) {
+    if (this.projectForm.valid && this.projectForm.dirty) {
       this.update({...this.dataItem, ...this.projectForm.value})
     }
     return false;

@@ -1,7 +1,7 @@
 <ng-container *ngIf="state | async" [ngSwitch]="dataItem?.assetType">
   <ng-container *ngSwitchCase="assetTypes.DYNAMIC">
     Output of
-    <a [routerLink]="routerLink">
+    <a routerLinkActive="active" [routerLink]="routerLink">
       <app-step-thumbnail [stepId]="dataItem.sourceStepId"></app-step-thumbnail>
     </a>
   </ng-container>

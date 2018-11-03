@@ -1,23 +1,29 @@
 <ng-container *ngIf="state | async">
   <dl>
-    <dt>
-      entries count:
-    </dt>
-    <dd>
-      {{dataItem.stepResponsesIds.length}}
-    </dd>
-    <dt>
-      updated date
-    </dt>
-    <dd>
-      {{dataItem.updatedDate | date: 'short'}}
-    </dd>
-    <dt>
-      created date
-    </dt>
-    <dd>
-      {{dataItem.createdDate | date: 'short'}}
-    </dd>
+    <div>
+      <dt>
+        entries count:
+      </dt>
+      <dd>
+        {{dataItem.stepResponsesIds.length}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        updated date
+      </dt>
+      <dd>
+        {{dataItem.updatedDate | date: 'short'}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        created date
+      </dt>
+      <dd>
+        {{dataItem.createdDate | date: 'short'}}
+      </dd>
+    </div>
   </dl>
   <ng-content></ng-content>
 </ng-container>

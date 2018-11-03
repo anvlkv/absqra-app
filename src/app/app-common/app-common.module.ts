@@ -18,6 +18,8 @@ import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { FooterService } from './footer/footer.service';
+import { InFlowTipComponent } from './in-flow-tip/in-flow-tip.component';
+import { LocalStorageService } from './local-storage-service/local-storage.service';
 
 const providers: Provider[] = [
   ApiService,
@@ -30,13 +32,15 @@ const providers: Provider[] = [
   DataService,
   HotKeysService,
   WebSocketService,
-  FooterService
+  FooterService,
+  LocalStorageService
 ];
 
 const declareAndExport = [
   DynamicStateComponent,
   HeaderComponent,
-  FooterComponent
+  FooterComponent,
+  InFlowTipComponent
 ];
 
 @NgModule({
@@ -52,7 +56,7 @@ const declareAndExport = [
     ...declareAndExport,
     LoadingComponent,
     ErrorComponent,
-    DisabledContentComponent,
+    DisabledContentComponent
   ],
   providers: [
     DynamicStateErrorHandler

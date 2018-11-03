@@ -43,6 +43,7 @@ export class ArrayInputComponent implements OnInit, OnDestroy, ControlValueAcces
   @Input() orderable = true;
   @Input() addAt: AddAt = AddAt.END;
   @Input() orderShift = 1;
+  @Input() itemName = 'item';
 
   @ContentChild(TemplateRef)
   public itemTemplate: TemplateRef<any>;

@@ -1,47 +1,49 @@
 <ng-container *ngIf="state | async">
   <dl>
-    <dt>
-      type
-    </dt>
-    <dd>
-      {{dataItem.type}}
-    </dd>
+    <div>
+      <dt>
+        type
+      </dt>
+      <dd>
+        {{dataItem.type}}
+      </dd>
+    </div>
 
-    <ng-container *ngIf="dataItem.sourceStepId">
+    <div *ngIf="dataItem.sourceStepId">
       <dt>
         evaluate output of
       </dt>
       <dd>
         <app-step-thumbnail [stepId]="dataItem.sourceStepId"></app-step-thumbnail>
       </dd>
-    </ng-container>
+    </div>
 
-    <ng-container *ngIf="dataItem.formatConstraintsIds.length">
+    <div *ngIf="dataItem.formatConstraintsIds.length">
       <dt>
         conditions
       </dt>
       <dd *ngFor="let condition of dataItem.formatConstraints">
         <app-format-constraint-thumbnail [dataItem]="condition"></app-format-constraint-thumbnail>
       </dd>
-    </ng-container>
+    </div>
 
-    <ng-container *ngIf="dataItem.destinationStepId">
+    <div *ngIf="dataItem.destinationStepId">
       <dt>
         destination
       </dt>
       <dd>
         <app-step-thumbnail [stepId]="dataItem.destinationStepId"></app-step-thumbnail>
       </dd>
-    </ng-container>
+    </div>
 
-    <ng-container *ngIf="dataItem.alternativesIds.length">
+    <div *ngIf="dataItem.alternativesIds.length">
       <dt>
         alternatives
       </dt>
       <dd *ngFor="let alt of dataItem.alternatives">
         <app-logic-thumbnail [dataItem]="alt"></app-logic-thumbnail>
       </dd>
-    </ng-container>
+    </div>
   </dl>
   <ng-content></ng-content>
 </ng-container>

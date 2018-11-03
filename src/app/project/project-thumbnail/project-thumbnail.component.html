@@ -4,18 +4,22 @@
     <span>{{dataItem.description}}</span>
   </div>
   <dl>
-    <dt>
-      created
-    </dt>
-    <dd>
-      {{dataItem.createdDate | date: 'short'}}
-    </dd>
-    <dt>
-      updated
-    </dt>
-    <dd>
-      {{dataItem.updatedDate | date: 'short'}}
-    </dd>
+    <div>
+      <dt>
+        created
+      </dt>
+      <dd>
+        {{dataItem.createdDate | date: 'short'}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        updated
+      </dt>
+      <dd>
+        {{dataItem.updatedDate | date: 'short'}}
+      </dd>
+    </div>
   </dl>
   <ng-content></ng-content>
 </ng-container>

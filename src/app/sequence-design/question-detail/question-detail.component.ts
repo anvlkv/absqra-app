@@ -22,7 +22,8 @@ import { FormatConstraintPurposes } from '../format-constraint-detail/format-con
   styleUrls: ['./question-detail.component.scss', '../styles/sequence-design.scss']
 })
 export class QuestionDetailComponent extends BaseDetail<Question> implements OnInit {
-  qttOrder = unpackEnum(QuantityOrder);
+  qttOrderOptions = unpackEnum(QuantityOrder);
+  qttOrder = QuantityOrder;
   assetPurposeTypes = AssetPurposes;
   formatConstraintPurposes = FormatConstraintPurposes;
 
@@ -99,7 +100,9 @@ export class QuestionDetailComponent extends BaseDetail<Question> implements OnI
     if (this.questionForm.valid) {
 
       if (this.dataItemId) {
-        this.update({...this.dataItem, ...formDeltaValue(this.questionForm)})
+        if (this.questionForm.dirty) {
+          this.update({...this.dataItem, ...formDeltaValue(this.questionForm)})
+        }
       }
       else {
         this.save({...this.dataItem, ...formDeltaValue(this.questionForm)});

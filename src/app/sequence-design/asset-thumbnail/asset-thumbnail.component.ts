@@ -26,8 +26,10 @@ export class AssetThumbnailComponent extends BaseThumbnail<AssetBase> implements
 
   ngOnInit() {
     // this.sequence.activeSequence.asObservable().pipe(map(s => s.id)).subscribe(id => this.sequenceId = id);
-    this.route.params.subscribe(({sequenceId, stepId}) => {
-      this.routerLink = stepId ? ['../', this.dataItem.sourceStepId] : [this.dataItem.sourceStepId];
-    })
+    this.state.subscribe(s => {
+      this.route.params.subscribe(({sequenceId, stepId}) => {
+        this.routerLink = stepId ? ['../', this.dataItem.sourceStepId] : [this.dataItem.sourceStepId];
+      });
+    });
   }
 }

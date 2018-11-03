@@ -108,11 +108,9 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
       this.typeForm.valueChanges.subscribe(v => {
         if (this.dataItemId) {
           this.dataItem.type = v.type;
-          this.update();
         }
         else {
           this.dataItem = v;
-          this.save();
         }
       });
 

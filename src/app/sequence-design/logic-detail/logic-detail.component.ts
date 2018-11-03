@@ -3,13 +3,13 @@ import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { Logic, LogicTypes, Step } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { CRUD } from '../../app-common/api-service/api.service';
+import { ApiService, CRUD } from '../../app-common/api-service/api.service';
 import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
 import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
 import { formDeltaValue, unpackEnum } from '../../utils';
 import { FormatConstraintPurposes } from '../format-constraint-detail/format-constraint-detail.component';
 import { combineLatest, Observable, throwError } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, filter, mergeMap } from 'rxjs/operators';
 import { DesignerRouter } from '../../../models/api-routes/DesignerRouter';
 import { ProjectService } from '../../project/project.service';
 import { StepService } from '../step-detail/step.service';
@@ -30,6 +30,7 @@ export class LogicDetailComponent extends BaseDetail<Logic> implements OnInit {
 
   constructor(
     data: DataService,
+    private api: ApiService,
     private fb: FormBuilder,
     private projectService: ProjectService,
     private stepService: StepService
@@ -116,10 +117,10 @@ export class LogicDetailComponent extends BaseDetail<Logic> implements OnInit {
 
     this.referableSteps = combineLatest(
       this.projectService.activeProject,
-      this.stepService.activeStep,
+      this.stepService.activeStep.pipe(filter(step => !!step.id)),
     ).pipe(
       mergeMap(([project, step]) => {
-        return this.data.getData(DesignerRouter.viewReferableSteps, {
+        return this.api.getData(DesignerRouter.viewReferableSteps, {
           projectId: project.id,
           stepId: step.id
         })
@@ -136,10 +137,12 @@ export class LogicDetailComponent extends BaseDetail<Logic> implements OnInit {
     e ? e.stopPropagation() : null;
     if (this.logicForm.valid) {
       if (this.dataItemId) {
-        this.update({...this.dataItem, ...formDeltaValue(this.logicForm.value)})
+        if (this.logicForm.dirty) {
+          this.update({...this.dataItem, ...formDeltaValue(this.logicForm)})
+        }
       }
       else {
-        this.save({...this.dataItem, ...formDeltaValue(this.logicForm.value)});
+        this.save({...this.dataItem, ...formDeltaValue(this.logicForm)});
       }
     }
     return false;

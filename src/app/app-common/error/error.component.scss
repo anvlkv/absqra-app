@@ -4,7 +4,7 @@
 
 :host{
   @extend ._fits-on-screen-important;
-  @extend ._card;
+  @extend .__card;
   border-color: $error-color;
 
   h5 {

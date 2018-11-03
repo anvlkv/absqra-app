@@ -1,9 +1,11 @@
 <ng-container *ngIf="state | async">
   <dl>
-    <dt>executor</dt>
-    <dd>
-      {{dataItem.executor}}
-    </dd>
+    <div>
+      <dt>executor</dt>
+      <dd>
+        {{dataItem.executor}}
+      </dd>
+    </div>
   </dl>
   <div [innerHtml]="dataItem.content"></div>
 </ng-container>

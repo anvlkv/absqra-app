@@ -9,25 +9,34 @@
       <div class="input-group">
         <label for="validationType">
           validation type
+          <app-in-flow-tip name="formatConstraintValidationTypeDescription">
+            Validation is performed on provided value itself or information about it
+          </app-in-flow-tip>
         </label>
         <app-multiple-input id="validationType" [multiSelect]="false" [options]="validationTypesValues" formControlName="validationType"></app-multiple-input>
       </div>
       <div class="input-group">
         <label for="validationSubType">
-          validation sub type
+          criteria
+          <app-in-flow-tip name="formatConstraintValidationSubTypeDescription">
+            Value considered valid when criteria selected here matches with constraint
+          </app-in-flow-tip>
         </label>
         <app-multiple-input id="validationSubType" [multiSelect]="false" [options]="currentValidationTypeSubtypes" formControlName="validationSubType"></app-multiple-input>
       </div>
       <div class="input-group">
         <label for="constraintValue">
           constraint
+          <app-in-flow-tip name="formatConstraintValidationConstraintDescription">
+            Value will be compared to what is provided here using comparator selected in fields above
+          </app-in-flow-tip>
         </label>
         <ng-container [ngSwitch]="currentConstraintType">
           <input id="constraintValue" *ngSwitchCase="'text'" type="text" formControlName="stringConstraint">
           <input id="constraintValue" *ngSwitchCase="'number'" type="number" formControlName="numericConstraint">
           <label id="constraintValue" *ngSwitchCase="'boolean'">
             <input type="checkbox" formControlName="booleanConstraint">
-            is
+            + | yes | positive
           </label>
         </ng-container>
       </div>

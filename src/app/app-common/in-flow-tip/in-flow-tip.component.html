@@ -1,0 +1,13 @@
+<ng-container *ngIf="hidden; else shownTemplate">
+  <a class="tooltip-expander" *ngIf="!expandAnchor && persistent" (click)="show($event)">
+    <i>(?)</i>
+  </a>
+</ng-container>
+<ng-template #shownTemplate>
+  <div class="tooltip-card">
+    <a class="tooltip-collapse" (click)="hide($event)">[x]</a>
+    <div class="tooltip-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</ng-template>

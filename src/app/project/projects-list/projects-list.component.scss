@@ -18,7 +18,7 @@
 
 
     .new-project-tile, app-project-thumbnail{
-      @extend ._card;
+      @extend .__card;
       width: 100%;
       max-height: 33vh;
       min-height: 100%;

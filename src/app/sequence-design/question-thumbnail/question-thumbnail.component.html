@@ -5,36 +5,46 @@
   </p>
   <app-asset-thumbnail [dataItem]="dataItem?.contentAsset"></app-asset-thumbnail>
   <dl>
-    <dt>
-      offers
-    </dt>
-    <dd>
-      {{dataItem.offers}}
-    </dd>
-    <dt>
-      expects
-    </dt>
-    <dd>
-      {{dataItem.expects}}
-    </dd>
-    <dt>
-      format constraints
-    </dt>
-    <dd>
-      {{dataItem.formatConstraintsIds.length}}
-    </dd>
-    <dt>
-      question options
-    </dt>
-    <dd>
-      {{dataItem.questionAssetsIds.length}}
-    </dd>
-    <dt>
-      response options
-    </dt>
-    <dd>
-      {{dataItem.responseAssetsIds.length}}
-    </dd>
+    <div>
+      <dt>
+        offers
+      </dt>
+      <dd>
+        {{dataItem.offers}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        expects
+      </dt>
+      <dd>
+        {{dataItem.expects}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        format constraints
+      </dt>
+      <dd>
+        {{dataItem.formatConstraintsIds.length}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        question options
+      </dt>
+      <dd>
+        {{dataItem.questionAssetsIds.length}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        response options
+      </dt>
+      <dd>
+        {{dataItem.responseAssetsIds.length}}
+      </dd>
+    </div>
   </dl>
   <ng-content></ng-content>
 </ng-container>

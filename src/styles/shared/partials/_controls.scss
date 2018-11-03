@@ -24,4 +24,13 @@ a {
   &:active {
     color: darken($primary-interactive-accent, 20%);
   }
+
+  &.active {
+    &, &:hover, &:active {
+      color: $primary-text-color;
+      text-decoration: none;
+      cursor: default;
+      background-color: $primary-accent;
+    }
+  }
 }

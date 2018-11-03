@@ -27,10 +27,19 @@
     //  flex-direction: column;
     //}
 
-    nav{
-      a{
-        margin: $x-small-white-space;
+    .project-nav {
+      display: flex;
+      justify-content: flex-start;
+      font-size: $large-font-size;
+      margin: $small-white-space;
+      a {
+        margin: $small-white-space;
       }
     }
+    //nav{
+    //  a{
+    //    margin: $x-small-white-space;
+    //  }
+    //}
   }
 }

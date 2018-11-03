@@ -1,6 +1,10 @@
 <app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
+    <a class="tip-expand" #expandTipAnchor>(?)</a>
     <div class="projects-grid">
+      <app-in-flow-tip name="projectsGridDescription" [expandAnchor]="expandTipAnchor" [hidden]="!(projects | async).length">
+        All projects will appear here. Start by creating a new one
+      </app-in-flow-tip>
       <fieldset [formGroup]="projectForm">
         <div class="new-project-tile">
           <input type="text" formControlName="name">
@@ -9,7 +13,7 @@
       </fieldset>
       <ng-container *ngFor="let project of projects | async">
         <div class="project-tile">
-          <a [routerLink]="[project.id]">
+          <a routerLinkActive="active" [routerLink]="[project.id]">
             <app-project-thumbnail [dataItem]="project">
             </app-project-thumbnail>
           </a>

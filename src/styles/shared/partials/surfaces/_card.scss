@@ -2,7 +2,7 @@
 @import "partials/surfaces/marginal-element";
 @import "vars";
 
-._card {
+.__card {
   @extend .__base-surface;
   border: $thin-line solid lighten($primary-text-color, 50%);
   padding: $small-white-space;

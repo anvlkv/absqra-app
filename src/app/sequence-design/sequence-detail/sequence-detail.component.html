@@ -1,3 +1,6 @@
+<app-in-flow-tip name="sequenceDescription">
+  Sequence is a way of organizing questions, tasks and other items into sequential flow, which respondent will experience when interacting with your project.
+</app-in-flow-tip>
 <app-dynamic-state [state]="headerState">
   <ng-template #viewingTemplate>
     <div>
@@ -38,8 +41,13 @@
   <ng-template #defaultTemplate>
     <section>
       <fieldset [formGroup]="sequenceForm">
-        <label for="sequenceSteps">Steps</label>
-        <app-array-input id="sequenceSteps" formControlName="stepIds">
+        <label for="sequenceSteps">
+          steps
+          <app-in-flow-tip name="stepsListDescription">
+            Sequence consists of steps. Each step can refer to different types of items like questions, tasks, skip/replay/switch logic, static content or even another sequence.
+          </app-in-flow-tip>
+        </label>
+        <app-array-input id="sequenceSteps" formControlName="stepIds" itemName="step">
           <ng-template let-sortable let-i="itemIndex">
             <app-step-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-step-detail>
           </ng-template>

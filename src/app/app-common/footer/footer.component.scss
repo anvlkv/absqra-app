@@ -3,7 +3,7 @@
 @import "vars";
 
 :host{
-  @extend ._card;
+  @extend .__card;
   @extend ._no-selection;
   @include marginalElementEdge(bottom);
   width: 100%;

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { AssetBase, AssetContentTypes, AssetTypes, Step } from 'models/api-models';
 import { DataService } from '../../app-common/data-service/data.service';
-import { CRUD } from '../../app-common/api-service/api.service';
+import { ApiService, CRUD } from '../../app-common/api-service/api.service';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { unpackEnum } from '../../utils';
@@ -41,6 +41,7 @@ export class AssetDetailComponent extends BaseDetail<AssetBase> implements OnIni
 
   constructor(
     data: DataService,
+    private api: ApiService,
     private fb: FormBuilder,
     private projectService: ProjectService,
     private sequenceService: SequenceService,
@@ -119,7 +120,7 @@ export class AssetDetailComponent extends BaseDetail<AssetBase> implements OnIni
       this.stepService.activeStep,
     ).pipe(
       mergeMap(([project, step]) => {
-        return this.data.getData(DesignerRouter.viewReferableSteps, {
+        return this.api.getData(DesignerRouter.viewReferableSteps, {
           projectId: project.id,
           stepId: step.id
         })
@@ -148,7 +149,9 @@ export class AssetDetailComponent extends BaseDetail<AssetBase> implements OnIni
     e ? e.stopPropagation() : null;
     if (this.assetForm.valid) {
       if (this.dataItemId) {
-        this.update({...this.dataItem, ...this.assetForm.value})
+        if (this.assetForm.dirty) {
+          this.update({...this.dataItem, ...this.assetForm.value})
+        }
       }
       else {
         this.save(this.assetForm.value);

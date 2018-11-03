@@ -19,7 +19,7 @@ ol, ul {
     }
 
     .add-item {
-      flex-grow: 1;
+      flex-shrink: 0;
     }
 
     label {

@@ -10,10 +10,13 @@
       <div class="input-group">
         <label for="stepType">
           type
+          <app-in-flow-tip name="stepTypeDescription" [persistent]="false">
+            Please select a type to see it's description
+          </app-in-flow-tip>
         </label>
         <app-multiple-input id="stepType" [multiSelect]="false" [options]="stepTypesList" formControlName="type"></app-multiple-input>
       </div>
-      <button *ngIf="dataItem.id" (click)="save()">done</button>
+      <button (click)="save()">save</button>
     </fieldset>
   </ng-template>
 </app-dynamic-state>

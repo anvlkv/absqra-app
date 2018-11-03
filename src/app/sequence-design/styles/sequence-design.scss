@@ -3,12 +3,12 @@
 @import "partials/surfaces";
 
 :host {
-  @extend ._card;
+  @extend .__card;
   flex-direction: column;
   app-dynamic-state {
     > * {
       white-space: nowrap;
-      > * {
+      > *:not(dl) {
         white-space: normal;
       }
     }

@@ -3,11 +3,11 @@
 @import "vars";
 
 :host{
-  @extend ._card;
+  @extend .__card;
   @extend ._no-selection;
   @include marginalElementEdge(top);
   width: 100%;
-  height: $large-panel-bar;
+  min-height: $large-panel-bar;
   background-color: $primary-background;
   .app-branding {
     a{

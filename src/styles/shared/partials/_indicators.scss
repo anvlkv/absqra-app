@@ -2,11 +2,16 @@
 @import "surfaces";
 
 dl{
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
-  //flex-wrap: revert;
+  @extend .__base-surface;
+  background: none;
+  flex-wrap: wrap;
+
+  div{
+    flex-grow: 0;
+    flex-shrink: 0;
+    margin-right: $small-white-space;
+    display: flex;
+  }
   dt, dd{
     flex-grow: 0;
     font-size: $font-size-unit;
@@ -16,18 +21,13 @@ dl{
   }
 
   dt {
+    overflow: hidden;
     border-right: none;
     background-color: rgba(darken($primary-background, 10%), .5);
-    overflow: hidden;
   }
   dd{
-    flex-shrink: 1;
     border-left: none;
     background-color: $primary-background;
     color: $secondary-accent;
-
-    & + dt {
-      margin-left: $small-white-space;
-    }
   }
 }

@@ -159,3 +159,11 @@ export class DataService implements PublicMembersInterface<ApiService> {
 function getItemIdFromParams(params, typeName) {
   return params && params.hasOwnProperty(`${typeName}Id`) ? `${params[`${typeName}Id`]}` : null;
 }
+
+function getViewIdFromParams(params, typeName) {
+  if (!getItemIdFromParams(params, typeName)) {
+   return Object.keys(params)
+    .filter(p => /\wId$/.test(p))
+    .reduce((viewId, id) => viewId.concat(id), typeName);
+  }
+}

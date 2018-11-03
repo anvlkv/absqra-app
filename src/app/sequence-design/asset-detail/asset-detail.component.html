@@ -10,6 +10,9 @@
       <div class="input-group">
         <label for="assetType">
           asset type
+          <app-in-flow-tip name="assetDescription">
+            Assets are sources of static or dynamic content for sequences, questions and their options
+          </app-in-flow-tip>
         </label>
         <app-multiple-input id="assetType" formControlName="assetType" [multiSelect]="false" [options]="assetTypesValues"></app-multiple-input>
       </div>
@@ -22,21 +25,29 @@
             <app-multiple-input id="contentType" formControlName="contentType" [multiSelect]="false" [options]="contentTypesValues"></app-multiple-input>
           </div>
           <div class="input-group" [ngSwitch]="assetForm.value.contentType">
+            <ng-template #staticContentDescription>
+              <app-in-flow-tip name="assetTypeStaticContentDescription">
+                Static assets are created by you in this interface and provided later to respondent
+              </app-in-flow-tip>
+            </ng-template>
             <ng-container *ngSwitchCase="contentTypes.TEXT">
               <label for="textContent">
                 content
+                <ng-container *ngTemplateOutlet="staticContentDescription"></ng-container>
               </label>
               <quill-editor id="textContent" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
             </ng-container>
             <ng-container *ngSwitchCase="contentTypes.URL">
               <label for="urlContent" *ngSwitchCase="contentTypes.URL">
                 URL
+                <ng-container *ngTemplateOutlet="staticContentDescription"></ng-container>
               </label>
               <input type="url" id="urlContent" formControlName="content">
             </ng-container>
             <ng-container *ngSwitchCase="contentTypes.FILE">
               <label for="fileContent">
                 file
+                <ng-container *ngTemplateOutlet="staticContentDescription"></ng-container>
               </label>
               <input type="file" id="fileContent" formControlName="content">
             </ng-container>
@@ -46,12 +57,18 @@
           <div class="input-group">
             <label for="sourceStepId">
               content source
+              <app-in-flow-tip name="assetTypeDynamicDescription">
+                Dynamic assets are generated from previous steps and iterations. Select one of the steps below
+              </app-in-flow-tip>
             </label>
             <app-multiple-input id="sourceStepId" formControlName="sourceStepId" [multiSelect]="false" [options]="referableSteps | async">
               <ng-template let-option>
                 <app-step-thumbnail [stepId]="option.item"></app-step-thumbnail>
               </ng-template>
             </app-multiple-input>
+            <app-in-flow-tip name="assetTypeDynamicNoStepsDescription" [hidden]="(referableSteps | async).length" [persistent]="false">
+              There seems to be no output before this asset
+            </app-in-flow-tip>
           </div>
         </ng-container>
       </ng-container>

@@ -5,6 +5,9 @@
     </app-logic-thumbnail>
   </ng-template>
   <ng-template #editingTemplate>
+    <app-in-flow-tip name="logicDescription">
+      Logic items are responsible for flow of the respondent through sequence. Logic items are used to navigate to certain step when item's condition is met
+    </app-in-flow-tip>
     <fieldset [formGroup]="logicForm">
       <div class="input-group">
         <label for="type">
@@ -15,18 +18,27 @@
 
       <ng-container [ngSwitch]="logicForm.controls.type.value">
         <ng-container *ngSwitchCase="logicTypes.SKIP">
+          <app-in-flow-tip name="logicSkipDescription">
+            When condition is met navigate to step. Keep answers
+          </app-in-flow-tip>
           <ng-container *ngTemplateOutlet="sourceInput"></ng-container>
           <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>
           <ng-container *ngTemplateOutlet="destinationInput"></ng-container>
         </ng-container>
 
         <ng-container *ngSwitchCase="logicTypes.REPLAY">
+          <app-in-flow-tip name="logicReplayDescription">
+            When condition is met navigate to step. Replace previous answers
+          </app-in-flow-tip>
           <ng-container *ngTemplateOutlet="sourceInput"></ng-container>
           <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>
           <ng-container *ngTemplateOutlet="destinationInput"></ng-container>
         </ng-container>
 
         <ng-container *ngSwitchCase="logicTypes.SWITCH">
+          <app-in-flow-tip name="logicSwitchDescription">
+            Switch to first step where condition is met.
+          </app-in-flow-tip>
           <ng-container *ngTemplateOutlet="sourceInput"></ng-container>
           <ng-container *ngTemplateOutlet="alternativesInput"></ng-container>
         </ng-container>
@@ -40,7 +52,10 @@
       <ng-template #sourceInput>
         <div class="input-group">
           <label for="sourceStepId">
-            content source
+            source
+            <app-in-flow-tip name="logicContentSourceDescription">
+              Output of which step to use in comparison
+            </app-in-flow-tip>
           </label>
           <app-multiple-input id="sourceStepId" formControlName="sourceStepId" [multiSelect]="false" [options]="referableSteps | async">
             <ng-template let-option>
@@ -54,8 +69,11 @@
         <div *ngIf="dataItemId" class="input-group">
           <label for="formatConstraints">
             conditions
+            <app-in-flow-tip name="logicConditionsDescription">
+              All format constraints bellow must be valid when comparing them against output of source
+            </app-in-flow-tip>
           </label>
-          <app-array-input formControlName="formatConstraintsIds" id="formatConstraints">
+          <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="condition">
             <ng-template let-sortable let-i="itemIndex">
               <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
             </ng-template>
@@ -67,6 +85,9 @@
         <div class="input-group">
           <label for="destinationStepId">
             destination
+            <app-in-flow-tip name="logicDestinationDescription">
+              Navigate to this step when condition is met
+            </app-in-flow-tip>
           </label>
           <app-multiple-input id="destinationStepId" formControlName="destinationStepId" [multiSelect]="false" [options]="stepsAhead | async">
             <ng-template let-option>
@@ -81,7 +102,7 @@
           <label for="alternativesIds">
             alternatives
           </label>
-          <app-array-input id="alternativesIds" formControlName="alternativesIds" [orderable]="false">
+          <app-array-input id="alternativesIds" formControlName="alternativesIds" [orderable]="false" itemName="alternative">
             <ng-template let-sortable let-i="itemIndex">
               <app-logic-detail [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>
             </ng-template>

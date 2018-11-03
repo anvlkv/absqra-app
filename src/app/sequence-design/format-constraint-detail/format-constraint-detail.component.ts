@@ -113,10 +113,12 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
     e ? e.stopPropagation() : null;
     if (this.constraintForm.valid) {
       if (this.dataItemId) {
-        this.update({...this.dataItem, ...formDeltaValue(this.constraintForm.value)})
+        if (this.constraintForm.dirty) {
+          this.update({...this.dataItem, ...formDeltaValue(this.constraintForm)})
+        }
       }
       else {
-        this.save({...this.dataItem, ...formDeltaValue(this.constraintForm.value)});
+        this.save({...this.dataItem, ...formDeltaValue(this.constraintForm)});
       }
     }
     return false;

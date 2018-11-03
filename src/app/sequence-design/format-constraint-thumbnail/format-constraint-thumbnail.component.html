@@ -1,31 +1,37 @@
 <ng-container *ngIf="state | async">
   <dl>
-    <dt>
-      validation type
-    </dt>
-    <dd>
-      {{dataItem.validationType}}
-    </dd>
-    <dt>
-      subtype
-    </dt>
-    <dd>
-      {{dataItem.validationSubType}}
-    </dd>
-    <dt>
-      constraint
-    </dt>
-    <dd [ngSwitch]="getConstraintType()">
-      <ng-container *ngSwitchCase="'number'">
-        {{dataItem.numericConstraint}}
-      </ng-container>
-      <ng-container *ngSwitchCase="'text'">
-        {{dataItem.stringConstraint}}
-      </ng-container>
-      <ng-container *ngSwitchCase="'boolean'">
-        {{dataItem.booleanConstraint}}
-      </ng-container>
-    </dd>
+    <div>
+      <dt>
+        validation type
+      </dt>
+      <dd>
+        {{dataItem.validationType}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        subtype
+      </dt>
+      <dd>
+        {{dataItem.validationSubType}}
+      </dd>
+    </div>
+    <div>
+      <dt>
+        constraint
+      </dt>
+      <dd [ngSwitch]="getConstraintType()">
+        <ng-container *ngSwitchCase="'number'">
+          {{dataItem.numericConstraint}}
+        </ng-container>
+        <ng-container *ngSwitchCase="'text'">
+          {{dataItem.stringConstraint}}
+        </ng-container>
+        <ng-container *ngSwitchCase="'boolean'">
+          {{dataItem.booleanConstraint}}
+        </ng-container>
+      </dd>
+    </div>
   </dl>
   <ng-content></ng-content>
 </ng-container>

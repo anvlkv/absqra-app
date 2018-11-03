@@ -1,10 +1,12 @@
+<app-in-flow-tip name="questionDescription">
+  Questions are items that provide respondent with default inputs. Questions provide output. Output is available downstream in your sequence.
+</app-in-flow-tip>
 <app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
     <div class="question-card">
       <app-question-thumbnail [dataItem]="dataItem">
         <button (click)="edit()">edit</button>
       </app-question-thumbnail>
-
     </div>
   </ng-template>
   <ng-template #editingTemplate>
@@ -12,6 +14,9 @@
       <div class="input-group">
         <label for="name">
           name
+          <app-in-flow-tip name="questionNameDescription">
+            Question name is used to code output data. Respondents won't see it.
+          </app-in-flow-tip>
         </label>
         <input type="text" id="name" formControlName="name">
       </div>
@@ -24,20 +29,30 @@
       <div class="input-group">
         <label for="questionContentAsset">
           question content
+          <app-in-flow-tip name="questionContentAssetDescription">
+            Question content is what shown to respondent.
+          </app-in-flow-tip>
         </label>
         <app-asset-detail id="questionContentAsset" [dataItemId]="dataItem?.contentAssetId" [assetPurposeType]="assetPurposeTypes.QUESTION" (idChange)="setQuestionContentId($event)" [parentId]="dataItem?.id"></app-asset-detail>
       </div>
+      <app-in-flow-tip name="questionOffers&ExpectsDescription">
+        Question offers none or many initial statements to work with, and it expects none or many statements as an output.
+        <blockquote>
+          For example yes/no question offers one statement and expects one statement in response.
+        </blockquote>
+        Don't be concerned about the way questions are presented to your respondent, since this is determined based on many question's aspects. Think in terms of narrowing down or expanding your data.
+      </app-in-flow-tip>
       <div class="input-group">
         <label for="questionOffers">
           offers
         </label>
-        <app-multiple-input id="questionOffers" [options]="qttOrder" formControlName="offers" [multiSelect]="false"></app-multiple-input>
+        <app-multiple-input id="questionOffers" [options]="qttOrderOptions" formControlName="offers" [multiSelect]="false"></app-multiple-input>
       </div>
       <div class="input-group">
         <label for="questionExpects">
           expects
         </label>
-        <app-multiple-input id="questionExpects" [options]="qttOrder" formControlName="expects" [multiSelect]="false"></app-multiple-input>
+        <app-multiple-input id="questionExpects" [options]="qttOrderOptions" formControlName="expects" [multiSelect]="false"></app-multiple-input>
       </div>
       <button (click)="saveQuestionHeader($event)">save</button>
     </fieldset>
@@ -46,32 +61,47 @@
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
     <fieldset [formGroup]="questionForm" *ngIf="dataItem?.id">
-      <div class="input-group">
+      <div *ngIf="questionForm.controls.expects.value !== qttOrder.NONE" class="input-group">
         <label for="formatConstraints">
           format constraints
+          <app-in-flow-tip name="questionFormatConstraintsDescription">
+            You can constraint what kind of input is accepted by this question. Depending on constraints different input interfaces are shown to respondent. Format constraint can as well be used to block further progress of respondent unless certain criteria is met.
+          </app-in-flow-tip>
         </label>
-        <app-array-input formControlName="formatConstraintsIds" id="formatConstraints">
+        <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="format constraint">
           <ng-template let-sortable let-i="itemIndex">
             <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.QUESTION" [parentId]="dataItem.id" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
           </ng-template>
         </app-array-input>
       </div>
-      <div class="input-group">
+      <div *ngIf="questionForm.controls.offers.value !== qttOrder.NONE" class="input-group">
         <label for="questionAssets">
           question options
+          <app-in-flow-tip name="questionOptionsDescription">
+            Question options are initial statements provided to respondent.
+            <blockquote>
+              For example in multiple choice question, where question offers multiple and expects multiple statements in response, these options are provided to respondent as choices.
+            </blockquote>
+          </app-in-flow-tip>
         </label>
-        <app-array-input formControlName="questionAssetsIds" id="questionAssets">
+        <app-array-input formControlName="questionAssetsIds" id="questionAssets" itemName="question option">
           <ng-template let-sortable let-i="itemIndex">
             <app-asset-detail [parentId]="dataItem.id" [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"
                               (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
           </ng-template>
         </app-array-input>
       </div>
-      <div class="input-group">
+      <div *ngIf="questionForm.controls.expects.value !== qttOrder.NONE" class="input-group">
         <label for="responseAssets">
           response options
+          <app-in-flow-tip name="responseOptionsDescription">
+            Response options are statement presented to respondent as possible answers.
+            <blockquote>
+              For example in question, where respondent should rate item on scale from 1 to 10, response options would be numbers from 1 to 10
+            </blockquote>
+          </app-in-flow-tip>
         </label>
-        <app-array-input formControlName="responseAssetsIds" id="responseAssets">
+        <app-array-input formControlName="responseAssetsIds" id="responseAssets" itemName="response option">
           <ng-template let-sortable let-i="itemIndex">
             <app-asset-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
           </ng-template>
