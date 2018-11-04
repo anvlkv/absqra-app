@@ -8,7 +8,6 @@ import { LoadingComponent } from './loading/loading.component';
 import { DynamicStateComponent } from './dynamic-state/dynamic-state.component';
 import { CookieService } from 'ngx-cookie-service';
 import { ErrorComponent } from './error/error.component';
-import { DataService } from './data-service/data.service';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { HotKeysService } from './hot-keys-service/hot-keys.service';
 import { DisabledContentComponent } from './disabled-content/disabled-content.component';
@@ -29,7 +28,6 @@ const providers: Provider[] = [
     multi: true
   },
   CookieService,
-  DataService,
   HotKeysService,
   WebSocketService,
   FooterService,

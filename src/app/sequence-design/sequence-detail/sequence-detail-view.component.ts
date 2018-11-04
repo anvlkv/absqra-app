@@ -4,14 +4,10 @@ import { SequenceService } from './sequence.service';
 import { unpackEnum } from '../../utils';
 import { SequenceDetailCRouteReservedParam } from '../../../models/reservedRouteParams';
 import { combineLatest } from 'rxjs';
-import { DataService } from '../../app-common/data-service/data.service';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ProjectService } from '../../project/project.service';
-import { filter } from 'rxjs/operators';
-import { DesignerRouter } from '../../../models/api-routes/DesignerRouter';
-import { CRUD } from '../../app-common/api-service/api.service';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { ProjectService } from '../../project/project-detail/project.service';
+import { OnItemSet } from '../../app-common/base-detail/base-detail';
 
 
 @Component({
@@ -20,42 +16,17 @@ import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
   styleUrls: ['./sequence-detail.component.scss', '../styles/sequence-design.scss'],
   providers: [SequenceService]
 })
-export class SequenceDetailViewComponent extends SequenceDetailComponent implements AfterViewInit, OnInit {
+export class SequenceDetailViewComponent extends SequenceDetailComponent implements AfterViewInit, OnInit, OnItemSet {
   private shouldSaveAsTopSequence: boolean;
 
   constructor(
-    data: DataService,
-    fb: FormBuilder,
     sequenceService: SequenceService,
+    fb: FormBuilder,
     projectService: ProjectService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-    super(data, fb, sequenceService, projectService);
-
-    this.callConfigurator = (sequenceId, cause) => {
-      switch (cause) {
-        case CRUD.CREATE: {
-          if (this.shouldSaveAsTopSequence) {
-            return {
-              route: DesignerRouter.saveTopSequenceOfProject,
-              params: { projectId: this.project.id }
-            }
-          }
-          else {
-            return {
-              route: CRUDRouter.repoSequences
-            }
-          }
-        }
-        default: {
-          return {
-            route: CRUDRouter.entitySequence,
-            params: {sequenceId}
-          }
-        }
-      }
-    };
+    super(sequenceService, fb, projectService);
   }
 
   ngOnInit() {
@@ -63,17 +34,18 @@ export class SequenceDetailViewComponent extends SequenceDetailComponent impleme
 
     this.route.params.subscribe(({sequenceId}) => {
       if (!unpackEnum(SequenceDetailCRouteReservedParam).includes(sequenceId)) {
-        this.dataItemId = sequenceId;
-        this.fetch();
+        this.dataItemService.fetch(sequenceId);
       }
       this.shouldSaveAsTopSequence = sequenceId === SequenceDetailCRouteReservedParam.TOP;
     });
+  }
 
-    this.itemSetObservable.pipe(filter(loaded => loaded)).subscribe((loaded) => {
-        const prefix = this.route.snapshot.params['stepId'] ? '../../' : '../';
-        const commands = [prefix, this.dataItemId, this.route.snapshot.params['stepId']];
-        this.router.navigate(commands.filter(c => !!c), {relativeTo: this.route})
-    });
+  bdOnItemSet(loaded) {
+    if (loaded) {
+      const prefix = this.route.snapshot.params['stepId'] ? '../../' : '../';
+      const commands = [prefix, this.dataItemId, this.route.snapshot.params['stepId']];
+      this.router.navigate(commands.filter(c => !!c), {relativeTo: this.route})
+    }
   }
 
   ngAfterViewInit() {

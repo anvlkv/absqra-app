@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { unpackEnum } from '../../utils';
 import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
 import { DesignerRouter } from '../../../models/api-routes/DesignerRouter';
-import { ProjectService } from '../../project/project.service';
+import { ProjectService } from '../../project/project-detail/project.service';
 import { combineLatest, Observable, throwError } from 'rxjs';
 import { SequenceService } from '../sequence-detail/sequence.service';
 import { StepService } from '../step-detail/step.service';

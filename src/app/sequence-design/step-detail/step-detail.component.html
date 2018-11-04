@@ -23,22 +23,27 @@
 
 <div [ngSwitch]="dataItem?.type">
   <ng-container *ngSwitchCase="stepTypes.QUESTION_REF">
-    <app-question-detail id="questionReferenceId" [dataItemId]="dataItem.questionReferenceId" (idChange)="updateReference($event, 'questionReference')"></app-question-detail>
+    <app-question-detail id="questionReferenceId" [dataItemId]="dataItem.questionReferenceId"
+                         (dataItemIdChange)="updateReference($event, 'questionReference')"></app-question-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.TASK_REF">
-    <app-task-detail id="taskReferenceId" [dataItemId]="dataItem.taskReferenceId" (idChange)="updateReference($event, 'taskReference')"></app-task-detail>
+    <app-task-detail id="taskReferenceId" [dataItemId]="dataItem.taskReferenceId"
+                     (dataItemIdChange)="updateReference($event, 'taskReference')"></app-task-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.LOGICAL_ITEM">
-    <app-logic-detail id="logicReferenceId" [dataItemId]="dataItem.logicReferenceId" (idChange)="updateReference($event, 'logicReference')"></app-logic-detail>
+    <app-logic-detail id="logicReferenceId" [dataItemId]="dataItem.logicReferenceId"
+                      (dataItemIdChange)="updateReference($event, 'logicReference')"></app-logic-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.SEQUENCE_REF">
-    <app-sequence-detail id="sequenceReferenceId" [dataItemId]="dataItem.sequenceReferenceId" (idChange)="updateReference($event, 'sequenceReference')"></app-sequence-detail>
+    <app-sequence-detail id="sequenceReferenceId" [dataItemId]="dataItem.sequenceReferenceId"
+                         (dataItemIdChange)="updateReference($event, 'sequenceReference')"></app-sequence-detail>
   </ng-container>
 
   <ng-container *ngSwitchCase="stepTypes.ASSET_REF">
-    <app-asset-detail [assetPurposeType]="assetPurposeTypes.STEP_CONTENT" id="assetReferenceId" [dataItemId]="dataItem.assetReferenceId" (idChange)="updateReference($event, 'assetReference')"></app-asset-detail>
+    <app-asset-detail [assetPurposeType]="assetPurposeTypes.STEP_CONTENT" id="assetReferenceId" [dataItemId]="dataItem.assetReferenceId"
+                      (dataItemIdChange)="updateReference($event, 'assetReference')"></app-asset-detail>
   </ng-container>
 </div>

@@ -6,7 +6,7 @@ import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-s
 import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
 import { ActivatedRoute } from '@angular/router';
 import { mergeMap, tap } from 'rxjs/operators';
-import { ProjectService } from '../../project/project.service';
+import { ProjectService } from '../../project/project-detail/project.service';
 
 @Component({
   selector: 'app-responses-list',

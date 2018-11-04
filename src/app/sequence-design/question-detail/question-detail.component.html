@@ -33,7 +33,8 @@
             Question content is what shown to respondent.
           </app-in-flow-tip>
         </label>
-        <app-asset-detail id="questionContentAsset" [dataItemId]="dataItem?.contentAssetId" [assetPurposeType]="assetPurposeTypes.QUESTION" (idChange)="setQuestionContentId($event)" [parentId]="dataItem?.id"></app-asset-detail>
+        <app-asset-detail id="questionContentAsset" [dataItemId]="dataItem?.contentAssetId" [assetPurposeType]="assetPurposeTypes.QUESTION"
+                          (dataItemIdChange)="setQuestionContentId($event)" [parentId]="dataItem?.id"></app-asset-detail>
       </div>
       <app-in-flow-tip name="questionOffers&ExpectsDescription">
         Question offers none or many initial statements to work with, and it expects none or many statements as an output.
@@ -70,7 +71,8 @@
         </label>
         <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="format constraint">
           <ng-template let-sortable let-i="itemIndex">
-            <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.QUESTION" [parentId]="dataItem.id" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+            <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.QUESTION" [parentId]="dataItem.id" [dataItemId]="sortable.item"
+                                          (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
           </ng-template>
         </app-array-input>
       </div>
@@ -87,7 +89,7 @@
         <app-array-input formControlName="questionAssetsIds" id="questionAssets" itemName="question option">
           <ng-template let-sortable let-i="itemIndex">
             <app-asset-detail [parentId]="dataItem.id" [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"
-                              (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+                              (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
           </ng-template>
         </app-array-input>
       </div>
@@ -103,7 +105,8 @@
         </label>
         <app-array-input formControlName="responseAssetsIds" id="responseAssets" itemName="response option">
           <ng-template let-sortable let-i="itemIndex">
-            <app-asset-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+            <app-asset-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION"
+                              (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
           </ng-template>
         </app-array-input>
       </div>

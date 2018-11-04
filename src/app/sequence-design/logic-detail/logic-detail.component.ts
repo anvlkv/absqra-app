@@ -11,7 +11,7 @@ import { FormatConstraintPurposes } from '../format-constraint-detail/format-con
 import { combineLatest, Observable, throwError } from 'rxjs';
 import { catchError, filter, mergeMap } from 'rxjs/operators';
 import { DesignerRouter } from '../../../models/api-routes/DesignerRouter';
-import { ProjectService } from '../../project/project.service';
+import { ProjectService } from '../../project/project-detail/project.service';
 import { StepService } from '../step-detail/step.service';
 
 

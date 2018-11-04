@@ -75,7 +75,8 @@
           </label>
           <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="condition">
             <ng-template let-sortable let-i="itemIndex">
-              <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+              <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item"
+                                            (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
             </ng-template>
           </app-array-input>
         </div>
@@ -104,7 +105,8 @@
           </label>
           <app-array-input id="alternativesIds" formControlName="alternativesIds" [orderable]="false" itemName="alternative">
             <ng-template let-sortable let-i="itemIndex">
-              <app-logic-detail [dataItemId]="sortable.item" (idChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>
+              <app-logic-detail [dataItemId]="sortable.item"
+                                (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>
             </ng-template>
           </app-array-input>
         </div>

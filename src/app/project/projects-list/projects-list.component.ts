@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../app-common/data-service/data.service';
 import { Project } from 'models/api-models/index';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { Observable } from 'rxjs/internal/Observable';
@@ -11,6 +10,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { of } from 'rxjs/internal/observable/of';
 import { mergeMap } from 'rxjs/operators';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 @Component({
   selector: 'app-projects-list',
@@ -24,7 +24,7 @@ export class ProjectsListComponent implements OnInit {
   private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   state: Observable<DynamicState>;
   constructor(
-    private data: DataService,
+    private api: ApiService,
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute
@@ -34,8 +34,8 @@ export class ProjectsListComponent implements OnInit {
 
   ngOnInit() {
     combineLatest(
-      this.data.getData<Project[]>(CRUDRouter.repoProjects),
-      this.data.getData<Project>(CRUDRouter.entityProject, {projectId: 'default'})
+      this.api.getData<Project[]>(CRUDRouter.repoProjects),
+      this.api.getData<Project>(CRUDRouter.entityProject, {projectId: 'default'})
     ).subscribe(([projects, defaultProject]) => {
       this.projects = of(projects);
       this.projectForm = this.fb.group(defaultProject);
@@ -48,7 +48,7 @@ export class ProjectsListComponent implements OnInit {
     e ? e.stopPropagation() : null;
 
     if (this.projectForm.valid) {
-      this.data.postData<Project>(CRUDRouter.repoProjects, {}, this.projectForm.value).subscribe(project => {
+      this.api.postData<Project>(CRUDRouter.repoProjects, {}, this.projectForm.value).subscribe(project => {
         this.router.navigate([project.id], {relativeTo: this.route}).catch(err => this.$state.next({state: ComponentDynamicStates.FAILING, err}));
       });
     }
@@ -57,9 +57,9 @@ export class ProjectsListComponent implements OnInit {
   }
 
   deleteProject(projectId) {
-    this.projects = this.data.deleteData(CRUDRouter.entityProject, {projectId}).pipe(
+    this.projects = this.api.deleteData(CRUDRouter.entityProject, {projectId}).pipe(
       mergeMap(() => {
-        return this.data.getData<Project[]>(CRUDRouter.repoProjects);
+        return this.api.getData<Project[]>(CRUDRouter.repoProjects);
       })
     );
   }
