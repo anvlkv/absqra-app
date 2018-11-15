@@ -1,28 +1,44 @@
-<ol *ngIf="orderable; else unorderedListTemplate">
-  <ng-container *ngTemplateOutlet="listContentTemplate"></ng-container>
-</ol>
-
-<ng-template #unorderedListTemplate>
-  <ul>
+<ng-form *ngIf="virtualArray_Controls; else directControl">
+  <app-array-input [ngModel]="virtualArray_Controls | async"
+                   *ngIf="virtualArray_Controls | async"
+                   [ngModelOptions]="{standalone: true}"
+                   (ngModelChange)="onVirtualArrayChanges($event)"
+                   [archetype]="archetype"
+                   [addAt]="addAt"
+                   [orderable]="orderable"
+                   [disabled]="disabled"
+                   [itemTemplate]="itemTemplate"
+                   [orderShift]="orderShift"
+                   [maxItems]="maxItems"
+                   [minItems]="minItems">
+  </app-array-input>
+</ng-form>
+<ng-template #directControl>
+  <ol *ngIf="orderable; else unorderedListTemplate">
     <ng-container *ngTemplateOutlet="listContentTemplate"></ng-container>
-  </ul>
-</ng-template>
+  </ol>
 
+  <ng-template #unorderedListTemplate>
+    <ul>
+      <ng-container *ngTemplateOutlet="listContentTemplate"></ng-container>
+    </ul>
+  </ng-template>
+</ng-template>
 
 <ng-template #listContentTemplate>
   <li *ngIf="addAt == addAtTypes.START">
     <button type="button" tabindex="0" (click)="addItem($event)" class="add-item">add {{itemName}}</button>
   </li>
-  <!--TODO: Learn to use trackby here. In track by there's problem with missing id. Have a temp ids store-->
-  <li *ngFor="let sortable of sortableItems">
+  <li *ngFor="let sortable of sortableItems; trackBy: trackByFn">
     <label *ngIf="orderable">
       <input type="number"
+             #itemOrder
              [min]="orderShift"
              [max]="sortableItems.length - 1 + orderShift"
              [value]="sortable.order"
              class="item-order"
-             (focus)="onFocus(sortable.item)"
-             (blur)="onBlur(sortable.item)"
+             (focus)="onFocus(sortable.order)"
+             (blur)="onBlur(sortable.order)"
              (change)="reorderItems($event.target.value, sortable.order)"
              (keydown)="onOrderKeydown($event, sortable.order)"
              tabindex="1">

@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from
 import { Component, DebugElement, OnInit, ViewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
+
 describe('ArrayInputComponent', () => {
   let fixture: ComponentFixture<ArrayInputComponent>;
   let component: ArrayInputComponent;
@@ -36,7 +37,6 @@ describe('ArrayInputComponent', () => {
     });
 
     it('should set value', () => {
-      expect(component.sortableItems.length).toEqual(3);
       expect(component.value).toEqual(['a', 'b', 'c']);
       expect(fixture.debugElement.queryAll(By.css('.item-order')).length).toEqual(3);
     });
@@ -52,7 +52,6 @@ describe('ArrayInputComponent', () => {
       component.addItem();
       fixture.detectChanges();
 
-      expect(component.sortableItems.length).toEqual(6);
       expect(component.value).toEqual(['d', 'a', 'b', 'c', 'd', 'd']);
       expect(fixture.debugElement.queryAll(By.css('.item-order')).length).toEqual(6);
     });
@@ -62,7 +61,6 @@ describe('ArrayInputComponent', () => {
       fixture.detectChanges();
 
 
-      expect(component.sortableItems.length).toEqual(2);
       expect(component.value).toEqual(['b', 'c']);
       expect(fixture.debugElement.queryAll(By.css('.item-order')).length).toEqual(2);
     });
@@ -72,7 +70,7 @@ describe('ArrayInputComponent', () => {
       fixture.detectChanges();
 
 
-      expect(component.sortableItems.length).toEqual(3);
+
       expect(component.value).toEqual(['c', 'a', 'b']);
       expect(fixture.debugElement.queryAll(By.css('.item-order')).length).toEqual(3);
     });
@@ -82,7 +80,7 @@ describe('ArrayInputComponent', () => {
       fixture.detectChanges();
 
 
-      expect(component.sortableItems.length).toEqual(3);
+
       expect(component.value).toEqual(['b', 'c', 'a']);
       expect(fixture.debugElement.queryAll(By.css('.item-order')).length).toEqual(3);
     });
@@ -103,13 +101,12 @@ describe('ArrayInputComponent', () => {
       selector: 'app-test-cmp',
       template: `
         <div [formGroup]="form">
-          <app-array-input [archetype]="archetype" formControlName="array" class="test-component" [max]="max"
-                           [min]="min">
+          <app-array-input [archetype]="archetype" formControlName="array" class="test-component" [maxItems]="max"
+                           [minItems]="min">
             <ng-template let-sortable let-i="itemIndex">
               <div [formGroup]="sortable.item" *ngIf="!ignoreContent">
                 <input class="test-input-class" type="text" formControlName="string"
-                       (change)="sortable.onOrderChange(form.value)"
-                       (focus)="sortable.onOrderChange($event.target.value, sortable.order)"
+                       (focus)="sortable.onFocus($event.target.value)"
                        (blur)="sortable.onBlur($event.target.value)">
               </div>
             </ng-template>
@@ -270,40 +267,48 @@ describe('ArrayInputComponent', () => {
 
       expect(hostComponent.form.value.array[0].value.string).toEqual('b');
 
-      input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
+      input = debugElement.nativeElement.querySelectorAll('.item-order')[2];
       input.dispatchEvent(new KeyboardEvent('keydown', {code: 'ArrowUp'}));
       hostFixture.detectChanges();
 
       expect(component.value.map(fc => fc.value)).toEqual([
-        {string: 'a'},
+        {string: 'b'},
         {string: 'c'},
-        {string: 'b'}
+        {string: 'a'}
       ]);
     });
 
-    it('should trigger value changes', () => {
+    it('should trigger value changes', async(() => {
       debugElement.nativeElement.querySelector('.remove-item').click();
-      debugElement.nativeElement.querySelector('.add-item').click();
-      const input = debugElement.nativeElement.querySelector('.test-input-class');
-      input.value = 10;
-      input.dispatchEvent(new Event('change'));
-
       hostFixture.detectChanges();
+      expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(1);
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(2);
+      const input = debugElement.nativeElement.querySelector('.item-order');
+      input.value = 3;
+      input.dispatchEvent(new Event('change'));
+      hostFixture.detectChanges();
+      expect(component.value.map(fc => fc.value)).toEqual([
+        {string: 'c'},
+        {string: ''},
+        {string: 'b'}
+      ]);
       expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(3);
-    });
+    }));
 
     it('should be valid', () => {
       expect(hostComponent.form.valid).toBeTruthy();
     });
 
     describe('with constraints', () => {
-      it('should be invalid with min constraint', () => {
+      it('should be invalid with minItems constraint', () => {
         hostComponent.min = 10;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should be invalid with max constraint', () => {
+      it('should be invalid with maxItems constraint', () => {
         hostComponent.max = 1;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
@@ -316,27 +321,10 @@ describe('ArrayInputComponent', () => {
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should prevent adding more items with max', async(() => {
-        hostComponent.max = 2;
-        hostFixture.detectChanges();
-        debugElement.nativeElement.querySelector('.add-item').click();
-        hostFixture.detectChanges();
-        expect(component.value.length).toEqual(3);
-        expect(hostComponent.form.valid).toBeFalsy();
-      }));
-
-      it('should prevent removing items with min', async(() => {
-        hostComponent.min = 10;
-        hostFixture.detectChanges();
-        debugElement.nativeElement.querySelector('.remove-item').click();
-        hostFixture.detectChanges();
-        expect(component.value.length).toEqual(3);
-        expect(hostComponent.form.valid).toBeFalsy();
-      }));
-
       it('should be valid with both constraints', () => {
         hostComponent.min = 1;
         hostComponent.max = 4;
+        hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeTruthy();
       });
 
@@ -355,13 +343,12 @@ describe('ArrayInputComponent', () => {
       template: `
         <form #form="ngForm">
           <app-array-input [archetype]="archetype" name="array" [(ngModel)]="model.array" class="test-component"
-                           [max]="max" [min]="min">
+                           [maxItems]="max" [minItems]="min">
             <ng-template let-sortable let-i="itemIndex">
               <div *ngIf="!ignoreContent">
                 <input class="test-input-class" type="text" name="{{sortable.order}}.string"
                        [(ngModel)]="sortable.item.string"
-                       (change)="sortable.onOrderChange($event.target.value, sortable.order)"
-                       (focus)="sortable.onOrderChange($event.target.value)"
+                       (focus)="sortable.onFocus($event.target.value)"
                        (blur)="sortable.onBlur($event.target.value)">
               </div>
             </ng-template>
@@ -399,7 +386,8 @@ describe('ArrayInputComponent', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [
-          FormsModule
+          FormsModule,
+          ReactiveFormsModule
         ],
         declarations: [
           ArrayInputComponent,
@@ -517,7 +505,7 @@ describe('ArrayInputComponent', () => {
 
       expect(hostComponent.model.array[0].string).toEqual('b');
 
-      input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
+      input = debugElement.nativeElement.querySelectorAll('.item-order')[2];
       input.dispatchEvent(new KeyboardEvent('keydown', {code: 'ArrowUp'}));
 
       hostFixture.detectChanges();
@@ -525,16 +513,16 @@ describe('ArrayInputComponent', () => {
       hostFixture.detectChanges();
 
       expect(component.value).toEqual([
-        {string: 'a'},
+        {string: 'b'},
         {string: 'c'},
-        {string: 'b'}
+        {string: 'a'}
       ]);
     }));
 
     it('should add items after reordering', () => {
       const input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
       input.value = 3;
-      input.dispatchEvent(new Event('change'));
+      input.dispatchEvent(new Event('input'));
 
       hostFixture.detectChanges();
 
@@ -554,7 +542,7 @@ describe('ArrayInputComponent', () => {
 
       const inputs = debugElement.nativeElement.querySelectorAll('.item-order');
       inputs[inputs.length - 1].value = 1;
-      inputs[inputs.length - 1].dispatchEvent(new Event('change'));
+      inputs[inputs.length - 1].dispatchEvent(new Event('input'));
 
       hostFixture.detectChanges();
 
@@ -567,13 +555,13 @@ describe('ArrayInputComponent', () => {
     });
 
     describe('with constraints', () => {
-      it('should be invalid with min constraint', () => {
+      it('should be invalid with minItems constraint', () => {
         hostComponent.min = 10;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should be invalid with max constraint', () => {
+      it('should be invalid with maxItems constraint', () => {
         hostComponent.max = 1;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
@@ -586,30 +574,269 @@ describe('ArrayInputComponent', () => {
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should prevent adding more items with max', async(() => {
-        hostComponent.max = 2;
-        hostFixture.detectChanges();
-        debugElement.nativeElement.querySelector('.add-item').click();
-        hostFixture.detectChanges();
-        expect(component.value.length).toEqual(3);
-        expect(hostComponent.form.valid).toBeFalsy();
-      }));
-
-      it('should prevent removing items with min', async(() => {
-        hostComponent.min = 10;
-        hostFixture.detectChanges();
-        debugElement.nativeElement.querySelector('.remove-item').click();
-        hostFixture.detectChanges();
-        expect(component.value.length).toEqual(3);
-        expect(hostComponent.form.valid).toBeFalsy();
-      }));
-
       it('should be valid with both constraints', () => {
         hostComponent.min = 1;
         hostComponent.max = 4;
+        hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeTruthy();
       });
     });
   });
 
+  describe('with formArray', () => {
+    @Component({
+      selector: 'app-test-cmp',
+      template: `
+        <div [formGroup]="form">
+          <app-array-input [archetype]="archetype" name="array" [formArray]="form.controls.array" class="test-component"
+                           [maxItems]="max"
+                           [minItems]="min">
+            <ng-template let-sortable let-i="itemIndex">
+              <input class="test-input-class"
+                     type="text"
+                     [min]="min"
+                     [max]="max"
+                     [formControl]="sortable.item">
+            </ng-template>
+          </app-array-input>
+        </div>
+      `,
+    })
+    class TestWrapperComponent implements OnInit {
+      archetype: any;
+      form: FormGroup;
+      min;
+      max;
+      private _v: any;
+      private _s: any;
+
+      constructor(
+        private fb: FormBuilder,
+      ) {}
+
+      ngOnInit(): void {
+        this.form = this.fb.group({
+          array: this.fb.array([
+            'a',
+            'b',
+            'c'
+          ])
+        });
+
+        this.archetype = () => this.fb.control('');
+
+        this.form.valueChanges.subscribe(this.valueChangesSubscriber);
+        this.form.statusChanges.subscribe(this.statusChangesSubscriber);
+      }
+
+      valueChangesSubscriber(v) {
+        this._v = v;
+      }
+      statusChangesSubscriber(v) {
+        this._s = v;
+      }
+    }
+
+    let hostComponent: TestWrapperComponent;
+    let hostFixture: ComponentFixture<TestWrapperComponent>;
+    let debugElement: DebugElement;
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          FormsModule
+        ],
+        declarations: [
+          ArrayInputComponent,
+          TestWrapperComponent
+        ]
+      })
+      .compileComponents();
+    }));
+
+    beforeEach(fakeAsync(() => {
+      hostFixture = TestBed.createComponent(TestWrapperComponent);
+      hostComponent = hostFixture.componentInstance;
+      debugElement = hostFixture.debugElement.query(By.css('.test-component'));
+      component = debugElement.componentInstance;
+      spyOn(hostComponent, 'valueChangesSubscriber');
+      spyOn(hostComponent, 'statusChangesSubscriber');
+      hostFixture.detectChanges();
+      tick();
+      hostFixture.detectChanges();
+    }));
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should display multiple items', fakeAsync(() => {
+      expect(debugElement.nativeElement.querySelectorAll('.test-input-class').length).toEqual(3);
+    }));
+
+    it('should update value', fakeAsync(() => {
+      hostComponent.form.setValue({array: [
+          'd',
+          'e',
+          'f'
+        ]
+      });
+      hostFixture.detectChanges();
+      tick();
+      hostFixture.detectChanges();
+      expect(component.value).toEqual([
+        'd',
+        'e',
+        'f'
+      ]);
+    }));
+
+    it('should add items', async(() => {
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      expect(component.value.length).toEqual(6);
+    }));
+
+    it('should add items using archetype', () => {
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      expect(component.value).toEqual([
+        'a',
+        'b',
+        'c',
+        '',
+        '',
+        ''
+      ]);
+    });
+
+    it('should remove items', () => {
+      debugElement.nativeElement.querySelector('.remove-item').click();
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.remove-item').click();
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelector('.remove-item').click();
+      hostFixture.detectChanges();
+      expect(component.value.length).toEqual(0);
+    });
+
+    it('should reorder items on order change', () => {
+      let input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
+      input.value = 3;
+      input.dispatchEvent(new Event('change'));
+      hostFixture.detectChanges();
+
+      expect(hostComponent.form.value.array[0]).toEqual('b');
+
+      input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
+      input.value = 3;
+      input.dispatchEvent(new Event('change'));
+      hostFixture.detectChanges();
+
+      expect(component.value).toEqual([
+        'c',
+        'a',
+        'b'
+      ]);
+    });
+
+    it('should reorder items on keyboard events', () => {
+      let input = debugElement.nativeElement.querySelectorAll('.item-order')[0];
+      input.dispatchEvent(new KeyboardEvent('keydown', {code: 'ArrowDown'}));
+      hostFixture.detectChanges();
+
+      expect(hostComponent.form.value.array[0]).toEqual('b');
+
+      input = debugElement.nativeElement.querySelectorAll('.item-order')[2];
+      input.dispatchEvent(new KeyboardEvent('keydown', {code: 'ArrowUp'}));
+      hostFixture.detectChanges();
+
+      expect(component.value).toEqual([
+        'b',
+        'c',
+        'a'
+      ]);
+    });
+
+    it('should trigger value changes', async(() => {
+      // 6 9 and 12 calls... that's how it works with FormArray
+
+      debugElement.nativeElement.querySelector('.remove-item').click();
+      hostFixture.detectChanges();
+      expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(6);
+
+      debugElement.nativeElement.querySelector('.add-item').click();
+      hostFixture.detectChanges();
+      expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(9);
+
+      const input = debugElement.nativeElement.querySelector('.item-order');
+      input.value = 3;
+      input.dispatchEvent(new Event('change'));
+      hostFixture.detectChanges();
+      expect(component.value).toEqual([
+        'c',
+        '',
+        'b'
+      ]);
+      expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(12);
+    }));
+
+    it('should be valid', () => {
+      expect(hostComponent.form.valid).toBeTruthy();
+    });
+
+    describe('with constraints', () => {
+      it('should be invalid with minItems constraint', fakeAsync(() => {
+        hostComponent.min = 10;
+        hostFixture.detectChanges();
+        tick();
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeFalsy();
+      }));
+
+      it('should be invalid with maxItems constraint', fakeAsync(() => {
+        hostComponent.max = 1;
+        hostFixture.detectChanges();
+        tick();
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeFalsy();
+      }));
+
+      it('should be invalid with both constraints', fakeAsync(() => {
+        hostComponent.min = 1;
+        hostComponent.max = 2;
+        hostFixture.detectChanges();
+        tick();
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeFalsy();
+      }));
+
+      it('should be valid with both constraints', fakeAsync(() => {
+        hostComponent.min = 1;
+        hostComponent.max = 4;
+        hostFixture.detectChanges();
+        tick();
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeTruthy();
+      }));
+
+      it('should trigger status changes', fakeAsync(() => {
+        hostComponent.min = 10;
+        hostFixture.detectChanges();
+        tick();
+        hostFixture.detectChanges();
+        expect(hostComponent.statusChangesSubscriber).toHaveBeenCalledTimes(9);
+      }));
+
+    });
+  });
 });
