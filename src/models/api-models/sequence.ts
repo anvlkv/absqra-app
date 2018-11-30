@@ -5,7 +5,7 @@ import { Project } from './project';
 export declare class Sequence extends Base {
     header?: SequenceHeader;
     steps?: Step[];
-    stepIds?: string[];
+    stepsIds?: string[];
     referencedBySteps?: Sequence[];
     project?: Project;
     projectId?: Project;

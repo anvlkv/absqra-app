@@ -1,63 +1,34 @@
-import { AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Project, Sequence, SequenceLifeCycleTypes } from 'models/api-models';
-import { CRUDRouter } from 'models/api-routes/CRUDRouter';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { unpackEnum } from '../../utils';
-import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { CRUD } from '../../app-common/api-service/api.service';
-import { BehaviorSubject, combineLatest, merge, Observable } from 'rxjs';
-import {
-  ComponentDynamicStates,
-  DynamicState,
-  stateCombinator,
-} from '../../app-common/dynamic-state/dynamic-state.component';
-import { filter } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
-import { SequenceService } from './sequence.service';
+import { SequenceDetailService } from './sequence-detail.service';
 import { StepDetailComponent } from '../step-detail/step-detail.component';
-import { SequenceDetailCRouteReservedParam } from '../../../models/reservedRouteParams';
-import { ProjectService } from '../../project/project-detail/project.service';
-import { DesignerRouter } from '../../../models/api-routes/DesignerRouter';
+import { ProjectDetailService } from '../../project/project-detail/project-detail.service';
 import { BaseDetailForm } from '../../app-common/base-detail/base-detail-form';
 
 @Component({
   selector: 'app-sequence-detail',
   templateUrl: './sequence-detail.component.html',
   styleUrls: ['./sequence-detail.component.scss', '../styles/sequence-design.scss'],
-  providers: [SequenceService]
+  providers: [SequenceDetailService]
 })
-export class SequenceDetailComponent extends BaseDetailForm<Sequence> implements OnInit {
-  private $headerState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
-  private $stepsState = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
+export class SequenceDetailComponent extends BaseDetailForm<Sequence, SequenceDetailService> implements OnInit {
 
-  sequenceForm: FormGroup;
-  sequenceHeaderForm: FormGroup;
   lifeCycleOptions: string[];
-  headerState: Observable<DynamicState>;
-  stepsState: Observable<DynamicState>;
 
   @ViewChildren(StepDetailComponent)
   stepComponents: QueryList<StepDetailComponent>;
 
-  project: Project;
+  project: Project = null;
 
   constructor(
-    sequenceService: SequenceService,
+    sequenceService: SequenceDetailService,
     fb: FormBuilder,
-    private projectService: ProjectService
+    protected projectService: ProjectDetailService
   ) {
     super(sequenceService, fb);
     this.lifeCycleOptions = unpackEnum(SequenceLifeCycleTypes);
-
-    this.headerState = stateCombinator(
-      this.state,
-      this.$headerState.asObservable()
-    );
-
-    this.stepsState = stateCombinator(
-      this.state,
-      this.$stepsState.asObservable(),
-    );
   }
 
 
@@ -66,14 +37,5 @@ export class SequenceDetailComponent extends BaseDetailForm<Sequence> implements
     super.ngOnInit();
 
     this.projectService.dataItemObservable.subscribe(p => this.project = p);
-
-    this.state.pipe(filter((s) => s == ComponentDynamicStates.VIEWING)).subscribe(() => {
-        this.$headerState.next(ComponentDynamicStates.VIEWING);
-        this.$stepsState.next(ComponentDynamicStates.EDITING);
-    });
-  }
-
-  editHeader() {
-    this.$headerState.next(ComponentDynamicStates.EDITING);
   }
 }

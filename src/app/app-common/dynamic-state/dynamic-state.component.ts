@@ -205,18 +205,14 @@ export const stateCombinator = function (...statesToCombine: Observable<DynamicS
     ...statesToCombine
   ).pipe(
     map((states) => {
-      return states.reduce((acc, state, at, all) => {
-        const prior = all[at - 1];
-        const priorState = prior instanceof Object ? (<ImmediateStateConfiguration>prior).state : prior;
-        if (prior &&
-          ![ComponentDynamicStates.VIEWING, ComponentDynamicStates.EDITING, ComponentDynamicStates.EMPTY].includes(priorState)) {
-          acc = prior;
-        }
-        else {
+      return states.reduce((acc, state) => {
+        const priorState = acc instanceof Object ? (<ImmediateStateConfiguration>acc).state : acc;
+        if (!acc ||
+          ![ComponentDynamicStates.LOADING, ComponentDynamicStates.FAILING, ComponentDynamicStates.INTERIM, ComponentDynamicStates.DELETED].includes(priorState)) {
           acc = state;
         }
         return <DynamicState> acc;
-      });
+      }, null);
     })
   )
 };

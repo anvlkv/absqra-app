@@ -1,56 +1,59 @@
 <app-in-flow-tip name="sequenceDescription">
   Sequence is a way of organizing questions, tasks and other items into sequential flow, which respondent will experience when interacting with your project.
 </app-in-flow-tip>
-<app-dynamic-state [state]="headerState">
+<app-dynamic-state [state]="state">
   <ng-template #viewingTemplate>
     <div>
       <h4>{{dataItem.header.name}}</h4>
       <p>{{dataItem.header.description}}</p>
       <p>life cycle: {{dataItem.header.lifeCycle}}</p>
-      <button (click)="editHeader()">edit</button>
+      <button (click)="edit()">edit</button>
     </div>
   </ng-template>
   <ng-template #editingTemplate>
-    <fieldset [formGroup]="sequenceHeaderForm">
-      <div class="input-group">
-        <label for="name">
-          name
-        </label>
-        <input type="text" id="name" formControlName="name">
-      </div>
-      <div class="input-group">
-        <label for="description">
-          description
-        </label>
-        <textarea id="description" formControlName="description"></textarea>
-      </div>
-      <div class="input-group">
-        <label for="lifeCycle">
-          life cycle
-        </label>
-        <select formControlName="lifeCycle" id="lifeCycle">
-          <option *ngFor="let lc of lifeCycleOptions" [value]="lc">{{lc}}</option>
-        </select>
-      </div>
-      <button (click)="saveHeader($event)">save</button>
+    <fieldset [formGroup]="dataItemForm">
+      <ng-container formGroupName="header">
+        <div class="input-group">
+          <label for="name">
+            name
+          </label>
+          <input type="text" id="name" formControlName="name">
+        </div>
+        <div class="input-group">
+          <label for="description">
+            description
+          </label>
+          <textarea id="description" formControlName="description"></textarea>
+        </div>
+        <div class="input-group">
+          <label for="lifeCycle">
+            life cycle
+          </label>
+          <select formControlName="lifeCycle" id="lifeCycle">
+            <option *ngFor="let lc of lifeCycleOptions" [value]="lc">{{lc}}</option>
+          </select>
+        </div>
+      </ng-container>
+      <button (click)="save($event)">save</button>
     </fieldset>
   </ng-template>
 </app-dynamic-state>
 
-<app-dynamic-state [state]="stepsState">
+<app-dynamic-state [state]="state" *ngIf="dataItemId">
   <ng-template #defaultTemplate>
     <section>
-      <fieldset [formGroup]="sequenceForm">
+      <fieldset [formGroup]="dataItemForm">
         <label for="sequenceSteps">
           steps
           <app-in-flow-tip name="stepsListDescription">
             Sequence consists of steps. Each step can refer to different types of items like questions, tasks, skip/replay/switch logic, static content or even another sequence.
           </app-in-flow-tip>
         </label>
-        <app-array-input id="sequenceSteps" formControlName="stepIds" itemName="step">
+        <app-array-input id="sequenceSteps" [formArray]="dataItemForm.controls.steps" itemName="step">
           <ng-template let-sortable let-i="itemIndex">
-            <app-step-detail [parentId]="dataItem.id" [dataItemId]="sortable.item"
-                             (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-step-detail>
+            <app-step-detail [sequenceId]="dataItem.id"
+                             [dataItemId]="dataItem.stepsIds[i]"
+                             [formGroup]="sortable.item"></app-step-detail>
           </ng-template>
         </app-array-input>
       </fieldset>

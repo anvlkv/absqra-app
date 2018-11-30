@@ -1,32 +1,46 @@
-<ul>
-  <li *ngFor="let option of selectableOptions; let i = index;">
-    <ng-container *ngIf="multiSelect; then selectMultiple; else selectSingle"></ng-container>
+<ng-form *ngIf="virtualArray_Controls; else directControl">
+  <app-multiple-input [options]="virtualArray_Controls | async"
+                      *ngIf="virtualArray_Controls | async"
+                      [ngModel]="virtualArraySelection | async"
+                      [ngModelOptions]="{standalone: true}"
+                      (ngModelChange)="onVirtualArraySelectionChanges($event)"
+                      [disabled]="disabled"
+                      [maxItems]="maxItems"
+                      [minItems]="minItems"
+                      [itemTemplate]="itemTemplate">
+  </app-multiple-input>
+</ng-form>
+<ng-template #directControl>
+  <ul>
+    <li *ngFor="let option of selectableOptions; let i = index;">
+      <ng-container *ngIf="multiSelect; then selectMultiple; else selectSingle"></ng-container>
 
-    <ng-template #selectMultiple>
-      <input type="checkbox"
-             class="selection-input"
-             [attr.id]="instanceNumber + '_selection_input_' + i"
-             [indeterminate]="option.state === selectionStates.IND"
-             [checked]="option.state === selectionStates.ON"
-             (change)="onCheckboxChanged($event, i)"
-             [disabled]="disabled">
-    </ng-template>
-    <ng-template #selectSingle>
-      <input type="radio"
-             class="selection-input"
-             [name]="instanceNumber + '_selection_input'"
-             [attr.id]="instanceNumber + '_selection_input_' + i"
-             [checked]="option.state === selectionStates.ON"
-             (change)="onRadioChanged($event, i)"
-             [disabled]="disabled">
-    </ng-template>
-
-    <label [attr.for]="instanceNumber + '_selection_input_' + i">
-      <ng-container *ngIf="itemTemplate; else textLabel" [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{$implicit: option, itemIndex: i}">
-      </ng-container>
-      <ng-template #textLabel>
-        {{option.item}}
+      <ng-template #selectMultiple>
+        <input type="checkbox"
+               class="selection-input"
+               [attr.id]="instanceNumber + '_selection_input_' + i"
+               [indeterminate]="option.state === selectionStates.IND"
+               [checked]="option.state === selectionStates.ON"
+               (change)="onCheckboxChanged($event, i)"
+               [disabled]="disabled">
       </ng-template>
-    </label>
-  </li>
-</ul>
+      <ng-template #selectSingle>
+        <input type="radio"
+               class="selection-input"
+               [name]="instanceNumber + '_selection_input'"
+               [attr.id]="instanceNumber + '_selection_input_' + i"
+               [checked]="option.state === selectionStates.ON"
+               (change)="onRadioChanged($event, i)"
+               [disabled]="disabled">
+      </ng-template>
+
+      <label [attr.for]="instanceNumber + '_selection_input_' + i">
+        <ng-container *ngIf="itemTemplate; else textLabel" [ngTemplateOutlet]="itemTemplate" [ngTemplateOutletContext]="{$implicit: option, itemIndex: i}">
+        </ng-container>
+        <ng-template #textLabel>
+          {{option.item}}
+        </ng-template>
+      </label>
+    </li>
+  </ul>
+</ng-template>

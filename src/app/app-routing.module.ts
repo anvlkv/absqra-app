@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { environment } from '../environments/environment';
 
 const routes: Routes = [
   {
@@ -14,8 +15,16 @@ const routes: Routes = [
     path: '',
     pathMatch: 'full',
     redirectTo: 'ask'
+  },
+  {
+    path: 'dev',
+    loadChildren: 'app/dev-playground/dev-playground.module#DevPlaygroundModule'
   }
 ];
+
+if (!environment.production) {
+  // routes.push();
+}
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],

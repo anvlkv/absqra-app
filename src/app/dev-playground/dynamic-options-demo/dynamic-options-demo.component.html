@@ -1,0 +1,24 @@
+<div [formGroup]="formGroup">
+  <app-array-input [formArray]="formGroup.controls.options" [maxItems]="10" [minItems]="2">
+    <ng-template let-data>
+      <input type="text"
+             [formControl]="data.item">
+    </ng-template>
+  </app-array-input>
+
+  <app-multiple-input [options]="formGroup.controls.options.value" [formArray]="formGroup.controls.multiple">
+    <ng-template let-data>
+      {{data.item.value}}
+    </ng-template>
+  </app-multiple-input>
+</div>
+
+Value:
+<pre>
+  {{formGroup.value | json}}
+</pre>
+
+State:
+<pre>
+  {{formGroup.status | json}}
+</pre>

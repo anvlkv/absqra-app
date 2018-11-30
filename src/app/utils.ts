@@ -1,7 +1,8 @@
 import { throwError } from 'rxjs/index';
 import { HttpErrorResponse } from '@angular/common/http';
 import { environment } from '../environments/environment';
-import { AbstractControl, FormArray, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormArray, FormControl, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ComponentRef, forwardRef } from '@angular/core';
 
 
 export function unpackEnum(en: {}) {
@@ -35,4 +36,20 @@ export function formDeltaValue(form: FormGroup | FormArray): any {
     }
   }
   return value;
+}
+
+export function controlValueAccessorProviderGenerator<T>(c: T) {
+  return {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => c),
+    multi: true,
+  };
+}
+
+export function validatorProviderGenerator<T>(c: T) {
+  return {
+    provide: NG_VALIDATORS,
+    useExisting: forwardRef(() => c),
+    multi: true,
+  };
 }

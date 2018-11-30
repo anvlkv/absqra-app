@@ -1,31 +1,28 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { BaseDetail } from '../../app-common/base-detail/base-detail';
+import { Component, ElementRef, Input, OnChanges, OnInit, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { Step, StepTypes } from 'models/api-models';
-import { DataService } from '../../app-common/data-service/data.service';
-import { CRUDRouter } from 'models/api-routes/CRUDRouter';
-import { CRUD } from '../../app-common/api-service/api.service';
 import {
   ComponentDynamicStates,
   DynamicState,
   DynamicStateComponent,
 } from '../../app-common/dynamic-state/dynamic-state.component';
-import { combineLatest, merge, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { unpackEnum } from '../../utils';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { StepService } from './step.service';
+import { StepDetailService } from './step-detail.service';
 import { filter, mergeMap } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AssetPurposes } from '../asset-detail/asset-detail.component';
-import { SequenceService } from '../sequence-detail/sequence.service';
+import { SequenceDetailService } from '../sequence-detail/sequence-detail.service';
+import { AssetPurposes } from '../asset-detail/asset-detail.service';
+import { BaseDetailFormControl } from '../../app-common/base-detail/base-detail-form-control';
 
 
 @Component({
   selector: 'app-step-detail',
   templateUrl: './step-detail.component.html',
   styleUrls: ['./step-detail.component.scss'],
-  providers: [StepService]
+  providers: [StepDetailService]
 })
-export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
+export class StepDetailComponent extends BaseDetailFormControl<Step, StepDetailService> implements OnInit, OnChanges {
   stepTypeState: Observable<DynamicState>;
   stepTypesList: string[];
   typeForm: FormGroup;
@@ -33,35 +30,42 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
   assetPurposeTypes = AssetPurposes;
 
   @ViewChildren(DynamicStateComponent)
-  dynamicStateComponents: QueryList<DynamicStateComponent>
+  dynamicStateComponents: QueryList<DynamicStateComponent>;
+
+  @Input()
+  sequenceId: string;
 
   constructor(
-    data: DataService,
-    private fb: FormBuilder,
-    private stepService: StepService,
+    stepService: StepDetailService,
+    fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
     private el: ElementRef,
-    private sequence: SequenceService
+    private sequence: SequenceDetailService
   ) {
-    super(data);
+    super(stepService, fb);
     this.stepTypesList = unpackEnum(StepTypes);
-    this.callConfigurator = (stepId, cause) => {
-      switch (cause) {
-        case CRUD.CREATE: {
-          return {
-            route: CRUDRouter.repoStepsOfSequence,
-            params: {sequenceId: this.parentId}
-          };
-        }
-        default: {
-          return {
-            route: CRUDRouter.entityStep,
-            params: {stepId},
-          };
-        }
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    this.state.pipe(
+      filter((state)  => state === ComponentDynamicStates.EDITING),
+    ).subscribe(()  => {
+      if (this.dataItemId) {
+        const prefix = this.route.snapshot.params['stepId'] ? '../' : null;
+        this.router.navigate(
+          [prefix, this.dataItemId].filter(c => !!c), {relativeTo: this.route}
+        );
       }
-    };
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.sequenceId) {
+      this.dataItemService.sequenceId = this.sequenceId;
+    }
   }
 
   public scrollIntoView() {
@@ -72,12 +76,12 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
       })
     ).subscribe((s) => {
       if (s === ComponentDynamicStates.VIEWING || s === ComponentDynamicStates.EDITING) {
-        this.el.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'})
+        this.el.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
       }
       else {
         setTimeout(() => {
-          this.el.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'})
-        }, 1000)
+          this.el.nativeElement.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+        }, 1000);
       }
     });
   }
@@ -98,38 +102,6 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
     return;
   }
 
-  ngOnInit() {
-    super.ngOnInit();
-    this.itemSetObservable.subscribe((loaded) => {
-      const step = loaded ? this.dataItem : this.defaultItem;
-
-      this.typeForm = this.fb.group({type: step.type});
-
-      this.typeForm.valueChanges.subscribe(v => {
-        if (this.dataItemId) {
-          this.dataItem.type = v.type;
-        }
-        else {
-          this.dataItem = v;
-        }
-      });
-
-      if (!loaded) {
-        this.editType();
-      }
-
-      this.stepService.activeStep.next(step);
-    });
-
-    this.state.pipe(
-      filter((state)  => state === ComponentDynamicStates.EDITING),
-    ).subscribe(()  => {
-      if (this.dataItemId) {
-        const prefix = this.route.snapshot.params['stepId'] ? '../' : null;
-        this.router.navigate([prefix, this.dataItemId].filter(c => !!c), {relativeTo: this.route})
-      }
-    })
-  }
 
   editType() {
     this.$state.next(ComponentDynamicStates.EDITING);
@@ -142,6 +114,5 @@ export class StepDetailComponent extends BaseDetail<Step> implements OnInit {
 
   updateReference(refId: number, referencedProperty: string) {
     this.dataItem[referencedProperty] = {id: refId};
-    this.update();
   }
 }

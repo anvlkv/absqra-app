@@ -5,18 +5,18 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { of } from 'rxjs';
 import { anything, instance, mock, when } from 'ts-mockito';
 import { StepTypes } from 'models/api-models/index';
-import { DataService } from '../../app-common/data-service/data.service';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 describe('ProjectsListComponent', () => {
   let component: ProjectsListComponent;
   let fixture: ComponentFixture<ProjectsListComponent>;
-  let mockedData: DataService;
+  let mockedData: ApiService;
 
   beforeEach(async(() => {
-    mockedData = mock(DataService);
+    mockedData = mock(ApiService);
     when(mockedData.getData(anything(), anything(), anything())).thenReturn(of([{id: 1, type: StepTypes.QUESTION_REF}]));
     TestBed.configureTestingModule({
       imports: [
@@ -39,7 +39,7 @@ describe('ProjectsListComponent', () => {
           }
         },
         {
-          provide: DataService,
+          provide: ApiService,
           useFactory: () => instance(mockedData)
         }
       ]

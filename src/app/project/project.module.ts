@@ -8,7 +8,7 @@ import { ProjectDetailComponent } from './project-detail/project-detail.componen
 import { AppCommonModule } from '../app-common/app-common.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DragScrollModule } from 'ngx-drag-scroll';
-import { ProjectService } from './project-detail/project.service';
+import { ProjectDetailService } from './project-detail/project-detail.service';
 
 @NgModule({
   imports: [
@@ -24,7 +24,7 @@ import { ProjectService } from './project-detail/project.service';
     ProjectDetailComponent,
   ],
   providers: [
-    ProjectService
+    ProjectDetailService
   ]
 })
 export class ProjectModule { }

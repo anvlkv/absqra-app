@@ -1,23 +1,22 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProjectDetailComponent } from './project-detail.component';
-import { RouterTestingModule } from '@angular/router/testing';
-import { DataService } from '../../app-common/data-service/data.service';
 import { anything, instance, mock, when } from 'ts-mockito';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 import { HotKeysService } from '../../app-common/hot-keys-service/hot-keys.service';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 describe('ProjectDetailComponent', () => {
-  let mockedData: DataService;
+  let mockedData: ApiService;
   let mockedHotkeys: HotKeysService;
   let component: ProjectDetailComponent;
   let fixture: ComponentFixture<ProjectDetailComponent>;
 
   beforeEach(async(() => {
-    mockedData = mock(DataService);
+    mockedData = mock(ApiService);
     mockedHotkeys = mock(HotKeysService);
     when(mockedData.getData(anything(), anything(), anything())).thenReturn(of({id: 1}));
     when(mockedHotkeys.on(anything())).thenReturn(of(false));
@@ -41,7 +40,7 @@ describe('ProjectDetailComponent', () => {
           }
         },
         {
-          provide: DataService,
+          provide: ApiService,
           useFactory: () => instance(mockedData)
         },
         {

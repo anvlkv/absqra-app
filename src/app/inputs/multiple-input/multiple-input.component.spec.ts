@@ -1,6 +1,6 @@
-import { async, ComponentFixture, fakeAsync, inject, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { MultipleInputComponent } from './multiple-input.component';
-import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Component, DebugElement, OnInit, ViewChild } from '@angular/core';
 import { By } from '@angular/platform-browser';
 
@@ -103,16 +103,17 @@ describe('MultipleInputComponent', () => {
     @Component({
       selector: 'app-test-cmp',
       template: `
-    <div [formGroup]="form">
-      <app-multiple-input formControlName="multiple" class="test-component" [max]="max" [min]="min" [options]="options">
-        <ng-template let-sortable let-i="itemIndex">
-          <div class="test-content">
-            {{sortable.item}}
-          </div>
-        </ng-template>
-      </app-multiple-input>
-    </div>
-  `,
+        <div [formGroup]="form">
+          <app-multiple-input formControlName="multiple" class="test-component" [maxItems]="max" [minItems]="min"
+                              [options]="options">
+            <ng-template let-sortable let-i="itemIndex">
+              <div class="test-content">
+                {{sortable.item}}
+              </div>
+            </ng-template>
+          </app-multiple-input>
+        </div>
+      `,
     })
     class TestWrapperComponent implements OnInit {
       form: FormGroup;
@@ -201,13 +202,13 @@ describe('MultipleInputComponent', () => {
     });
 
     describe('with constraints', () => {
-      it('should be invalid with min constraint', () => {
+      it('should be invalid with minItems constraint', () => {
         hostComponent.min = 10;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should be invalid with max constraint', () => {
+      it('should be invalid with maxItems constraint', () => {
         hostComponent.max = 1;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
@@ -236,20 +237,192 @@ describe('MultipleInputComponent', () => {
     });
   });
 
+  describe('with formArray', () => {
+    @Component({
+      selector: 'app-test-cmp',
+      template: `
+        <div [formGroup]="form">
+          <app-multiple-input [formArray]="form.controls.multiple"
+                              class="test-component"
+                              [maxItems]="max"
+                              [minItems]="min"
+                              [multiSelect]="multiple"
+                              [options]="options">
+            <ng-template let-sortable let-i="itemIndex">
+              <div class="test-content">
+                {{sortable.item.value}}
+              </div>
+            </ng-template>
+          </app-multiple-input>
+        </div>
+      `,
+    })
+    class TestWrapperComponent implements OnInit {
+      form: FormGroup;
+      min;
+      max;
+      multiple;
+      private _v: any;
+      private _s: any;
+      options: string [];
+      constructor(
+        private fb: FormBuilder,
+      ) {}
+
+      ngOnInit(): void {
+        this.options = ['a', 'b', 'c', 'd'];
+        this.form = this.fb.group({
+          multiple: this.fb.array(['a', 'c'])
+        });
+
+        this.form.valueChanges.subscribe(this.valueChangesSubscriber);
+        this.form.statusChanges.subscribe(this.statusChangesSubscriber);
+      }
+
+      valueChangesSubscriber(v) {
+        this._v = v;
+      }
+      statusChangesSubscriber(v) {
+        this._s = v;
+      }
+
+
+    }
+
+    let hostComponent: TestWrapperComponent;
+    let hostFixture: ComponentFixture<TestWrapperComponent>;
+    let debugElement: DebugElement;
+    beforeEach(async(() => {
+      TestBed.configureTestingModule({
+        imports: [
+          ReactiveFormsModule,
+          FormsModule
+        ],
+        declarations: [
+          MultipleInputComponent,
+          TestWrapperComponent
+        ]
+      })
+      .compileComponents();
+    }));
+
+    beforeEach(fakeAsync(() => {
+      hostFixture = TestBed.createComponent(TestWrapperComponent);
+      hostComponent = hostFixture.componentInstance;
+      debugElement = hostFixture.debugElement.query(By.css('.test-component'));
+      component = debugElement.componentInstance;
+      spyOn(hostComponent, 'valueChangesSubscriber');
+      spyOn(hostComponent, 'statusChangesSubscriber');
+      hostFixture.detectChanges();
+      tick();
+      hostFixture.detectChanges();
+    }));
+
+    it('should create', () => {
+      expect(component).toBeTruthy();
+    });
+
+    it('should display multiple items', async(() => {
+      hostFixture.detectChanges();
+      expect(debugElement.nativeElement.querySelectorAll('.test-content').length).toEqual(4);
+    }));
+
+    it('should update value', fakeAsync(inject([FormBuilder], (fb) => {
+      (<FormArray>hostComponent.form.controls.multiple).push(fb.control('b'));
+      hostFixture.detectChanges();
+      tick();
+      hostFixture.detectChanges();
+      hostFixture.whenStable().then(() => {
+        hostFixture.detectChanges();
+        tick();
+        hostFixture.detectChanges();
+        component.virtualArraySelection.subscribe(controls  => {
+          expect(controls.map(c => c.value)).toEqual(['a', 'b', 'c']);
+        });
+      });
+    })));
+
+    it('should trigger value changes', async(() => {
+      hostFixture.detectChanges();
+      debugElement.nativeElement.querySelectorAll('.selection-input').forEach((el, i) => {
+        el.click();
+        hostFixture.detectChanges();
+        // expect(hostComponent.valueChangesSubscriber).toHaveBeenCalledTimes(i + 1);
+        expect(component.value).toEqual([['c'], ['b', 'c'], ['b'], ['b', 'd']][i]);
+      });
+    }));
+
+    it('should still set value as array despite the select single option', fakeAsync(() => {
+      hostComponent.multiple = false;
+      hostFixture.detectChanges();
+      (<FormArray>hostComponent.form.controls.multiple).removeAt(0);
+      hostFixture.detectChanges();
+      (<FormArray>hostComponent.form.controls.multiple).removeAt(1);
+      hostFixture.detectChanges();
+      hostComponent.form.setValue({multiple: ['b']});
+      hostFixture.detectChanges();
+      tick();
+      hostFixture.detectChanges();
+      expect(component.value).toEqual(['b']);
+    }));
+
+    it('should be valid', () => {
+      expect(hostComponent.form.valid).toBeTruthy();
+    });
+
+    describe('with constraints', () => {
+      it('should be invalid with minItems constraint', () => {
+        hostComponent.min = 10;
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeFalsy();
+      });
+
+      it('should be invalid with maxItems constraint', () => {
+        hostComponent.max = 1;
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeFalsy();
+      });
+
+      it('should be invalid with both constraints', inject([FormBuilder], (fb) => {
+        (<FormArray>hostComponent.form.controls.multiple).push(fb.control('c'));
+        hostComponent.min = 1;
+        hostComponent.max = 2;
+        hostFixture.detectChanges();
+        expect(hostComponent.form.valid).toBeFalsy();
+      }));
+
+      it('should be valid with both constraints', () => {
+        hostComponent.min = 1;
+        hostComponent.max = 4;
+        expect(hostComponent.form.valid).toBeTruthy();
+      });
+
+      it('should trigger status changes', () => {
+        hostComponent.min = 10;
+        hostFixture.detectChanges();
+        expect(hostComponent.statusChangesSubscriber).toHaveBeenCalled();
+      });
+
+
+
+    });
+  });
+
   describe('with template driven forms', () => {
     @Component({
       selector: 'app-test-cmp',
       template: `
-    <form #form="ngForm">
-      <app-multiple-input name="multiple" [(ngModel)]="model.multiple" class="test-component" [max]="max" [min]="min" [options]="options">
-        <ng-template let-sortable let-i="itemIndex">
-          <div class="test-content">
-            {{sortable.item}}
-          </div>
-        </ng-template>
-      </app-multiple-input>
-    </form>
-  `,
+        <form #form="ngForm">
+          <app-multiple-input name="multiple" [(ngModel)]="model.multiple" class="test-component" [maxItems]="max"
+                              [minItems]="min" [options]="options">
+            <ng-template let-sortable let-i="itemIndex">
+              <div class="test-content">
+                {{sortable.item}}
+              </div>
+            </ng-template>
+          </app-multiple-input>
+        </form>
+      `,
     })
     class TestWrapperComponent implements OnInit {
       @ViewChild('form')
@@ -277,7 +450,8 @@ describe('MultipleInputComponent', () => {
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         imports: [
-          FormsModule
+          FormsModule,
+          ReactiveFormsModule
         ],
         declarations: [
           MultipleInputComponent,
@@ -311,25 +485,24 @@ describe('MultipleInputComponent', () => {
       });
     }));
 
-
     it('should be valid', () => {
       expect(hostComponent.form.valid).toBeTruthy();
     });
 
     describe('with constraints', () => {
-      it('should be invalid with min constraint', () => {
+      it('should be invalid with minItems constraint', () => {
         hostComponent.min = 10;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should be invalid with max constraint', () => {
+      it('should be invalid with maxItems constraint', () => {
         hostComponent.max = 1;
         hostFixture.detectChanges();
         expect(hostComponent.form.valid).toBeFalsy();
       });
 
-      it('should be invalid with both constraints', () => {
+      it('should be invalid with both constraints', async(() => {
         hostComponent.model = {multiple: ['a', 'b', 'c']};
         hostComponent.min = 1;
         hostComponent.max = 2;
@@ -337,15 +510,6 @@ describe('MultipleInputComponent', () => {
         hostFixture.whenStable().then(() => {
           expect(hostComponent.form.valid).toBeFalsy();
         });
-      });
-
-      it('should prevent selecting more items with max', async(() => {
-        hostComponent.max = 2;
-        hostFixture.detectChanges();
-        debugElement.nativeElement.querySelector('.selection-input:not(:checked)').click();
-        hostFixture.detectChanges();
-        expect(component.value.length).toEqual(2);
-        expect(hostComponent.form.valid).toBeTruthy();
       }));
 
       it('should be valid with both constraints', () => {

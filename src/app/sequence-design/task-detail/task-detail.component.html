@@ -7,7 +7,7 @@
     </div>
   </ng-template>
   <ng-template #editingTemplate>
-    <fieldset [formGroup]="taskForm">
+    <fieldset [formGroup]="dataItemForm">
       <p>
         Task is virtually any code that can be evaluated on client or server. It might be stripped down of privileges by security...
       </p>
@@ -30,7 +30,7 @@
         <label for="content">
           Content
         </label>
-        <quill-editor id="content" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
+        <quill-editor id="content" formControlName="content" [theme]="'snow'" [style]="{'minItems-height': '30vh'}"></quill-editor>
       </div>
       <button (click)="saveTask($event)">save</button>
     </fieldset>

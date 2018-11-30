@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AssetContentTypes, AssetTypes, AssetBase } from 'models/api-models';
 import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
-import { SequenceService } from '../sequence-detail/sequence.service';
+import { SequenceDetailService } from '../sequence-detail/sequence-detail.service';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 

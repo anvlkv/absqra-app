@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { DataService } from '../../app-common/data-service/data.service';
-import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { Sequence, SequenceResponse, StepResponse } from 'models/api-models';
-import { RespondentRouter } from 'models/api-routes/RespondentRouter';
 import { CRUDRouter } from 'models/api-routes/CRUDRouter';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +23,7 @@ export class ResponseService {
     if (s) {
       this.openSequenceResponse(s).subscribe(response  => {
         this.responseId = response.id;
-        this.$activeStep.next(s.stepIds[0]);
+        this.$activeStep.next(s.stepsIds[0]);
       });
     }
     else {
@@ -57,7 +56,7 @@ export class ResponseService {
   private $value: Subject<StepResponse>;
 
   constructor(
-    private data: DataService
+    private api: ApiService
   ) {
     this.$value = new Subject<StepResponse>();
     this.valueChanges = this.$value.asObservable();
@@ -68,14 +67,14 @@ export class ResponseService {
   }
 
   openSequenceResponse({id, projectId}: Sequence) {
-    return this.data.postData<SequenceResponse>(CRUDRouter.repoSequenceResponses, {}, {sequence: {id}, project: {id: projectId}})
+    return this.api.postData<SequenceResponse>(CRUDRouter.repoSequenceResponses, {}, {sequence: {id}, project: {id: projectId}})
   }
 
   sendResponse(value: StepResponse) {
-    this.data.postData<StepResponse>(CRUDRouter.repoStepResponsesOfSequenceResponse, {sequenceResponseId: this.responseId}, value).subscribe(response  => {
+    this.api.postData<StepResponse>(CRUDRouter.repoStepResponsesOfSequenceResponse, {sequenceResponseId: this.responseId}, value).subscribe(response  => {
       if (response) {
-        const currentIndex = this.sequence.stepIds.indexOf(this.stepId);
-        const nextStep = this.sequence.stepIds[currentIndex + 1];
+        const currentIndex = this.sequence.stepsIds.indexOf(this.stepId);
+        const nextStep = this.sequence.stepsIds[currentIndex + 1];
         if (nextStep) {
           this.$activeStep.next(nextStep);
         }

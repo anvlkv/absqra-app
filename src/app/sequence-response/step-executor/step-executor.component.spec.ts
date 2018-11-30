@@ -3,17 +3,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StepExecutorComponent } from './step-executor.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { anything, instance, mock, when } from 'ts-mockito';
-import { DataService } from '../../app-common/data-service/data.service';
 import { of } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 describe('StepExecutorComponent', () => {
   let component: StepExecutorComponent;
   let fixture: ComponentFixture<StepExecutorComponent>;
-  let mockedData: DataService;
+  let mockedData: ApiService;
 
   beforeEach(async(() => {
-    mockedData = mock(DataService);
+    mockedData = mock(ApiService);
     when(mockedData.getData(anything(), anything(), anything())).thenReturn(of({id: '1'}));
     TestBed.configureTestingModule({
       declarations: [
@@ -24,7 +24,7 @@ describe('StepExecutorComponent', () => {
       ],
       providers: [
         {
-          provide: DataService,
+          provide: ApiService,
           useFactory: () => instance(mockedData)
         },
         {

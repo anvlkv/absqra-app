@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { BaseDetailService } from './base-detail-service';
 
 
-export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, OnChanges {
+export abstract class BaseDetail <T extends Base, P extends BaseDetailService<T>> implements OnInit, OnDestroy, OnChanges {
 
   protected $state: BehaviorSubject<DynamicState>;
 
@@ -22,16 +22,19 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
   @Input()
   dataItem: T;
 
-  abstract bdOnItemSet?(loaded: boolean): void;
+  @Input()
+  parentId: string;
+
+  bdOnItemSet?(loaded: boolean): void;
 
   constructor(
-    public dataItemService: BaseDetailService<T>,
+    public dataItemService: P,
     private shouldFetchDefault = true
   ) {
     this.$state = new BehaviorSubject<DynamicState> (ComponentDynamicStates.LOADING);
     this.state = stateCombinator(
       this.dataItemService.itemState,
-      this.$state.asObservable()
+      this.$state
     );
   }
 
@@ -48,20 +51,14 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
         this.bdOnItemSet ? this.bdOnItemSet(true) : null;
         this.dataItemIdChange.emit(this.dataItemId);
       }
-    })
+      this.$state.next(ComponentDynamicStates.VIEWING);
+    });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.dataItemId) {
       if (this.dataItemId && this.dataItemId !== changes.dataItemId.previousValue) {
         this.dataItemService.fetch(this.dataItemId);
-      }
-      else if (this.shouldFetchDefault && !this.dataItem) {
-        this.dataItemService.fetchDefault().subscribe(d => {
-          this.dataItem = d;
-          this.$state.next(ComponentDynamicStates.EDITING);
-          this.bdOnItemSet ? this.bdOnItemSet(false) : null;
-        });
       }
       else if (!this.dataItem) {
         this.$state.next(ComponentDynamicStates.EMPTY);
@@ -76,34 +73,14 @@ export abstract class BaseDetail <T extends Base> implements OnInit, OnDestroy, 
         this.$state.next(ComponentDynamicStates.EMPTY);
       }
     }
-  }
 
+    if (changes.parentId) {
+      this.dataItemService.parentId = this.parentId;
+    }
+  }
 }
 
 
 export interface OnItemSet {
   bdOnItemSet(loaded: boolean): void;
-}
-
-function cleanUpBaseForForm<T extends Base>(data: T): Partial<T> {
-  if (!data) {
-    return data;
-  }
-  const {
-    createdDate,
-    updatedDate,
-    // @ts-ignore
-    ...partialData
-  }: T = data;
-
-  Object.keys(partialData).forEach(prop => {
-    if (partialData[prop] instanceof Array) {
-      partialData[prop] = partialData[prop].map(v => cleanUpBaseForForm(v))
-    }
-    else if (typeof partialData[prop] === 'object') {
-      partialData[prop] = cleanUpBaseForForm(partialData[prop])
-    }
-  });
-
-  return partialData;
 }

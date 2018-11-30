@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
-import { SequenceResponse } from '../../../models/api-models';
+import { SequenceResponse } from 'models/api-models';
 
 @Component({
   selector: 'app-response-thumbnail',

@@ -1,8 +1,4 @@
-import { Component, ElementRef, Input, OnInit } from '@angular/core';
-import { BaseDetail } from '../../app-common/base-detail/base-detail';
-import { DataService } from '../../app-common/data-service/data.service';
-import { CRUD } from '../../app-common/api-service/api.service';
-import { CRUDRouter } from 'models/api-routes/CRUDRouter';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormatConstraint,
   META_VALUE_ValidationTypes,
@@ -11,20 +7,18 @@ import {
   VALUE_ValidationTypes,
 } from 'models/api-models';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
-import { formDeltaValue, unpackEnum } from '../../utils';
+import { unpackEnum } from '../../utils';
+import { BaseDetailForm } from '../../app-common/base-detail/base-detail-form';
+import { FormatConstraintDetailService, FormatConstraintPurposes } from './format-constraint-detail.service';
 
-export enum FormatConstraintPurposes {
-  QUESTION = 'question',
-  LOGIC = 'logic'
-}
 
 @Component({
   selector: 'app-format-constraint-detail',
   templateUrl: './format-constraint-detail.component.html',
-  styleUrls: ['./format-constraint-detail.component.scss', '../styles/sequence-design.scss']
+  styleUrls: ['./format-constraint-detail.component.scss', '../styles/sequence-design.scss'],
+  providers: [FormatConstraintDetailService]
 })
-export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint> implements OnInit {
+export class FormatConstraintDetailComponent extends BaseDetailForm<FormatConstraint, FormatConstraintDetailService> implements OnInit {
   constraintForm: FormGroup;
   validationTypesValues =  unpackEnum(ValidationTypes);
   currentValidationTypeSubtypes: string[];
@@ -36,66 +30,14 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
   private _previousConstrainFormValue: FormatConstraint = <FormatConstraint>{};
 
   constructor(
-    data: DataService,
-    private fb: FormBuilder
+    formatConstraintService: FormatConstraintDetailService,
+    fb: FormBuilder
   ) {
-    super(data);
-    this.callConfigurator = (formatConstraintId, cause) => {
-      switch (cause) {
-        case CRUD.CREATE: {
-          if (this.formatConstraintPurposeType === FormatConstraintPurposes.QUESTION) {
-            return {
-              route: CRUDRouter.repoFormatConstraintsOfQuestion,
-              params: {questionId: this.parentId}
-            }
-          }
-          else if (this.formatConstraintPurposeType === FormatConstraintPurposes.LOGIC) {
-            return {
-              route: CRUDRouter.repoFormatConstraintsOfLogic,
-              params: {logicId: this.parentId}
-            }
-          }
-          break;
-        }
-        default: {
-          return {
-            route: CRUDRouter.entityFormatConstraint,
-            params: {formatConstraintId}
-          }
-        }
-      }
-    }
+    super(formatConstraintService, fb);
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.itemSetObservable.subscribe((loaded) => {
-      const formatConstraint = loaded ? this.dataItem : this.defaultItem;
-      const parentRef = {};
-      parentRef[this.formatConstraintPurposeType] = {id: this.parentId};
-
-      this.constraintForm = this.fb.group({
-        ...formatConstraint,
-        ...parentRef,
-        stringConstraint: formatConstraint.stringConstraint || null,
-        numericConstraint: formatConstraint.numericConstraint || null,
-        booleanConstraint: formatConstraint.booleanConstraint || null
-      });
-
-
-      this.setValidationTypes(formatConstraint);
-
-      this._previousConstrainFormValue = formatConstraint;
-
-      this.constraintForm.valueChanges.subscribe((v: FormatConstraint) => {
-        this.setValidationTypes(v);
-        this._previousConstrainFormValue = v;
-      });
-
-      if (!loaded) {
-        this.$state.next(ComponentDynamicStates.EDITING);
-      }
-    });
   }
 
   private setValidationTypes(constraint: FormatConstraint) {
@@ -106,22 +48,6 @@ export class FormatConstraintDetailComponent extends BaseDetail<FormatConstraint
     if (constraint.validationSubType && constraint.validationSubType !== this._previousConstrainFormValue.validationSubType) {
       this.currentConstraintType = getConstraintType(constraint.validationType, constraint.validationSubType);
     }
-  }
-
-  saveConstraint(e: Event) {
-    e ? e.preventDefault() : null;
-    e ? e.stopPropagation() : null;
-    if (this.constraintForm.valid) {
-      if (this.dataItemId) {
-        if (this.constraintForm.dirty) {
-          this.update({...this.dataItem, ...formDeltaValue(this.constraintForm)})
-        }
-      }
-      else {
-        this.save({...this.dataItem, ...formDeltaValue(this.constraintForm)});
-      }
-    }
-    return false;
   }
 }
 

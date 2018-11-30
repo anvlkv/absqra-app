@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../app-common/data-service/data.service';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
-import { Project, SequenceResponse } from '../../../models/api-models';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { SequenceResponse } from 'models/api-models';
 import { ComponentDynamicStates, DynamicState } from '../../app-common/dynamic-state/dynamic-state.component';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { ActivatedRoute } from '@angular/router';
 import { mergeMap, tap } from 'rxjs/operators';
-import { ProjectService } from '../../project/project-detail/project.service';
+import { ProjectDetailService } from '../../project/project-detail/project-detail.service';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 @Component({
   selector: 'app-responses-list',
@@ -19,9 +19,9 @@ export class ResponsesListComponent implements OnInit {
   private $state = new BehaviorSubject<DynamicState>(ComponentDynamicStates.LOADING);
   state: Observable<DynamicState>;
   constructor(
-    private data: DataService,
+    private api: ApiService,
     private route: ActivatedRoute,
-    private project: ProjectService
+    private project: ProjectDetailService
   ) {
     this.state = this.$state.asObservable();
   }
@@ -35,12 +35,9 @@ export class ResponsesListComponent implements OnInit {
     //   this.projects = of(projects);
     //   this.$state.next(ComponentDynamicStates.VIEWING);
     // });
-    this.responses = this.project.activeProject.asObservable().pipe(
+    this.responses = this.project.dataItemObservable.pipe(
       mergeMap(({id}) => {
-        return this.data.getData<SequenceResponse[]>(CRUDRouter.repoSequenceResponsesOfProject, {projectId: id});
-      }),
-      tap(r => {
-        this.$state.next(ComponentDynamicStates.VIEWING);
+        return this.api.getData<SequenceResponse[]>(CRUDRouter.repoSequenceResponsesOfProject, {projectId: id});
       })
     );
   }

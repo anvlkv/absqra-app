@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseResponse } from '../base-response';
 import { ResponseService } from '../response.service';
-import { TopSequenceUIService } from '../../top-sequence-ui.service';
+import { TopSequenceUIService } from '../../top-sequence-executor/top-sequence-ui.service';
 import { FormBuilder } from '@angular/forms';
-import { ResponseAsset } from '../../../../models/api-models';
 
 @Component({
   selector: 'app-sr-list-input',

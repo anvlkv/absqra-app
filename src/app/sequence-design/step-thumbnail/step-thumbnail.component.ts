@@ -1,11 +1,11 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { BaseThumbnail } from '../../app-common/base-thumbnail/base-thumbnail';
 import { Step, StepTypes } from 'models/api-models';
-import { DataService } from '../../app-common/data-service/data.service';
 import { Subject } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { CRUDRouter } from '../../../models/api-routes/CRUDRouter';
+import { CRUDRouter } from 'models/api-routes/CRUDRouter';
 import { ComponentDynamicStates } from '../../app-common/dynamic-state/dynamic-state.component';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 
 @Component({
@@ -22,7 +22,7 @@ export class StepThumbnailComponent extends BaseThumbnail<Step> implements OnCha
   private $stepId: Subject<string>;
 
   constructor(
-    private data: DataService
+    private data: ApiService
   ) {
     super();
     this.$stepId = new Subject<string>();

@@ -1,0 +1,1547 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>absqra documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">absqra documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>SequenceDetailComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/sequence-design/sequence-detail/sequence-detail.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+            <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                            <code><a href="../injectables/SequenceDetailService.html" target="_self" >SequenceDetailService</a></code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-sequence-detail</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./sequence-detail.component.scss,<br>../styles/sequence-design.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./sequence-detail.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#lifeCycleOptions">lifeCycleOptions</a>
+                            </li>
+                            <li>
+                                <a href="#project">project</a>
+                            </li>
+                            <li>
+                                <a href="#stepComponents">stepComponents</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dataItemForm">dataItemForm</a>
+                            </li>
+                            <li>
+                                <a href="#dataMapper">dataMapper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fb">fb</a>
+                            </li>
+                            <li>
+                                <a href="#fieldMapper">fieldMapper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#formValuesSubscription">formValuesSubscription</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#bdOnItemSet">bdOnItemSet</a>
+                            </li>
+                            <li>
+                                <a href="#edit">edit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ensureFields">ensureFields</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#generateFormGroup">generateFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#reset">reset</a>
+                            </li>
+                            <li>
+                                <a href="#save">save</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setFormGroup">setFormGroup</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(sequenceService: <a href="../injectables/SequenceDetailService.html">SequenceDetailService</a>, fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, projectService: <a href="../injectables/ProjectDetailService.html">ProjectDetailService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/sequence-design/sequence-detail/sequence-detail.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>sequenceService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/SequenceDetailService.html" target="_self" >SequenceDetailService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>projectService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ProjectDetailService.html" target="_self" >ProjectDetailService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">src/app/sequence-design/sequence-detail/sequence-detail.component.ts:57</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bdOnItemSet"></a>
+                        <span class="name">
+                            <b>
+                            bdOnItemSet
+                            </b>
+                            <a href="#bdOnItemSet"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>bdOnItemSet(loaded: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:141</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>loaded</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="edit"></a>
+                        <span class="name">
+                            <b>
+                            edit
+                            </b>
+                            <a href="#edit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>edit(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:167</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ensureFields"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            ensureFields
+                            </b>
+                            <a href="#ensureFields"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>ensureFields(data: T | Partial<T>, ensuredFields)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:73</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Default value</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                        <td>
+                                                                    <code>T | Partial&lt;T&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>ensuredFields</td>
+                                                        <td>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code>this.dataMapper</code>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>T | Partial</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="generateFormGroup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            generateFormGroup
+                            </b>
+                            <a href="#generateFormGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>generateFormGroup(data)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:54</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{}</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnDestroy"></a>
+                        <span class="name">
+                            <b>
+                            ngOnDestroy
+                            </b>
+                            <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:136</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:122</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reset"></a>
+                        <span class="name">
+                            <b>
+                            reset
+                            </b>
+                            <a href="#reset"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>reset(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:186</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="save"></a>
+                        <span class="name">
+                            <b>
+                            save
+                            </b>
+                            <a href="#save"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>save(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:173</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setFormGroup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            setFormGroup
+                            </b>
+                            <a href="#setFormGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>setFormGroup()</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:31</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="lifeCycleOptions"></a>
+                        <span class="name">
+                            <b>
+                            lifeCycleOptions
+                            </b>
+                            <a href="#lifeCycleOptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>lifeCycleOptions:     <code>string[]</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>string[]</code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/sequence-design/sequence-detail/sequence-detail.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="project"></a>
+                        <span class="name">
+                            <b>
+                            project
+                            </b>
+                            <a href="#project"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>project:     <code><a href="../classes/Project.html" target="_self" >Project</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../classes/Project.html" target="_self" >Project</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>null</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">src/app/sequence-design/sequence-detail/sequence-detail.component.ts:30</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="stepComponents"></a>
+                        <span class="name">
+                            <b>
+                            stepComponents
+                            </b>
+                            <a href="#stepComponents"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>stepComponents:     <code><a href="../classes/Step.html" target="_self" >QueryList&lt;StepDetailComponent&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../classes/Step.html" target="_self" >QueryList&lt;StepDetailComponent&gt;</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <b>Decorators : </b>
+                            <br />
+                            <code>
+                                @ViewChildren(StepDetailComponent)<br />
+                            </code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/sequence-design/sequence-detail/sequence-detail.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataItemForm"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dataItemForm
+                            </b>
+                            <a href="#dataItemForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>dataItemForm:     <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:15</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataMapper"></a>
+                        <span class="name">
+                            <b>
+                            dataMapper
+                            </b>
+                            <a href="#dataMapper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>dataMapper:     <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:21</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fb"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            fb
+                            </b>
+                            <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>fb:     <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:25</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldMapper"></a>
+                        <span class="name">
+                            <b>
+                            fieldMapper
+                            </b>
+                            <a href="#fieldMapper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>fieldMapper:     <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:19</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formValuesSubscription"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            formValuesSubscription
+                            </b>
+                            <a href="#formValuesSubscription"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>formValuesSubscription:     <code>Subscription</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription</code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:17</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit, QueryList, ViewChildren } from &#x27;@angular/core&#x27;;
+import { Project, Sequence, SequenceLifeCycleTypes } from &#x27;models/api-models&#x27;;
+import { FormBuilder, FormGroup } from &#x27;@angular/forms&#x27;;
+import { unpackEnum } from &#x27;../../utils&#x27;;
+import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
+import {
+  ComponentDynamicStates,
+  DynamicState,
+  stateCombinator,
+} from &#x27;../../app-common/dynamic-state/dynamic-state.component&#x27;;
+import { filter } from &#x27;rxjs/operators&#x27;;
+import { SequenceDetailService } from &#x27;./sequence-detail.service&#x27;;
+import { StepDetailComponent } from &#x27;../step-detail/step-detail.component&#x27;;
+import { ProjectDetailService } from &#x27;../../project/project-detail/project-detail.service&#x27;;
+import { BaseDetailForm } from &#x27;../../app-common/base-detail/base-detail-form&#x27;;
+
+@Component({
+  selector: &#x27;app-sequence-detail&#x27;,
+  templateUrl: &#x27;./sequence-detail.component.html&#x27;,
+  styleUrls: [&#x27;./sequence-detail.component.scss&#x27;, &#x27;../styles/sequence-design.scss&#x27;],
+  providers: [SequenceDetailService]
+})
+export class SequenceDetailComponent extends BaseDetailForm&lt;Sequence, SequenceDetailService&gt; implements OnInit {
+
+  lifeCycleOptions: string[];
+
+  @ViewChildren(StepDetailComponent)
+  stepComponents: QueryList&lt;StepDetailComponent&gt;;
+
+  project: Project &#x3D; null;
+
+  constructor(
+    sequenceService: SequenceDetailService,
+    fb: FormBuilder,
+    protected projectService: ProjectDetailService
+  ) {
+    super(sequenceService, fb);
+    this.lifeCycleOptions &#x3D; unpackEnum(SequenceLifeCycleTypes);
+
+
+    this.fieldMapper &#x3D; {
+      stepsIds: function steps(ids) {
+        return ids.map(id &#x3D;&gt; ({id}));
+      }
+    };
+
+    this.dataMapper &#x3D; {
+      stepsIds: [],
+      header: {
+        description: &#x27;&#x27;
+      }
+    };
+  }
+
+
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    this.projectService.dataItemObservable.subscribe(p &#x3D;&gt; this.project &#x3D; p);
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-in-flow-tip name&#x3D;&quot;sequenceDescription&quot;&gt;
+  Sequence is a way of organizing questions, tasks and other items into sequential flow, which respondent will experience when interacting with your project.
+&lt;/app-in-flow-tip&gt;
+&lt;app-dynamic-state [state]&#x3D;&quot;state&quot;&gt;
+  &lt;ng-template #viewingTemplate&gt;
+    &lt;div&gt;
+      &lt;h4&gt;{{dataItem.header.name}}&lt;/h4&gt;
+      &lt;p&gt;{{dataItem.header.description}}&lt;/p&gt;
+      &lt;p&gt;life cycle: {{dataItem.header.lifeCycle}}&lt;/p&gt;
+      &lt;button (click)&#x3D;&quot;edit()&quot;&gt;edit&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/ng-template&gt;
+  &lt;ng-template #editingTemplate&gt;
+    &lt;fieldset [formGroup]&#x3D;&quot;dataItemForm&quot;&gt;
+      &lt;ng-container formGroupName&#x3D;&quot;header&quot;&gt;
+        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;name&quot;&gt;
+            name
+          &lt;/label&gt;
+          &lt;input type&#x3D;&quot;text&quot; id&#x3D;&quot;name&quot; formControlName&#x3D;&quot;name&quot;&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;description&quot;&gt;
+            description
+          &lt;/label&gt;
+          &lt;textarea id&#x3D;&quot;description&quot; formControlName&#x3D;&quot;description&quot;&gt;&lt;/textarea&gt;
+        &lt;/div&gt;
+        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;lifeCycle&quot;&gt;
+            life cycle
+          &lt;/label&gt;
+          &lt;select formControlName&#x3D;&quot;lifeCycle&quot; id&#x3D;&quot;lifeCycle&quot;&gt;
+            &lt;option *ngFor&#x3D;&quot;let lc of lifeCycleOptions&quot; [value]&#x3D;&quot;lc&quot;&gt;{{lc}}&lt;/option&gt;
+          &lt;/select&gt;
+        &lt;/div&gt;
+      &lt;/ng-container&gt;
+      &lt;button (click)&#x3D;&quot;save($event)&quot;&gt;save&lt;/button&gt;
+    &lt;/fieldset&gt;
+  &lt;/ng-template&gt;
+&lt;/app-dynamic-state&gt;
+
+&lt;app-dynamic-state [state]&#x3D;&quot;state&quot; *ngIf&#x3D;&quot;dataItemId&quot;&gt;
+  &lt;ng-template #defaultTemplate&gt;
+    &lt;section&gt;
+      &lt;fieldset [formGroup]&#x3D;&quot;dataItemForm&quot;&gt;
+        &lt;label for&#x3D;&quot;sequenceSteps&quot;&gt;
+          steps
+          &lt;app-in-flow-tip name&#x3D;&quot;stepsListDescription&quot;&gt;
+            Sequence consists of steps. Each step can refer to different types of items like questions, tasks, skip/replay/switch logic, static content or even another sequence.
+          &lt;/app-in-flow-tip&gt;
+        &lt;/label&gt;
+        &lt;app-array-input id&#x3D;&quot;sequenceSteps&quot; [formArray]&#x3D;&quot;dataItemForm.controls.stepsIds&quot; itemName&#x3D;&quot;step&quot;&gt;
+          &lt;ng-template let-sortable let-i&#x3D;&quot;itemIndex&quot;&gt;
+            &lt;app-step-detail [sequenceId]&#x3D;&quot;dataItem.id&quot; [dataItemId]&#x3D;&quot;sortable.item&quot;
+                             (dataItemIdChange)&#x3D;&quot;sortable.onOrderChange($event, sortable.order)&quot;&gt;&lt;/app-step-detail&gt;
+          &lt;/ng-template&gt;
+        &lt;/app-array-input&gt;
+      &lt;/fieldset&gt;
+    &lt;/section&gt;
+  &lt;/ng-template&gt;
+&lt;/app-dynamic-state&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./sequence-detail.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <p class="comment">
+                    <code>../styles/sequence-design.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;vars&quot;;
+@import &quot;~breakpoint-sass&quot;;
+@import &quot;partials/surfaces&quot;;
+
+:host {
+  @extend .__card;
+  flex-direction: column;
+  app-dynamic-state {
+    &gt; * {
+      white-space: nowrap;
+      &gt; *:not(dl) {
+        white-space: normal;
+      }
+    }
+  }
+
+  app-array-input {
+    background-color: $container-background;
+    box-shadow: inset $x-thin-line $x-thin-line $x-thin-line $x-thin-line rgba($primary-text-color, .25);
+    padding: $small-white-space;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-in-flow-tip name="sequenceDescription">  Sequence is a way of organizing questions, tasks and other items into sequential flow, which respondent will experience when interacting with your project.</app-in-flow-tip><app-dynamic-state [state]="state">  <ng-template #viewingTemplate>    <div>      <h4>{{dataItem.header.name}}</h4>      <p>{{dataItem.header.description}}</p>      <p>life cycle: {{dataItem.header.lifeCycle}}</p>      <button (click)="edit()">edit</button>    </div>  </ng-template>  <ng-template #editingTemplate>    <fieldset [formGroup]="dataItemForm">      <ng-container formGroupName="header">        <div class="input-group">          <label for="name">            name          </label>          <input type="text" id="name" formControlName="name">        </div>        <div class="input-group">          <label for="description">            description          </label>          <textarea id="description" formControlName="description"></textarea>        </div>        <div class="input-group">          <label for="lifeCycle">            life cycle          </label>          <select formControlName="lifeCycle" id="lifeCycle">            <option *ngFor="let lc of lifeCycleOptions" [value]="lc">{{lc}}</option>          </select>        </div>      </ng-container>      <button (click)="save($event)">save</button>    </fieldset>  </ng-template></app-dynamic-state><app-dynamic-state [state]="state" *ngIf="dataItemId">  <ng-template #defaultTemplate>    <section>      <fieldset [formGroup]="dataItemForm">        <label for="sequenceSteps">          steps          <app-in-flow-tip name="stepsListDescription">            Sequence consists of steps. Each step can refer to different types of items like questions, tasks, skip/replay/switch logic, static content or even another sequence.          </app-in-flow-tip>        </label>        <app-array-input id="sequenceSteps" [formArray]="dataItemForm.controls.stepsIds" itemName="step">          <ng-template let-sortable let-i="itemIndex">            <app-step-detail [sequenceId]="dataItem.id" [dataItemId]="sortable.item"                             (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-step-detail>          </ng-template>        </app-array-input>      </fieldset>    </section>  </ng-template></app-dynamic-state></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArrayInputComponent', 'selector': 'app-array-input'},{'name': 'AssetDetailComponent', 'selector': 'app-asset-detail'},{'name': 'AssetThumbnailComponent', 'selector': 'app-asset-thumbnail'},{'name': 'AssetViewerComponent', 'selector': 'app-asset-viewer'},{'name': 'CheckBoxesComponent', 'selector': 'app-sr-check-boxes'},{'name': 'DisabledContentComponent', 'selector': 'app-disabled-content'},{'name': 'DynamicStateComponent', 'selector': 'app-dynamic-state'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormatConstraintDetailComponent', 'selector': 'app-format-constraint-detail'},{'name': 'FormatConstraintThumbnailComponent', 'selector': 'app-format-constraint-thumbnail'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InFlowTipComponent', 'selector': 'app-in-flow-tip'},{'name': 'InputComponent', 'selector': 'app-sr-input'},{'name': 'LargeTextComponent', 'selector': 'app-sr-large-text'},{'name': 'ListInputComponent', 'selector': 'app-sr-list-input'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LogicDetailComponent', 'selector': 'app-logic-detail'},{'name': 'LogicThumbnailComponent', 'selector': 'app-logic-thumbnail'},{'name': 'MultipleInputComponent', 'selector': 'app-multiple-input'},{'name': 'ProjectDetailComponent', 'selector': 'app-project-detail'},{'name': 'ProjectsListComponent', 'selector': 'app-projects-list'},{'name': 'ProjectThumbnailComponent', 'selector': 'app-project-thumbnail'},{'name': 'QuestionDetailComponent', 'selector': 'app-question-detail'},{'name': 'QuestionExecutorComponent', 'selector': 'app-question-executor'},{'name': 'QuestionThumbnailComponent', 'selector': 'app-question-thumbnail'},{'name': 'RadioButtonsComponent', 'selector': 'app-sr-radio-buttons'},{'name': 'RespondentListComponent', 'selector': 'app-respondent-list'},{'name': 'RespondentListsComponent', 'selector': 'app-respondent-list-list'},{'name': 'RespondentListThumbnailComponent', 'selector': 'app-respondent-list-thumbnail'},{'name': 'ResponseDetailComponent', 'selector': 'app-response-detail'},{'name': 'ResponsesListComponent', 'selector': 'app-responses-list'},{'name': 'ResponseThumbnailComponent', 'selector': 'app-response-thumbnail'},{'name': 'SelectComponent', 'selector': 'app-sr-select'},{'name': 'SequenceDetailComponent', 'selector': 'app-sequence-detail'},{'name': 'SequenceDetailViewComponent', 'selector': 'view-sequence-detail'},{'name': 'SequenceThumbnailComponent', 'selector': 'app-sequence-thumbnail'},{'name': 'StaticContentComponent', 'selector': 'app-sr-static-content'},{'name': 'StepDetailComponent', 'selector': 'app-step-detail'},{'name': 'StepExecutorComponent', 'selector': 'app-step-executor'},{'name': 'StepResponseDetailComponent', 'selector': 'app-step-response-detail'},{'name': 'StepThumbnailComponent', 'selector': 'app-step-thumbnail'},{'name': 'TaskDetailComponent', 'selector': 'app-task-detail'},{'name': 'TaskExecutorComponent', 'selector': 'app-task-executor'},{'name': 'TaskThumbnailComponent', 'selector': 'app-task-thumbnail'},{'name': 'TopSequenceExecutorComponent', 'selector': 'app-sequence-executor'},{'name': 'YesNoComponent', 'selector': 'app-sr-yes-no'}];
+    var DIRECTIVES = [{'name': 'AutoFocusDirective', 'selector': '[appAutoFocus]'}];
+    var ACTUAL_COMPONENT = {'name': 'SequenceDetailComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'SequenceDetailComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

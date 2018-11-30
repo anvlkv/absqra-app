@@ -5,7 +5,6 @@ import { AppCommonModule } from '../app-common/app-common.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SequenceDetailComponent } from './sequence-detail/sequence-detail.component';
 import { RespondentListComponent } from './respondent-list/respondent-list.component';
-import { ResponseListComponent } from './response-list/response-list.component';
 import { RespondentListsComponent } from './respondent-list-list/respondent-lists.component';
 import { RespondentListThumbnailComponent } from './respondent-list-thumbnail/respondent-list-thumbnail.component';
 import { InputsModule } from '../inputs/inputs.module';
@@ -21,8 +20,8 @@ import { FormatConstraintDetailComponent } from './format-constraint-detail/form
 import { FormatConstraintThumbnailComponent } from './format-constraint-thumbnail/format-constraint-thumbnail.component';
 import { QuillModule } from 'ngx-quill';
 import { StepThumbnailComponent } from './step-thumbnail/step-thumbnail.component';
-import { SequenceService } from './sequence-detail/sequence.service';
-import { StepService } from './step-detail/step.service';
+import { SequenceDetailService } from './sequence-detail/sequence-detail.service';
+import { StepDetailService } from './step-detail/step-detail.service';
 import { TaskDetailComponent } from './task-detail/task-detail.component';
 import { SequenceDetailViewComponent } from './sequence-detail/sequence-detail-view.component';
 import { LogicDetailComponent } from './logic-detail/logic-detail.component';
@@ -39,7 +38,6 @@ import { LogicDetailComponent } from './logic-detail/logic-detail.component';
   declarations: [
     SequenceDetailComponent,
     RespondentListComponent,
-    ResponseListComponent,
     RespondentListThumbnailComponent,
     RespondentListsComponent,
     StepDetailComponent,
@@ -58,8 +56,8 @@ import { LogicDetailComponent } from './logic-detail/logic-detail.component';
     LogicDetailComponent
   ],
   providers: [
-    SequenceService,
-    StepService
+    SequenceDetailService,
+    StepDetailService
   ]
 })
 export class SequenceDesignModule { }

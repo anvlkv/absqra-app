@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { SequenceService } from './sequence.service';
+import { SequenceDetailService } from './sequence-detail.service';
 
 describe('SequenceService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: SequenceService = TestBed.get(SequenceService);
+    const service: SequenceDetailService = TestBed.get(SequenceDetailService);
     expect(service).toBeTruthy();
   });
 });

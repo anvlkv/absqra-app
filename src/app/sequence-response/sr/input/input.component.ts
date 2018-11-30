@@ -1,8 +1,8 @@
 import { Component, OnChanges, SimpleChanges } from '@angular/core';
 import { BaseResponse } from '../base-response';
 import { ResponseService } from '../response.service';
-import { TopSequenceUIService } from '../../top-sequence-ui.service';
-import { META_VALUE_ValidationTypes, TYPE_ValidationTypes, ValidationTypes } from '../../../../models/api-models';
+import { TopSequenceUIService } from '../../top-sequence-executor/top-sequence-ui.service';
+import { META_VALUE_ValidationTypes, TYPE_ValidationTypes, ValidationTypes } from 'models/api-models';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ComponentDynamicStates } from '../../../app-common/dynamic-state/dynamic-state.component';
 

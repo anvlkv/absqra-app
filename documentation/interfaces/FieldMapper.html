@@ -1,0 +1,365 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>absqra documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">absqra documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li>FieldMapper</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>src/app/app-common/base-detail/base-detail-form.ts</code>
+        </p>
+
+
+
+
+
+            <section>
+    <h3 id="inputs">Indexable</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <code>[propName: string]:    <code></code>
+</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">src/app/app-common/base-detail/base-detail-form.ts:10</a></div>
+                            </td>
+                        </tr>
+            </tbody>
+        </table>
+</section>
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { BaseDetail, OnItemSet } from &#x27;./base-detail&#x27;;
+import { BaseDetailService } from &#x27;./base-detail-service&#x27;;
+import { FormBuilder, FormGroup } from &#x27;@angular/forms&#x27;;
+import { OnDestroy, OnInit } from &#x27;@angular/core&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
+import { ComponentDynamicStates } from &#x27;../dynamic-state/dynamic-state.component&#x27;;
+import { Base } from &#x27;models/api-models&#x27;;
+
+
+export interface FieldMapper {
+  [propName: string]: any &amp; ((value?: any) &#x3D;&gt; any) &amp; FieldMapper;
+}
+
+export abstract class BaseDetailForm&lt;T extends Base, P extends BaseDetailService&lt;T&gt;&gt; extends BaseDetail&lt;T, P&gt; implements OnInit, OnDestroy, OnItemSet {
+  public dataItemForm: FormGroup;
+
+  private formValuesSubscription: Subscription;
+
+  fieldMapper: FieldMapper &#x3D; {};
+
+  dataMapper: FieldMapper &#x3D; {};
+
+  constructor(
+    dataItemService: P,
+    public fb: FormBuilder,
+    shouldFetchDefault &#x3D; true
+  ) {
+    super(dataItemService, shouldFetchDefault);
+  }
+
+  private setFormGroup() {
+    this.dataItemForm &#x3D; this.fb.group(
+      this.generateFormGroup(
+        this.ensureFields(
+          cleanUpBaseForForm(this.dataItem || this.defaultItem)
+        )
+      )
+    );
+
+    this.formValuesSubscription &#x3D; this.dataItemForm.valueChanges.subscribe(value &#x3D;&gt; {
+      for (const controlName in this.fieldMapper) {
+        if (value[controlName]) {
+          value[this.fieldMapper[controlName].name] &#x3D; this.fieldMapper[controlName](value[controlName]);
+        }
+      }
+      this.dataItem &#x3D; {
+        // @ts-ignore
+        ...this.dataItem,
+        ...value
+      };
+    });
+  }
+
+  protected generateFormGroup(data) {
+    const output &#x3D; {};
+    for (const prop in data) {
+      if (data.hasOwnProperty(prop) &amp;&amp; data[prop] !&#x3D;&#x3D; null) {
+        if (data[prop] instanceof Array) {
+          output[prop] &#x3D; this.fb.array(data[prop].map(this.generateFormGroup.bind(this)));
+        }
+        else if (typeof data[prop] &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+          output[prop] &#x3D; this.fb.group(this.generateFormGroup(data[prop]));
+        }
+        else {
+          output[prop] &#x3D; this.fb.control(data[prop]);
+        }
+      }
+    }
+
+    return output;
+  }
+
+  private ensureFields(data: T | Partial&lt;T&gt;, ensuredFields &#x3D; this.dataMapper): T | Partial&lt;T&gt; {
+    for (const field in ensuredFields) {
+      if (data[field] &#x3D;&#x3D;&#x3D; null || data[field] &#x3D;&#x3D;&#x3D; undefined) {
+        switch (typeof ensuredFields[field]) {
+          case &#x27;function&#x27;: {
+            data[field] &#x3D; ensuredFields[field]();
+            break;
+          }
+          case &#x27;object&#x27;: {
+            if (!(ensuredFields[field] instanceof Array)) {
+              data[field] &#x3D; this.ensureFields({}, ensuredFields[field]);
+              break;
+            }
+          }
+          default: {
+            data[field] &#x3D; ensuredFields[field];
+            break;
+          }
+        }
+      }
+      else if (typeof data[field] &#x3D;&#x3D;&#x3D; typeof ensuredFields[field]) {
+        switch (typeof ensuredFields[field]) {
+          case &#x27;function&#x27;: {
+            data[field] &#x3D; ensuredFields[field](data[field]);
+            break;
+          }
+          case &#x27;object&#x27;: {
+            if (ensuredFields[field] ! instanceof Array) {
+              data[field] &#x3D; data[field].map(value &#x3D;&gt; {
+               if (typeof value &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+                 value &#x3D; this.ensureFields(value, ensuredFields[field][0])
+               }
+               return value;
+              });
+            }
+            else {
+              data[field] &#x3D; this.ensureFields(data[field], ensuredFields[field]);
+            }
+            break;
+          }
+          default: {
+            break;
+          }
+        }
+      }
+    }
+    return data;
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+    if (!this.dataItemId &amp;&amp; !this.dataItem) {
+      this.dataItemService.fetchDefault().subscribe((d) &#x3D;&gt; {
+        this.dataItem &#x3D; d;
+        this.setFormGroup();
+        this.$state.next(ComponentDynamicStates.EDITING);
+      });
+    }
+    else if (this.dataItem) {
+      this.$state.next(ComponentDynamicStates.EDITING);
+    }
+  }
+
+  ngOnDestroy() {
+    super.ngOnDestroy();
+    this.formValuesSubscription ? this.formValuesSubscription.unsubscribe() : null;
+  }
+
+  bdOnItemSet(loaded: boolean): void {
+    if (this.dataItemForm) {
+      const value &#x3D; cleanUpBaseForForm(this.ensureFields(this.dataItem));
+
+      for (const prop in value) {
+        if (value.hasOwnProperty(prop)) {
+          if (!this.dataItemForm.contains(prop)) {
+            let formGroup: any &#x3D; {};
+            formGroup[prop] &#x3D; value[prop];
+            formGroup &#x3D; this.generateFormGroup(formGroup);
+            this.dataItemForm.addControl(prop, formGroup[prop]);
+          }
+        }
+      }
+
+      this.dataItemForm.patchValue(value);
+    }
+    else {
+      this.setFormGroup();
+    }
+
+    if (!loaded) {
+      this.edit();
+    }
+  }
+
+  edit(event?: Event) {
+    event ? event.preventDefault() : null;
+
+    this.$state.next(ComponentDynamicStates.EDITING);
+  }
+
+  save(event?: Event) {
+    event ? event.preventDefault() : null;
+
+    if (this.dataItemForm.valid) {
+      if (this.dataItemId) {
+        this.dataItemService.update(this.dataItem);
+      }
+      else {
+        this.dataItemService.save(this.dataItem)
+      }
+    }
+  }
+
+  reset(event?: Event) {
+    event ? event.preventDefault() : null;
+    this.dataItemForm.reset(this.dataItemService.dataItem);
+  }
+}
+
+function cleanUpBaseForForm&lt;T extends Base&gt;(data: T): Partial&lt;T&gt; {
+  if (!data || typeof data !&#x3D;&#x3D; &#x27;object&#x27;) {
+    return data;
+  }
+  const {
+    createdDate,
+    updatedDate,
+    id,
+    // @ts-ignore
+    ...partialData
+  }: T &#x3D; data;
+
+  Object.keys(partialData).forEach(prop &#x3D;&gt; {
+    if (partialData[prop] instanceof Array) {
+      partialData[prop] &#x3D; partialData[prop].map(v &#x3D;&gt; cleanUpBaseForForm(v))
+    }
+    else if (typeof partialData[prop] &#x3D;&#x3D;&#x3D; &#x27;object&#x27;) {
+      partialData[prop] &#x3D; cleanUpBaseForForm(partialData[prop])
+    }
+  });
+
+  return partialData;
+}
+</code></pre>
+    </div>
+</div>
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'FieldMapper.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

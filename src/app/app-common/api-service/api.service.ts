@@ -42,30 +42,12 @@ export class ApiService {
     }
   }
 
-  private audit(method: string, url: string) {
-    const logKey = `${method.toUpperCase()}_${url}`;
-    this.callLog[logKey] = this.callLog[logKey] || [];
-    const logEntry = this.callLog[logKey];
-
-    logEntry.push(new Date());
-
-    if (logEntry.length > 1) {
-      if (this.allowedInterval > logEntry[logEntry.length - 1].valueOf() - logEntry[logEntry.length - 2].valueOf()) {
-        console.warn(`calling [${logKey}] more often than every [${this.allowedInterval}ms] is not allowed`);
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   getData<T>(route: ApiRoute, params?: RouteParams, query?: RouteParams): Observable<T> {
     const url = `${this.apiUrl}${setUrlParams(route.path, params, route.params)}`;
     const queryParams = setQueryParams(query);
     return <Observable<T>>this.http.get<T>(url, {
       params: queryParams,
     }).pipe(
-      takeWhile(() => this.audit('GET', url)),
       map(this.transform.bind(this)),
       catchError(errorHandler(route.path))
     )
@@ -77,7 +59,6 @@ export class ApiService {
     return <Observable<T>>this.http.post<T>(url, body, {
       params: queryParams,
     }).pipe(
-      takeWhile(() => this.audit('POST', url)),
       map(this.transform.bind(this)),
       catchError(errorHandler(route.path))
     )
@@ -89,7 +70,6 @@ export class ApiService {
     return <Observable<T>>this.http.patch<T>(url, operations, {
       params: queryParams,
     }).pipe(
-      takeWhile(() => this.audit('PATCH', url)),
       map(this.transform.bind(this)),
       catchError(errorHandler(route.path))
     )
@@ -101,7 +81,6 @@ export class ApiService {
     return <Observable<T>>this.http.delete<T>(url, {
       params: queryParams,
     }).pipe(
-      takeWhile(() => this.audit('DELETE', url)),
       map(this.transform.bind(this)),
       catchError(errorHandler(route.path))
     )

@@ -8,7 +8,7 @@
     <app-in-flow-tip name="logicDescription">
       Logic items are responsible for flow of the respondent through sequence. Logic items are used to navigate to certain step when item's condition is met
     </app-in-flow-tip>
-    <fieldset [formGroup]="logicForm">
+    <fieldset [formGroup]="dataItemForm">
       <div class="input-group">
         <label for="type">
           type
@@ -75,8 +75,8 @@
           </label>
           <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="condition">
             <ng-template let-sortable let-i="itemIndex">
-              <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item"
-                                            (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+              <!--<app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item"-->
+                                            <!--(dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>-->
             </ng-template>
           </app-array-input>
         </div>
@@ -105,8 +105,8 @@
           </label>
           <app-array-input id="alternativesIds" formControlName="alternativesIds" [orderable]="false" itemName="alternative">
             <ng-template let-sortable let-i="itemIndex">
-              <app-logic-detail [dataItemId]="sortable.item"
-                                (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>
+              <!--<app-logic-detail [dataItemId]="sortable.item"-->
+                                <!--(dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>-->
             </ng-template>
           </app-array-input>
         </div>

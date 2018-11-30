@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { AssetBase } from '../../../models/api-models';
+import { AssetBase } from 'models/api-models';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({

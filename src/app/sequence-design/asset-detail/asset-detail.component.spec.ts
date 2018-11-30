@@ -1,20 +1,21 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AssetDetailComponent, AssetPurposes } from './asset-detail.component';
-import { DataService } from '../../app-common/data-service/data.service';
+import { AssetDetailComponent } from './asset-detail.component';
 import { anything, instance, mock, when } from 'ts-mockito';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { of } from 'rxjs';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ApiService } from '../../app-common/api-service/api.service';
+import { AssetPurposes } from './asset-detail.service';
 
 
 describe('AssetDetailComponent', () => {
-  let mockedData: DataService;
+  let mockedData: ApiService;
   let component: AssetDetailComponent;
   let fixture: ComponentFixture<AssetDetailComponent>;
 
   beforeEach(async(() => {
-    mockedData = mock(DataService);
+    mockedData = mock(ApiService);
     when(mockedData.getData(anything(), anything(), anything())).thenReturn(of({id: 1}));
     TestBed.configureTestingModule({
       imports: [
@@ -29,7 +30,7 @@ describe('AssetDetailComponent', () => {
       providers: [
         FormBuilder,
         {
-          provide: DataService,
+          provide: ApiService,
           useFactory: () => instance(mockedData)
         },
       ]

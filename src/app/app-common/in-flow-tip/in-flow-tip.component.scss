@@ -7,6 +7,9 @@
   .tooltip-expander {
     padding: 0 $small-white-space;
     display: inline-block;
+    font-size: $small-font-size;
+    color: lighten($primary-text-color, 30%);
+    cursor: pointer;
   }
 
   .tooltip-card {

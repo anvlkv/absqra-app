@@ -1,36 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseDetail } from '../../app-common/base-detail/base-detail';
 import { Question, QuestionPresentationTypes } from 'models/api-models';
-import { DataService } from '../../app-common/data-service/data.service';
-import { RespondentRouter } from 'models/api-routes/RespondentRouter';
 import { ResponseService } from '../sr/response.service';
+import { QuestionExecutorService } from './question-executor.service';
 
 
 @Component({
   selector: 'app-question-executor',
   templateUrl: './question-executor.component.html',
-  styleUrls: ['./question-executor.component.scss']
+  styleUrls: ['./question-executor.component.scss'],
+  providers: [QuestionExecutorService]
 })
-export class QuestionExecutorComponent extends BaseDetail<Question> implements OnInit {
+export class QuestionExecutorComponent extends BaseDetail<Question, QuestionExecutorService> implements OnInit {
 
   presentationTypes = QuestionPresentationTypes;
 
   constructor(
-    data: DataService,
-    private response: ResponseService
+    questionService: QuestionExecutorService,
   ) {
-    super(data);
-    this.callConfigurator = (executableQuestionId, cause) => {
-      return {
-        route: RespondentRouter.viewExecutableQuestion,
-        params: {executableQuestionId, responseId: this.response.responseId}
-      }
-    }
+    super(questionService);
   }
 
   ngOnInit() {
     super.ngOnInit();
-
-
   }
 }

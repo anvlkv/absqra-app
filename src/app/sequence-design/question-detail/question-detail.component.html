@@ -10,7 +10,7 @@
     </div>
   </ng-template>
   <ng-template #editingTemplate>
-    <fieldset [formGroup]="questionForm">
+    <fieldset [formGroup]="dataItemForm">
       <div class="input-group">
         <label for="name">
           name
@@ -61,7 +61,7 @@
 </app-dynamic-state>
 <app-dynamic-state [state]="state">
   <ng-template #defaultTemplate>
-    <fieldset [formGroup]="questionForm" *ngIf="dataItem?.id">
+    <fieldset [formGroup]="dataItemForm" *ngIf="dataItem?.id">
       <div *ngIf="questionForm.controls.expects.value !== qttOrder.NONE" class="input-group">
         <label for="formatConstraints">
           format constraints
@@ -71,8 +71,8 @@
         </label>
         <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="format constraint">
           <ng-template let-sortable let-i="itemIndex">
-            <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.QUESTION" [parentId]="dataItem.id" [dataItemId]="sortable.item"
-                                          (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>
+            <!--<app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.QUESTION" [parentId]="dataItem.id" [dataItemId]="sortable.item"-->
+                                          <!--(dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>-->
           </ng-template>
         </app-array-input>
       </div>
@@ -88,8 +88,8 @@
         </label>
         <app-array-input formControlName="questionAssetsIds" id="questionAssets" itemName="question option">
           <ng-template let-sortable let-i="itemIndex">
-            <app-asset-detail [parentId]="dataItem.id" [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"
-                              (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+            <!--<app-asset-detail [parentId]="dataItem.id" [assetPurposeType]="assetPurposeTypes.QUESTION_OPTION" [dataItemId]="sortable.item"-->
+                              <!--(dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>-->
           </ng-template>
         </app-array-input>
       </div>
@@ -105,8 +105,8 @@
         </label>
         <app-array-input formControlName="responseAssetsIds" id="responseAssets" itemName="response option">
           <ng-template let-sortable let-i="itemIndex">
-            <app-asset-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION"
-                              (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>
+            <!--<app-asset-detail [parentId]="dataItem.id" [dataItemId]="sortable.item" [assetPurposeType]="assetPurposeTypes.RESPONSE_OPTION"-->
+                              <!--(dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-asset-detail>-->
           </ng-template>
         </app-array-input>
       </div>

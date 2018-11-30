@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HotKeysService } from '../../app-common/hot-keys-service/hot-keys.service';
 import { ApiService } from '../../app-common/api-service/api.service';
-import { ProjectService } from './project.service';
+import { ProjectDetailService } from './project-detail.service';
 import { DataOpRouter } from 'models/api-routes/DataOpRouter';
 import { SequenceDetailCRouteReservedParam } from 'models/reservedRouteParams';
 import { BaseDetailForm } from '../../app-common/base-detail/base-detail-form';
@@ -13,9 +13,9 @@ import { BaseDetailForm } from '../../app-common/base-detail/base-detail-form';
   selector: 'app-project-detail',
   templateUrl: './project-detail.component.html',
   styleUrls: ['./project-detail.component.scss' /*, '../styles/sequence-design.scss'*/],
-  providers: [ProjectService]
+  providers: [ProjectDetailService]
 })
-export class ProjectDetailComponent extends BaseDetailForm<Project> implements OnInit, OnDestroy {
+export class ProjectDetailComponent extends BaseDetailForm<Project, ProjectDetailService> implements OnInit, OnDestroy {
 
   projectForm: FormGroup;
 
@@ -23,8 +23,8 @@ export class ProjectDetailComponent extends BaseDetailForm<Project> implements O
   panning = true;
 
   constructor(
+    projectService: ProjectDetailService,
     fb: FormBuilder,
-    projectService: ProjectService,
     private route: ActivatedRoute,
     private hotkeys: HotKeysService,
     private api: ApiService
@@ -35,6 +35,7 @@ export class ProjectDetailComponent extends BaseDetailForm<Project> implements O
   ngOnInit() {
     this.route.params.subscribe(({projectId}) => {
       this.dataItemId = projectId;
+      this.dataItemService.fetch(this.dataItemId);
     });
 
     super.ngOnInit();

@@ -1,21 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { TopSequenceExecutorComponent } from './top-sequence-executor.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { DataService } from '../../app-common/data-service/data.service';
 import { anything, instance, mock, when } from 'ts-mockito';
 import { of, Subject } from 'rxjs';
-import { StepTypes } from 'models/api-models';
 import { FooterService } from '../../app-common/footer/footer.service';
+import { ApiService } from '../../app-common/api-service/api.service';
 
 describe('TopSequenceExecutorComponent', () => {
   let component: TopSequenceExecutorComponent;
   let fixture: ComponentFixture<TopSequenceExecutorComponent>;
-  let mockedData: DataService;
+  let mockedData: ApiService;
   let mockedFooterService: FooterService;
   beforeEach(async(() => {
-    mockedData = mock(DataService);
+    mockedData = mock(ApiService);
     when(mockedData.getData(anything(), anything(), anything())).thenReturn(of({id: 1}));
     mockedFooterService = {
       status: new Subject<string>()
@@ -33,7 +31,7 @@ describe('TopSequenceExecutorComponent', () => {
       ],
       providers: [
         {
-          provide: DataService,
+          provide: ApiService,
           useFactory: () => instance(mockedData)
         },
         {

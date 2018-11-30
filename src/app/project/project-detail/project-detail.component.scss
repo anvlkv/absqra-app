@@ -3,7 +3,7 @@
 
 :host{
   display: contents;
-  div[dragScroll]{
+  drag-scroll{
     @extend .__surfaces-container;
 
     &.panning {
@@ -16,7 +16,10 @@
         user-select: none;
       }
     }
+
+
   }
+
   .project-page{
     @extend ._page;
     > * {

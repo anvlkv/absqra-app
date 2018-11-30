@@ -1,0 +1,1681 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>absqra documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">absqra documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>LogicDetailComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#styleData" role="tab" id="styleData-tab" data-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/sequence-design/logic-detail/logic-detail.component.ts</code>
+</p>
+
+
+    <p class="comment">
+        <h3>Extends</h3>
+    </p>
+    <p class="comment">
+            <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+    </p>
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-logic-detail</code></td>
+            </tr>
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./logic-detail.component.scss,<br>../styles/sequence-design.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./logic-detail.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#formatConstraintPurposes">formatConstraintPurposes</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#logicForm">logicForm</a>
+                            </li>
+                            <li>
+                                <a href="#logicTypes">logicTypes</a>
+                            </li>
+                            <li>
+                                <a href="#logicTypesOptions">logicTypesOptions</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#referableSteps">referableSteps</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#dataItemForm">dataItemForm</a>
+                            </li>
+                            <li>
+                                <a href="#dataMapper">dataMapper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                <a href="#fb">fb</a>
+                            </li>
+                            <li>
+                                <a href="#fieldMapper">fieldMapper</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#formValuesSubscription">formValuesSubscription</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#bdOnItemSet">bdOnItemSet</a>
+                            </li>
+                            <li>
+                                <a href="#edit">edit</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#ensureFields">ensureFields</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#generateFormGroup">generateFormGroup</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy">ngOnDestroy</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#reset">reset</a>
+                            </li>
+                            <li>
+                                <a href="#save">save</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#setFormGroup">setFormGroup</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(logicService: <a href="../injectables/LogicDetailService.html">LogicDetailService</a>, fb: <a href="https://angular.io/api/forms/FormBuilder" target="_blank">FormBuilder</a>, api: <a href="../injectables/ApiService.html">ApiService</a>, projectService: <a href="../injectables/ProjectDetailService.html">ProjectDetailService</a>, stepService: <a href="../injectables/StepDetailService.html">StepDetailService</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>logicService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/LogicDetailService.html" target="_self" >LogicDetailService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>fb</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>api</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ApiService.html" target="_self" >ApiService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>projectService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/ProjectDetailService.html" target="_self" >ProjectDetailService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>stepService</td>
+                                                  
+                                                        <td>
+                                                                    <code><a href="../injectables/StepDetailService.html" target="_self" >StepDetailService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+
+
+    <section>
+    
+        <h3 id="methods">
+            Methods
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:40</a></div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="bdOnItemSet"></a>
+                        <span class="name">
+                            <b>
+                            bdOnItemSet
+                            </b>
+                            <a href="#bdOnItemSet"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>bdOnItemSet(loaded: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:141</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>loaded</td>
+                                                        <td>
+                                                                    <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="edit"></a>
+                        <span class="name">
+                            <b>
+                            edit
+                            </b>
+                            <a href="#edit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>edit(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:167</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ensureFields"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            ensureFields
+                            </b>
+                            <a href="#ensureFields"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>ensureFields(data: T | Partial<T>, ensuredFields)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:73</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Default value</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                        <td>
+                                                                    <code>T | Partial&lt;T&gt;</code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                        </td>
+
+                                                </tr>
+                                                <tr>
+                                                        <td>ensuredFields</td>
+                                                        <td>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code>this.dataMapper</code>
+                                                        </td>
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>T | Partial</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="generateFormGroup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Protected</span>
+                            generateFormGroup
+                            </b>
+                            <a href="#generateFormGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>generateFormGroup(data)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:54</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>data</td>
+                                                    
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code>{}</code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnDestroy"></a>
+                        <span class="name">
+                            <b>
+                            ngOnDestroy
+                            </b>
+                            <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:136</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="ngOnInit"></a>
+                        <span class="name">
+                            <b>
+                            ngOnInit
+                            </b>
+                            <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>ngOnInit()</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:122</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="reset"></a>
+                        <span class="name">
+                            <b>
+                            reset
+                            </b>
+                            <a href="#reset"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>reset(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:186</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="save"></a>
+                        <span class="name">
+                            <b>
+                            save
+                            </b>
+                            <a href="#save"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+<code>save(event?: <a href="https://angular.io/api/router/Event" target="_blank">Event</a>)</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:173</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>event</td>
+                                                        <td>
+                                                                    <code><a href="https://angular.io/api/router/Event" target="_blank" >Event</a></code>
+                                                        </td>
+                                                    
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                            <div>
+                            </div>
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                                <div class="io-description">
+                                    
+                                </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="setFormGroup"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            setFormGroup
+                            </b>
+                            <a href="#setFormGroup"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                            <span class="modifier-icon icon ion-ios-reset"></span>
+                        <code>setFormGroup()</code>
+                    </td>
+                </tr>
+
+
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:31</div>
+                            </td>
+                        </tr>
+
+
+                <tr>
+                    <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Returns : </b>    <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formatConstraintPurposes"></a>
+                        <span class="name">
+                            <b>
+                            formatConstraintPurposes
+                            </b>
+                            <a href="#formatConstraintPurposes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>formatConstraintPurposes:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>FormatConstraintPurposes</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:27</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="logicForm"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            logicForm
+                            </b>
+                            <a href="#logicForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>logicForm:     <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:23</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="logicTypes"></a>
+                        <span class="name">
+                            <b>
+                            logicTypes
+                            </b>
+                            <a href="#logicTypes"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>logicTypes:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>LogicTypes</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:26</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="logicTypesOptions"></a>
+                        <span class="name">
+                            <b>
+                            logicTypesOptions
+                            </b>
+                            <a href="#logicTypesOptions"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>logicTypesOptions:     <code></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>unpackEnum(LogicTypes).filter(v &#x3D;&gt; v !&#x3D;&#x3D; LogicTypes.ALTERNATIVE)</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="referableSteps"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            referableSteps
+                            </b>
+                            <a href="#referableSteps"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>referableSteps:     <code><a href="../classes/Step.html" target="_self" >Observable&lt;Step&gt;</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../classes/Step.html" target="_self" >Observable&lt;Step&gt;</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">src/app/sequence-design/logic-detail/logic-detail.component.ts:28</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataItemForm"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            dataItemForm
+                            </b>
+                            <a href="#dataItemForm"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>dataItemForm:     <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:15</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="dataMapper"></a>
+                        <span class="name">
+                            <b>
+                            dataMapper
+                            </b>
+                            <a href="#dataMapper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>dataMapper:     <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:21</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fb"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Public</span>
+                            fb
+                            </b>
+                            <a href="#fb"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>fb:     <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="https://angular.io/api/forms/FormBuilder" target="_blank" >FormBuilder</a></code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:25</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="fieldMapper"></a>
+                        <span class="name">
+                            <b>
+                            fieldMapper
+                            </b>
+                            <a href="#fieldMapper"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <code>fieldMapper:     <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code><a href="../interfaces/FieldMapper.html" target="_self" >FieldMapper</a></code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>{}</code>
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:19</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="formValuesSubscription"></a>
+                        <span class="name">
+                            <b>
+                                <span class="modifier">Private</span>
+                            formValuesSubscription
+                            </b>
+                            <a href="#formValuesSubscription"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span><code>formValuesSubscription:     <code>Subscription</code>
+</code>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subscription</code>
+
+                        </td>
+                    </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Inherited from     <code><a href="../classes/BaseDetailForm.html" target="_self" >BaseDetailForm</a></code>
+</div>
+                                </td>
+                            </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in BaseDetailForm:17</div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, OnInit } from &#x27;@angular/core&#x27;;
+import { Logic, LogicTypes, Step } from &#x27;models/api-models&#x27;;
+import { FormBuilder, FormGroup } from &#x27;@angular/forms&#x27;;
+import { ApiService } from &#x27;../../app-common/api-service/api.service&#x27;;
+import { ComponentDynamicStates } from &#x27;../../app-common/dynamic-state/dynamic-state.component&#x27;;
+import { unpackEnum } from &#x27;../../utils&#x27;;
+import { FormatConstraintPurposes } from &#x27;../format-constraint-detail/format-constraint-detail.service&#x27;;
+import { combineLatest, Observable, throwError } from &#x27;rxjs&#x27;;
+import { catchError, filter, mergeMap } from &#x27;rxjs/operators&#x27;;
+import { DesignerRouter } from &#x27;../../../models/api-routes/DesignerRouter&#x27;;
+import { ProjectDetailService } from &#x27;../../project/project-detail/project-detail.service&#x27;;
+import { StepDetailService } from &#x27;../step-detail/step-detail.service&#x27;;
+import { BaseDetailForm } from &#x27;../../app-common/base-detail/base-detail-form&#x27;;
+import { LogicDetailService } from &#x27;./logic-detail.service&#x27;;
+
+
+@Component({
+  selector: &#x27;app-logic-detail&#x27;,
+  templateUrl: &#x27;./logic-detail.component.html&#x27;,
+  styleUrls: [&#x27;./logic-detail.component.scss&#x27;, &#x27;../styles/sequence-design.scss&#x27;]
+})
+export class LogicDetailComponent extends BaseDetailForm&lt;Logic, LogicDetailService&gt; implements OnInit {
+  private logicForm: FormGroup;
+
+  logicTypesOptions &#x3D; unpackEnum(LogicTypes).filter(v &#x3D;&gt; v !&#x3D;&#x3D; LogicTypes.ALTERNATIVE);
+  logicTypes &#x3D; LogicTypes;
+  formatConstraintPurposes &#x3D; FormatConstraintPurposes;
+  private referableSteps: Observable&lt;Step&gt;;
+
+  constructor(
+    logicService: LogicDetailService,
+    fb: FormBuilder,
+    private api: ApiService,
+    private projectService: ProjectDetailService,
+    private stepService: StepDetailService
+  ) {
+    super(logicService, fb);
+  }
+
+  ngOnInit() {
+    super.ngOnInit();
+
+    this.referableSteps &#x3D; combineLatest(
+      this.projectService.dataItemObservable,
+      this.stepService.dataItemObservable.pipe(filter(step &#x3D;&gt; !!step.id)),
+    ).pipe(
+      mergeMap(([project, step]) &#x3D;&gt; {
+        return this.api.getData(DesignerRouter.viewReferableSteps, {
+          projectId: project.id,
+          stepId: step.id
+        })
+      }),
+      catchError((err) &#x3D;&gt; {
+        this.$state.next({state: ComponentDynamicStates.FAILING, err});
+        return throwError(err);
+      })
+    );
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;app-dynamic-state [state]&#x3D;&quot;state&quot;&gt;
+  &lt;ng-template #viewingTemplate&gt;
+    &lt;app-logic-thumbnail [dataItem]&#x3D;&quot;dataItem&quot;&gt;
+      &lt;button (click)&#x3D;&quot;edit()&quot;&gt;edit&lt;/button&gt;
+    &lt;/app-logic-thumbnail&gt;
+  &lt;/ng-template&gt;
+  &lt;ng-template #editingTemplate&gt;
+    &lt;app-in-flow-tip name&#x3D;&quot;logicDescription&quot;&gt;
+      Logic items are responsible for flow of the respondent through sequence. Logic items are used to navigate to certain step when item&#x27;s condition is met
+    &lt;/app-in-flow-tip&gt;
+    &lt;fieldset [formGroup]&#x3D;&quot;dataItemForm&quot;&gt;
+      &lt;div class&#x3D;&quot;input-group&quot;&gt;
+        &lt;label for&#x3D;&quot;type&quot;&gt;
+          type
+        &lt;/label&gt;
+        &lt;app-multiple-input id&#x3D;&quot;type&quot; formControlName&#x3D;&quot;type&quot; [options]&#x3D;&quot;logicTypesOptions&quot; [multiSelect]&#x3D;&quot;false&quot;&gt;&lt;/app-multiple-input&gt;
+      &lt;/div&gt;
+
+      &lt;ng-container [ngSwitch]&#x3D;&quot;logicForm.controls.type.value&quot;&gt;
+        &lt;ng-container *ngSwitchCase&#x3D;&quot;logicTypes.SKIP&quot;&gt;
+          &lt;app-in-flow-tip name&#x3D;&quot;logicSkipDescription&quot;&gt;
+            When condition is met navigate to step. Keep answers
+          &lt;/app-in-flow-tip&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;sourceInput&quot;&gt;&lt;/ng-container&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;conditionsInput&quot;&gt;&lt;/ng-container&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;destinationInput&quot;&gt;&lt;/ng-container&gt;
+        &lt;/ng-container&gt;
+
+        &lt;ng-container *ngSwitchCase&#x3D;&quot;logicTypes.REPLAY&quot;&gt;
+          &lt;app-in-flow-tip name&#x3D;&quot;logicReplayDescription&quot;&gt;
+            When condition is met navigate to step. Replace previous answers
+          &lt;/app-in-flow-tip&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;sourceInput&quot;&gt;&lt;/ng-container&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;conditionsInput&quot;&gt;&lt;/ng-container&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;destinationInput&quot;&gt;&lt;/ng-container&gt;
+        &lt;/ng-container&gt;
+
+        &lt;ng-container *ngSwitchCase&#x3D;&quot;logicTypes.SWITCH&quot;&gt;
+          &lt;app-in-flow-tip name&#x3D;&quot;logicSwitchDescription&quot;&gt;
+            Switch to first step where condition is met.
+          &lt;/app-in-flow-tip&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;sourceInput&quot;&gt;&lt;/ng-container&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;alternativesInput&quot;&gt;&lt;/ng-container&gt;
+        &lt;/ng-container&gt;
+
+        &lt;ng-container *ngSwitchCase&#x3D;&quot;logicTypes.ALTERNATIVE&quot;&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;conditionsInput&quot;&gt;&lt;/ng-container&gt;
+          &lt;ng-container *ngTemplateOutlet&#x3D;&quot;destinationInput&quot;&gt;&lt;/ng-container&gt;
+        &lt;/ng-container&gt;
+      &lt;/ng-container&gt;
+
+      &lt;ng-template #sourceInput&gt;
+        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;sourceStepId&quot;&gt;
+            source
+            &lt;app-in-flow-tip name&#x3D;&quot;logicContentSourceDescription&quot;&gt;
+              Output of which step to use in comparison
+            &lt;/app-in-flow-tip&gt;
+          &lt;/label&gt;
+          &lt;app-multiple-input id&#x3D;&quot;sourceStepId&quot; formControlName&#x3D;&quot;sourceStepId&quot; [multiSelect]&#x3D;&quot;false&quot; [options]&#x3D;&quot;referableSteps | async&quot;&gt;
+            &lt;ng-template let-option&gt;
+              &lt;app-step-thumbnail [stepId]&#x3D;&quot;option.item&quot;&gt;&lt;/app-step-thumbnail&gt;
+            &lt;/ng-template&gt;
+          &lt;/app-multiple-input&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+
+      &lt;ng-template #conditionsInput&gt;
+        &lt;div *ngIf&#x3D;&quot;dataItemId&quot; class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;formatConstraints&quot;&gt;
+            conditions
+            &lt;app-in-flow-tip name&#x3D;&quot;logicConditionsDescription&quot;&gt;
+              All format constraints bellow must be valid when comparing them against output of source
+            &lt;/app-in-flow-tip&gt;
+          &lt;/label&gt;
+          &lt;app-array-input formControlName&#x3D;&quot;formatConstraintsIds&quot; id&#x3D;&quot;formatConstraints&quot; itemName&#x3D;&quot;condition&quot;&gt;
+            &lt;ng-template let-sortable let-i&#x3D;&quot;itemIndex&quot;&gt;
+              &lt;app-format-constraint-detail [formatConstraintPurposeType]&#x3D;&quot;formatConstraintPurposes.LOGIC&quot; [parentId]&#x3D;&quot;dataItemId&quot; [dataItemId]&#x3D;&quot;sortable.item&quot;
+                                            (dataItemIdChange)&#x3D;&quot;sortable.onOrderChange($event, sortable.order)&quot;&gt;&lt;/app-format-constraint-detail&gt;
+            &lt;/ng-template&gt;
+          &lt;/app-array-input&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+
+      &lt;ng-template #destinationInput&gt;
+        &lt;div class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;destinationStepId&quot;&gt;
+            destination
+            &lt;app-in-flow-tip name&#x3D;&quot;logicDestinationDescription&quot;&gt;
+              Navigate to this step when condition is met
+            &lt;/app-in-flow-tip&gt;
+          &lt;/label&gt;
+          &lt;app-multiple-input id&#x3D;&quot;destinationStepId&quot; formControlName&#x3D;&quot;destinationStepId&quot; [multiSelect]&#x3D;&quot;false&quot; [options]&#x3D;&quot;stepsAhead | async&quot;&gt;
+            &lt;ng-template let-option&gt;
+              &lt;app-step-thumbnail [stepId]&#x3D;&quot;option.item&quot;&gt;&lt;/app-step-thumbnail&gt;
+            &lt;/ng-template&gt;
+          &lt;/app-multiple-input&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+
+      &lt;ng-template #alternativesInput&gt;
+        &lt;div *ngIf&#x3D;&quot;dataItemId&quot; class&#x3D;&quot;input-group&quot;&gt;
+          &lt;label for&#x3D;&quot;alternativesIds&quot;&gt;
+            alternatives
+          &lt;/label&gt;
+          &lt;app-array-input id&#x3D;&quot;alternativesIds&quot; formControlName&#x3D;&quot;alternativesIds&quot; [orderable]&#x3D;&quot;false&quot; itemName&#x3D;&quot;alternative&quot;&gt;
+            &lt;ng-template let-sortable let-i&#x3D;&quot;itemIndex&quot;&gt;
+              &lt;app-logic-detail [dataItemId]&#x3D;&quot;sortable.item&quot;
+                                (dataItemIdChange)&#x3D;&quot;sortable.onOrderChange($event, sortable.order)&quot;&gt;&lt;/app-logic-detail&gt;
+            &lt;/ng-template&gt;
+          &lt;/app-array-input&gt;
+        &lt;/div&gt;
+      &lt;/ng-template&gt;
+
+      &lt;button (click)&#x3D;&quot;saveConstraint($event)&quot;&gt;save&lt;/button&gt;
+
+    &lt;/fieldset&gt;
+  &lt;/ng-template&gt;
+&lt;/app-dynamic-state&gt;
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-styleData">
+                <p class="comment">
+                    <code>./logic-detail.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss"></code></pre>
+                <p class="comment">
+                    <code>../styles/sequence-design.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">@import &quot;vars&quot;;
+@import &quot;~breakpoint-sass&quot;;
+@import &quot;partials/surfaces&quot;;
+
+:host {
+  @extend .__card;
+  flex-direction: column;
+  app-dynamic-state {
+    &gt; * {
+      white-space: nowrap;
+      &gt; *:not(dl) {
+        white-space: normal;
+      }
+    }
+  }
+
+  app-array-input {
+    background-color: $container-background;
+    box-shadow: inset $x-thin-line $x-thin-line $x-thin-line $x-thin-line rgba($primary-text-color, .25);
+    padding: $small-white-space;
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><app-dynamic-state [state]="state">  <ng-template #viewingTemplate>    <app-logic-thumbnail [dataItem]="dataItem">      <button (click)="edit()">edit</button>    </app-logic-thumbnail>  </ng-template>  <ng-template #editingTemplate>    <app-in-flow-tip name="logicDescription">      Logic items are responsible for flow of the respondent through sequence. Logic items are used to navigate to certain step when item\'s condition is met    </app-in-flow-tip>    <fieldset [formGroup]="dataItemForm">      <div class="input-group">        <label for="type">          type        </label>        <app-multiple-input id="type" formControlName="type" [options]="logicTypesOptions" [multiSelect]="false"></app-multiple-input>      </div>      <ng-container [ngSwitch]="logicForm.controls.type.value">        <ng-container *ngSwitchCase="logicTypes.SKIP">          <app-in-flow-tip name="logicSkipDescription">            When condition is met navigate to step. Keep answers          </app-in-flow-tip>          <ng-container *ngTemplateOutlet="sourceInput"></ng-container>          <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>          <ng-container *ngTemplateOutlet="destinationInput"></ng-container>        </ng-container>        <ng-container *ngSwitchCase="logicTypes.REPLAY">          <app-in-flow-tip name="logicReplayDescription">            When condition is met navigate to step. Replace previous answers          </app-in-flow-tip>          <ng-container *ngTemplateOutlet="sourceInput"></ng-container>          <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>          <ng-container *ngTemplateOutlet="destinationInput"></ng-container>        </ng-container>        <ng-container *ngSwitchCase="logicTypes.SWITCH">          <app-in-flow-tip name="logicSwitchDescription">            Switch to first step where condition is met.          </app-in-flow-tip>          <ng-container *ngTemplateOutlet="sourceInput"></ng-container>          <ng-container *ngTemplateOutlet="alternativesInput"></ng-container>        </ng-container>        <ng-container *ngSwitchCase="logicTypes.ALTERNATIVE">          <ng-container *ngTemplateOutlet="conditionsInput"></ng-container>          <ng-container *ngTemplateOutlet="destinationInput"></ng-container>        </ng-container>      </ng-container>      <ng-template #sourceInput>        <div class="input-group">          <label for="sourceStepId">            source            <app-in-flow-tip name="logicContentSourceDescription">              Output of which step to use in comparison            </app-in-flow-tip>          </label>          <app-multiple-input id="sourceStepId" formControlName="sourceStepId" [multiSelect]="false" [options]="referableSteps | async">            <ng-template let-option>              <app-step-thumbnail [stepId]="option.item"></app-step-thumbnail>            </ng-template>          </app-multiple-input>        </div>      </ng-template>      <ng-template #conditionsInput>        <div *ngIf="dataItemId" class="input-group">          <label for="formatConstraints">            conditions            <app-in-flow-tip name="logicConditionsDescription">              All format constraints bellow must be valid when comparing them against output of source            </app-in-flow-tip>          </label>          <app-array-input formControlName="formatConstraintsIds" id="formatConstraints" itemName="condition">            <ng-template let-sortable let-i="itemIndex">              <app-format-constraint-detail [formatConstraintPurposeType]="formatConstraintPurposes.LOGIC" [parentId]="dataItemId" [dataItemId]="sortable.item"                                            (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-format-constraint-detail>            </ng-template>          </app-array-input>        </div>      </ng-template>      <ng-template #destinationInput>        <div class="input-group">          <label for="destinationStepId">            destination            <app-in-flow-tip name="logicDestinationDescription">              Navigate to this step when condition is met            </app-in-flow-tip>          </label>          <app-multiple-input id="destinationStepId" formControlName="destinationStepId" [multiSelect]="false" [options]="stepsAhead | async">            <ng-template let-option>              <app-step-thumbnail [stepId]="option.item"></app-step-thumbnail>            </ng-template>          </app-multiple-input>        </div>      </ng-template>      <ng-template #alternativesInput>        <div *ngIf="dataItemId" class="input-group">          <label for="alternativesIds">            alternatives          </label>          <app-array-input id="alternativesIds" formControlName="alternativesIds" [orderable]="false" itemName="alternative">            <ng-template let-sortable let-i="itemIndex">              <app-logic-detail [dataItemId]="sortable.item"                                (dataItemIdChange)="sortable.onOrderChange($event, sortable.order)"></app-logic-detail>            </ng-template>          </app-array-input>        </div>      </ng-template>      <button (click)="saveConstraint($event)">save</button>    </fieldset>  </ng-template></app-dynamic-state></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'ArrayInputComponent', 'selector': 'app-array-input'},{'name': 'AssetDetailComponent', 'selector': 'app-asset-detail'},{'name': 'AssetThumbnailComponent', 'selector': 'app-asset-thumbnail'},{'name': 'AssetViewerComponent', 'selector': 'app-asset-viewer'},{'name': 'CheckBoxesComponent', 'selector': 'app-sr-check-boxes'},{'name': 'DisabledContentComponent', 'selector': 'app-disabled-content'},{'name': 'DynamicStateComponent', 'selector': 'app-dynamic-state'},{'name': 'ErrorComponent', 'selector': 'app-error'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'FormatConstraintDetailComponent', 'selector': 'app-format-constraint-detail'},{'name': 'FormatConstraintThumbnailComponent', 'selector': 'app-format-constraint-thumbnail'},{'name': 'HeaderComponent', 'selector': 'app-header'},{'name': 'InFlowTipComponent', 'selector': 'app-in-flow-tip'},{'name': 'InputComponent', 'selector': 'app-sr-input'},{'name': 'LargeTextComponent', 'selector': 'app-sr-large-text'},{'name': 'ListInputComponent', 'selector': 'app-sr-list-input'},{'name': 'LoadingComponent', 'selector': 'app-loading'},{'name': 'LogicDetailComponent', 'selector': 'app-logic-detail'},{'name': 'LogicThumbnailComponent', 'selector': 'app-logic-thumbnail'},{'name': 'MultipleInputComponent', 'selector': 'app-multiple-input'},{'name': 'ProjectDetailComponent', 'selector': 'app-project-detail'},{'name': 'ProjectsListComponent', 'selector': 'app-projects-list'},{'name': 'ProjectThumbnailComponent', 'selector': 'app-project-thumbnail'},{'name': 'QuestionDetailComponent', 'selector': 'app-question-detail'},{'name': 'QuestionExecutorComponent', 'selector': 'app-question-executor'},{'name': 'QuestionThumbnailComponent', 'selector': 'app-question-thumbnail'},{'name': 'RadioButtonsComponent', 'selector': 'app-sr-radio-buttons'},{'name': 'RespondentListComponent', 'selector': 'app-respondent-list'},{'name': 'RespondentListsComponent', 'selector': 'app-respondent-list-list'},{'name': 'RespondentListThumbnailComponent', 'selector': 'app-respondent-list-thumbnail'},{'name': 'ResponseDetailComponent', 'selector': 'app-response-detail'},{'name': 'ResponsesListComponent', 'selector': 'app-responses-list'},{'name': 'ResponseThumbnailComponent', 'selector': 'app-response-thumbnail'},{'name': 'SelectComponent', 'selector': 'app-sr-select'},{'name': 'SequenceDetailComponent', 'selector': 'app-sequence-detail'},{'name': 'SequenceDetailViewComponent', 'selector': 'view-sequence-detail'},{'name': 'SequenceThumbnailComponent', 'selector': 'app-sequence-thumbnail'},{'name': 'StaticContentComponent', 'selector': 'app-sr-static-content'},{'name': 'StepDetailComponent', 'selector': 'app-step-detail'},{'name': 'StepExecutorComponent', 'selector': 'app-step-executor'},{'name': 'StepResponseDetailComponent', 'selector': 'app-step-response-detail'},{'name': 'StepThumbnailComponent', 'selector': 'app-step-thumbnail'},{'name': 'TaskDetailComponent', 'selector': 'app-task-detail'},{'name': 'TaskExecutorComponent', 'selector': 'app-task-executor'},{'name': 'TaskThumbnailComponent', 'selector': 'app-task-thumbnail'},{'name': 'TopSequenceExecutorComponent', 'selector': 'app-sequence-executor'},{'name': 'YesNoComponent', 'selector': 'app-sr-yes-no'}];
+    var DIRECTIVES = [{'name': 'AutoFocusDirective', 'selector': '[appAutoFocus]'}];
+    var ACTUAL_COMPONENT = {'name': 'LogicDetailComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'LogicDetailComponent.html';
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

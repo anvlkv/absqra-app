@@ -1,4 +1,4 @@
-<div dragScroll [snap-disabled]="true" [drag-disabled]="!panning" [ngClass]="{'panning': panning}">
+<drag-scroll [snap-disabled]="true" [drag-disabled]="!panning" [ngClass]="{'panning': panning}">
   <section class="project-page">
     <app-in-flow-tip name="projectDetailDescription">
       Project is a combination of sequences, respondents and collected data.
@@ -14,7 +14,7 @@
       </app-project-thumbnail>
       </ng-template>
       <ng-template #editingTemplate>
-        <fieldset [formGroup]="projectForm">
+        <fieldset [formGroup]="dataItemForm">
           <div class="input-group">
             <label for="name">
               name
@@ -45,4 +45,4 @@
       </ng-template>
     </app-dynamic-state>
   </section>
-</div>
+</drag-scroll>

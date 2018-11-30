@@ -4,53 +4,106 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ComponentDynamicStates } from '../dynamic-state/dynamic-state.component';
+import { Base } from 'models/api-models';
+import { formDeltaValue } from '../../utils';
 
 
-export abstract class BaseDetailForm<T> extends BaseDetail<T> implements OnInit, OnDestroy, OnItemSet {
+export interface FieldMapper {
+  [propName: string]: any & ((value?: any) => any) & FieldMapper;
+}
+
+export abstract class BaseDetailForm<T extends Base, P extends BaseDetailService<T>> extends BaseDetail<T, P> implements OnInit, OnDestroy, OnItemSet {
+
   public dataItemForm: FormGroup;
 
   private formValuesSubscription: Subscription;
 
-  formControlsTransformers: {
-    [controlName: string]: (value: any) => any
-  } = {};
+  protected get formDeltaValue () {
+    return formDeltaValue(this.dataItemForm);
+  }
 
   constructor(
-    dataItemService: BaseDetailService<T>,
+    dataItemService: P,
     public fb: FormBuilder,
     shouldFetchDefault = true
   ) {
     super(dataItemService, shouldFetchDefault);
   }
 
-  private generateFormGroup() {
-    this.dataItemForm = this.fb.group(this.dataItem || this.defaultItem);
-    this.formValuesSubscription = this.dataItemForm.valueChanges.subscribe(v => {
-      for (const controlName in this.formControlsTransformers) {
-        if (v[controlName]) {
-          v[controlName] = this.formControlsTransformers[controlName](v);
+
+  private setFormGroup() {
+    this.dataItemForm = this.fb.group(
+      this.generateFormGroup(
+        cleanUpBaseForForm(this.dataItem || this.defaultItem)
+      )
+    );
+
+    this.formValuesSubscription = this.dataItemForm.valueChanges.subscribe(value => {
+      this.dataItem = {
+        // @ts-ignore
+        ...this.dataItem,
+        ...this.formDeltaValue
+      };
+    });
+  }
+
+  protected generateFormGroup(data) {
+    const output = {};
+    for (const prop in data) {
+      if (data.hasOwnProperty(prop)) {
+        if (data[prop] instanceof Array) {
+          output[prop] = this.fb.array(data[prop].map(this.generateFormGroup.bind(this)));
+        }
+        else if (typeof data[prop] === 'object') {
+          output[prop] = this.fb.group(this.generateFormGroup(data[prop]));
+        }
+        else {
+          output[prop] = this.fb.control(data[prop]);
         }
       }
-      this.dataItem = v
-    });
+    }
+
+    return output;
   }
 
   ngOnInit() {
     super.ngOnInit();
-    this.generateFormGroup();
+    if (!this.dataItemId && !this.dataItem) {
+      this.dataItemService.fetchDefault().subscribe((d) => {
+        this.dataItem = d;
+        this.setFormGroup();
+        this.$state.next(ComponentDynamicStates.EDITING);
+      });
+    }
+    else if (this.dataItem) {
+      this.$state.next(ComponentDynamicStates.EDITING);
+    }
   }
 
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.formValuesSubscription.unsubscribe();
+    this.formValuesSubscription ? this.formValuesSubscription.unsubscribe() : null;
   }
 
   bdOnItemSet(loaded: boolean): void {
     if (this.dataItemForm) {
-      this.dataItemForm.setValue(this.dataItem);
+      const value = cleanUpBaseForForm(this.dataItem);
+
+      for (const prop in value) {
+        if (value.hasOwnProperty(prop)) {
+          if (!this.dataItemForm.contains(prop)) {
+            let formGroup: any = {};
+            formGroup[prop] = value[prop];
+            formGroup = this.generateFormGroup(formGroup);
+            this.dataItemForm.addControl(prop, formGroup[prop]);
+          }
+        }
+      }
+
+      this.dataItemForm.patchValue(value);
     }
     else {
-      this.generateFormGroup();
+      this.setFormGroup();
     }
 
     if (!loaded) {
@@ -58,17 +111,51 @@ export abstract class BaseDetailForm<T> extends BaseDetail<T> implements OnInit,
     }
   }
 
-  edit() {
+  edit(event?: Event) {
+    event ? event.preventDefault() : null;
+
     this.$state.next(ComponentDynamicStates.EDITING);
   }
 
-  save() {
+  save(event?: Event) {
+    event ? event.preventDefault() : null;
+
     if (this.dataItemForm.valid) {
-      this.dataItemService.save(this.dataItem)
+      if (this.dataItemId) {
+        this.dataItemService.update(this.dataItem);
+      }
+      else {
+        this.dataItemService.save(this.dataItem);
+      }
     }
   }
 
-  reset() {
+  reset(event?: Event) {
+    event ? event.preventDefault() : null;
     this.dataItemForm.reset(this.dataItemService.dataItem);
   }
+}
+
+function cleanUpBaseForForm<T extends Base>(data: T): Partial<T> {
+  if (!data || typeof data !== 'object') {
+    return data;
+  }
+  const {
+    createdDate,
+    updatedDate,
+    id,
+    // @ts-ignore
+    ...partialData
+  }: T = data;
+
+  Object.keys(partialData).forEach(prop => {
+    if (partialData[prop] instanceof Array) {
+      partialData[prop] = partialData[prop].map(v => cleanUpBaseForForm(v));
+    }
+    else if (typeof partialData[prop] === 'object') {
+      partialData[prop] = cleanUpBaseForForm(partialData[prop]);
+    }
+  });
+
+  return partialData;
 }

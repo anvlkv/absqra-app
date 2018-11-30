@@ -1,7 +1,6 @@
 import {
   ChangeDetectorRef,
   Component, ContentChild, ElementRef,
-  forwardRef,
   Input, OnChanges,
   OnDestroy,
   QueryList, SimpleChanges,
@@ -10,13 +9,14 @@ import {
 import { Sortable } from 'models/sortable';
 import {
   AbstractControl,
-  ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS,
-  NG_VALUE_ACCESSOR, ValidationErrors,
+  ControlValueAccessor, FormArray, FormBuilder,
+  ValidationErrors,
   Validator,
 } from '@angular/forms';
 import { BehaviorSubject, noop, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, skipUntil} from 'rxjs/operators';
 import { cloneDeep} from 'lodash';
+import { controlValueAccessorProviderGenerator, validatorProviderGenerator } from '../../utils';
 
 
 export enum AddAt {
@@ -24,23 +24,11 @@ export enum AddAt {
   END = 'end'
 }
 
-export const ARRAY_INPUT_CONTROL_VALUE_ACCESSOR = {
-  provide: NG_VALUE_ACCESSOR,
-  useExisting: forwardRef(() => ArrayInputComponent),
-  multi: true,
-};
-
-export const ARRAY_INPUT_VALIDATORS = {
-  provide: NG_VALIDATORS,
-  useExisting: forwardRef(() => ArrayInputComponent),
-  multi: true,
-};
-
 @Component({
   selector: 'app-array-input',
   templateUrl: './array-input.component.html',
   styleUrls: ['./array-input.component.scss'],
-  providers: [ARRAY_INPUT_CONTROL_VALUE_ACCESSOR, ARRAY_INPUT_VALIDATORS],
+  providers: [controlValueAccessorProviderGenerator(ArrayInputComponent), validatorProviderGenerator(ArrayInputComponent)],
 })
 export class ArrayInputComponent implements OnChanges, OnDestroy, ControlValueAccessor, Validator {
   private focusedOrder: number;
@@ -106,6 +94,9 @@ export class ArrayInputComponent implements OnChanges, OnDestroy, ControlValueAc
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.formArray && changes.formArray.currentValue) {
+      if (!(this.formArray instanceof FormArray)) {
+        throw new Error(`unexpected input [formArray] expected instance of FormArray`);
+      }
       this.formArrayValueSubscription ? this.formArrayValueSubscription.unsubscribe() : null;
       this.formArrayUpdateInProgress = new BehaviorSubject<boolean>(true);
 

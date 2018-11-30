@@ -6,7 +6,7 @@
   </ng-template>
 
   <ng-template #editingTemplate>
-    <fieldset [formGroup]="assetForm">
+    <fieldset [formGroup]="dataItemForm">
       <div class="input-group">
         <label for="assetType">
           asset type
@@ -16,7 +16,7 @@
         </label>
         <app-multiple-input id="assetType" formControlName="assetType" [multiSelect]="false" [options]="assetTypesValues"></app-multiple-input>
       </div>
-      <ng-container [ngSwitch]="assetForm.value.assetType">
+      <ng-container [ngSwitch]="dataItemForm.value.assetType">
         <ng-container *ngSwitchCase="assetTypes.STATIC">
           <div class="input-group">
             <label for="contentType">
@@ -24,7 +24,7 @@
             </label>
             <app-multiple-input id="contentType" formControlName="contentType" [multiSelect]="false" [options]="contentTypesValues"></app-multiple-input>
           </div>
-          <div class="input-group" [ngSwitch]="assetForm.value.contentType">
+          <div class="input-group" [ngSwitch]="dataItemForm.value.contentType">
             <ng-template #staticContentDescription>
               <app-in-flow-tip name="assetTypeStaticContentDescription">
                 Static assets are created by you in this interface and provided later to respondent
@@ -35,7 +35,7 @@
                 content
                 <ng-container *ngTemplateOutlet="staticContentDescription"></ng-container>
               </label>
-              <quill-editor id="textContent" formControlName="content" [theme]="'snow'" [style]="{'min-height': '30vh'}"></quill-editor>
+              <quill-editor id="textContent" formControlName="content" [theme]="'snow'" [style]="{'minItems-height': '30vh'}"></quill-editor>
             </ng-container>
             <ng-container *ngSwitchCase="contentTypes.URL">
               <label for="urlContent" *ngSwitchCase="contentTypes.URL">
@@ -72,7 +72,7 @@
           </div>
         </ng-container>
       </ng-container>
-      <button (click)="saveAssetHeader($event)">save</button>
+      <button (click)="save()">save</button>
     </fieldset>
   </ng-template>
 </app-dynamic-state>
